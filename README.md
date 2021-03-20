@@ -7,6 +7,10 @@
 * [Repository Structure](repository-structure)
 * [Setup & Run Guide](#setup-&-run-guide)
 * [Contribution by Area](#contribution-by-area)
+   * [Milestone 1](#milestone-1)
+   * Milestone 2
+   * Milestone 3
+   * Milestone 4
 * [Team members](#team-members)
 * [License](#license)
 
@@ -25,21 +29,15 @@ This is a movie recommendation system.
 
 ## Repository Structure
 '''
-|-- README.md
-|-- antora.yml ....................... 1.
-|-- build.sh ......................... 2.
-|-- preview.sh ....................... 3.
-|-- site.yml ......................... 4.
-`-- modules
-    `-- ROOT ......................... 5.
-        |-- assets
-        |   `-- images ............... 6.
-        |       `-- pizza.png
-        |-- nav.adoc ................. 7.
-        `-- pages .................... 8.
+.
+├── build                   # Compiled files (alternatively `dist`)
+├── docs                    # Documentation files (alternatively `doc`)
+├── src                     # Source files (alternatively `lib` or `app`)
+├── test                    # Automated tests (alternatively `spec` or `tests`)
+├── tools                   # Tools and utilities
+├── LICENSE
+└── README.md
 '''
-1. Write some explanation for 1
-2. Write some explanation for 2
 > This part needs to be updated
 
 
@@ -56,13 +54,13 @@ This is a movie recommendation system.
 ### Milestone 4
 > Define and develop your own functionality and publish the system as a web application
 
-####UI Design
+#### UI Design
 Kaiying Shan, Hanzhi Zhou, Zichao Hu, Elena Long, Mint Lin
 
-####Models and Data Structures
+#### Models and Data Structures
 Hanzhi Zhou, Kaiying Shan
 
-####Documentation
+#### Documentation
 Hanzhi Zhou, Kaiying Shan, Zichao Hu
 > This part needs to be updated
 
