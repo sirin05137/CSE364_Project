@@ -20,7 +20,7 @@ RUN mkdir -p /root/project
 WORKDIR /root/project
 
 #4 Add your run.sh file to /root/project in the docker container.
-#ADD run.sh /root/project
+ADD run.sh /root/project
 
 #5 Execute a bash shell by default when the built image is launched.
-#ENTRYPOINT /root/project/run.sh
+ENTRYPOINT ["/bin/bash"]
