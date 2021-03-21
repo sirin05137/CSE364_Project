@@ -7,6 +7,7 @@ import java.io.FileReader;
 import  java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class project {
     public static void main(String[] args) throws IOException{
@@ -76,8 +77,6 @@ public class project {
 
         //System.out.println(Rating);
 
-        //int i = 0;
-
         while (true) {
             HashMap<String, ArrayList<Integer>> innermap = new HashMap<String, ArrayList<Integer>>();
             ArrayList<Integer> innerlist = new ArrayList<Integer>();
@@ -109,6 +108,95 @@ public class project {
 
         }
         //System.out.println(Rating);
+
+
+        //입력에 따른 예외처리 조건문 필요
+
+        Scanner inputreader = new Scanner(System.in);
+        System.out.print("Enter the genre of the movie for which you want to know the rating : ");
+        String genreinput = inputreader.nextLine();
+        System.out.print("\nEnter the occupation : ");
+        String occupationinput = inputreader.nextLine();
+        //System.out.println((double)Rating.get(genreinput).get(occupationinput).get(0));
+
+        String OccupationNumber = null;
+        switch (occupationinput){
+            case "academic":
+            case "educator":
+                OccupationNumber = "1";
+                break;
+            case "artist":
+                OccupationNumber = "2";
+                break;
+            case "clerical":
+            case "admin":
+                OccupationNumber = "3";
+                break;
+            case "college":
+            case "grad student":
+                OccupationNumber = "4";
+                break;
+            case "customer service":
+                OccupationNumber = "5";
+                break;
+            case "doctor":
+            case "health care":
+                OccupationNumber = "6";
+                break;
+            case "executive":
+            case "managerial":
+                OccupationNumber = "7";
+                break;
+            case "farmer":
+                OccupationNumber = "8";
+                break;
+            case "homemaker":
+                OccupationNumber = "9";
+                break;
+            case "K-12 student":
+                OccupationNumber = "10";
+                break;
+            case "lawyer":
+                OccupationNumber = "11";
+                break;
+            case "programmer":
+                OccupationNumber = "12";
+                break;
+            case "retired":
+                OccupationNumber = "13";
+                break;
+            case "sales":
+            case "marketing":
+                OccupationNumber = "14";
+                break;
+            case "scientist":
+                OccupationNumber = "15";
+                break;
+            case "self-employed":
+                OccupationNumber = "16";
+                break;
+            case "technician":
+            case "engineer":
+                OccupationNumber = "17";
+                break;
+            case "tradesman":
+            case "craftsman":
+                OccupationNumber = "18";
+                break;
+            case "unemployed":
+                OccupationNumber = "19";
+                break;
+            case "writer":
+                OccupationNumber = "20";
+                break;
+            case "other":
+            default:
+                OccupationNumber = "0";
+        }
+
+        double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
+        //System.out.println(CalculatedInput);
+        System.out.printf("\nThe rating of %s rated by %s : %.2f", genreinput, occupationinput, CalculatedInput);
 
     }
 }
