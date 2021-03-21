@@ -3,6 +3,9 @@ FROM ubuntu:20.04
 
 #2 Install all packages that are needed to run your program,
 #  such as vim, git, java 11, maven, etc.
+
+#No interaction while installing or upgrading the system via apt.
+#It accepts the default answer for all questions.
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
