@@ -15,8 +15,7 @@ RUN apt-get update \
 	default-jdk \
 	maven
 
-ENV JAVA_HOME=/opt/java/openjdk \
-    PATH="/opt/java/openjdk/bin:$PATH"
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
 
 #3 Create /root/project folder and set it as WORKDIR.
 RUN mkdir -p /root/project
