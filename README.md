@@ -1,8 +1,15 @@
 # CSE364 Group11
+<<<<<<< HEAD
 \
 - [x] 각자 로컬에 Docker, InteliJ IDEA, JDK 11 설치 @all
 - [x] github repo 초기 세팅 @sirin05137
 \
+=======
+
+- [x] <del>각자 로컬에 Docker, InteliJ IDEA, JDK 11 설치 @all</del>
+- [x] <del>github repo 초기 세팅 @sirin05137</del>
+
+>>>>>>> 464fe5ef5543c48f784a2f3740381b1304d7e706
 - [ ] dockerfile, run.sh 초안 작성 ('/scripts'에) @yuujinleee
 - [ ] java file 초안 작성 @sirin05137
 - [ ] pom.xml 초안 작성
