@@ -2,12 +2,11 @@
 
 - [x] 각자 로컬에 Docker, InteliJ IDEA, JDK 11 설치 @all
 - [x] github repo 초기 세팅 @sirin05137
+- [x] dockerfile, run.sh 초안 작성 ('/scripts'에) @yuujinleee
+- [x] java file 초안 작성 @sirin05137
 
-- [ ] dockerfile, run.sh 초안 작성 ('/scripts'에) @yuujinleee
-- [ ] java file 초안 작성 @sirin05137
 - [ ] pom.xml 초안 작성
-
-- [ ] 각자 branch 생성 후 디버깅 
+- [ ] 각자 branch 생성 후 **dockerfile, run.sh, java file** 디버깅
 - [ ] README.md 작성 (Run Guide 등) @yuujinleee
 - [ ] GroupID_StudentID.txt 각자 작성 @all
 
