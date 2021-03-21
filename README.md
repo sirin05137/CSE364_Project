@@ -1,14 +1,13 @@
 # CSE364 Group11
 
-- [x] <del>각자 로컬에 Docker, InteliJ IDEA, JDK 11 설치 @all</del>
-- [x] <del>github repo 초기 세팅 @sirin05137</del>
+- [x] 각자 로컬에 Docker, InteliJ IDEA, JDK 11 설치 @all
+- [x] github repo 초기 세팅 @sirin05137
 
 - [ ] dockerfile, run.sh 초안 작성 ('/scripts'에) @yuujinleee
 - [ ] java file 초안 작성 @sirin05137
 - [ ] pom.xml 초안 작성
 
 - [ ] 각자 branch 생성 후 디버깅 
-깅
 - [ ] README.md 작성 (Run Guide 등) @yuujinleee
 - [ ] GroupID_StudentID.txt 각자 작성 @all
 
@@ -41,21 +40,32 @@ This is a movie recommendation system.
 
 
 ## Repository Structure
-'''
+```
 .
-├── build                   # Compiled files (alternatively `dist`)
-├── docs                    # Documentation files (alternatively `doc`)
-├── src                     # Source files (alternatively `lib` or `app`)
-├── test                    # Automated tests (alternatively `spec` or `tests`)
-├── tools                   # Tools and utilities
-├── LICENSE
+├── data                    # Compiled files
+├── src                     # Source files
+├── test                    # Automated tests
+├── scripts                 # Tools and utilities
 └── README.md
-'''
+```
 > This part needs to be updated
 
 
 ## Setup & Run Guide
-> This part needs to be updated
+> This part needs to be updated by yujin
+
+## Test Guide
+1. Download _dockerfile_ and _run.sh_ and run the following commands : 
+```
+docker build -t *image_name* */path/to/dockerfile*
+```
+```
+docker run -it *image_name*
+```
+2. Inside the docker container, run : 
+```
+root@containerID$ sh run.sh
+```
 
 ## Contribution by Area
 ### Milestone 1
