@@ -57,10 +57,10 @@ This is a movie recommendation system.
 ## Test Guide
 1. Download _dockerfile_ and _run.sh_ and run the following commands : 
 ```
-docker build -t _image_name_ _/path/to/dockerfile_
+docker build -t *image_name* */path/to/dockerfile*
 ```
 ```
-docker run -it _image_name_
+docker run -it *image_name*
 ```
 2. Inside the docker container, run : 
 ```
