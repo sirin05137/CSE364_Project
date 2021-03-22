@@ -13,9 +13,14 @@ RUN apt-get update \
 	vim \
 	git \
 	default-jdk \
-	maven
+	maven \
+	locales
 
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
+#locales pkg enables to comment in korean
+RUN locale-gen ko_KR.UTF-8
+
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV LC_ALL ko_KR.UTF-8
 
 #3 Create /root/project folder and set it as WORKDIR.
 RUN mkdir -p /root/project
