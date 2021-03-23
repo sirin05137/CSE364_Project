@@ -78,13 +78,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <!--3.8.0 버전 컴파일러 쓰는 게 맞나?-->
-                <version>3.8.0</version>
+                <!--3.8.1 버전 컴파일러 쓰는 게 맞나?-->
+                <version>3.8.1</version>
                 <configuration>
+                    <!--
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <compilerVersion>${java.version}</compilerVersion>
                     <encoding>${encoding}</encoding>
+                    -->
+                    <type>maven-plugin</type>
                     <release>11</release>
                 </configuration>
             </plugin>
