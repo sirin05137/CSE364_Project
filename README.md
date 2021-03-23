@@ -4,9 +4,9 @@
 - [x] github repo 초기 세팅 @sirin05137
 - [x] dockerfile, run.sh 초안 작성 ('/scripts'에) @yuujinleee
 - [x] java file 초안 작성 @sirin05137
-
-- [ ] pom.xml 초안 작성
-- [ ] 각자 branch 생성 후 **dockerfile, run.sh, java file** 디버깅
+- [x] pom.xml 초안 작성
+- [ ] dockerfile, run.sh 검토..? @sirin05137  @sanghun17
+- [ ] 각자 branch 생성 후 **java file** 디버깅 @all
 - [ ] README.md 작성 (Run Guide 등) @yuujinleee
 - [ ] GroupID_StudentID.txt 각자 작성 @all
 
