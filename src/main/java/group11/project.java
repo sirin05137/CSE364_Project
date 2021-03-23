@@ -16,7 +16,7 @@ public class project {
 
         HashMap<String, String> Occupation = new HashMap<String, String>();
 
-        BufferedReader getuser = new BufferedReader(new FileReader("/Users/k/K/3학년/CSE364/CSE364_Project/data/users.dat")); // need to change the location.
+        BufferedReader getuser = new BufferedReader(new FileReader("/data/users.dat")); // need to change the location.
         //String linefirst = getuser.readLine();
         while (true){
             String line = getuser.readLine();
@@ -38,7 +38,7 @@ public class project {
         //get genre from movie.dat, and make a hashmap which key means movie id and value means genre
 
         HashMap<String, String> Genres = new HashMap<String, String>();
-        BufferedReader getmovie = new BufferedReader(new FileReader("/Users/k/K/3학년/CSE364/CSE364_Project/data/movies.dat")); // need to change the location.
+        BufferedReader getmovie = new BufferedReader(new FileReader("/data/movies.dat")); // need to change the location.
         while (true) {
             String line =getmovie.readLine();
             if(line==null){
@@ -62,7 +62,7 @@ public class project {
         HashMap<String, HashMap<String, ArrayList<Integer>>> Rating = new HashMap<String, HashMap<String, ArrayList<Integer>>>();
         //HashMap<String, ArrayList<Integer>> innermap = new HashMap<String, ArrayList<Integer>>();
         //ArrayList<Integer> innerlist = new ArrayList<Integer>();
-        BufferedReader getrating = new BufferedReader(new FileReader("/Users/k/K/3학년/CSE364/CSE364_Project/data/ratings.dat")); // need to change the location.
+        BufferedReader getrating = new BufferedReader(new FileReader("/data/ratings.dat")); // need to change the location.
         /*String firstline = getrating.readLine();
         String[] firstlineword = firstline.split("::" );
         Rating.put(Genres.get(firstlineword[1]), innermap);
