@@ -107,41 +107,68 @@ public class project {
         String genreinput;
         String[] multiinput;
         boolean A;
+        boolean B = true;
         do{
             A = false;
+            B = true;
             System.out.print("Enter the genre of the movie for which you want to know the rating : ");
-            genreinput = inputreader.nextLine().toLowerCase(); // 파이프라인 인식하도록 수정
+            genreinput = inputreader.nextLine().toLowerCase();
             multiinput = genreinput.split("\\|");
-            for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()){
-                int counter=0;
-                A=true;
-                for(int i=0;i<multiinput.length;i++){
-                    if(Iter.getKey().contains(multiinput[i])) {
-                        counter++;
-                    }
-                    if(counter== multiinput.length){
-                        A=false;
-                    }
-                }
-                if(!A){
-                    //System.out.println("test");
+
+            //System.out.println(multiinput.length);
+
+            for(int i=0;i< multiinput.length;i++) {
+                if (multiinput[i].trim() == "") {
+                    System.out.println("Invaid input");
+                    A = true;
+                    B = false;
                     break;
                 }
             }
-            if(A){
-                System.out.println("\nThere are no movies in the genre corresponding to the input value.\n");
+            if(B) {
+                for (Map.Entry<String, HashMap<String, ArrayList<Integer>>> Iter : Rating.entrySet()) {
+                    int counter = 0;
+                    A = true;
+                    for (int i = 0; i < multiinput.length; i++) {
+                        if (Iter.getKey().contains(multiinput[i].trim())) {
+                            counter++;
+                        }
+                        if (counter == multiinput.length) {
+                            A = false;
+                        }
+                    }
+                    if (!A) {
+                        //System.out.println("test");
+                        break;
+                    }
+                }
+                if (A) {
+                    System.out.println("\nThere are no movies in the genre corresponding to the input value.\n");
+                }
             }
         }while(A);
         //System.out.println(multiinput[0]);
         //String[] word = line.split("::");
         // 2. 장르의 조합이 없을경우 오류문구 출력 + 질문 재출력 -> 완료
-        // 3. 대소문자 구분없이 비교
-        // 4. 아무것도 입력 안했을때
+        // 3. 대소문자 구분없이 비교 -> 완료
+        // 4. 아무것도 입력 안했을때 -> 완료
+        // 5. delimiter랑 장르 사이에 빈칸있을때
+        // 6. split bug
 
 
-        System.out.print("\nEnter the occupation : ");
-        String occupationinput= inputreader.nextLine().toLowerCase();
+        // 대형버그 : adventure는 a를 포함해서 a만 입력해도 인식해버리는 상황 발생
 
+
+
+
+       String occupationinput;
+        do{
+            System.out.print("\nEnter the occupation : ");
+            occupationinput= inputreader.nextLine().toLowerCase().trim();
+            if(occupationinput=="") {
+                System.out.println("Invaild input!");
+            }
+        }while(occupationinput=="");
         // 3. 띄어쓰기 없어도 인식하게 할것
         // 4. 아무것도 입력 안 했을때
 
@@ -229,7 +256,7 @@ public class project {
         for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()){
             int counter=0;
             for(int i=0;i<multiinput.length;i++){
-                if(Iter.getKey().contains(multiinput[i])) {
+                if(Iter.getKey().contains(multiinput[i].trim())) {
                     counter++;
                 }
                 if(counter== multiinput.length){
@@ -240,7 +267,6 @@ public class project {
                 }
             }
         }
-
 
         //double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
         double CalculatedInput = fullrating/fullcount;
