@@ -38,7 +38,7 @@ public class project {
         HashMap<String, String> Genres = new HashMap<String, String>();
         BufferedReader getmovie = new BufferedReader(new FileReader("./data/movies.dat")); // need to change the location.
         while (true) {
-            String line =getmovie.readLine();
+            String line = getmovie.readLine();
             if(line==null){
                 break;
             }
@@ -120,74 +120,105 @@ public class project {
         String OccupationNumber = null;
         switch (occupationinput){
             case "academic":
+            case "Academic":
             case "educator":
+            case "Educator":
                 OccupationNumber = "1";
                 break;
             case "artist":
+            case "Artist":
                 OccupationNumber = "2";
                 break;
             case "clerical":
+            case "Clerical":
             case "admin":
+            case "Admin":
                 OccupationNumber = "3";
                 break;
             case "college":
+            case "College":
+            case "college student":
+            case "College student":
             case "grad student":
+            case "Grad student":
                 OccupationNumber = "4";
                 break;
             case "customer service":
+            case "Customer service":
                 OccupationNumber = "5";
                 break;
             case "doctor":
+            case "Doctor":
             case "health care":
+            case "Health care":
                 OccupationNumber = "6";
                 break;
             case "executive":
+            case "Executive":
             case "managerial":
+            case "Managerial":
                 OccupationNumber = "7";
                 break;
             case "farmer":
+            case "Farmer":
                 OccupationNumber = "8";
                 break;
             case "homemaker":
+            case "Homemaker":
                 OccupationNumber = "9";
                 break;
-            case "K-12 student":
+            case "k-12student":
+            case "K-12student":
                 OccupationNumber = "10";
                 break;
             case "lawyer":
+            case "Lawyer":
                 OccupationNumber = "11";
                 break;
             case "programmer":
+            case "Programmer":
                 OccupationNumber = "12";
                 break;
             case "retired":
+            case "Retired":
                 OccupationNumber = "13";
                 break;
             case "sales":
+            case "Sales":
             case "marketing":
+            case "Marketing":
                 OccupationNumber = "14";
                 break;
             case "scientist":
+            case "Scientist":
                 OccupationNumber = "15";
                 break;
             case "self-employed":
+            case "Self-employed":
                 OccupationNumber = "16";
                 break;
             case "technician":
+            case "Technician":
             case "engineer":
+            case "Engineer":
                 OccupationNumber = "17";
                 break;
             case "tradesman":
+            case "Tradesman":
             case "craftsman":
+            case "Craftsman":
                 OccupationNumber = "18";
                 break;
             case "unemployed":
+            case "Unemployed":
                 OccupationNumber = "19";
                 break;
             case "writer":
+            case "Writer":
                 OccupationNumber = "20";
                 break;
             case "other":
+            case "Other":
             default:
                 OccupationNumber = "0";
         }
