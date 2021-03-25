@@ -30,6 +30,7 @@ public class project {
 
         //get occupation from users.dat, and make a hashmap which key means user id and value means occupation.
         HashMap<String,String> Occupation =  InputMap("data/users.dat", 3);
+        //System.out.println(Occupation);
 
         //get genre from movie.dat, and make a hashmap which key means movie id and value means genre
         HashMap<String,String> Genres = InputMap("data/movies.dat", 2);
@@ -82,7 +83,6 @@ public class project {
                 "technician","engineer","tradesman","craftsman","unemployed","writer","other"};*/
 
         //입력에 따른 예외처리 조건문 필요
-
         Scanner inputreader = new Scanner(System.in);
         String genreinput;
         String[] multiinput;
@@ -136,7 +136,7 @@ public class project {
         // 2. 장르의 조합이 없을경우 오류문구 출력 + 질문 재출력 -> 완료
         // 3. 대소문자 구분없이 비교 -> 완료
         // 4. 아무것도 입력 안했을때 -> 완료
-        // 5. delimiter랑 장르 사이에 빈칸있을때
+        // 5. delimiter랑 장르 사이에 빈칸있을때 -> 완료
         // 6. split bug
 
         // 대형버그 : adventure는 a를 포함해서 a만 입력해도 인식해버리는 상황 발생 -> 완료
@@ -186,7 +186,7 @@ public class project {
             case "homemaker":
                 OccupationNumber = "9";
                 break;
-            case "K-12 student":
+            case "k-12 student":
                 OccupationNumber = "10";
                 break;
             case "lawyer":
