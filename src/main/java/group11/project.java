@@ -107,46 +107,50 @@ public class project {
         String genreinput;
         String[] multiinput;
         boolean A;
-        boolean B = true;
-        do{
-            A = false;
-            B = true;
+        ArrayList<String> inputlist =new ArrayList<String>();
+        //ArrayList<String> uncombinelist = new ArrayList<String>();
+
+        do {
+            A = true;
             System.out.print("Enter the genre of the movie for which you want to know the rating : ");
             genreinput = inputreader.nextLine().toLowerCase();
             multiinput = genreinput.split("\\|");
 
             //System.out.println(multiinput.length);
 
-            for(int i=0;i< multiinput.length;i++) {
-                if (multiinput[i].trim() == "") {
+            for (int i = 0; i < multiinput.length; i++) {
+                if (multiinput[i].trim().length() > 0) {
+                    //System.out.println("test");
+                    if (i == multiinput.length - 1) {
+
+                        ArrayList<String> uncombinelist = new ArrayList<String>();
+                        //System.out.println("test2");
+                        for(int j=0; j<multiinput.length;j++){
+                            inputlist.add(multiinput[j].trim());
+                        }
+                        for(Map.Entry<String, HashMap<String, ArrayList<Integer>>> Iter : Rating.entrySet()){
+                            String[] uncombined = Iter.getKey().split("\\|");
+                            for(int k=0;k< uncombined.length;k++){
+                                uncombinelist.add(uncombined[k].trim());
+                            }
+                            if(uncombinelist.containsAll(inputlist)){
+                                A=false;
+                                break;
+                            }
+                            uncombinelist.clear();
+                        }
+                        if(A){
+                            System.out.println("\nThere are no movies in the genre corresponding to the input value.\n");
+                        }
+                    }
+                }
+                else {
                     System.out.println("Invaid input");
-                    A = true;
-                    B = false;
                     break;
                 }
             }
-            if(B) {
-                for (Map.Entry<String, HashMap<String, ArrayList<Integer>>> Iter : Rating.entrySet()) {
-                    int counter = 0;
-                    A = true;
-                    for (int i = 0; i < multiinput.length; i++) {
-                        if (Iter.getKey().contains(multiinput[i].trim())) {
-                            counter++;
-                        }
-                        if (counter == multiinput.length) {
-                            A = false;
-                        }
-                    }
-                    if (!A) {
-                        //System.out.println("test");
-                        break;
-                    }
-                }
-                if (A) {
-                    System.out.println("\nThere are no movies in the genre corresponding to the input value.\n");
-                }
-            }
         }while(A);
+
         //System.out.println(multiinput[0]);
         //String[] word = line.split("::");
         // 2. 장르의 조합이 없을경우 오류문구 출력 + 질문 재출력 -> 완료
@@ -253,19 +257,19 @@ public class project {
 
         double fullrating = 0;
         double fullcount = 0;
-        for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()){
-            int counter=0;
-            for(int i=0;i<multiinput.length;i++){
-                if(Iter.getKey().contains(multiinput[i].trim())) {
-                    counter++;
-                }
-                if(counter== multiinput.length){
-                    if(Iter.getValue().containsKey(OccupationNumber)){
-                        fullrating += (double)Iter.getValue().get(OccupationNumber).get(0);
-                        fullcount += (double)Iter.getValue().get(OccupationNumber).get(1);
-                    }
+        ArrayList<String> uncombinelists = new ArrayList<String>();
+        for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()) {
+            String[] uncombined = Iter.getKey().split("\\|");
+            for (int k = 0; k < uncombined.length; k++) {
+                uncombinelists.add(uncombined[k].trim());
+            }
+            if (uncombinelists.containsAll(inputlist)) {
+                if (Iter.getValue().containsKey(OccupationNumber)) {
+                    fullrating += (double) Iter.getValue().get(OccupationNumber).get(0);
+                    fullcount += (double) Iter.getValue().get(OccupationNumber).get(1);
                 }
             }
+            uncombinelists.clear();
         }
 
         //double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
