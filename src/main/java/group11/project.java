@@ -8,24 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-/*class fournode{
-    static String A, B, C;
-    static int D=0;
-    static void setABC(String args){
-        A=args;
-    }
-    static void setB(String args){
-        B=args;
-    }
-    static void setC(String args){
-        C=args;
-    }
-    static void counter(){
-
-    }
-    //static String get()
-}*/
-
 public class project {
     static HashMap<String,String> InputMap(String args, int a) throws IOException{
         HashMap<String,String> givendata = new HashMap<String,String>();
@@ -128,6 +110,7 @@ public class project {
                         for(int j=0; j<multiinput.length;j++){
                             inputlist.add(multiinput[j].trim());
                         }
+                        //System.out.println(inputlist);
                         for(Map.Entry<String, HashMap<String, ArrayList<Integer>>> Iter : Rating.entrySet()){
                             String[] uncombined = Iter.getKey().split("\\|");
                             for(int k=0;k< uncombined.length;k++){
@@ -141,6 +124,7 @@ public class project {
                         }
                         if(A){
                             System.out.println("\nThere are no movies in the genre corresponding to the input value.\n");
+                            inputlist.clear();
                         }
                     }
                 }
