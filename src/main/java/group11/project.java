@@ -25,6 +25,8 @@ public class project {
         return givendata;
     }
     public static void main(String[] args) throws IOException{
+        //System.out.println(args[0]);
+        //System.out.println(args[1]);
 
         //get occupation from users.dat, and make a hashmap which key means user id and value means occupation.
         HashMap<String,String> Occupation =  InputMap("data/users.dat", 3);
@@ -33,17 +35,14 @@ public class project {
         HashMap<String,String> Genres = InputMap("data/movies.dat", 2);
         //System.out.println(Genres);
 
-
         //rating data read
-
         //double[][][] rating = new double[21][18][2]; 영화 장르가 2~3개인 경우가 았어서 이 방법은 불가능
-
-        //위에서 만든 해쉬맵을 참조하여 중첩맵을 생성, 중첩맵은 {장르 : {직업 : [평점, counter]}}를 나타내며 파이프라인을 통한 장르 구분은 실현해놓지 않은 상태
-        //중첩 map안에 Arraylist가 한번더 들어가 있는 형태
+        //위에서 만든 해쉬맵을 참조하여 중첩맵을 생성, 중첩맵은 {장르 : {직업 : [평점, counter]}}를 나타냄
+        //중첩 map안에 Arraylist가 한번 더 들어가 있는 형태
         //{장르 : {직업 : [평점, counter]}}에서 counter는 평점 average를 구하기 위한 초석. 앞선 중첩된 맵의 평점은 그저 같은 직업의 사람이 같은 장르의 영화에 대한 평점을 다 더한것. 평점/counter = 평균 평점
 
         HashMap<String, HashMap<String, ArrayList<Integer>>> Rating = new HashMap<String, HashMap<String, ArrayList<Integer>>>();
-        BufferedReader getrating = new BufferedReader(new FileReader("./data/ratings.dat")); // need to change the location.
+        BufferedReader getrating = new BufferedReader(new FileReader("data/ratings.dat"));
 
         while (true) {
             HashMap<String, ArrayList<Integer>> innermap = new HashMap<String, ArrayList<Integer>>();
@@ -73,10 +72,9 @@ public class project {
                 innerlist.add(0,Integer.parseInt(word[2]));
                 innerlist.add(1, 1);
             }
-
         }
         //System.out.println(Rating);
-
+        //숫자 좀 줄여서 제대로 만들어 지는지 테스트
 
         /*String[] dboccupation= {"academic","educator","artist","clerical","admin","college student",
                 "grad student","customer service","doctor","health care","executive","managerial","farmer","homemaker",
@@ -95,7 +93,7 @@ public class project {
         do {
             A = true;
             System.out.print("Enter the genre of the movie for which you want to know the rating : ");
-            genreinput = inputreader.nextLine().toLowerCase();
+            genreinput = inputreader.nextLine().toLowerCase().trim();
             multiinput = genreinput.split("\\|");
 
             //System.out.println(multiinput.length);
@@ -129,39 +127,30 @@ public class project {
                     }
                 }
                 else {
-                    System.out.println("Invaid input");
+                    System.out.println("\nInvalid input\n");
                     break;
                 }
             }
         }while(A);
 
-        //System.out.println(multiinput[0]);
-        //String[] word = line.split("::");
         // 2. 장르의 조합이 없을경우 오류문구 출력 + 질문 재출력 -> 완료
         // 3. 대소문자 구분없이 비교 -> 완료
         // 4. 아무것도 입력 안했을때 -> 완료
         // 5. delimiter랑 장르 사이에 빈칸있을때
         // 6. split bug
 
+        // 대형버그 : adventure는 a를 포함해서 a만 입력해도 인식해버리는 상황 발생 -> 완료
 
-        // 대형버그 : adventure는 a를 포함해서 a만 입력해도 인식해버리는 상황 발생
-
-
-
-
-       String occupationinput;
+        String occupationinput;
         do{
             System.out.print("\nEnter the occupation : ");
             occupationinput= inputreader.nextLine().toLowerCase().trim();
             if(occupationinput=="") {
-                System.out.println("Invaild input!");
+                System.out.println("Invalid input!");
             }
         }while(occupationinput=="");
         // 3. 띄어쓰기 없어도 인식하게 할것
-        // 4. 아무것도 입력 안 했을때
-
-
-
+        // 4. 아무것도 입력 안 했을때 -> 완료
 
         String OccupationNumber = null;
         switch (occupationinput){
