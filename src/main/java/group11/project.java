@@ -5,47 +5,50 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
+/*class fournode{
+    static String A, B, C;
+    static int D=0;
+    static void setABC(String args){
+        A=args;
+    }
+    static void setB(String args){
+        B=args;
+    }
+    static void setC(String args){
+        C=args;
+    }
+    static void counter(){
+
+    }
+    //static String get()
+}*/
+
 public class project {
-    public static void main(String[] args) throws IOException{
-
-        //get occupation from users.dat, and make a hashmap which key means user id and value means occupation.
-
-        HashMap<String, String> Occupation = new HashMap<String, String>();
-
-        BufferedReader getuser = new BufferedReader(new FileReader("./data/users.dat")); // need to change the location.
-        //String linefirst = getuser.readLine();
+    static HashMap<String,String> InputMap(String args, int a) throws IOException{
+        HashMap<String,String> givendata = new HashMap<String,String>();
+        BufferedReader getdata = new BufferedReader(new FileReader(args));
         while (true){
-            String line = getuser.readLine();
+            String line = getdata.readLine();
             if (line==null) {
                 break;
             }
             //System.out.println(line);
             String[] word = line.split("::");
-            Occupation.put(word[0],word[3]);  //value is string type not integer
-            /*for(int i=0;i<5;i++) {
-                System.out.println(word[i]);
-            }*/
+            givendata.put(word[0],word[a].toLowerCase());  //value is string type not integer
         }
-        getuser.close();
-        //System.out.println(Occupation.containsKey("0"));
-        //System.out.println(Occupation.containsKey("2"));
-        //System.out.println(Occupation);
+        getdata.close();
+        return givendata;
+    }
+    public static void main(String[] args) throws IOException{
+
+        //get occupation from users.dat, and make a hashmap which key means user id and value means occupation.
+        HashMap<String,String> Occupation =  InputMap("data/users.dat", 3);
 
         //get genre from movie.dat, and make a hashmap which key means movie id and value means genre
-
-        HashMap<String, String> Genres = new HashMap<String, String>();
-        BufferedReader getmovie = new BufferedReader(new FileReader("./data/movies.dat")); // need to change the location.
-        while (true) {
-            String line = getmovie.readLine();
-            if(line==null){
-                break;
-            }
-            String[] word = line.split("::");
-            Genres.put(word[0],word[2]);
-        }
-        getmovie.close();
+        HashMap<String,String> Genres = InputMap("data/movies.dat", 2);
         //System.out.println(Genres);
 
 
@@ -58,22 +61,7 @@ public class project {
         //{장르 : {직업 : [평점, counter]}}에서 counter는 평점 average를 구하기 위한 초석. 앞선 중첩된 맵의 평점은 그저 같은 직업의 사람이 같은 장르의 영화에 대한 평점을 다 더한것. 평점/counter = 평균 평점
 
         HashMap<String, HashMap<String, ArrayList<Integer>>> Rating = new HashMap<String, HashMap<String, ArrayList<Integer>>>();
-        //HashMap<String, ArrayList<Integer>> innermap = new HashMap<String, ArrayList<Integer>>();
-        //ArrayList<Integer> innerlist = new ArrayList<Integer>();
         BufferedReader getrating = new BufferedReader(new FileReader("./data/ratings.dat")); // need to change the location.
-        /*String firstline = getrating.readLine();
-        String[] firstlineword = firstline.split("::" );
-        Rating.put(Genres.get(firstlineword[1]), innermap);
-        innermap.put(Occupation.get(firstlineword[0]), innerlist);
-        innerlist.add(0,Integer.parseInt(firstlineword[2]));
-        innerlist.add(1, 1);*/
-
-
-        //innermap.remove(Occupation.get(firstlineword[0]));
-        //innerlist.remove(0);
-        //innerlist.remove(1);
-
-        //System.out.println(Rating);
 
         while (true) {
             HashMap<String, ArrayList<Integer>> innermap = new HashMap<String, ArrayList<Integer>>();
@@ -108,14 +96,57 @@ public class project {
         //System.out.println(Rating);
 
 
+        /*String[] dboccupation= {"academic","educator","artist","clerical","admin","college student",
+                "grad student","customer service","doctor","health care","executive","managerial","farmer","homemaker",
+                "K-12 student","lawyer","programmer","retired","sales","marketing","scientist","self-employed",
+                "technician","engineer","tradesman","craftsman","unemployed","writer","other"};*/
+
         //입력에 따른 예외처리 조건문 필요
 
         Scanner inputreader = new Scanner(System.in);
-        System.out.print("Enter the genre of the movie for which you want to know the rating : ");
-        String genreinput = inputreader.nextLine();
+        String genreinput;
+        String[] multiinput;
+        boolean A;
+        do{
+            A = false;
+            System.out.print("Enter the genre of the movie for which you want to know the rating : ");
+            genreinput = inputreader.nextLine().toLowerCase(); // 파이프라인 인식하도록 수정
+            multiinput = genreinput.split("\\|");
+            for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()){
+                int counter=0;
+                A=true;
+                for(int i=0;i<multiinput.length;i++){
+                    if(Iter.getKey().contains(multiinput[i])) {
+                        counter++;
+                    }
+                    if(counter== multiinput.length){
+                        A=false;
+                    }
+                }
+                if(!A){
+                    //System.out.println("test");
+                    break;
+                }
+            }
+            if(A){
+                System.out.println("\nThere are no movies in the genre corresponding to the input value.\n");
+            }
+        }while(A);
+        //System.out.println(multiinput[0]);
+        //String[] word = line.split("::");
+        // 2. 장르의 조합이 없을경우 오류문구 출력 + 질문 재출력 -> 완료
+        // 3. 대소문자 구분없이 비교
+        // 4. 아무것도 입력 안했을때
+
+
         System.out.print("\nEnter the occupation : ");
-        String occupationinput = inputreader.nextLine();
-        //System.out.println((double)Rating.get(genreinput).get(occupationinput).get(0));
+        String occupationinput= inputreader.nextLine().toLowerCase();
+
+        // 3. 띄어쓰기 없어도 인식하게 할것
+        // 4. 아무것도 입력 안 했을때
+
+
+
 
         String OccupationNumber = null;
         switch (occupationinput){
@@ -149,7 +180,7 @@ public class project {
                 break;
             case "doctor":
             case "Doctor":
-            case "health care":
+            햣 햣
             case "Health care":
                 OccupationNumber = "6";
                 break;
@@ -222,9 +253,28 @@ public class project {
             default:
                 OccupationNumber = "0";
         }
+        //System.out.println(OccupationNumber);
 
-        double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
-        //System.out.println(CalculatedInput);
+        double fullrating = 0;
+        double fullcount = 0;
+        for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()){
+            int counter=0;
+            for(int i=0;i<multiinput.length;i++){
+                if(Iter.getKey().contains(multiinput[i])) {
+                    counter++;
+                }
+                if(counter== multiinput.length){
+                    if(Iter.getValue().containsKey(OccupationNumber)){
+                        fullrating += (double)Iter.getValue().get(OccupationNumber).get(0);
+                        fullcount += (double)Iter.getValue().get(OccupationNumber).get(1);
+                    }
+                }
+            }
+        }
+
+
+        //double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
+        double CalculatedInput = fullrating/fullcount;
         System.out.printf("\nThe rating of %s rated by %s : %.2f", genreinput, occupationinput, CalculatedInput);
 
     }
