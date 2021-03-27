@@ -8,27 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-<<<<<<< HEAD
-/*class fournode{
-    static String A, B, C;
-    static int D=0;
-    static void setABC(String args){
-        A=args;
-    }
-    static void setB(String args){
-        B=args;
-    }
-    static void setC(String args){
-        C=args;
-    }
-    static void counter(){
-
-    }
-    //static String get()
-}*/
-
-=======
->>>>>>> kvvak
 public class project {
     static HashMap<String,String> InputMap(String args, int a) throws IOException{
         HashMap<String,String> givendata = new HashMap<String,String>();
@@ -46,12 +25,6 @@ public class project {
         return givendata;
     }
     public static void main(String[] args) throws IOException{
-<<<<<<< HEAD
-
-        //get occupation from users.dat, and make a hashmap which key means user id and value means occupation.
-        HashMap<String,String> Occupation =  InputMap("data/users.dat", 3);
-
-=======
         //System.out.println(args[0]);
         //System.out.println(args[1]);
 
@@ -59,7 +32,6 @@ public class project {
         HashMap<String,String> Occupation =  InputMap("data/users.dat", 3);
         //System.out.println(Occupation);
 
->>>>>>> kvvak
         //get genre from movie.dat, and make a hashmap which key means movie id and value means genre
         HashMap<String,String> Genres = InputMap("data/movies.dat", 2);
         //System.out.println(Genres);
@@ -71,11 +43,7 @@ public class project {
         //{장르 : {직업 : [평점, counter]}}에서 counter는 평점 average를 구하기 위한 초석. 앞선 중첩된 맵의 평점은 그저 같은 직업의 사람이 같은 장르의 영화에 대한 평점을 다 더한것. 평점/counter = 평균 평점
 
         HashMap<String, HashMap<String, ArrayList<Integer>>> Rating = new HashMap<String, HashMap<String, ArrayList<Integer>>>();
-<<<<<<< HEAD
-        BufferedReader getrating = new BufferedReader(new FileReader("./data/ratings.dat")); // need to change the location.
-=======
         BufferedReader getrating = new BufferedReader(new FileReader("data/ratings.dat"));
->>>>>>> kvvak
 
         while (true) {
             HashMap<String, ArrayList<Integer>> innermap = new HashMap<String, ArrayList<Integer>>();
@@ -114,58 +82,11 @@ public class project {
                 "K-12 student","lawyer","programmer","retired","sales","marketing","scientist","self-employed",
                 "technician","engineer","tradesman","craftsman","unemployed","writer","other"};*/
 
-        /*String[] dboccupation= {"academic","educator","artist","clerical","admin","college student",
-                "grad student","customer service","doctor","health care","executive","managerial","farmer","homemaker",
-                "K-12 student","lawyer","programmer","retired","sales","marketing","scientist","self-employed",
-                "technician","engineer","tradesman","craftsman","unemployed","writer","other"};*/
-
         //입력에 따른 예외처리 조건문 필요
         Scanner inputreader = new Scanner(System.in);
         String genreinput;
         String[] multiinput;
         boolean A;
-<<<<<<< HEAD
-        do{
-            A = false;
-            System.out.print("Enter the genre of the movie for which you want to know the rating : ");
-            genreinput = inputreader.nextLine().toLowerCase(); // 파이프라인 인식하도록 수정
-            multiinput = genreinput.split("\\|");
-            for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()){
-                int counter=0;
-                A=true;
-                for(int i=0;i<multiinput.length;i++){
-                    if(Iter.getKey().contains(multiinput[i])) {
-                        counter++;
-                    }
-                    if(counter== multiinput.length){
-                        A=false;
-                    }
-                }
-                if(!A){
-                    //System.out.println("test");
-                    break;
-                }
-            }
-            if(A){
-                System.out.println("\nThere are no movies in the genre corresponding to the input value.\n");
-            }
-        }while(A);
-        //System.out.println(multiinput[0]);
-        //String[] word = line.split("::");
-        // 2. 장르의 조합이 없을경우 오류문구 출력 + 질문 재출력 -> 완료
-        // 3. 대소문자 구분없이 비교
-        // 4. 아무것도 입력 안했을때
-
-
-        System.out.print("\nEnter the occupation : ");
-        String occupationinput= inputreader.nextLine().toLowerCase();
-
-        // 3. 띄어쓰기 없어도 인식하게 할것
-        // 4. 아무것도 입력 안 했을때
-
-
-
-=======
         ArrayList<String> inputlist =new ArrayList<String>();
         //ArrayList<String> uncombinelist = new ArrayList<String>();
 
@@ -230,114 +151,80 @@ public class project {
         }while(occupationinput=="");
         // 3. 띄어쓰기 없어도 인식하게 할것
         // 4. 아무것도 입력 안 했을때 -> 완료
->>>>>>> kvvak
 
         String OccupationNumber = null;
         switch (occupationinput){
             case "academic":
-            case "Academic":
             case "educator":
-            case "Educator":
                 OccupationNumber = "1";
                 break;
             case "artist":
-            case "Artist":
                 OccupationNumber = "2";
                 break;
             case "clerical":
-            case "Clerical":
             case "admin":
-            case "Admin":
                 OccupationNumber = "3";
                 break;
             case "college":
-            case "College":
-            case "college student":
-            case "College student":
-            case "grad student":
-            case "Grad student":
+            case "collegestudent":
+            case "grad":
+            case "gradstudent":
                 OccupationNumber = "4";
                 break;
-            case "customer service":
-            case "Customer service":
+            case "customerservice":
                 OccupationNumber = "5";
                 break;
             case "doctor":
-            case "Doctor":
-            햣 햣
-            case "Health care":
+            case "healthcare":
                 OccupationNumber = "6";
                 break;
             case "executive":
-            case "Executive":
             case "managerial":
-            case "Managerial":
                 OccupationNumber = "7";
                 break;
             case "farmer":
-            case "Farmer":
                 OccupationNumber = "8";
                 break;
             case "homemaker":
-            case "Homemaker":
                 OccupationNumber = "9";
                 break;
-<<<<<<< HEAD
             case "k-12student":
-            case "K-12student":
-=======
-            case "k-12 student":
->>>>>>> kvvak
                 OccupationNumber = "10";
                 break;
             case "lawyer":
-            case "Lawyer":
                 OccupationNumber = "11";
                 break;
             case "programmer":
-            case "Programmer":
                 OccupationNumber = "12";
                 break;
             case "retired":
-            case "Retired":
                 OccupationNumber = "13";
                 break;
             case "sales":
-            case "Sales":
             case "marketing":
-            case "Marketing":
                 OccupationNumber = "14";
                 break;
             case "scientist":
-            case "Scientist":
                 OccupationNumber = "15";
                 break;
             case "self-employed":
-            case "Self-employed":
                 OccupationNumber = "16";
                 break;
             case "technician":
-            case "Technician":
             case "engineer":
-            case "Engineer":
                 OccupationNumber = "17";
                 break;
             case "tradesman":
-            case "Tradesman":
             case "craftsman":
-            case "Craftsman":
                 OccupationNumber = "18";
                 break;
             case "unemployed":
-            case "Unemployed":
                 OccupationNumber = "19";
                 break;
             case "writer":
-            case "Writer":
                 OccupationNumber = "20";
                 break;
             case "other":
-            case "Other":
             default:
                 OccupationNumber = "0";
         }
@@ -345,23 +232,6 @@ public class project {
 
         double fullrating = 0;
         double fullcount = 0;
-<<<<<<< HEAD
-        for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()){
-            int counter=0;
-            for(int i=0;i<multiinput.length;i++){
-                if(Iter.getKey().contains(multiinput[i])) {
-                    counter++;
-                }
-                if(counter== multiinput.length){
-                    if(Iter.getValue().containsKey(OccupationNumber)){
-                        fullrating += (double)Iter.getValue().get(OccupationNumber).get(0);
-                        fullcount += (double)Iter.getValue().get(OccupationNumber).get(1);
-                    }
-                }
-            }
-        }
-
-=======
         ArrayList<String> uncombinelists = new ArrayList<String>();
         for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()) {
             String[] uncombined = Iter.getKey().split("\\|");
@@ -376,7 +246,6 @@ public class project {
             }
             uncombinelists.clear();
         }
->>>>>>> kvvak
 
         //double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
         double CalculatedInput = fullrating/fullcount;
