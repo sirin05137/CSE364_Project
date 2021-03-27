@@ -25,6 +25,11 @@ public class project {
         return givendata;
     }
     public static void main(String[] args) throws IOException{
+
+        if (args.length != 2){
+            System.out.println("\nINPUT_ERROR: 2 arguments needed (inputStr1 inputStr2)\n");
+            System.exit(0);
+        }
         //System.out.println(args[0]);
         //System.out.println(args[1]);
 
@@ -83,8 +88,8 @@ public class project {
                 "technician","engineer","tradesman","craftsman","unemployed","writer","other"};*/
 
         //입력에 따른 예외처리 조건문 필요
-        Scanner inputreader = new Scanner(System.in);
-        String genreinput;
+        //Scanner inputreader = new Scanner(System.in);
+        String genreinput = args[0].toLowerCase().trim();
         String[] multiinput;
         boolean A;
         ArrayList<String> inputlist =new ArrayList<String>();
@@ -92,8 +97,8 @@ public class project {
 
         do {
             A = true;
-            System.out.print("Enter the genre of the movie for which you want to know the rating : ");
-            genreinput = inputreader.nextLine().toLowerCase().trim();
+            //System.out.print("Enter the genre of the movie for which you want to know the rating : ");
+            //genreinput = inputreader.nextLine().toLowerCase().trim();
             multiinput = genreinput.split("\\|");
 
             //System.out.println(multiinput.length);
@@ -121,13 +126,15 @@ public class project {
                             uncombinelist.clear();
                         }
                         if(A){
-                            System.out.println("\nThere are no movies in the genre corresponding to the input value.\n");
+                            System.out.println("\nINPUT_ERROR: Movie for the entered genre(s) doesn't exist\n");
+                            System.exit(0);
                             inputlist.clear();
                         }
                     }
                 }
                 else {
-                    System.out.println("\nInvalid input\n");
+                    System.out.println("\nINPUT_ERROR: Invalid input\n");
+                    System.exit(0);
                     break;
                 }
             }
@@ -141,7 +148,8 @@ public class project {
 
         // 대형버그 : adventure는 a를 포함해서 a만 입력해도 인식해버리는 상황 발생 -> 완료
 
-        String occupationinput;
+        String occupationinput = args[1].toLowerCase().trim();
+        /*
         do{
             System.out.print("\nEnter the occupation : ");
             occupationinput= inputreader.nextLine().toLowerCase().trim();
@@ -149,6 +157,7 @@ public class project {
                 System.out.println("Invalid input!");
             }
         }while(occupationinput=="");
+         */
         // 3. 띄어쓰기 없어도 인식하게 할것
         // 4. 아무것도 입력 안 했을때 -> 완료
 
@@ -229,6 +238,12 @@ public class project {
                 OccupationNumber = "0";
         }
         //System.out.println(OccupationNumber);
+
+        //ERROR : 해당하는 직업군 이름이 없을 경우
+        if (OccupationNumber == "0"){
+            System.out.println("\nINPUT_ERROR: Entered occupation doesn't exist\n");
+            System.exit(0);
+        }
 
         double fullrating = 0;
         double fullcount = 0;
