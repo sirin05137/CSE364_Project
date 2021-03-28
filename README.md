@@ -66,7 +66,7 @@ docker run -it *image_name*
 root@containerID$ sh run.sh
 ```
 
-#occupatoin input regulation
+#genre input regulation
 1. you must enter the correct spelling. possible occupation are below,
 "Action", "Adventure", "Animation", "Children's", "Comedy", "Crime", "Documentary", "Drama", "Fantasy", "Film-Noir", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Thriller", "War", "Western"
 2. You don't have to worry about uppercase and lowercase letters.
