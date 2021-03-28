@@ -81,14 +81,17 @@
                 <!--3.8.1 버전 컴파일러 쓰는 게 맞나?-->
                 <version>3.8.1</version>
                 <configuration>
-                    <!--
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <compilerVersion>${java.version}</compilerVersion>
                     <encoding>${encoding}</encoding>
-                    -->
+                    <verbose>true</verbose>
+                    <fork>true</fork>
+                    <executable>"$JAVA_HOME"/bin/javac</executable>
+                    <!--
                     <type>maven-plugin</type>
                     <release>11</release>
+                    -->
                 </configuration>
             </plugin>
             <plugin>
