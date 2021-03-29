@@ -23,11 +23,11 @@
         <!-- Build properties-->
         <encoding>UTF-8</encoding>
         <java.version>11</java.version>
+        <junit.version>5</junit.version>
         <!--
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
         -->
-        <junit.version>5</junit.version>
     </properties>
 
     <!-- 필수사항 : 프로젝트에 import 되는 dependency 목록-->
@@ -73,18 +73,33 @@
             <artifactId>cglib-nodep</artifactId>
             <version>3.2.7</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>pl.pragmatists</groupId>
             <artifactId>junitparams</artifactId>
             <version>1.1.1</version>
             <scope>test</scope>
         </dependency>
+        -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.3.1</version>
+            <version>5.2.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>1.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!--
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -122,6 +137,7 @@
             <version>3.8.0</version>
             <scope>test</scope>
         </dependency>
+        -->
     </dependencies>
 
     <!-- 필수사항 : Project Build 정보-->
@@ -130,7 +146,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <!--3.8.1 버전 컴파일러 쓰는 게 맞나?-->
                 <version>3.8.1</version>
                 <configuration>
                     <source>${java.version}</source>
@@ -140,16 +155,13 @@
                     <verbose>true</verbose>
                     <fork>true</fork>
                     <executable>"$JAVA_HOME"/bin/javac</executable>
-                    <!--
-                    <type>maven-plugin</type>
-                    <release>11</release>
-                    -->
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.0</version>
+                <!--
                 <dependencies>
                     <dependency>
                         <groupId>org.junit.platform</groupId>
@@ -157,11 +169,23 @@
                         <version>1.0.1</version>
                     </dependency>
                 </dependencies>
+                -->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.2.0</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <argLine>
                         --illegal-access=permit
                     </argLine>
-                    <groups>com.testwithspring.starter.unittests.UnitTest</groups>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>
+                            src/test/java/
+                        </additionalClasspathElement>
+                    </additionalClasspathElements>
                 </configuration>
             </plugin>
             <plugin>

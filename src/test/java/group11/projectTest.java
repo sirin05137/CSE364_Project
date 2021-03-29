@@ -1,5 +1,6 @@
 package group11;
 
+import junitparams.mappers.CsvWithHeaderMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 //import org.junit.Ignore;
@@ -24,16 +25,15 @@ import java.io.IOException;
 public class projectTest extends project {
 
     @Test
-    @FileParameters(value = "src/test/resources/testCSV.csv")
-    public void testwithCSV(String genre, String occupation, String expected) throws IOException {
-        String[] args = new String[]{genre, occupation};
-        //String[] args = new String[2];
-        //args[0] = genre;
-        //args[1] = occupation;
-
-        //System.out.println(args[0] + "/" + args[1]);
+    @FileParameters(value = "src/test/resources/test.csv", mapper = CsvWithHeaderMapper.class)
+     public void testwithCSV(String genre, String occupation, String expected) throws IOException {
+        String[] args = new String[2];
+        args[0] = genre.toLowerCase().trim();
+        args[1] = occupation.toLowerCase().trim();
+        System.out.printf("The rating of %s rated by %s : ", args[0], args[1]);
 
         project.main(args);
+        System.out.printf(" (Exp : %s)\n",expected);
         //System.out.print(project.ResultString());
         //assertEquals(expected, project.ResultString());
     }

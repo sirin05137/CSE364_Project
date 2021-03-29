@@ -1,4 +1,4 @@
-﻿GENRE,OCCUPATION,EXPECTED
+Action,Other,0.00
 Action,Academic,0.00
 Action,Artist,0.00
 Action,Clerical,0.00

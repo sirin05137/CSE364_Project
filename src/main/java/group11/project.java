@@ -234,14 +234,13 @@ public class project {
                 OccupationNumber = "20";
                 break;
             case "other":
-                OccupationNumber = "0";
             default:
-                OccupationNumber = "-1";
+                OccupationNumber = "0";
         }
         //System.out.println(OccupationNumber);
 
         //ERROR : 해당하는 직업군 이름이 없을 경우
-        if (OccupationNumber == "-1"){
+        if (OccupationNumber == "0"){
             System.out.println("\nINPUT_ERROR: Entered occupation doesn't exist\n");
             System.exit(0);
         }
@@ -266,6 +265,6 @@ public class project {
         //double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
         double CalculatedInput = fullrating/fullcount;
         //System.out.printf("\nThe rating of %s rated by %s : %.2f", genreinput, occupationinput, CalculatedInput);
-        System.out.printf("\n%.2f", CalculatedInput);
+        System.out.printf("%.2f", CalculatedInput);
     }
 }
