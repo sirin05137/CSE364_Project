@@ -23,22 +23,25 @@
         <!-- Build properties-->
         <encoding>UTF-8</encoding>
         <java.version>11</java.version>
+        <!--
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
-        <!--junit version 4.13.2 also possible-->
-        <junit.version>4.10</junit.version>
+        -->
+        <junit.version>5</junit.version>
     </properties>
 
     <!-- 필수사항 : 프로젝트에 import 되는 dependency 목록-->
     <dependencies>
+        <!--
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <type>jar</type>
-            <!--<scope>test</scope>-->
-            <!--<optional>true</optional>-->
+            <scope>test</scope>
+            <optional>true</optional>
         </dependency>
+        -->
         <!-- JDK9(Java SE 9) 이상에서 JAXB(javax.xml.bind) 클래스 사라져서 따로 import-->
         <dependency>
             <groupId>javax.xml</groupId>
@@ -70,6 +73,55 @@
             <artifactId>cglib-nodep</artifactId>
             <version>3.2.7</version>
         </dependency>
+        <dependency>
+            <groupId>pl.pragmatists</groupId>
+            <artifactId>junitparams</artifactId>
+            <version>1.1.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.3.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.28.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>1.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>2.28.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.1</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.8.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <!-- 필수사항 : Project Build 정보-->
@@ -98,10 +150,18 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.0.1</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <argLine>
                         --illegal-access=permit
                     </argLine>
+                    <groups>com.testwithspring.starter.unittests.UnitTest</groups>
                 </configuration>
             </plugin>
             <plugin>

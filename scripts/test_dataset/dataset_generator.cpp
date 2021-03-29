@@ -29,7 +29,7 @@ int main(){
    fout.open ("dataset_new.txt",ios::app); // Append mode
    for (int i = 0 ; i < 18 ; i++){
       for (int j = 0 ; j < 21 ; j++){
-        fout << genre[i] << ", " << occupation[j] << ", 0.00%" <<endl ; 
+        fout << genre[i] << "," << occupation[j] << ",0.00" <<endl ; 
       }
    }
    
