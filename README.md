@@ -34,7 +34,7 @@ This is a movie recommendation system.
 * [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) _(for the developers)_
 
 ### Repository Structure
-```ruby
+```bash
 CSE364_Project/
 ├── data/                             # Source data
 ├── scripts/                          # Documentation files
@@ -56,19 +56,19 @@ CSE364_Project/
 > Instructions for setting up the project locally.
 
 ### Prerequisites
-* [Docker](https://www.docker.com/) should be installed and ready to use. 
+* [Docker](https://www.docker.com/) should be installed and ready to use.
 * For the `git clone`, the user should be registered as a **Contributo** or **Collaborator** of this git project. _(Unless you have the OAuth access token.)_
 
 ### Installation
 1. Download `dockerfile` and `run.sh` in the same directory.
 2. (In the terminal) Build Docker Image and Container by running the following commands.
 ```ruby
-$ docker build -t new_image_name */path/to/dockerfile*
+$ docker build -t new_image_name /path/to/dockerfile
 ```
 ```ruby
 $ docker run -it new_image_name
 ```
-3. (In the Docker Container) Run `run.sh`. 
+3. (In the Docker Container) Run ` . run.sh`
 ```ruby
 root@containerID:~/project# . run.sh
 ```
@@ -143,7 +143,7 @@ java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Animation Doctor
   SciFi     // X
   ```
 
-##### Combinations of multiple genres as an input
+#### Combinations of multiple genres as an input
 * In order to get the average rating of the movies that fall into a combination of **multiple genres**, connect the words with **the pipeline with the backslash ahead of it ('\\|')**.
   ```ruby
   Action|Adventure              // X
@@ -157,27 +157,22 @@ java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Animation Doctor
 ### Milestone 1
 > Goal : Environment setup, data loading, data preprocessing
 
-### Setting up a Git Repository 
+### Setting up a Git Repository
 Youngjun Kwak
 
-### Environment Setup 
-#### dockerfile, pom.xml
-Yujin Lee
+### Environment Setup
+**dockerfile, pom.xml** - Yujin Lee
 
 ### Java Implementation
-#### Models and Data Structures
-Youngjun Kwak :emote
-#### Exception Handling
-Sanghun Lee, Youngjun Kwak
-#### Unit Test Building
-Yujin Lee
+**Models and Data Structures** - 👑 Youngjun Kwak
+**Exception Handling** - Sanghun Lee, Youngjun Kwak
+**Unit Test Building** - Yujin Lee
 
 ### Documentation
-#### READ.ME
-Yujin Lee, Sanghun Lee
+**READ.ME** - 👑 Yujin Lee, Sanghun Lee
 
 ## Team Members
-* 20171012 Youngjun Kwak (@sirin0917) - [kyj05137@unist.ac.kr](kyj05137@unist.ac.kr)
+* 20171012 Youngjun Kwak (@sirin05137 ) - [kyj05137@unist.ac.kr](kyj05137@unist.ac.kr)
 * 20171183 Sanghun Lee (@sanghun17) - [sanghun17@unist.ac.kr](sanghun17@unist.ac.kr)
 * 20171194 Yujin Lee (@yuujinleee) - [yujinlee@unist.ac.kr](yujinlee@unist.ac.kr)
 
