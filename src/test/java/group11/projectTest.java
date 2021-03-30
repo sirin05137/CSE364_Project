@@ -32,8 +32,8 @@ public class projectTest extends project {
     }
 
     @Test
-    @FileParameters(value = "src/test/resources/test1genre_valid.csv", mapper = CsvWithHeaderMapper.class)
-     public void test1genre_valid(String genre, String occupation, String expected) throws IOException {
+    @FileParameters(value = "src/test/resources/test1genre.csv", mapper = CsvWithHeaderMapper.class)
+     public void test1genre(String genre, String occupation, String expected) throws IOException {
         String[] args = new String[2];
         args[0] = genre.toLowerCase().trim();
         args[1] = occupation.toLowerCase().trim();
@@ -49,8 +49,8 @@ public class projectTest extends project {
     }
 
     @Test
-    @FileParameters(value = "src/test/resources/test1genre_otheronly.csv", mapper = CsvWithHeaderMapper.class)
-    public void test1genre_otheronly(String genre, String occupation, String expected) throws IOException {
+    @FileParameters(value = "src/test/resources/test1genre_other.csv", mapper = CsvWithHeaderMapper.class)
+    public void test1genre_other(String genre, String occupation, String expected) throws IOException {
         String[] args = new String[2];
         args[0] = genre.toLowerCase().trim();
         args[1] = occupation.toLowerCase().trim();
@@ -61,20 +61,8 @@ public class projectTest extends project {
     }
 
     @Test
-    @FileParameters(value = "src/test/resources/test1genre_invalid.csv", mapper = CsvWithHeaderMapper.class)
-    public void test1genre_invalid(String genre, String occupation, String expected) throws IOException {
-        String[] args = new String[2];
-        args[0] = genre.toLowerCase().trim();
-        args[1] = occupation.toLowerCase().trim();
-
-        project.main(args);
-
-        assertEquals(expected, outContent.toString());
-    }
-
-    @Test
-    @FileParameters(value = "src/test/resources/testMultiple_valid.csv", mapper = CsvWithHeaderMapper.class)
-    public void test2genres_valid(String genre, String occupation, String expected) throws IOException {
+    @FileParameters(value = "src/test/resources/testMultiple.csv", mapper = CsvWithHeaderMapper.class)
+    public void testMultiplegenre(String genre, String occupation, String expected) throws IOException {
         String[] args = new String[2];
         args[0] = genre.toLowerCase().trim();
         args[1] = occupation.toLowerCase().trim();

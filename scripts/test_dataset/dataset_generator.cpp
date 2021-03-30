@@ -26,15 +26,19 @@ int main(){
    //if(fin.is_open()) fout<< "\n Writing to a file opened from program."; // Writing data to file
 
    
-   fout.open ("dataset_new.txt",ios::app); // Append mode
+   fout.open ("dataset_other.txt",ios::app); // Append mode
+   /*
    for (int i = 0 ; i < 18 ; i++){
       //cout << genre[i] << endl;
       for (int j = 0 ; j < 21 ; j++){
         //fout << genre[i] << "," << occupation[j] << ",0.00" <<endl ; 
       }
    }
+   */
+   for (int j = 0 ; j < 18 ; j++){
+        fout << genre[j] << "," << "Other" << ",0" <<endl ; 
+   }
    
-   for (int i = 0 ; i < 21 ; i++){ cout << occupation[i] << endl; } 
    
    /*
    ifstream fin("db_multiple_genre.txt");
