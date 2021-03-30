@@ -16,17 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //import org.junit.Ignore;
 //import org.junit.Rule;
-/*
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoRule;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.MockitoAnnotations;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-*/
 
 @RunWith(JUnitParamsRunner.class)
 public class projectTest extends project {
@@ -43,8 +32,8 @@ public class projectTest extends project {
     }
 
     @Test
-    @FileParameters(value = "src/test/resources/test_1genre_invalid.csv", mapper = CsvWithHeaderMapper.class)
-     public void testwithCSV(String genre, String occupation, String expected) throws IOException {
+    @FileParameters(value = "src/test/resources/test1genre_valid.csv", mapper = CsvWithHeaderMapper.class)
+     public void test1genre_valid(String genre, String occupation, String expected) throws IOException {
         String[] args = new String[2];
         args[0] = genre.toLowerCase().trim();
         args[1] = occupation.toLowerCase().trim();
@@ -59,26 +48,47 @@ public class projectTest extends project {
         //assertEquals(expected, project.ResultString());
     }
 
+    @Test
+    @FileParameters(value = "src/test/resources/test1genre_otheronly.csv", mapper = CsvWithHeaderMapper.class)
+    public void test1genre_otheronly(String genre, String occupation, String expected) throws IOException {
+        String[] args = new String[2];
+        args[0] = genre.toLowerCase().trim();
+        args[1] = occupation.toLowerCase().trim();
+
+        project.main(args);
+
+        assertEquals(expected, outContent.toString());
+    }
+
+    @Test
+    @FileParameters(value = "src/test/resources/test1genre_invalid.csv", mapper = CsvWithHeaderMapper.class)
+    public void test1genre_invalid(String genre, String occupation, String expected) throws IOException {
+        String[] args = new String[2];
+        args[0] = genre.toLowerCase().trim();
+        args[1] = occupation.toLowerCase().trim();
+
+        project.main(args);
+
+        assertEquals(expected, outContent.toString());
+    }
+
+    @Test
+    @FileParameters(value = "src/test/resources/testMultiple_valid.csv", mapper = CsvWithHeaderMapper.class)
+    public void test2genres_valid(String genre, String occupation, String expected) throws IOException {
+        String[] args = new String[2];
+        args[0] = genre.toLowerCase().trim();
+        args[1] = occupation.toLowerCase().trim();
+
+        project.main(args);
+
+        assertEquals(expected, outContent.toString());
+    }
+
+
     @After
     public void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
     }
-
-    /*
-    public class ParameterizedTest {
-        /*
-        @Rule
-        public MockitoRule rule = MockitoJUnit.rule();
-
-        @Mock
-        private project projectMock;
-
-        @Test
-        public void testMock()  {
-            assertNotNull(projectMock);
-        }
-
-    }*/
 
 }
