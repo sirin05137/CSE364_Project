@@ -28,12 +28,14 @@ int main(){
    
    fout.open ("dataset_new.txt",ios::app); // Append mode
    for (int i = 0 ; i < 18 ; i++){
+      //cout << genre[i] << endl;
       for (int j = 0 ; j < 21 ; j++){
-        fout << genre[i] << "," << occupation[j] << ",0.00" <<endl ; 
+        //fout << genre[i] << "," << occupation[j] << ",0.00" <<endl ; 
       }
    }
    
-
+   for (int i = 0 ; i < 21 ; i++){ cout << occupation[i] << endl; } 
+   
    /*
    ifstream fin("db_multiple_genre.txt");
    fout.open ("dataset_6genres.txt",ios::app); // Append mode
