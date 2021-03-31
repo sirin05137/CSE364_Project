@@ -178,12 +178,17 @@ Possible errors thrown by invalid user input.
 Youngjun Kwak
 
 ### Environment Setup
+
 **dockerfile, pom.xml** - Yujin Lee
 
 ### Java Implementation
+
 **Models and Data Structures** - 👑 Youngjun Kwak
+
 **Exception Handling** - 👑 Sanghun Lee, Youngjun Kwak
+
 **Unit Test Building** - Yujin Lee
+
 **Final Reviewer** - Sanghun Lee
 
 
