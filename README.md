@@ -153,7 +153,7 @@ java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Animation Doctor
   Action|Adventure               // X
   Action|Adventure|              // X
   "Action|Adventure"             // Supported
-  "Action|Adventure|Animation"   //Supported
+  "Action|Adventure|Animation"   // Supported
   ```
   * In case of `"Action|Adventure"`, the movies that fall into **both** Action **and** Adventure category are used for the calculation.
   * Combination of multiple occupations are not supported.
