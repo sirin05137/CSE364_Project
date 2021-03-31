@@ -8,15 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class project {
-    static HashMap<String,String> InputMap(String args, int a) throws IOException{
+public class project 
+{
+    static HashMap<String,String> InputMap(String args, int a) throws IOException
+    {
         HashMap<String,String> givendata = new HashMap<String,String>();
         BufferedReader getdata = new BufferedReader(new FileReader(args));
-        while (true){
+        while (true)
+        {
             String line = getdata.readLine();
-            if (line==null) {
+            if (line==null) 
                 break;
-            }
             //System.out.println(line);
             String[] word = line.split("::");
             givendata.put(word[0],word[a].toLowerCase());  //value is string type not integer
@@ -24,9 +26,11 @@ public class project {
         getdata.close();
         return givendata;
     }
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException
+    {
 
-        if (args.length != 2){
+        if (args.length != 2)
+        {
             System.out.println("\nINPUT_ERROR: 2 arguments needed (inputStr1 inputStr2)\n");
             System.exit(0);
         }
@@ -50,29 +54,33 @@ public class project {
         HashMap<String, HashMap<String, ArrayList<Integer>>> Rating = new HashMap<String, HashMap<String, ArrayList<Integer>>>();
         BufferedReader getrating = new BufferedReader(new FileReader("data/ratings.dat"));
 
-        while (true) {
+        while (true) 
+        {
             HashMap<String, ArrayList<Integer>> innermap = new HashMap<String, ArrayList<Integer>>();
             ArrayList<Integer> innerlist = new ArrayList<Integer>();
             String line = getrating.readLine();
-            if (line == null) {
+            if (line == null) 
                 break;
-            }
             String[] word = line.split("::" );
 
-            if(Rating.containsKey(Genres.get(word[1]))){
-                if(Rating.get(Genres.get(word[1])).containsKey(Occupation.get(word[0]))){
+            if(Rating.containsKey(Genres.get(word[1])))
+            {
+                if(Rating.get(Genres.get(word[1])).containsKey(Occupation.get(word[0])))
+                {
                     int a = Rating.get(Genres.get(word[1])).get(Occupation.get(word[0])).get(0) + Integer.parseInt(word[2]);
                     Rating.get(Genres.get(word[1])).get(Occupation.get(word[0])).set(0,a);
                     int b = Rating.get(Genres.get(word[1])).get(Occupation.get(word[0])).get(1);
                     Rating.get(Genres.get(word[1])).get(Occupation.get(word[0])).set(1,b+1);
                 }
-                else {
+                else 
+                {
                     Rating.get(Genres.get(word[1])).put(Occupation.get(word[0]), innerlist);
                     innerlist.add(0, Integer.parseInt(word[2]));
                     innerlist.add(1, 1);
                 }
             }
-            else{
+            else
+            {
                 Rating.put(Genres.get(word[1]), innermap);
                 innermap.put(Occupation.get(word[0]), innerlist);
                 innerlist.add(0,Integer.parseInt(word[2]));
@@ -86,61 +94,15 @@ public class project {
                 "grad student","customer service","doctor","health care","executive","managerial","farmer","homemaker",
                 "K-12 student","lawyer","programmer","retired","sales","marketing","scientist","self-employed",
                 "technician","engineer","tradesman","craftsman","unemployed","writer","other"};*/
-
+String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","crime","documentary","drama","fantasy","film-Noir",
+    		   "horror","musical","mystery","romance","sci-Fi","thriller","war","western"};
         //입력에 따른 예외처리 조건문 필요
         //Scanner inputreader = new Scanner(System.in);
-        String genreinput = args[0].toLowerCase().trim();
-        String[] multiinput;
-        boolean A;
-        ArrayList<String> inputlist =new ArrayList<String>();
-        //ArrayList<String> uncombinelist = new ArrayList<String>();
+         //////////////////////////////////////
+       // check genre input validity start //
+       //////////////////////////////////////
+       //Scanner inputreader = new Scanner(System.in);
 
-        do {
-            A = true;
-            //System.out.print("Enter the genre of the movie for which you want to know the rating : ");
-            //genreinput = inputreader.nextLine().toLowerCase().trim();
-            multiinput = genreinput.split("\\|");
-
-<<<<<<< HEAD
-            //System.out.println(multiinput.length);
-
-            for (int i = 0; i < multiinput.length; i++) {
-                if (multiinput[i].trim().length() > 0) {
-                    //System.out.println("test");
-                    if (i == multiinput.length - 1) {
-
-                        ArrayList<String> uncombinelist = new ArrayList<String>();
-                        //System.out.println("test2");
-                        for(int j=0; j<multiinput.length;j++){
-                            inputlist.add(multiinput[j].trim());
-                        }
-                        //System.out.println(inputlist);
-                        for(Map.Entry<String, HashMap<String, ArrayList<Integer>>> Iter : Rating.entrySet()){
-                            String[] uncombined = Iter.getKey().split("\\|");
-                            for(int k=0;k< uncombined.length;k++){
-                                uncombinelist.add(uncombined[k].trim());
-                            }
-                            if(uncombinelist.containsAll(inputlist)){
-                                A=false;
-                                break;
-                            }
-                            uncombinelist.clear();
-                        }
-                        if(A){
-                            System.out.println("\nINPUT_ERROR: Movie for the entered genre(s) doesn't exist\n");
-                            System.exit(0);
-                            inputlist.clear();
-                        }
-                    }
-                }
-                else {
-                    System.out.println("\nINPUT_ERROR: Invalid input\n");
-                    System.exit(0);
-                    break;
-                }
-            }
-        }while(A);
-=======
        String genreinput=args[0].toLowerCase().trim();;
        String[] multiinput = null;
        boolean A;
@@ -222,7 +184,6 @@ public class project {
        /////////////////////////////////////
        // check genre input validity end ///
        ////////////////////////////////////
->>>>>>> 3567538... push with .gitignore
 
         // 2. 장르의 조합이 없을경우 오류문구 출력 + 질문 재출력 -> 완료
         // 3. 대소문자 구분없이 비교 -> 완료
@@ -233,20 +194,10 @@ public class project {
         // 대형버그 : adventure는 a를 포함해서 a만 입력해도 인식해버리는 상황 발생 -> 완료
 
         String occupationinput = args[1].toLowerCase().trim();
-        /*
-        do{
-            System.out.print("\nEnter the occupation : ");
-            occupationinput= inputreader.nextLine().toLowerCase().trim();
-            if(occupationinput=="") {
-                System.out.println("Invalid input!");
-            }
-        }while(occupationinput=="");
-         */
-        // 3. 띄어쓰기 없어도 인식하게 할것
-        // 4. 아무것도 입력 안 했을때 -> 완료
-
         String OccupationNumber = null;
-        switch (occupationinput){
+        
+        switch (occupationinput)
+        {
             case "academic":
             case "educator":
                 OccupationNumber = "1";
@@ -321,24 +272,30 @@ public class project {
             default:
                 OccupationNumber = "0";
         }
-        //System.out.println(OccupationNumber);
 
-        //ERROR : 해당하는 직업군 이름이 없을 경우
-        if (OccupationNumber == "0"){
-            System.out.println("\nINPUT_ERROR: Entered occupation doesn't exist\n");
-            System.exit(0);
+        //해당하는 직업군 이름이 없을 경우, 경고문구와 함께 others 점수 출력 
+        if (OccupationNumber == "0")
+        {
+            if(occupationinput != "other")
+        	{
+            	System.out.println("\nINPUT_WWAN: Entered occupation doesn't exist in DB. shown rating is rated by other.\n");
+        	}
         }
 
         double fullrating = 0;
         double fullcount = 0;
         ArrayList<String> uncombinelists = new ArrayList<String>();
-        for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()) {
+        for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()) 
+        {
             String[] uncombined = Iter.getKey().split("\\|");
-            for (int k = 0; k < uncombined.length; k++) {
+            for (int k = 0; k < uncombined.length; k++) 
+            {
                 uncombinelists.add(uncombined[k].trim());
             }
-            if (uncombinelists.containsAll(inputlist)) {
-                if (Iter.getValue().containsKey(OccupationNumber)) {
+            if (uncombinelists.containsAll(inputlist)) 
+            {
+                if (Iter.getValue().containsKey(OccupationNumber)) 
+                {
                     fullrating += (double) Iter.getValue().get(OccupationNumber).get(0);
                     fullcount += (double) Iter.getValue().get(OccupationNumber).get(1);
                 }
@@ -347,11 +304,6 @@ public class project {
         }
 
         //double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
-<<<<<<< HEAD
-        double CalculatedInput = fullrating/fullcount;
-        //System.out.printf("\nThe rating of %s rated by %s : %.2f", genreinput, occupationinput, CalculatedInput);
-        System.out.printf("%.2f", CalculatedInput);
-=======
         if(fullcount!=0)
         {
         	double CalculatedInput = fullrating/fullcount;
@@ -362,6 +314,5 @@ public class project {
         	System.out.println("\nNO DATA: Your genre input is valid. but there is no rating which has all matched genres and occupation.\n");
         }
         System.out.println("");
->>>>>>> 3567538... push with .gitignore
     }
 }
