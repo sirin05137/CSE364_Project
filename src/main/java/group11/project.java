@@ -276,7 +276,8 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
         //해당하는 직업군 이름이 없을 경우, 경고문구와 함께 others 점수 출력 
         if (OccupationNumber == "0")
         {
-            if(occupationinput != "other")
+            //if(occupationinput != "other")
+            if(!occupationinput.trim().equals("other"))
         	{
             	System.out.println("\nINPUT_WWAN: Entered occupation doesn't exist in DB. shown rating is rated by other.\n");
         	}
