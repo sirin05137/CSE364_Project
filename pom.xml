@@ -122,7 +122,7 @@
                     <encoding>${encoding}</encoding>
                     <verbose>true</verbose>
                     <fork>true</fork>
-                    <executable>"$JAVA_HOME"/bin/javac</executable>
+                    <!--<executable>"$JAVA_HOME"/bin/javac</executable>-->
                 </configuration>
             </plugin>
             <plugin>

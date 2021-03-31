@@ -11,6 +11,8 @@
   * [Examples](#examples)
   * [Supported Inputs](#supported-inputs)
   * [Rules for the Inputs](#rules-for-the-inputs)
+  * [Combination of Multiple Genres as an Input](#combination-of-multiple-genres-as-an-input)
+  * [Error Codes](#error-codes)
 * [Contribution by Area](#contribution-by-area)
   * [Milestone 1](#milestone-1)
   * Milestone 2
@@ -119,7 +121,7 @@ java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Animation Doctor
 |Doctor _(Healthcare)_                        |                      |                 |                     |   
 
 
-#### Rules for the Inputs
+### Rules for the Inputs
 * The spelling of the inputs **must be** correct.
   ```ruby
   Action    // Supported
@@ -143,14 +145,27 @@ java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Animation Doctor
   SciFi     // X
   ```
 
-#### Combinations of multiple genres as an input
-* In order to get the average rating of the movies that fall into a combination of **multiple genres**, connect the words with **the pipeline with the backslash ahead of it ('\\|')**.
+### Combination of Multiple Genres as an Input
+* In order to get the average rating of the movies that fall into a combination of **multiple genres**, connect the words with **the pipeline('\\|')** and **enclosed by double quotation marks(" ")**.
   ```ruby
-  Action|Adventure              // X
-  Action\|Adventure             // Supported
-  Action\|Adventure\|Animation  //Supported
+  Action|Adventure               // X
+  Action|Adventure|              // X
+  "Action|Adventure"             // Supported
+  "Action|Adventure|Animation"   //Supported
   ```
-  * In case of `Action\|Adventure`, the movies that fall into **both** Action **and** Adventure category are used for the calculation.
+  * In case of `"Action|Adventure"`, the movies that fall into **both** Action **and** Adventure category are used for the calculation.
+  * Combination of multiple occupations are not supported.
+
+### Error Codes
+Possible errors thrown by invalid user input.
+
+| Error | Code | Message | Description |
+| --- | --- | --- | --- |
+| INPUT_ERROR | 1 | Emtpy input! | Thrown when no input is entered.|
+| INPUT_ERROR | 2 | is invalid! | Thrown when entered inputs are invalid. |
+| INPUT_ERROR:| 3 | genre input *input_string*  | is invalid genre. |
+| INPUT_WWAN | 4 | Entered occupation doesn't exist in DB. shown rating is rated by other. |
+| NO_DATA | 5 | Your genre input is valid. but there is no rating which has all matched genres and occupation. |
 
 
 ## Contribution by Area
@@ -165,8 +180,10 @@ Youngjun Kwak
 
 ### Java Implementation
 **Models and Data Structures** - 👑 Youngjun Kwak
-**Exception Handling** - Sanghun Lee, Youngjun Kwak
+**Exception Handling** - 👑 Sanghun Lee, Youngjun Kwak
 **Unit Test Building** - Yujin Lee
+**Final Reviewer** - Sanghun Lee
+
 
 ### Documentation
 **READ.ME** - 👑 Yujin Lee, Sanghun Lee
