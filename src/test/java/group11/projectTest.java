@@ -2,6 +2,7 @@ package group11;
 
 import junitparams.FileParameters;
 import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import junitparams.mappers.CsvWithHeaderMapper;
 import org.junit.After;
 import org.junit.Before;
@@ -39,7 +40,7 @@ public class projectTest extends project {
     // System.out.printf("\nThe rating of %s rated by %s : %.2f", genreinput, occupationinput, CalculatedInput);
     // 이로 수정해주세요 :
     // System.out.printf("\n%.2f", CalculatedInput);
-    @Test거
+    @Test
     @FileParameters(value = "src/test/resources/test1genre.csv", mapper = CsvWithHeaderMapper.class)
      public void test1genre(String genre, String occupation, String expected) throws IOException {
         String[] args = new String[2];
@@ -69,6 +70,7 @@ public class projectTest extends project {
         assertEquals(expected, outContent.toString());
     }
 
+    //Error code test cases
 
     @After
     public void restoreStreams() {
