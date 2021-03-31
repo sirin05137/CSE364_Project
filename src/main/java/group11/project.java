@@ -8,15 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class project {
-    static HashMap<String,String> InputMap(String args, int a) throws IOException{
+public class project 
+{
+    static HashMap<String,String> InputMap(String args, int a) throws IOException
+    {
         HashMap<String,String> givendata = new HashMap<String,String>();
         BufferedReader getdata = new BufferedReader(new FileReader(args));
-        while (true){
+        while (true)
+        {
             String line = getdata.readLine();
-            if (line==null) {
+            if (line==null) 
                 break;
-            }
             //System.out.println(line);
             String[] word = line.split("::");
             givendata.put(word[0],word[a].toLowerCase());  //value is string type not integer
@@ -24,9 +26,11 @@ public class project {
         getdata.close();
         return givendata;
     }
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException
+    {
 
-        if (args.length != 2){
+        if (args.length != 2)
+        {
             System.out.println("\nINPUT_ERROR: 2 arguments needed (inputStr1 inputStr2)\n");
             System.exit(0);
         }
@@ -50,29 +54,33 @@ public class project {
         HashMap<String, HashMap<String, ArrayList<Integer>>> Rating = new HashMap<String, HashMap<String, ArrayList<Integer>>>();
         BufferedReader getrating = new BufferedReader(new FileReader("data/ratings.dat"));
 
-        while (true) {
+        while (true) 
+        {
             HashMap<String, ArrayList<Integer>> innermap = new HashMap<String, ArrayList<Integer>>();
             ArrayList<Integer> innerlist = new ArrayList<Integer>();
             String line = getrating.readLine();
-            if (line == null) {
+            if (line == null) 
                 break;
-            }
             String[] word = line.split("::" );
 
-            if(Rating.containsKey(Genres.get(word[1]))){
-                if(Rating.get(Genres.get(word[1])).containsKey(Occupation.get(word[0]))){
+            if(Rating.containsKey(Genres.get(word[1])))
+            {
+                if(Rating.get(Genres.get(word[1])).containsKey(Occupation.get(word[0])))
+                {
                     int a = Rating.get(Genres.get(word[1])).get(Occupation.get(word[0])).get(0) + Integer.parseInt(word[2]);
                     Rating.get(Genres.get(word[1])).get(Occupation.get(word[0])).set(0,a);
                     int b = Rating.get(Genres.get(word[1])).get(Occupation.get(word[0])).get(1);
                     Rating.get(Genres.get(word[1])).get(Occupation.get(word[0])).set(1,b+1);
                 }
-                else {
+                else 
+                {
                     Rating.get(Genres.get(word[1])).put(Occupation.get(word[0]), innerlist);
                     innerlist.add(0, Integer.parseInt(word[2]));
                     innerlist.add(1, 1);
                 }
             }
-            else{
+            else
+            {
                 Rating.put(Genres.get(word[1]), innermap);
                 innermap.put(Occupation.get(word[0]), innerlist);
                 innerlist.add(0,Integer.parseInt(word[2]));
@@ -94,19 +102,21 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
        // check genre input validity start //
        //////////////////////////////////////
        //Scanner inputreader = new Scanner(System.in);
+
        String genreinput=args[0].toLowerCase().trim();;
        String[] multiinput = null;
        boolean A;
        ArrayList<String> inputlist =new ArrayList<String>();
        int input_validity_counter = 0;
-       int validity_position[] = {
-       do {
+       
+       do 
+       {
     	   input_validity_counter =0;
            A = true;
            //System.out.print("\nEnter the genre of the movie for which you want to know the rating : ");
            //genreinput = inputreader.nextLine().toLowerCase();
            //genreinput = genreinput.replace(" ", ""); //remove all spaces
-           multiinput = genreinput.split("|");
+           multiinput = genreinput.split("\\|");
            //System.out.print("\nmultiinput.length:");
            //System.out.print(multiinput.length);
            //System.out.print("\n");
@@ -115,7 +125,7 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
            if (genreinput.trim().length() <=0)
         	   {
         	   	input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
-        		System.out.println("\n Emtpy input! .\n");
+        		System.out.println("\\nINPUT_ERROR: Emtpy input! .\n");
         		System.exit(0);
         	   }
            // check input has "|" as last character.             
@@ -124,40 +134,43 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
                if(genreinput.trim().charAt(genreinput.length()-1)=='|')
                { 
             	   input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
-            	   System.out.println("\n | is invalid! \n");
+            	   System.out.println("\nINPUT_ERROR: | is invalid! \n");
             	   System.exit(0);
                }
            }
            //check empty input surround '|'  (eg.  "|academic", "academic||engineer")
-           for (int i = 0; i < multiinput.length; i++) {
-          		if (multiinput[i].isBlank()) {
+           for (int i = 0; i < multiinput.length; i++) 
+           {
+          		if (multiinput[i].isBlank()) 
+          		{
               		 //System.out.print("\n empty input \n");
           			input_validity_counter=-99; //invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
-          			System.out.println("\n | is invalid! \n");
+          			System.out.println("\nINPUT_ERROR: input | is invalid! \n");
           			System.exit(0);
               		break;
               	}
            }
            
            //comapre input with dbgenre. if input exist in the dbgenre, input_validity_counter++;
-           for (int i = 0; i < multiinput.length; i++) {
-        	   //System.out.print("\nmultiinput:");
-        	   //System.out.print(multiinput[i]);
-           		for(int j=0; j< dbgenre.length; j++) {
-           			if( multiinput[i].contentEquals(dbgenre[j])) {
+           for (int i = 0; i < multiinput.length; i++) 
+           {
+           		for(int j=0; j< dbgenre.length; j++) 
+           		{
+           			if( multiinput[i].contentEquals(dbgenre[j])) 
+           			{
            				input_validity_counter++;
-           				//System.out.print("\n input_vailidity_counter:");
-           				//System.out.print(input_vailidity_counter);
-           				//System.out.print("\n");
+           				//System.out.print("\n genre input matched");
            				break;
            			}
-           			System.out.println("\nINPUT_ERROR: genre input ");
-           			System.out.println(multiinput[i]);
-           			System.out.println(" is invalid genre. \n");
-           			System.exit(0);
-           		}	
+           		}
+           		if(input_validity_counter != i+1)
+           		{
+           			System.out.print("\nINPUT_ERROR: genre input ");
+           			System.out.print(multiinput[i]);
+           			System.out.print(" is invalid genre. \n");
+       				System.exit(0);
+           		}
            }
-           
            if (input_validity_counter == multiinput.length) 
            {
         	   A=false;
@@ -166,17 +179,6 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
         		   inputlist.add(multiinput[j].trim());
                }
            }
-           
- //          else
-//    	   {
-  //      	   System.out.println("\nINPUT_ERROR: \n");
-  //             System.exit(0);
-   //            inputlist.clear();
-    //	   }
-           //if(A)
-           //{
-           //   System.out.println("\nPlease z.\n");
-           //}
        }while(A);
        
        /////////////////////////////////////
@@ -192,20 +194,10 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
         // 대형버그 : adventure는 a를 포함해서 a만 입력해도 인식해버리는 상황 발생 -> 완료
 
         String occupationinput = args[1].toLowerCase().trim();
-        /*
-        do{
-            System.out.print("\nEnter the occupation : ");
-            occupationinput= inputreader.nextLine().toLowerCase().trim();
-            if(occupationinput=="") {
-                System.out.println("Invalid input!");
-            }
-        }while(occupationinput=="");
-         */
-        // 3. 띄어쓰기 없어도 인식하게 할것
-        // 4. 아무것도 입력 안 했을때 -> 완료
-
         String OccupationNumber = null;
-        switch (occupationinput){
+        
+        switch (occupationinput)
+        {
             case "academic":
             case "educator":
                 OccupationNumber = "1";
@@ -280,27 +272,30 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
             default:
                 OccupationNumber = "0";
         }
-        //System.out.println(OccupationNumber);
 
-        //ERROR : 해당하는 직업군 이름이 없을 경우
+        //해당하는 직업군 이름이 없을 경우, 경고문구와 함께 others 점수 출력 
         if (OccupationNumber == "0")
         {
             if(occupationinput != "other")
         	{
-            	System.out.println("\nINPUT_WWAN: Entered occupation doesn't exist in DB. shown rating is from other.\n");
+            	System.out.println("\nINPUT_WWAN: Entered occupation doesn't exist in DB. shown rating is rated by other.\n");
         	}
         }
 
         double fullrating = 0;
         double fullcount = 0;
         ArrayList<String> uncombinelists = new ArrayList<String>();
-        for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()) {
+        for(Map.Entry<String,HashMap<String,ArrayList<Integer>>> Iter : Rating.entrySet()) 
+        {
             String[] uncombined = Iter.getKey().split("\\|");
-            for (int k = 0; k < uncombined.length; k++) {
+            for (int k = 0; k < uncombined.length; k++) 
+            {
                 uncombinelists.add(uncombined[k].trim());
             }
-            if (uncombinelists.containsAll(inputlist)) {
-                if (Iter.getValue().containsKey(OccupationNumber)) {
+            if (uncombinelists.containsAll(inputlist)) 
+            {
+                if (Iter.getValue().containsKey(OccupationNumber)) 
+                {
                     fullrating += (double) Iter.getValue().get(OccupationNumber).get(0);
                     fullcount += (double) Iter.getValue().get(OccupationNumber).get(1);
                 }
@@ -309,8 +304,15 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
         }
 
         //double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
-        double CalculatedInput = fullrating/fullcount;
-        System.out.printf("\nThe rating of %s rated by %s : %.2f", genreinput, occupationinput, CalculatedInput);
-
+        if(fullcount!=0)
+        {
+        	double CalculatedInput = fullrating/fullcount;
+        	System.out.printf("\nThe rating of %s rated by %s : %.2f", genreinput, occupationinput, CalculatedInput);
+        }
+        else
+        {
+        	System.out.println("\nYour genre input is valid. but there is no rating which has all matched genres and occupation.\n");
+        }
+        System.out.println("");
     }
 }
