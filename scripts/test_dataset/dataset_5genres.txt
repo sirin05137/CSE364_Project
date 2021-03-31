@@ -1,0 +1,13 @@
+Action|Adventure|Animation|Children's|Fantasy
+Action|Adventure|Animation|Horror|Sci-Fi
+Action|Adventure|Comedy|Horror|Sci-Fi
+Action|Adventure|Drama|Sci-Fi|War
+Action|Adventure|Romance|Sci-Fi|War
+Action|Adventure|Sci-Fi|Thriller|War
+Action|Comedy|Crime|Horror|Thriller
+Action|Drama|Mystery|Romance|Thriller
+Adventure|Animation|Children's|Comedy|Fantasy
+Adventure|Animation|Children's|Comedy|Musical
+Adventure|Children's|Comedy|Fantasy|Romance
+Adventure|Children's|Comedy|Fantasy|Sci-Fi
+Animation|Children's|Comedy|Musical|Romance
