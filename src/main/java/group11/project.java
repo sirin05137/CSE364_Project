@@ -101,6 +101,7 @@ public class project {
             //genreinput = inputreader.nextLine().toLowerCase().trim();
             multiinput = genreinput.split("\\|");
 
+<<<<<<< HEAD
             //System.out.println(multiinput.length);
 
             for (int i = 0; i < multiinput.length; i++) {
@@ -139,6 +140,89 @@ public class project {
                 }
             }
         }while(A);
+=======
+       String genreinput=args[0].toLowerCase().trim();;
+       String[] multiinput = null;
+       boolean A;
+       ArrayList<String> inputlist =new ArrayList<String>();
+       int input_validity_counter = 0;
+       
+       do 
+       {
+    	   input_validity_counter =0;
+           A = true;
+           //System.out.print("\nEnter the genre of the movie for which you want to know the rating : ");
+           //genreinput = inputreader.nextLine().toLowerCase();
+           //genreinput = genreinput.replace(" ", ""); //remove all spaces
+           multiinput = genreinput.split("\\|");
+           //System.out.print("\nmultiinput.length:");
+           //System.out.print(multiinput.length);
+           //System.out.print("\n");
+           
+           //check empty input (eg. "", "|" )
+           if (genreinput.trim().length() <=0)
+        	   {
+        	   	input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
+        		System.out.println("\nINPUT_ERROR: Emtpy input! .\n");
+        		System.exit(0);
+        	   }
+           // check input has "|" as last character.             
+           else 
+           {
+               if(genreinput.trim().charAt(genreinput.length()-1)=='|')
+               { 
+            	   input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
+            	   System.out.println("\nINPUT_ERROR: | is invalid! \n");
+            	   System.exit(0);
+               }
+           }
+           //check empty input surround '|'  (eg.  "|academic", "academic||engineer")
+           for (int i = 0; i < multiinput.length; i++) 
+           {
+          		if (multiinput[i].isBlank()) 
+          		{
+              		 //System.out.print("\n empty input \n");
+          			input_validity_counter=-99; //invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
+          			System.out.println("\nINPUT_ERROR: input | is invalid! \n");
+          			System.exit(0);
+              		break;
+              	}
+           }
+           
+           //comapre input with dbgenre. if input exist in the dbgenre, input_validity_counter++;
+           for (int i = 0; i < multiinput.length; i++) 
+           {
+           		for(int j=0; j< dbgenre.length; j++) 
+           		{
+           			if( multiinput[i].contentEquals(dbgenre[j])) 
+           			{
+           				input_validity_counter++;
+           				//System.out.print("\n genre input matched");
+           				break;
+           			}
+           		}
+           		if(input_validity_counter != i+1)
+           		{
+           			System.out.print("\nINPUT_ERROR: genre input ");
+           			System.out.print(multiinput[i]);
+           			System.out.print(" is invalid genre. \n");
+       				System.exit(0);
+           		}
+           }
+           if (input_validity_counter == multiinput.length) 
+           {
+        	   A=false;
+        	   for(int j=0; j<multiinput.length;j++)
+        	   {
+        		   inputlist.add(multiinput[j].trim());
+               }
+           }
+       }while(A);
+       
+       /////////////////////////////////////
+       // check genre input validity end ///
+       ////////////////////////////////////
+>>>>>>> 3567538... push with .gitignore
 
         // 2. 장르의 조합이 없을경우 오류문구 출력 + 질문 재출력 -> 완료
         // 3. 대소문자 구분없이 비교 -> 완료
@@ -263,8 +347,21 @@ public class project {
         }
 
         //double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
+<<<<<<< HEAD
         double CalculatedInput = fullrating/fullcount;
         //System.out.printf("\nThe rating of %s rated by %s : %.2f", genreinput, occupationinput, CalculatedInput);
         System.out.printf("%.2f", CalculatedInput);
+=======
+        if(fullcount!=0)
+        {
+        	double CalculatedInput = fullrating/fullcount;
+        	System.out.printf("\nThe rating of %s rated by %s : %.2f", genreinput, occupationinput, CalculatedInput);
+        }
+        else
+        {
+        	System.out.println("\nNO DATA: Your genre input is valid. but there is no rating which has all matched genres and occupation.\n");
+        }
+        System.out.println("");
+>>>>>>> 3567538... push with .gitignore
     }
 }
