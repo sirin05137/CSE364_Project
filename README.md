@@ -33,7 +33,9 @@ This is a movie recommendation system.
 * Ubuntu 20.04
 * [Oracle JDK 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 * [Apache Maven 3.6.3](https://maven.apache.org/download.cgi)
+  * [Maven dependency tree](scripts/mvn_dependency_tree.txt)
 * [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) _(for the developers)_
+
 
 ### Repository Structure
 ```bash
