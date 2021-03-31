@@ -93,37 +93,48 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
          //////////////////////////////////////
        // check genre input validity start //
        //////////////////////////////////////
-       Scanner inputreader = new Scanner(System.in);
-       String genreinput;
+       //Scanner inputreader = new Scanner(System.in);
+       String genreinput=args[0].toLowerCase().trim();;
        String[] multiinput = null;
        boolean A;
        ArrayList<String> inputlist =new ArrayList<String>();
        int input_validity_counter = 0;
-
+       int validity_position[] = {
        do {
     	   input_validity_counter =0;
            A = true;
-           System.out.print("\nEnter the genre of the movie for which you want to know the rating : ");
-           genreinput = inputreader.nextLine().toLowerCase();
-           genreinput = genreinput.replace(" ", ""); //remove all spaces
-           multiinput = genreinput.split("\\|");
+           //System.out.print("\nEnter the genre of the movie for which you want to know the rating : ");
+           //genreinput = inputreader.nextLine().toLowerCase();
+           //genreinput = genreinput.replace(" ", ""); //remove all spaces
+           multiinput = genreinput.split("|");
            //System.out.print("\nmultiinput.length:");
            //System.out.print(multiinput.length);
            //System.out.print("\n");
            
            //check empty input (eg. "", "|" )
-           if (genreinput.length() <=0)
-        	   input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
+           if (genreinput.trim().length() <=0)
+        	   {
+        	   	input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
+        		System.out.println("\n Emtpy input! .\n");
+        		System.exit(0);
+        	   }
            // check input has "|" as last character.             
-           else {
-               if(genreinput.charAt(genreinput.length()-1)=='|')
+           else 
+           {
+               if(genreinput.trim().charAt(genreinput.length()-1)=='|')
+               { 
             	   input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
+            	   System.out.println("\n | is invalid! \n");
+            	   System.exit(0);
+               }
            }
            //check empty input surround '|'  (eg.  "|academic", "academic||engineer")
            for (int i = 0; i < multiinput.length; i++) {
           		if (multiinput[i].isBlank()) {
               		 //System.out.print("\n empty input \n");
           			input_validity_counter=-99; //invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
+          			System.out.println("\n | is invalid! \n");
+          			System.exit(0);
               		break;
               	}
            }
@@ -140,19 +151,34 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
            				//System.out.print("\n");
            				break;
            			}
+           			System.out.println("\nINPUT_ERROR: genre input ");
+           			System.out.println(multiinput[i]);
+           			System.out.println(" is invalid genre. \n");
+           			System.exit(0);
            		}	
            }
-           if (input_validity_counter == multiinput.length) {
-        		A=false;
-        		 for(int j=0; j<multiinput.length;j++){
-                     inputlist.add(multiinput[j]);
-                 }
-        	}
-               if(A){
-               	System.out.println("\nINPUT INVALID!.\n");
-                   }
+           
+           if (input_validity_counter == multiinput.length) 
+           {
+        	   A=false;
+        	   for(int j=0; j<multiinput.length;j++)
+        	   {
+        		   inputlist.add(multiinput[j].trim());
+               }
+           }
+           
+ //          else
+//    	   {
+  //      	   System.out.println("\nINPUT_ERROR: \n");
+  //             System.exit(0);
+   //            inputlist.clear();
+    //	   }
+           //if(A)
+           //{
+           //   System.out.println("\nPlease z.\n");
+           //}
        }while(A);
-       System.out.println("\nINPUT VALID!.\n");
+       
        /////////////////////////////////////
        // check genre input validity end ///
        ////////////////////////////////////
@@ -257,9 +283,12 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
         //System.out.println(OccupationNumber);
 
         //ERROR : 해당하는 직업군 이름이 없을 경우
-        if (OccupationNumber == "0"){
-            System.out.println("\nINPUT_ERROR: Entered occupation doesn't exist\n");
-            System.exit(0);
+        if (OccupationNumber == "0")
+        {
+            if(occupationinput != "other")
+        	{
+            	System.out.println("\nINPUT_WWAN: Entered occupation doesn't exist in DB. shown rating is from other.\n");
+        	}
         }
 
         double fullrating = 0;
