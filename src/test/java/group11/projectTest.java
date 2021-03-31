@@ -1,3 +1,6 @@
+
+/*---- PLEASE GO TO END TO REMOVE THIS
+
 package group11;
 
 import junitparams.JUnitParamsRunner;
@@ -64,20 +67,6 @@ public class projectTest extends project {
         project.main(args);
         assertEquals(expected, String.valueOf(outContent));
     }
-    /* 이전버전(현재 오류)
-    @Test
-    @FileParameters(value = "src/test/resources/testMultiple.csv", mapper = CsvWithHeaderMapper.class)
-    public void testMultiple(String genre, String occupation, String expected) throws IOException {
-        String[] args = new String[2];
-        args[0] = genre.toLowerCase().trim();
-        args[1] = occupation.toLowerCase().trim();
-
-        project.main(args);
-        double result = Double.parseDouble(String.valueOf(outContent));
-        assertEquals(expected, result);
-    }
-    */
-
 
     @After
     public void restoreStreams() {
@@ -86,3 +75,5 @@ public class projectTest extends project {
     }
 
 }
+
+------ END OF LINE */
