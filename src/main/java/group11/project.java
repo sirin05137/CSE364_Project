@@ -103,7 +103,7 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
        //////////////////////////////////////
        //Scanner inputreader = new Scanner(System.in);
 
-       String genreinput=args[0].toLowerCase().trim();;
+       String genreinput=args[0].toLowerCase().trim();
        String[] multiinput = null;
        boolean A;
        ArrayList<String> inputlist =new ArrayList<String>();
