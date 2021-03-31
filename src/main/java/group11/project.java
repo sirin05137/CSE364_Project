@@ -125,7 +125,7 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
            if (genreinput.trim().length() <=0)
         	   {
         	   	input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
-        		System.out.println("\\nINPUT_ERROR: Emtpy input! .\n");
+        		System.out.println("\nINPUT_ERROR: Emtpy input! .\n");
         		System.exit(0);
         	   }
            // check input has "|" as last character.             
@@ -311,7 +311,7 @@ String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","cr
         }
         else
         {
-        	System.out.println("\nYour genre input is valid. but there is no rating which has all matched genres and occupation.\n");
+        	System.out.println("\nNO DATA: Your genre input is valid. but there is no rating which has all matched genres and occupation.\n");
         }
         System.out.println("");
     }
