@@ -85,7 +85,11 @@ root@containerID:~/project# java -cp target/cse364-project-1.0-SNAPSHOT.jar grou
 ```
 
 ### Examples
+<<<<<<< HEAD
 Some Input / Output example pairs :
+=======
+When valid inputs are passed, the output message will look like this :
+>>>>>>> 09b0024... Updated Printing format, README
 ```ruby
 // Input
 java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Adventure Educator
@@ -161,6 +165,7 @@ java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Animation Doctor
 ### Error Codes
 Possible errors thrown by invalid user input.
 
+<<<<<<< HEAD
 | Error | Code | Message | Description |
 | --- | --- | --- | --- |
 | INPUT_ERROR | 1 | Emtpy input! | Thrown when no input is entered.|
@@ -168,6 +173,95 @@ Possible errors thrown by invalid user input.
 | INPUT_ERROR:| 3 | genre input *input_string*  | is invalid genre. |
 | INPUT_WWAN | 4 | Entered occupation doesn't exist in DB. shown rating is rated by other. |
 | NO_DATA | 5 | Your genre input is valid. but there is no rating which has all matched genres and occupation. |
+=======
+##### **Table 1** Invalid input errors
+
+| Error | Code | Message | Description | 
+| :---: | :---: | --- | --- |
+| `InputEmptyError` | 1 | No argument has passed. 2 arguments are required. (InputStr1 InputStr2) | Thrown when no input has entered.
+| `InputNumError` | 2 | Only 1 input has passed. 2 arguments are required. | Thrown when only 1 input has entered.
+| `InputNumError` | 3 | More than 2 arguments have passed. 2 arguments are required. | Thrown when more than 2 inputs have entered.
+| `InputInvalidError` | 4 | Entered genre input is invalid | Thrown when the entered genre (combination) is invalid.
+| `InputInvalidError` | 5 | Entered genre (_*inputString*_) doesn't exist. ( Invalid word : *input_string* ) | Thrown when the word in the entered genre (**OR** the word in genre combination) is invalid.
+
+##### **Table 2** Invalid input warning
+
+| Warning | Code | Message | Description | 
+| :---: | :---: | --- | --- |
+| `InputInvalidWarning` | 6 | Entered occupation doesn't exist. Rating by 'other' is shown instead. |  Thrown when the 2nd input is invalid.
+
+##### **Table 3** No data exist error
+
+| Error  | Code | Message | Description | 
+| :---: | :---: | --- | --- |
+| `NoDBError` | 7 | Rating data matching the input pair doesn't exist. | Thrown when there's no available Rating data for the genre-occupation pair **OR** When there's no Movie data matching the entered genre (combination).
+
+* If the system is terminated with the error code listed above, the system exit status is `1`.
+
+### Examples for error codes
+#### Error code : 1~3
+
+```ruby
+% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project 
+
+InputEmptyError : No argument has passed. 2 arguments are required. (InputStr1 InputStr2)
+Error code: 1
+
+% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Drama
+
+InputNumError : Only 1 input has passed. 2 arguments are required.
+Error code: 2
+
+% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Drama Scientist Scientist
+
+InputNumError : More than 2 arguments have passed. 2 arguments are required.
+Error code: 3
+```
+
+#### Error code: 4
+```ruby
+% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project "|Adventure|Action" Scientist          
+
+InputInvalidError : Entered genre input is invalid.
+Error code: 4
+
+% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project "Adventure|Action|" Scientist 
+
+InputInvalidError : Entered genre input is invalid.
+Error code: 4
+```
+
+#### Error code: 5
+```ruby
+% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project "Adventure|Action|Horrrror" Scientist
+
+InputInvalidError : Entered genre (horrrror) doesn't exist.
+Error code: 5
+```
+#### Error code: 6
+```ruby
+% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Adventure Librarian                  
+
+InputInvalidWarning : Entered occupation doesn't exist. Rating by 'other' is shown instead.
+
+The rating of adventure rated by other : 3.43
+```
+
+#### Error code: 7
+```ruby
+% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project "War|Crime" Academic  
+
+NoDBError : Rating data matching the input pair doesn't exist.
+Error code: 7
+
+% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project "Action|Animation|Children's|Sci-Fi|Thriller|War" retired
+
+NoDBError : Rating data matching the input pair doesn't exist.
+Error code: 7
+```
+* `"War|Crime" Academic` : Example for No Movie data matching the entered genre (combination).
+* `"Action|Animation|Children's|Sci-Fi|Thriller|War" retired` : Example for No available Rating data for the genre-occupation input pair.
+>>>>>>> 09b0024... Updated Printing format, README
 
 
 ## Contribution by Area

@@ -29,10 +29,22 @@ public class project
     public static void main(String[] args) throws IOException
     {
 
-        if (args.length != 2)
-        {
-            System.out.println("\nINPUT_ERROR: 2 arguments needed (inputStr1 inputStr2)\n");
-            System.exit(0);
+        if (args.length != 2) {
+            if (args.length == 0){
+                System.out.println("\nInputEmptyError : No argument has passed. 2 arguments are required. (InputStr1 InputStr2)");
+                System.out.println("Error code: 1\n");
+                System.exit(1);
+            }
+            else if (args.length == 1){
+                System.out.println("\nInputNumError : Only 1 input has passed. 2 arguments are required.");
+                System.out.println("Error code: 2\n");
+                System.exit(1);
+            }
+            else {
+                System.out.println("\nInputNumError : More than 2 arguments have passed. 2 arguments are required.");
+                System.out.println("Error code: 3\n");
+                System.exit(1);
+            }
         }
         //System.out.println(args[0]);
         //System.out.println(args[1]);
@@ -123,15 +135,17 @@ public class project
         //check empty input (eg. "", )
         if (genreinput.trim().length() <=0) {
             input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
-            System.out.println("\nINPUT_ERROR: Emtpy input! .\n");
-            System.exit(0);
+            System.out.println("\nInputEmptyError : No argument has passed. 2 arguments are required. (InputStr1 InputStr2)");
+            System.out.println("Error code: 1\n");
+            System.exit(1);
         }
         // check input has "|" as last character. (eg. "|", "comedy|")
         else {
             if(genreinput.trim().charAt(genreinput.length()-1)=='|') {
                 input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
-                System.out.println("\nINPUT_ERROR: | is invalid! \n");
-                System.exit(0);
+                System.out.println("\nInputInvalidError : Entered genre input is invalid.");
+                System.out.println("Error code: 4\n");
+                System.exit(1);
             }
         }
         //check empty input surround '|'  (eg.  "|academic", "academic||engineer")
@@ -139,8 +153,9 @@ public class project
             if (multiinput[i].isBlank()) {
                 //System.out.print("\n empty input \n");
                 input_validity_counter=-99; //invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
-                System.out.println("\nINPUT_ERROR: input | is invalid! \n");
-                System.exit(0);
+                System.out.println("\nInputInvalidError : Entered genre input is invalid.");
+                System.out.println("Error code: 4\n");
+                System.exit(1);
                 break;
             }
         }
@@ -172,8 +187,9 @@ public class project
         }
         else{
             bufer = bufer.substring(0, bufer.length()-2);
-            System.out.printf("\nINPUT_ERROR: Invalid genre input - %s\n",bufer);
-            System.exit(0);
+            System.out.printf("\nInputInvalidError : Entered genre (%s) doesn't exist.\n",bufer);
+            System.out.println("Error code: 5\n");
+            System.exit(1);
         }
         /////////////////////////////////////
         // check genre input validity end ///
@@ -267,13 +283,15 @@ public class project
                 OccupationNumber = "0";
         }
 
-        //해당하는 직업군 이름이 없을 경우, 경고문구와 함께 others 점수 출력 
+        //해당하는 직업군 이름이 없을 경우, 경고문구와 함께 others 점수 출력
+        int occuIsInvalid = 0;
         if (OccupationNumber == "0")
         {
             //if(occupationinput != "other")
             if(!occupationinput.trim().equals("other"))
         	{
-            	System.out.println("\nINPUT_WWAN: Entered occupation doesn't exist in DB. shown rating is rated by other.\n");
+            	occuIsInvalid = 1;
+        	    System.out.println("\nInputInvalidWarning : Entered occupation doesn't exist. Rating by 'other' is shown instead.");
         	}
         }
 
@@ -302,12 +320,19 @@ public class project
         //double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
         if(fullcount!=0)
         {
-        	double CalculatedInput = fullrating/fullcount;
-        	System.out.printf("\nThe rating of %s rated by %s : %.2f\n", genreinput, occupationinput, CalculatedInput);
-        }
+            double CalculatedInput = fullrating/fullcount;
+            if (occuIsInvalid == 1){ // InputInvalidWarning
+                System.out.printf("\nThe rating of %s rated by other : %.2f\n", genreinput, CalculatedInput);
+            }
+            else {
+                System.out.printf("\nThe rating of %s rated by %s : %.2f\n", genreinput, occupationinput, CalculatedInput);
+            }
+            }
         else
         {
-        	System.out.print("\nNO DATA: Your genre input is valid. but there is no rating which has all matched genres and occupation.\n");
+        	System.out.println("\nNoDBError : Rating data matching the input pair doesn't exist.");
+            System.out.println("Error code: 7\n");
+            System.exit(1);
         }
         System.out.println("");
     }
