@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class project 
 {
@@ -58,10 +57,9 @@ public class project
         //System.out.println(Genres);
 
         //rating data read
-        //double[][][] rating = new double[21][18][2]; 영화 장르가 2~3개인 경우가 았어서 이 방법은 불가능
-        //위에서 만든 해쉬맵을 참조하여 중첩맵을 생성, 중첩맵은 {장르 : {직업 : [평점, counter]}}를 나타냄
-        //중첩 map안에 Arraylist가 한번 더 들어가 있는 형태
-        //{장르 : {직업 : [평점, counter]}}에서 counter는 평점 average를 구하기 위한 초석. 앞선 중첩된 맵의 평점은 그저 같은 직업의 사람이 같은 장르의 영화에 대한 평점을 다 더한것. 평점/counter = 평균 평점
+        //Making nested hashmap which consist of {genre : {occupation : [rating, counter]}}
+        //Its shape is nested hashmap which contain arraylist.
+        //At {genre : {occupation : [rating, counter]}} shape, rating/counter = average rating.
 
         HashMap<String, HashMap<String, ArrayList<Integer>>> Rating = new HashMap<String, HashMap<String, ArrayList<Integer>>>();
         BufferedReader getrating = new BufferedReader(new FileReader("data/ratings.dat"));
@@ -100,16 +98,10 @@ public class project
             }
         }
         //System.out.println(Rating);
-        //숫자 좀 줄여서 제대로 만들어 지는지 테스트
 
-
-        /*String[] dboccupation= {"academic","educator","artist","clerical","admin","college student",
-                "grad student","customer service","doctor","health care","executive","managerial","farmer","homemaker",
-                "K-12 student","lawyer","programmer","retired","sales","marketing","scientist","self-employed",
-                "technician","engineer","tradesman","craftsman","unemployed","writer","other"};*/
         String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","crime","documentary","drama","fantasy","film-noir",
                             "horror","musical","mystery","romance","sci-fi","thriller","war","western", "other"};
-        //입력에 따른 예외처리 조건문 필요
+
         //Scanner inputreader = new Scanner(System.in);
         //////////////////////////////////////
         // check genre input validity start //
@@ -134,7 +126,7 @@ public class project
 
         //check empty input (eg. "", )
         if (genreinput.trim().length() <=0) {
-            input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
+            input_validity_counter=-99;//It indicate invalid input. -99 don't have meaning, just mean error.
             System.out.println("\nInputEmptyError : No argument has passed. 2 arguments are required. (InputStr1 InputStr2)");
             System.out.println("Error code: 1\n");
             System.exit(1);
@@ -142,7 +134,7 @@ public class project
         // check input has "|" as last character. (eg. "|", "comedy|")
         else {
             if(genreinput.trim().charAt(genreinput.length()-1)=='|') {
-                input_validity_counter=-99;//invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
+                input_validity_counter=-99;//It indicate invalid input. -99 don't have meaning, just mean error.
                 System.out.println("\nInputInvalidError : Entered genre input is invalid.");
                 System.out.println("Error code: 4\n");
                 System.exit(1);
@@ -152,7 +144,7 @@ public class project
         for (int i = 0; i < multiinput.length; i++) {
             if (multiinput[i].isBlank()) {
                 //System.out.print("\n empty input \n");
-                input_validity_counter=-99; //invalid input 임을 표지함. -99 수 자체에는 큰 의미 x
+                input_validity_counter=-99; //It indicate invalid input. -99 don't have meaning, just mean error.
                 System.out.println("\nInputInvalidError : Entered genre input is invalid.");
                 System.out.println("Error code: 4\n");
                 System.exit(1);
@@ -194,14 +186,6 @@ public class project
         /////////////////////////////////////
         // check genre input validity end ///
         ////////////////////////////////////
-
-        // 2. 장르의 조합이 없을경우 오류문구 출력 + 질문 재출력 -> 완료
-        // 3. 대소문자 구분없이 비교 -> 완료
-        // 4. 아무것도 입력 안했을때 -> 완료
-        // 5. delimiter랑 장르 사이에 빈칸있을때 -> 완료
-        // 6. split bug
-
-        // 대형버그 : adventure는 a를 포함해서 a만 입력해도 인식해버리는 상황 발생 -> 완료
 
         String occupationinput = args[1].toLowerCase().trim();
         String OccupationNumber = null;
@@ -283,11 +267,10 @@ public class project
                 OccupationNumber = "0";
         }
 
-        //해당하는 직업군 이름이 없을 경우, 경고문구와 함께 others 점수 출력
+        //If there is no corresponding occupational name, "other" rating will be printed along with a warning phrase.
         int occuIsInvalid = 0;
         if (OccupationNumber == "0")
         {
-            //if(occupationinput != "other")
             if(!occupationinput.trim().equals("other"))
         	{
             	occuIsInvalid = 1;
@@ -317,7 +300,6 @@ public class project
         }
         //System.out.println(fullcount);
         //System.out.println(fullrating);
-        //double CalculatedInput=(double)Rating.get(genreinput).get(OccupationNumber).get(0)/(double)Rating.get(genreinput).get(OccupationNumber).get(1);
         if(fullcount!=0)
         {
             double CalculatedInput = fullrating/fullcount;
