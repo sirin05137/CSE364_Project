@@ -13,6 +13,7 @@
   * [Rules for the Inputs](#rules-for-the-inputs)
   * [Combination of Multiple Genres as an Input](#combination-of-multiple-genres-as-an-input)
   * [Error Codes](#error-codes)
+  * [Examples for the Error Codes](#examples-for-the-error-codes)
 * [Contribution by Area](#contribution-by-area)
   * [Milestone 1](#milestone-1)
   * Milestone 2
@@ -23,11 +24,9 @@
 
 
 ## About the Project
-> This part needs to be updated
 
 This project is for the capstone project in SW Engineering (CSE364) at UNIST, developed by Youngjun Kwak, Sanghun Lee and Yujin Lee.
-
-This is a movie recommendation system.
+This will be further inplemented as a movie recommendation system. **_Currently under the development···_**
 
 ### Built with
 * Ubuntu 20.04
@@ -85,11 +84,7 @@ root@containerID:~/project# java -cp target/cse364-project-1.0-SNAPSHOT.jar grou
 ```
 
 ### Examples
-<<<<<<< HEAD
-Some Input / Output example pairs :
-=======
 When valid inputs are passed, the output message will look like this :
->>>>>>> 09b0024... Updated Printing format, README
 ```ruby
 // Input
 java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Adventure Educator
@@ -165,7 +160,6 @@ java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Animation Doctor
 ### Error Codes
 Possible errors thrown by invalid user input.
 
-<<<<<<< HEAD
 | Error | Code | Message | Description |
 | --- | --- | --- | --- |
 | INPUT_ERROR | 1 | Emtpy input! | Thrown when no input is entered.|
@@ -198,7 +192,7 @@ Possible errors thrown by invalid user input.
 
 * If the system is terminated with the error code listed above, the system exit status is `1`.
 
-### Examples for error codes
+### Examples for the Error Codes
 #### Error code : 1~3
 
 ```ruby
@@ -261,7 +255,6 @@ Error code: 7
 ```
 * `"War|Crime" Academic` : Example for No Movie data matching the entered genre (combination).
 * `"Action|Animation|Children's|Sci-Fi|Thriller|War" retired` : Example for No available Rating data for the genre-occupation input pair.
->>>>>>> 09b0024... Updated Printing format, README
 
 
 ## Contribution by Area
