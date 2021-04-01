@@ -150,7 +150,7 @@ java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Animation Doctor
 * In order to get the average rating of the movies that fall into a combination of **multiple genres**, connect the words with **the pipeline('\\|')** and **enclosed by double quotation marks(" ")**.
   ```ruby
   Action|Adventure               // X
-  Action|Adventure|              // X
+  Action|Adventure|              // X (Pipeline should be between words)
   "Action|Adventure"             // Supported
   "Action|Adventure|Animation"   // Supported
   ```
@@ -160,14 +160,6 @@ java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Animation Doctor
 ### Error Codes
 Possible errors thrown by invalid user input.
 
-| Error | Code | Message | Description |
-| --- | --- | --- | --- |
-| INPUT_ERROR | 1 | Emtpy input! | Thrown when no input is entered.|
-| INPUT_ERROR | 2 | is invalid! | Thrown when entered inputs are invalid. |
-| INPUT_ERROR:| 3 | genre input *input_string*  | is invalid genre. |
-| INPUT_WWAN | 4 | Entered occupation doesn't exist in DB. shown rating is rated by other. |
-| NO_DATA | 5 | Your genre input is valid. but there is no rating which has all matched genres and occupation. |
-=======
 ##### **Table 1** Invalid input errors
 
 | Error | Code | Message | Description | 
