@@ -5,7 +5,6 @@
 
     <!-- Yujin's note : https://maven.apache.org/pom.html-->
 
-
     <!-- 필수사항 : 프로젝트 정보 기재 부분 -->
     <modelVersion>4.0.0</modelVersion>
     <groupId>Group11</groupId>
@@ -15,9 +14,7 @@
     <url>http://maven.apache.org</url>
     <description>CSE364 project of Group11</description>
 
-
     <!--pom.xml에서 공통적으로 사용할 버전 및 설정값 정보-->
-    <!--Properties는 각 Dependency에 지정해줘도 되나 상단에 써두어서 알아보기 쉽게하려는 의도가 더 많-->
     <properties>
         <encoding>UTF-8</encoding>
         <java.version>11</java.version>
@@ -86,7 +83,6 @@
                     <encoding>${encoding}</encoding>
                     <verbose>true</verbose>
                     <fork>true</fork>
-                    <!--<executable>"$JAVA_HOME"/bin/javac</executable>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -132,6 +128,5 @@
             </plugin>
         </plugins>
     </build>
-
-
+    
 </project>

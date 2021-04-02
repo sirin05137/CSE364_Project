@@ -166,7 +166,7 @@ public class project
                 }
             }
             if(!A) {
-                bufer += multiinput[i] + ", ";
+                bufer += multiinput[i].trim() + ", ";
                 //System.out.print("\nINPUT_ERROR: genre input ");
                 //System.out.print(multiinput[i]);
                 //System.out.print(" is invalid genre. \n");
