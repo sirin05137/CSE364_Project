@@ -40,6 +40,7 @@ This will be further inplemented as a movie recommendation system. **_Currently 
 ```bash
 CSE364_Project/
 ├── data/                             # Source data
+├── scripts/                          # Documentation files
 ├── src/                              # Source files
 │   ├── main/
 │   │   └── java/
