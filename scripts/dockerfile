@@ -1,0 +1,28 @@
+#1 Download ubuntu 20.04
+FROM ubuntu:20.04
+
+#No interaction while installing or upgrading the system via apt.
+#It accepts the default answer for all questions.
+ENV DEBIAN_FRONTEND=noninteractive
+
+#2 Install all packages that are needed to run your program,
+#  such as vim, git, java 11, maven, etc.
+RUN apt-get -y update
+RUN apt-get install -y vim
+RUN apt-get install -y git
+RUN apt-get install -y maven
+RUN apt-get install -y default-jdk
+
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
+ENV PATH $PATH:$JAVA_HOME/bin
+
+#3 Create /root/project folder and set it as WORKDIR.
+RUN mkdir -p /root/project
+WORKDIR /root/project
+
+#4 Add your run.sh file to /root/project in the docker container.
+ADD run.sh /root/project
+#RUN chmod +x run.sh
+
+#5 Execute a bash shell by default when the built image is launched.
+ENTRYPOINT ["/bin/bash"]

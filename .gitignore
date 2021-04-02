@@ -1,6 +1,8 @@
 .idea
 .settings
-scripts
+scripts/*
+!scripts/dockerfile
+!scripts/run.sh
 target
 .classpath
 .project
