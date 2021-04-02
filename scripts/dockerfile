@@ -11,7 +11,7 @@ RUN apt-get -y update
 RUN apt-get install -y vim
 RUN apt-get install -y git
 RUN apt-get install -y maven
-RUN apt-get install -y openjdk-11-jdk
+RUN apt-get install -y default-jdk
 
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
 ENV PATH $PATH:$JAVA_HOME/bin
