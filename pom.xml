@@ -13,66 +13,19 @@
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <url>http://maven.apache.org</url>
-    <!-- 선택사항 : 해당 프로젝트에 대한 설명-->
     <description>CSE364 project of Group11</description>
 
 
     <!--pom.xml에서 공통적으로 사용할 버전 및 설정값 정보-->
     <!--Properties는 각 Dependency에 지정해줘도 되나 상단에 써두어서 알아보기 쉽게하려는 의도가 더 많-->
     <properties>
-        <!-- Build properties-->
         <encoding>UTF-8</encoding>
         <java.version>11</java.version>
         <junit.version>5</junit.version>
-        <!--
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
-        -->
     </properties>
 
     <!-- 필수사항 : 프로젝트에 import 되는 dependency 목록-->
     <dependencies>
-        <!--
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <type>jar</type>
-            <scope>test</scope>
-            <optional>true</optional>
-        </dependency>
-        -->
-        <!-- JDK9(Java SE 9) 이상에서 JAXB(javax.xml.bind) 클래스 사라져서 따로 import-->
-        <dependency>
-            <groupId>javax.xml</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.4.0-b180725.0427</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>2.4.0-b180725.0644</version>
-        </dependency>
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.23.1-GA</version>
-        </dependency>
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
-            <version>3.2.7</version>
-        </dependency>
         <!-- JUnitParams : Test용 Parameter 처리(csv읽기 등) 라이브러리 -->
         <dependency>
             <groupId>pl.pragmatists</groupId>
@@ -80,14 +33,6 @@
             <version>1.1.1</version>
             <scope>test</scope>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>pl.pragmatists</groupId>
-            <artifactId>JUnitParams</artifactId>
-            <version>1.1.1</version>
-            <scope>compile</scope>
-        </dependency>
-        -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -111,6 +56,25 @@
     <!-- 필수사항 : Project Build 정보-->
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-beta-5</version>
+                <executions>
+                    <execution>
+                        <id>assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assembly</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
