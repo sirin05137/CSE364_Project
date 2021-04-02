@@ -25,7 +25,7 @@
 
 ## About the Project
 
-This project is for the capstone project in SW Engineering (CSE364) at UNIST, developed by Youngjun Kwak, Sanghun Lee and Yujin Lee.
+This project is for the capstone project in SW Engineering (CSE364) at UNIST, developed by Yeongjun Kwak, Sanghun Lee and Yujin Lee.
 This will be further inplemented as a movie recommendation system. **_Currently under the development···_**
 
 ### Built with
@@ -40,7 +40,6 @@ This will be further inplemented as a movie recommendation system. **_Currently 
 ```bash
 CSE364_Project/
 ├── data/                             # Source data
-├── scripts/                          # Documentation files
 ├── src/                              # Source files
 │   ├── main/
 │   │   └── java/
@@ -80,20 +79,20 @@ root@containerID:~/project# . run.sh
 Continued from [Installation](#installation) steps.
 1. (In the Docker Container) Run Java command with **2 arguments** _(InputStr1 InputStr2)_, accordingly **Genre** and **Occupation** input.
 ```ruby
-root@containerID:~/project# java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project InputStr1 InputStr2
+root@containerID:~/project# java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project InputStr1 InputStr2
 ```
 
 ### Examples
 When valid inputs are passed, the output message will look like this :
 ```ruby
 // Input
-java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Adventure Educator
+java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project Adventure Educator
 // Output
 3.42
 ```
 ```ruby
 // Input
-java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Animation Doctor
+java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project Animation Doctor
 // Output
 3.68
 ```
@@ -150,7 +149,7 @@ java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Animation Doctor
 * In order to get the average rating of the movies that fall into a combination of **multiple genres**, connect the words with **the pipeline('\\|')** and **enclosed by double quotation marks(" ")**.
   ```ruby
   Action|Adventure               // X
-  Action|Adventure|              // X (Pipeline should be between words)
+  "Action|Adventure|"              // X (Pipeline should be between words)
   "Action|Adventure"             // Supported
   "Action|Adventure|Animation"   // Supported
   ```
@@ -188,17 +187,17 @@ Possible errors thrown by invalid user input.
 #### Error code : 1~3
 
 ```ruby
-% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project 
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project 
 
 InputEmptyError : No argument has passed. 2 arguments are required. (InputStr1 InputStr2)
 Error code: 1
 
-% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Drama
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project Drama
 
 InputNumError : Only 1 input has passed. 2 arguments are required.
 Error code: 2
 
-% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Drama Scientist Scientist
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project Drama Scientist Scientist
 
 InputNumError : More than 2 arguments have passed. 2 arguments are required.
 Error code: 3
@@ -206,12 +205,12 @@ Error code: 3
 
 #### Error code: 4
 ```ruby
-% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project "|Adventure|Action" Scientist          
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project "|Adventure|Action" Scientist          
 
 InputInvalidError : Entered genre input is invalid.
 Error code: 4
 
-% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project "Adventure|Action|" Scientist 
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project "Adventure|Action|" Scientist 
 
 InputInvalidError : Entered genre input is invalid.
 Error code: 4
@@ -219,14 +218,14 @@ Error code: 4
 
 #### Error code: 5
 ```ruby
-% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project "Adventure|Action|Horrrror" Scientist
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project "Adventure|Action|Horrrror" Scientist
 
 InputInvalidError : Entered genre (horrrror) doesn't exist.
 Error code: 5
 ```
 #### Error code: 6
 ```ruby
-% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project Adventure Librarian                  
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project Adventure Librarian                  
 
 InputInvalidWarning : Entered occupation doesn't exist. Rating by 'other' is shown instead.
 
@@ -235,12 +234,12 @@ The rating of adventure rated by other : 3.43
 
 #### Error code: 7
 ```ruby
-% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project "War|Crime" Academic  
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project "War|Crime" Academic  
 
 NoDBError : Rating data matching the input pair doesn't exist.
 Error code: 7
 
-% java -cp target/cse364-project-1.0-SNAPSHOT.jar group11.project "Action|Animation|Children's|Sci-Fi|Thriller|War" retired
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project "Action|Animation|Children's|Sci-Fi|Thriller|War" retired
 
 NoDBError : Rating data matching the input pair doesn't exist.
 Error code: 7
@@ -254,7 +253,7 @@ Error code: 7
 > Goal : Environment setup, data loading, data preprocessing
 
 ### Setting up a Git Repository
-Youngjun Kwak
+Yeongjun Kwak
 
 ### Environment Setup
 
@@ -262,20 +261,20 @@ Youngjun Kwak
 
 ### Java Implementation
 
-**Models and Data Structures** - 👑 Youngjun Kwak
+**Models and Data Structures** - 👑 Yeongjun Kwak
 
-**Exception Handling** - 👑 Sanghun Lee, Youngjun Kwak
+**Exception Handling** - 👑 Sanghun Lee, Yeongjun Kwak
 
 **Unit Test Building** - Yujin Lee
 
-**Final Reviewer** - Sanghun Lee
+**Final Reviewer** - Sanghun Lee, Yeongjun Kwak
 
 
 ### Documentation
 **READ.ME** - 👑 Yujin Lee, Sanghun Lee
 
 ## Team Members
-* 20171012 Youngjun Kwak (@sirin05137 ) - [kyj05137@unist.ac.kr](kyj05137@unist.ac.kr)
+* 20171012 Yeongjun Kwak (@sirin05137 ) - [kyj05137@unist.ac.kr](kyj05137@unist.ac.kr)
 * 20171183 Sanghun Lee (@sanghun17) - [sanghun17@unist.ac.kr](sanghun17@unist.ac.kr)
 * 20171194 Yujin Lee (@yuujinleee) - [yujinlee@unist.ac.kr](yujinlee@unist.ac.kr)
 
