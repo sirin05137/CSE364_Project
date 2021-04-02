@@ -14,6 +14,7 @@
   * [Combination of Multiple Genres as an Input](#combination-of-multiple-genres-as-an-input)
   * [Error Codes](#error-codes)
   * [Examples for the Error Codes](#examples-for-the-error-codes)
+  * [About JUnit Test](#about-junit-test)
 * [Contribution by Area](#contribution-by-area)
   * [Milestone 1](#milestone-1)
   * Milestone 2
@@ -247,6 +248,10 @@ Error code: 7
 ```
 * `"War|Crime" Academic` : Example for No Movie data matching the entered genre (combination).
 * `"Action|Animation|Children's|Sci-Fi|Thriller|War" retired` : Example for No available Rating data for the genre-occupation input pair.
+
+### About Junit Test
+The Junit test in `src/test` has commented out for some reasons.
+For more information, please refer to [this issue #20](https://github.com/sirin05137/CSE364_Project/issues/20)
 
 
 ## Contribution by Area
