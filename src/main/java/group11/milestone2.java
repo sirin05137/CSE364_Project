@@ -260,36 +260,8 @@ public class milestone2 {
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //long end = System.currentTimeMillis();
         //System.out.println(end-start  );
-        /*for (int i = 0; i < movie_rating_matrix.size(); i++){
-            movie_rating_matrix.get(i).print_node();
-        }*/
         /*for(int i=0;i<classified_table.size();i++){
             classified_table.get(i).print_node();
         }*/
