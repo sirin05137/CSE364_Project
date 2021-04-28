@@ -69,7 +69,7 @@ class Movie_data_node{
     public void print_node(){
         /*System.out.print("{movieID : "+this.movieID+", Title : "+this.title+", Genre : "+this.genre+", link : "
                 +this.link+", total_rating : "+this.total_rating+", counter : "+this.counter+"}");*/
-        System.out.print("{movieID : "+this.movieID+", Title : "+this.title+", Genre : "+this.genre+", total_rating : "
+        System.out.println("{movieID : "+this.movieID+", Title : "+this.title+", Genre : "+this.genre+", total_rating : "
                            +this.total_rating+", counter : "+this.counter+"}");
     }
 }
@@ -137,7 +137,7 @@ public class milestone2 {
             String[] word = line.split("::");
             inner_node.setMovieID(word[0]);
             inner_node.setTitle(word[1]);
-            inner_node.setGenre(word[2]);
+            inner_node.setGenre(word[2].toLowerCase());
             movie_rating_matrix.add(inner_node);
         }
         get_movie_data.close();
@@ -185,6 +185,10 @@ public class milestone2 {
         }
         //System.out.println(count);
         BigDecimal c = new BigDecimal(String.valueOf(count));
+        if(count==0){
+            System.out.println("no count");
+            System.exit(0);
+        }
         //System.out.println(sum_of_average_rating.doubleValue());
         //System.out.println(c.doubleValue());
 
@@ -249,14 +253,51 @@ public class milestone2 {
 
         ArrayList<Movie_data_node> movie_rating_matrix = new ArrayList<>();
         make_table(movie_rating_matrix);
-        double C =total_average_rating(movie_rating_matrix);
-        int m = Percentile(movie_rating_matrix, 0.95);
-        //System.out.println(m);
 
-        ArrayList<Classified_by_vote> classified_table = new ArrayList<>();
-        make_classified_table(classified_table, movie_rating_matrix, C, m);
-        for(int i=0;i<10;i++){
-            System.out.println(classified_table.get(i).getTitle()+" ("+classified_table.get(i).getLink()+")");
+        if(false) {
+            double C = total_average_rating(movie_rating_matrix);
+            int m = Percentile(movie_rating_matrix, 0.95);
+            //System.out.println(m);
+
+            ArrayList<Classified_by_vote> classified_table = new ArrayList<>();
+            make_classified_table(classified_table, movie_rating_matrix, C, m);
+            for (int i = 0; i < 10; i++) {
+                System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
+            }
+            /*for(int i=0;i<classified_table.size();i++){
+                classified_table.get(i).print_node();
+            }*/
+        }
+        else if(true) {
+            ArrayList<Movie_data_node> movie_rating_matrix_genre_classified = new ArrayList<>();
+            String[] input_genre = args[3].toLowerCase().split("\\|");
+            //String[] input_genre = {"adventure"};
+            for(int i=0; i<movie_rating_matrix.size();i++) {
+                for (int j = 0; j < input_genre.length; j++) {
+                    if (movie_rating_matrix.get(i).getGenre().contains(input_genre[j])) {  //.contains에서 오류발생 가능->dbgenre 배열 만들기
+                        movie_rating_matrix_genre_classified.add(movie_rating_matrix.get(i));
+                        break;
+                    }
+                }
+            }
+            /*for(int i=0;i<movie_rating_matrix_genre_classified.size();i++){
+                movie_rating_matrix_genre_classified.get(i).print_node();
+                System.out.println(movie_rating_matrix_genre_classified.size());
+            }*/
+            double C = total_average_rating(movie_rating_matrix_genre_classified);
+            int m = Percentile(movie_rating_matrix_genre_classified,0.8);
+            ArrayList<Classified_by_vote> classified_table = new ArrayList<>();
+            make_classified_table(classified_table, movie_rating_matrix_genre_classified, C, m);
+            for (int i = 0; i < 10; i++) {
+                System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
+            }
+            /*for(int i=0;i<classified_table.size();i++){
+                classified_table.get(i).print_node();
+            }*/
+
+        }
+        else{
+            System.out.println("Error");
         }
 
 
