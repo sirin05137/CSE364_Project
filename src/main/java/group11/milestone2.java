@@ -185,13 +185,12 @@ public class milestone2 {
         }
         //System.out.println(count);
         BigDecimal c = new BigDecimal(String.valueOf(count));
-        if(count==0){
+        if(count==0){ //movie_rating_matrix에 원소가 없거나 투표수가 0인 영화만 있는 경우
             System.out.println("no count");
-            System.exit(0);
+            System.exit(1);
         }
         //System.out.println(sum_of_average_rating.doubleValue());
         //System.out.println(c.doubleValue());
-
         BigDecimal result = sum_of_average_rating.divide(c,2,RoundingMode.HALF_UP);
         return result.doubleValue();
     }
@@ -202,7 +201,11 @@ public class milestone2 {
                 vote_counting_list.add(movie_rating_matrix.get(i).getCounter());
             }
         }
-        Collections.sort(vote_counting_list);
+        if(vote_counting_list.size()==0){
+            System.out.println("No counter!");
+            System.exit(1);
+        }
+        Collections.sort(vote_counting_list); //오름차순으로 정렬
         BigDecimal One = new BigDecimal("1.0");
         BigDecimal ratio = new BigDecimal(String.valueOf(p));
         BigDecimal num = new BigDecimal(String.valueOf(vote_counting_list.size()));
@@ -226,6 +229,10 @@ public class milestone2 {
                 classified_table.add(inner_data);
             }
         }
+        if(classified_table.size()==0){
+            System.out.println("There are no movie which get more than "+m+" vote");
+            System.exit(1);
+        }
         BufferedReader get_link_data = new BufferedReader(new FileReader("data/links.dat"));
         while(true){
             String line = get_link_data.readLine();
@@ -243,8 +250,23 @@ public class milestone2 {
         for(int i=0;i<classified_table.size();i++){
             classified_table.get(i).setW(C,m);
         }
-        Collections.sort(classified_table);
+        Collections.sort(classified_table); //내림차순으로 정렬
 
+    }
+    static void print_output_format(ArrayList<Classified_by_vote> classified_table){
+        for (int i = 0; i < 10; i++) {
+            System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
+        }
+    }
+    static void make_table_with_genre(ArrayList<Movie_data_node> movie_rating_matrix, ArrayList<Movie_data_node> matrix_genre_classified, String[] input_genre){
+        for(int i=0; i<movie_rating_matrix.size();i++) {
+            for (int j = 0; j < input_genre.length; j++) {
+                if (movie_rating_matrix.get(i).getGenre().contains(input_genre[j])) {  //.contains에서 오류발생 가능->dbgenre 배열 만들기
+                    matrix_genre_classified.add(movie_rating_matrix.get(i));
+                    break;
+                }
+            }
+        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -254,50 +276,42 @@ public class milestone2 {
         ArrayList<Movie_data_node> movie_rating_matrix = new ArrayList<>();
         make_table(movie_rating_matrix);
 
-        if(false) {
+        if(args.length==3) {
             double C = total_average_rating(movie_rating_matrix);
             int m = Percentile(movie_rating_matrix, 0.95);
             //System.out.println(m);
 
             ArrayList<Classified_by_vote> classified_table = new ArrayList<>();
             make_classified_table(classified_table, movie_rating_matrix, C, m);
-            for (int i = 0; i < 10; i++) {
-                System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
-            }
+            print_output_format(classified_table);
+
             /*for(int i=0;i<classified_table.size();i++){
                 classified_table.get(i).print_node();
             }*/
         }
-        else if(true) {
+        else if(args.length==4) {
+
             ArrayList<Movie_data_node> movie_rating_matrix_genre_classified = new ArrayList<>();
             String[] input_genre = args[3].toLowerCase().split("\\|");
             //String[] input_genre = {"adventure"};
-            for(int i=0; i<movie_rating_matrix.size();i++) {
-                for (int j = 0; j < input_genre.length; j++) {
-                    if (movie_rating_matrix.get(i).getGenre().contains(input_genre[j])) {  //.contains에서 오류발생 가능->dbgenre 배열 만들기
-                        movie_rating_matrix_genre_classified.add(movie_rating_matrix.get(i));
-                        break;
-                    }
-                }
-            }
+            make_table_with_genre(movie_rating_matrix, movie_rating_matrix_genre_classified,input_genre);
+
             /*for(int i=0;i<movie_rating_matrix_genre_classified.size();i++){
                 movie_rating_matrix_genre_classified.get(i).print_node();
-                System.out.println(movie_rating_matrix_genre_classified.size());
             }*/
             double C = total_average_rating(movie_rating_matrix_genre_classified);
             int m = Percentile(movie_rating_matrix_genre_classified,0.8);
             ArrayList<Classified_by_vote> classified_table = new ArrayList<>();
             make_classified_table(classified_table, movie_rating_matrix_genre_classified, C, m);
-            for (int i = 0; i < 10; i++) {
-                System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
-            }
+            print_output_format(classified_table);
+
             /*for(int i=0;i<classified_table.size();i++){
                 classified_table.get(i).print_node();
             }*/
-
         }
         else{
             System.out.println("Error");
+            System.exit(1);
         }
 
 
