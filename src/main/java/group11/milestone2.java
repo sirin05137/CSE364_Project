@@ -269,6 +269,37 @@ public class milestone2 {
         }
     }
 
+    static boolean check_genre_validity(String[] dbgenre, String[] input_genre){
+        boolean A;
+        int input_validity_counter = 0;
+        String bufer = "";
+        for (int i = 0; i < input_genre.length; i++) {
+            A=false;
+            for(int j=0; j< dbgenre.length; j++) {
+                if( input_genre[i].trim().equals(dbgenre[j])) {
+                    input_validity_counter++;
+                    A=true;
+                    //System.out.print("\n genre input matched");
+                    break;
+                }
+            }
+            if(!A) {
+                bufer += input_genre[i].trim() + ", ";
+                //System.out.print("\nINPUT_ERROR: genre input ");
+                //System.out.print(multiinput[i]);
+                //System.out.print(" is invalid genre. \n");
+            }
+        }
+        if (input_validity_counter != input_genre.length) {
+            bufer = bufer.substring(0, bufer.length()-2);
+            System.out.printf("\nInputInvalidError : Entered genre (%s) doesn't exist.\n",bufer);
+            //System.out.println("Error code: 5\n");
+            //System.exit(1);
+            return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) throws IOException {
 
         //long start = System.currentTimeMillis();
@@ -291,9 +322,17 @@ public class milestone2 {
         }
         else if(args.length==4) {
 
+            String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","crime","documentary","drama","fantasy","film-noir",
+                    "horror","musical","mystery","romance","sci-fi","thriller","war","western", "other"};
+
             ArrayList<Movie_data_node> movie_rating_matrix_genre_classified = new ArrayList<>();
             String[] input_genre = args[3].toLowerCase().split("\\|");
             //String[] input_genre = {"adventure"};
+            boolean check = check_genre_validity(dbgenre, input_genre);
+            if(!check){
+                System.exit(1);
+            }
+
             make_table_with_genre(movie_rating_matrix, movie_rating_matrix_genre_classified,input_genre);
 
             /*for(int i=0;i<movie_rating_matrix_genre_classified.size();i++){
