@@ -19,6 +19,7 @@
         <encoding>UTF-8</encoding>
         <java.version>11</java.version>
         <junit.version>5</junit.version>
+        <jacoco.version>0.8.2</jacoco.version>
     </properties>
 
     <!-- 필수사항 : 프로젝트에 import 되는 dependency 목록-->
@@ -107,7 +108,7 @@
                 </dependencies>
                 <configuration>
                     <argLine>
-                        --illegal-access=permit
+                        ${surefire.argLine} -XX:MaxPermSize=512m --illegal-access=permit
                     </argLine>
                     <additionalClasspathElements>
                         <additionalClasspathElement>
@@ -129,13 +130,16 @@
             <plugin><!-- measure branch test coverage -->
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.2</version>
+                <version>${jacoco.version}</version>
                 <executions>
                     <execution>
-                        <id>default-prepare-agent</id>
+                        <id>jacoco-initialize</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <propertyName>surefire.argLine</propertyName>
+                        </configuration>
                     </execution>
                     <!-- Jacoco Report is saved at /src/test/jacoco-report -->
                     <execution>
@@ -145,10 +149,11 @@
                             <goal>report</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>src/test/jacoco-report</outputDirectory>
+                            <outputDirectory>target/jacoco-report</outputDirectory>
                         </configuration>
                     </execution>
                     <!-- Test Coverage (currently 0.9) -->
+                    <!--
                     <execution>
                         <id>jacoco-check</id>
                         <goals>
@@ -169,6 +174,7 @@
                             </rules>
                         </configuration>
                     </execution>
+                    -->
                 </executions>
             </plugin>
         </plugins>

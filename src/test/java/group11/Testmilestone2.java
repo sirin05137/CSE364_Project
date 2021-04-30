@@ -15,7 +15,7 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class milestone2Test extends milestone2 {
+public class Testmilestone2 extends milestone2 {
 
     private String emptyValue = null;
 
