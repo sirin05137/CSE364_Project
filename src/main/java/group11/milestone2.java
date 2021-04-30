@@ -478,38 +478,38 @@ public class milestone2 {
         //long start = System.currentTimeMillis();
 
         //System.out.println(args[3].replace(" ", ""));
-        boolean A = check_gender_validity(args[0]);
-        boolean B = check_age_validity(args[1]);
-        boolean C = true;
+        boolean a = check_gender_validity(args[0]);
+        boolean b = check_age_validity(args[1]);
+        boolean c = true;
         if(args.length==4){
             String[] input_genre = args[3].trim().toLowerCase().split("\\|");
-            C = check_genre_validity(input_genre);
+            c = check_genre_validity(input_genre);
         }
-        if(!A && B && C) {
+        if(!a && b && c) {
             System.out.println("Gender input error");
             System.exit(1);
         }
-        else if(A && !B && C) {
+        else if(a && !b && c) {
             System.out.println("Age input error");
             System.exit(1);
         }
-        else if(A && B && !C) {
+        else if(a && b && !c) {
             System.out.println("Genre input error");
             System.exit(1);
         }
-        else if(!A && !B && C) {
+        else if(!a && !b && c) {
             System.out.println("Gender and age input error");
             System.exit(1);
         }
-        else if(!A && B && !C) {
+        else if(!a && b && !c) {
             System.out.println("Gender and genre input error");
             System.exit(1);
         }
-        else if(A && !B && !C) {
+        else if(a && !b && !c) {
             System.out.println("Age and genre input error");
             System.exit(1);
         }
-        else if(!A && !B && !C) {
+        else if(!a && !b && !c) {
             System.out.println("Gender, age and genre input error");
             System.exit(1);
         }
