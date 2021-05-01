@@ -12,10 +12,8 @@ class Movie_data_node{
     String movieID;
     String title;
     String genre;
-    //String link;
     int total_rating=0;
     int counter=0;
-    //double W=0;
 
     public void setMovieID(String movieID) {
         this.movieID = movieID;
@@ -43,29 +41,28 @@ class Movie_data_node{
     public int getCounter() {
         return counter;
     }
-    //public double getW() { return W; }
     public void print_node(){
-        /*System.out.print("{movieID : "+this.movieID+", Title : "+this.title+", Genre : "+this.genre+", link : "
-                +this.link+", total_rating : "+this.total_rating+", counter : "+this.counter+"}");*/
         System.out.println("{movieID : "+this.movieID+", Title : "+this.title+", Genre : "+this.genre+", total_rating : "
-                           +this.total_rating+", counter : "+this.counter+"}");
+                +this.total_rating+", counter : "+this.counter+"}");
     }
 }
-class Classified_by_vote extends Movie_data_node implements Comparable{
-    double W=0;
-    String link="";
+class Classified_by_vote extends Movie_data_node implements Comparable {
+    double W = 0;
+    String link = "";
 
-    public int compareTo(Object o){
+    public int compareTo(Object o) {
         return compareTo((Classified_by_vote) o);
     }
-    public int compareTo(Classified_by_vote another){
+    public int compareTo(Classified_by_vote another) {
         double thisVal = this.getW();
         double anotherVal = another.getW();
-        return (thisVal<anotherVal ? 1 : (thisVal == anotherVal ? 0 : -1));
+        return (thisVal < anotherVal ? 1 : (thisVal == anotherVal ? 0 : -1));
     }
 
-    public Classified_by_vote() {}
-    public Classified_by_vote(Movie_data_node movie_rating_data){
+    public Classified_by_vote() {
+    }
+
+    public Classified_by_vote(Movie_data_node movie_rating_data) {
         this.movieID = movie_rating_data.getMovieID();
         this.title = movie_rating_data.getTitle();
         this.genre = movie_rating_data.getGenre();
@@ -76,11 +73,11 @@ class Classified_by_vote extends Movie_data_node implements Comparable{
     public void setLink(String link) {
         this.link = link;
     }
-    public void setW(double CC, int mm){
-        if(counter==0){
-            this.W=CC;
-        }
-        else {
+
+    public void setW(double CC, int mm) {
+        if (counter == 0) {
+            this.W = CC;
+        } else {
             BigDecimal tr = new BigDecimal(String.valueOf(total_rating));
             BigDecimal v = new BigDecimal(String.valueOf(counter));
             BigDecimal R = tr.divide(v, 3, RoundingMode.HALF_UP);
@@ -91,74 +88,24 @@ class Classified_by_vote extends Movie_data_node implements Comparable{
             this.W = upper.divide(lower, 3, RoundingMode.HALF_UP).doubleValue();
         }
     }
+
     public String getLink() {
         return link;
     }
+
     public double getW() {
-         return W;
-     }
-     public void print_node(){
-        System.out.println("{movieID : "+this.movieID+", Title : "+this.title+", Genre : "+this.genre+", link : "
-                +this.link+", total_rating : "+this.total_rating+", counter : "+this.counter+", W : "+this.W+"}");
-     }
+        return W;
+    }
+
+    /*public void print_node() {
+        System.out.println("{movieID : " + this.movieID + ", Title : " + this.title + ", Genre : " + this.genre + ", link : "
+                + this.link + ", total_rating : " + this.total_rating + ", counter : " + this.counter + ", W : " + this.W + "}");
+    }*/
 }
 
 public class milestone2 {
 
-    /*static void make_table(ArrayList<Movie_data_node> movie_rating_matrix) throws IOException{
-        BufferedReader get_movie_data = new BufferedReader(new FileReader("data/movies.dat"));
-        while(true){
-            Movie_data_node inner_node = new Movie_data_node();
-            String line = get_movie_data.readLine();
-            if (line == null)
-                break;
-            //System.out.println(line);
-            String[] word = line.split("::");
-            inner_node.setMovieID(word[0]);
-            inner_node.setTitle(word[1]);
-            inner_node.setGenre(word[2].toLowerCase());
-            movie_rating_matrix.add(inner_node);
-        }
-        get_movie_data.close();
-        BufferedReader get_rating_data = new BufferedReader(new FileReader("data/ratings.dat"));
-        while(true) {
-            String line = get_rating_data.readLine();
-            if (line == null)
-                break;
-            String[] word = line.split("::");
-            for (int i = 0; i < movie_rating_matrix.size(); i++) {
-                if (movie_rating_matrix.get(i).getMovieID().equals(word[1])) {
-                    movie_rating_matrix.get(i).setTotal_rating(Integer.parseInt(word[2]));
-                    movie_rating_matrix.get(i).setCounter();
-                    break;
-                }
-            }
-        }
-        get_rating_data.close();
-    }*/
-    static double total_average_rating(HashMap<String,ArrayList<Integer>> movie_rating_map){
-        BigDecimal sum_of_average_rating = new BigDecimal("0.0");
-        int count = 0;
-        for(Map.Entry<String,ArrayList<Integer>> Iter : movie_rating_map.entrySet()){
-            if(Iter.getValue().get(1) != 0){
-                BigDecimal a = new BigDecimal(String.valueOf(Iter.getValue().get(0)));
-                BigDecimal b = new BigDecimal(String.valueOf(Iter.getValue().get(1)));
-                sum_of_average_rating=sum_of_average_rating.add(a.divide(b,3,RoundingMode.HALF_UP));
-                count++;
-            }
-        }
-        //System.out.println(count);
-        BigDecimal c = new BigDecimal(String.valueOf(count));
-        if(count==0){ //movie_rating_matrix에 원소가 없거나 투표수가 0인 영화만 있는 경우
-            System.out.println("no count");
-            System.exit(1);
-        }
-        //System.out.println(sum_of_average_rating.doubleValue());
-        //System.out.println(c.doubleValue());
-        BigDecimal result = sum_of_average_rating.divide(c,2,RoundingMode.HALF_UP);
-        return result.doubleValue();
-    }
-    static double Total_average_rating(ArrayList<Movie_data_node> movie_rating_matrix){
+    static double total_average_rating(ArrayList<Movie_data_node> movie_rating_matrix){
         BigDecimal sum_of_average_rating = new BigDecimal("0.0");
         int count = 0;
         for(int i=0;i< movie_rating_matrix.size();i++){
@@ -180,39 +127,11 @@ public class milestone2 {
         BigDecimal result = sum_of_average_rating.divide(c,2,RoundingMode.HALF_UP);
         return result.doubleValue();
     }
-    static int Percentile(ArrayList<Movie_data_node> movie_rating_matrix, double p){
+    static int percentile(ArrayList<Movie_data_node> movie_rating_matrix, double p){
         ArrayList<Integer> vote_counting_list = new ArrayList<Integer>();
         for(int i=0;i<movie_rating_matrix.size();i++) {
             if (movie_rating_matrix.get(i).getCounter() != 0) {
                 vote_counting_list.add(movie_rating_matrix.get(i).getCounter());
-            }
-        }
-        if(vote_counting_list.size()==0){
-            System.out.println("No counter!");
-            System.exit(1);
-        }
-        Collections.sort(vote_counting_list); //오름차순으로 정렬
-        BigDecimal One = new BigDecimal("1.0");
-        BigDecimal ratio = new BigDecimal(String.valueOf(p));
-        BigDecimal num = new BigDecimal(String.valueOf(vote_counting_list.size()));
-        BigDecimal np = ratio.multiply(num);
-        if(np.remainder(One).doubleValue()==0.0){
-            //System.out.println("test");
-            int a = np.intValue();
-            return (vote_counting_list.get(a-1)+vote_counting_list.get(a))/2;
-        }
-        else{
-            //System.out.println("elsecase");
-            //System.out.println(vote_counting_list);
-            int b=np.intValue();
-            return vote_counting_list.get(b-1);
-        }
-    }
-    static int percentile(HashMap<String,ArrayList<Integer>> movie_rating_map , double p){
-        ArrayList<Integer> vote_counting_list = new ArrayList<Integer>();
-        for(Map.Entry<String,ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
-            if (Iter.getValue().get(1) != 0) {
-                vote_counting_list.add(Iter.getValue().get(1));
             }
         }
         if(vote_counting_list.size()==0){
@@ -273,16 +192,6 @@ public class milestone2 {
             System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
         }
     }
-    static void Make_table_with_genre(ArrayList<Movie_data_node> movie_rating_matrix, ArrayList<Movie_data_node> matrix_genre_classified, String[] input_genre){
-        for(int i=0; i<movie_rating_matrix.size();i++) {
-            for (int j = 0; j < input_genre.length; j++) {
-                if (movie_rating_matrix.get(i).getGenre().contains(input_genre[j])) {  //.contains에서 오류발생 가능->dbgenre 배열 만들기
-                    matrix_genre_classified.add(movie_rating_matrix.get(i));
-                    break;
-                }
-            }
-        }
-    }
     static ArrayList<Movie_data_node> make_table_with_genre(ArrayList<Movie_data_node> inputlist, String[] input_genre){
         ArrayList<Movie_data_node> result = new ArrayList<>();
         for(int i=0; i<inputlist.size();i++) {
@@ -294,6 +203,16 @@ public class milestone2 {
             }
         }
         return result;
+    }
+
+    static boolean check_gender_validity(String gender){
+        return gender.trim().toLowerCase().equals("") || gender.trim().toLowerCase().equals("m") || gender.trim().toLowerCase().equals("f");
+    }
+    static boolean check_age_validity(String age){
+        if(age.trim().equals("")){
+            return true;
+        }
+        else return Integer.parseInt(age.trim()) >= 1;
     }
     static boolean check_genre_validity(String[] input_genre){
         String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","crime","documentary","drama","fantasy","film-noir",
@@ -554,27 +473,46 @@ public class milestone2 {
         }
         get_movie_data.close();
     }
-    static void set_movie_link_in_node(ArrayList<Classified_by_vote> classified_table) throws IOException{
-        BufferedReader get_link_data = new BufferedReader(new FileReader("data/links.dat"));
-        while(true) {
-            String line = get_link_data.readLine();
-            if (line == null)
-                break;
-            //System.out.println(line);
-            String[] word = line.split("::");
-            for (int i = 0; i < classified_table.size(); i++) {
-                if (classified_table.get(i).getMovieID().equals(word[0])) {
-                    classified_table.get(i).setLink("http://www.imdb.com/title/tt" + word[1]);
-                    break;
-                }
-            }
-        }
-        get_link_data.close();
-    }
-
 
     public static void main(String[] args) throws IOException {
         //long start = System.currentTimeMillis();
+
+        //System.out.println(args[3].replace(" ", ""));
+        boolean a = check_gender_validity(args[0]);
+        boolean b = check_age_validity(args[1]);
+        boolean c = true;
+        if(args.length==4){
+            String[] input_genre = args[3].trim().toLowerCase().split("\\|");
+            c = check_genre_validity(input_genre);
+        }
+        if(!a && b && c) {
+            System.out.println("Gender input error");
+            System.exit(1);
+        }
+        else if(a && !b && c) {
+            System.out.println("Age input error");
+            System.exit(1);
+        }
+        else if(a && b && !c) {
+            System.out.println("Genre input error");
+            System.exit(1);
+        }
+        else if(!a && !b && c) {
+            System.out.println("Gender and age input error");
+            System.exit(1);
+        }
+        else if(!a && b && !c) {
+            System.out.println("Gender and genre input error");
+            System.exit(1);
+        }
+        else if(a && !b && !c) {
+            System.out.println("Age and genre input error");
+            System.exit(1);
+        }
+        else if(!a && !b && !c) {
+            System.out.println("Gender, age and genre input error");
+            System.exit(1);
+        }
 
         HashMap<String, ArrayList<String>> user_data = make_user_data();
         //System.out.println(user_data.size());
@@ -600,8 +538,8 @@ public class milestone2 {
                 movie_data_table.add(inner_class);
             }
             set_movie_data_in_node(movie_data_table);
-            double C = Total_average_rating(movie_data_table);
-            int m = Percentile(movie_data_table,0.8);
+            double C = total_average_rating(movie_data_table);
+            int m = percentile(movie_data_table,0.8);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(movie_data_table, C, m);
             print_output_format(classified_table);
         }
@@ -619,8 +557,8 @@ public class milestone2 {
             set_movie_data_in_node(movie_data_table);
             ArrayList<Movie_data_node> table_classified_by_genre = make_table_with_genre(movie_data_table, input_genre);
 
-            double C = Total_average_rating(table_classified_by_genre);
-            int m = Percentile(table_classified_by_genre,0.8);
+            double C = total_average_rating(table_classified_by_genre);
+            int m = percentile(table_classified_by_genre,0.8);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(table_classified_by_genre, C, m);
             print_output_format(classified_table);
         }
