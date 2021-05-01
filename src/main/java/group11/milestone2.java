@@ -452,6 +452,13 @@ public class milestone2 {
                 default:
                     OccupationNumber = "0";
             }
+            if (OccupationNumber.equals("0"))
+            {
+                if(!occupationinput.trim().equals("other"))
+                {
+                    System.out.println("InputInvalidWarning : Entered occupation doesn't exist. Based on the movie rated by A, it is recommended instead.\n");
+                }
+            }
             for (Map.Entry<String, ArrayList<String>> Iter : user_data.entrySet()) {
                 if (Iter.getValue().get(2).equals(OccupationNumber)) {
                     valid_user_list_occu.add(Iter.getKey());
