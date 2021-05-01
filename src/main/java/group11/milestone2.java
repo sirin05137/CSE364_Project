@@ -214,17 +214,33 @@ public class milestone2 {
             return false;
         }
     }
-    static boolean check_age_validity(String age){
+    static boolean check_age_validity(String age_input){
+        String age = age_input.replace(" ", "");
         if(age.trim().equals("")){
             return true;
         }
-        else if(Integer.parseInt(age.trim())<1){
-            System.out.println("InputInvalidError : Entered age input is invalid.");
-            return false;
+        else {
+            boolean isNumeric = true;
+            for(int i = 0;i<age.length();i++){
+                if(!Character.isDigit(age.charAt(i))){
+                    isNumeric = false;
+                }
+            }
+            if(!isNumeric){
+                System.out.println("InputInvalidError : Age must be number, not letter.");
+                return false;
+            }
+            else if(Integer.parseInt(age.trim())<1){
+                System.out.println("InputInvalidError : Entered age input is invalid.");
+                return false;
+            }
+            else{
+                return true;
+            }
         }
-        return true;
     }
-    static boolean check_genre_validity(String genre){
+    static boolean check_genre_validity(String genre_input){
+        String genre = genre_input.replace(" ", "");
         String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","crime","documentary","drama","fantasy","film-noir",
                 "horror","musical","mystery","romance","sci-fi","thriller","war","western", "other"};
 
@@ -327,7 +343,8 @@ public class milestone2 {
         }
         return valid_user_list_gender;
     }
-    static ArrayList<String> make_user_list_age(HashMap<String, ArrayList<String>> user_data, String args1){
+    static ArrayList<String> make_user_list_age(HashMap<String, ArrayList<String>> user_data, String args1_input){
+        String args1 = args1_input.replace(" ", "");
         ArrayList<String> valid_user_list_age = new ArrayList<>();
         if(!args1.trim().equals("")) {
             String age = "";
@@ -370,7 +387,9 @@ public class milestone2 {
         }
         return  valid_user_list_age;
     }
-    static ArrayList<String> make_user_list_occu(HashMap<String, ArrayList<String>> user_data, String args2){
+    static ArrayList<String> make_user_list_occu(HashMap<String, ArrayList<String>> user_data, String args2_input){
+        String args2 = args2_input.replace(" ", "");
+        //System.out.println(args2);
         ArrayList<String> valid_user_list_occu = new ArrayList<>();
         //직업 입력시 grad student처럼 중간에 띄어쓰기 있는 경우 처리할 것
         if(!args2.trim().equals("")) {
@@ -595,7 +614,8 @@ public class milestone2 {
             print_output_format(classified_table);
         }
         else if(args.length==4) {
-            String[] input_genre = args[3].toLowerCase().split("\\|");
+            String genre_no_empty = args[3].replace(" ", "");
+            String[] input_genre = genre_no_empty.toLowerCase().split("\\|");
             ArrayList<Movie_data_node> movie_data_table = new ArrayList<>();
             for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
                 Movie_data_node inner_class = new Movie_data_node();
