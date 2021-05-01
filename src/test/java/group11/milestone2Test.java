@@ -1,28 +1,29 @@
 package group11;
 
-import org.junit.Rule;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
 public class milestone2Test extends milestone2 {
 
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+    private final PrintStream originalErr = System.err;
 
-    @Test
-    public void valid_genre_test() {
-        String[] args = new String[]{"action", "adventure", "animation"};
-        assertTrue(milestone2.check_genre_validity(args));
-    }
-
-    @Test
-    public void invalid_genre_test() {
-        String[] args = new String[]{"action", "advvvvventure", "animacccccion"};
-        assertFalse(milestone2.check_genre_validity(args));
+    @BeforeEach
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
     }
 
     //------------------------------------------------------------------
@@ -59,30 +60,57 @@ public class milestone2Test extends milestone2 {
 
     //------------------------------------------------------------------
 
-    @Rule
-    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+    String[][] args_list = new String[][]{
+            {"A","25","Action"}, /*->Invalid Gender input */
+            {"F" ,"-50" ,"Action"}, /*->Invalid Age input */
+            {"F" ,"25" ,"Accccion"}, /*->Invalid Genre input e*/
+            {"A" ,"THISISNOTAGE","Action"}, /*->Invalid Gender and age input */
+            {"A" ,"25","Accccion"}, /*->Invalid Gender and genre input */
+            {"F" ,"THISISNOTAGE","Accccion"}, /*->Invalid Age and genre input */
+            {"A" ,"THISISNOTAGE","Accccion"} /*->Invalid Gender, age and genre input */
+    };
 
+    // Those tests will exit with Status Code 1
+    /*
     @Test
-    public void exitsWithStatusCode1() throws IOException {
-        String[][] args_list = new String[][]{
-                {"A","25","Action"}, /*->Invalid gender*/
-                {"F" ,"-50" ,"Action"}, /*->Invalid age*/
-                {"F" ,"25" ,"Accion"}, /*->Invalid genre*/
-                {"A" ,"-50","Action"} /*->Invalid gender&age*/
-        };
-
-        exit.expectSystemExitWithStatus(1);
+    public void invalid_input_test_0() throws IOException {
         milestone2.main(args_list[0]);
-        /*
-        for (String[] args : args_list) {
-            exit.expectSystemExitWithStatus(1);
-            milestone2.main(args);
-        }
-        */
+        //System.out.printf("outcontent is %s ", outContent.toString());
+        assertEquals("Gender input error\n", outContent.toString());
+    }
+    @Test
+    public void invalid_input_test_1() throws IOException {
+        milestone2.main(args_list[1]);
+        assertEquals("Age input error\n", outContent.toString());
+    }
+    @Test
+    public void invalid_input_test_2() throws IOException {
+        milestone2.main(args_list[2]);
+        assertEquals("Genre input error\n", outContent.toString());
+    }
+    @Test
+    public void invalid_input_test_3() throws IOException {
+        milestone2.main(args_list[3]);
+        assertEquals("Gender and age input error\n", outContent.toString());
     }
 
+    @Test
+    public void invalid_input_test_4() throws IOException {
+        milestone2.main(args_list[4]);
+        assertEquals("Gender and genre input error\n", outContent.toString());
+    }
 
-
+    @Test
+    public void invalid_input_test_5() throws IOException {
+        milestone2.main(args_list[5]);
+        assertEquals("Age and genre input error\n", outContent.toString());
+    }
+    @Test
+    public void invalid_input_test_6() throws IOException {
+        milestone2.main(args_list[6]);
+        assertEquals("Gender, age and genre input error\n", outContent.toString());
+    }
+*/
 
 
     //------------------------------------------------------------------
@@ -109,5 +137,12 @@ public class milestone2Test extends milestone2 {
         String[] args = new String[]{"", "", "", "Action"};
 
         assertAll( () -> milestone2.main(args));
+    }
+
+    //------------------------------------------------------------------
+    @AfterEach
+    public void restoreStreams() {
+        System.setOut(originalOut);
+        System.setErr(originalErr);
     }
 }

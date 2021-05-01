@@ -206,24 +206,68 @@ public class milestone2 {
     }
 
     static boolean check_gender_validity(String gender){
-        return gender.trim().toLowerCase().equals("") || gender.trim().toLowerCase().equals("m") || gender.trim().toLowerCase().equals("f");
+        if(gender.trim().toLowerCase().equals("") || gender.trim().toLowerCase().equals("m") || gender.trim().toLowerCase().equals("f")){
+            return true;
+        }
+        else{
+            System.out.println("InputInvalidError : Entered gender input is invalid.");
+            return false;
+        }
     }
     static boolean check_age_validity(String age){
         if(age.trim().equals("")){
             return true;
         }
-        else return Integer.parseInt(age.trim()) >= 1;
+        else if(Integer.parseInt(age.trim())<1){
+            System.out.println("InputInvalidError : Entered age input is invalid.");
+            return false;
+        }
+        return true;
     }
-    static boolean check_genre_validity(String[] input_genre){
+    static boolean check_genre_validity(String genre){
         String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","crime","documentary","drama","fantasy","film-noir",
                 "horror","musical","mystery","romance","sci-fi","thriller","war","western", "other"};
-        boolean A;
+
+        String genreinput=genre.toLowerCase().trim();
+        String[] multiinput=genreinput.split("\\|");;
         int input_validity_counter = 0;
+
+        //check empty input (eg. "", )
+        if (genreinput.trim().length() <=0) {
+            //input_validity_counter=-99;//It indicate invalid input. -99 don't have meaning, just mean error.
+            System.out.println("InputEmptyError : Genre input doesn't have passed. Genre input should not be empty");
+            //System.out.println("Error code: 1\n");
+            //System.exit(1);
+            return false;
+        }
+        // check input has "|" as last character. (eg. "|", "comedy|")
+        else {
+            if(genreinput.trim().charAt(genreinput.length()-1)=='|') {
+                //input_validity_counter=-99;//It indicate invalid input. -99 don't have meaning, just mean error.
+                System.out.println("InputInvalidError : Entered genre input is invalid.");
+                //System.out.println("Error code: 4\n");
+                //System.exit(1);
+                return false;
+            }
+        }
+        //check empty input surround '|'  (eg.  "|academic", "academic||engineer")
+        for (int i = 0; i < multiinput.length; i++) {
+            if (multiinput[i].isBlank()) {
+                //System.out.print("\n empty input \n");
+                //input_validity_counter=-99; //It indicate invalid input. -99 don't have meaning, just mean error.
+                System.out.println("InputInvalidError : Entered genre input is invalid.");
+                //System.out.println("Error code: 4\n");
+                //System.exit(1);
+                return false;
+            }
+        }
+
+        boolean A;
         String bufer = "";
-        for (int i = 0; i < input_genre.length; i++) {
+        for (int i = 0; i < multiinput.length; i++) {
             A=false;
             for(int j=0; j< dbgenre.length; j++) {
-                if( input_genre[i].trim().equals(dbgenre[j])) {
+                if( multiinput[i].trim().equals(dbgenre[j])) {
                     input_validity_counter++;
                     A=true;
                     //System.out.print("\n genre input matched");
@@ -231,15 +275,15 @@ public class milestone2 {
                 }
             }
             if(!A) {
-                bufer += input_genre[i].trim() + ", ";
+                bufer += multiinput[i].trim() + ", ";
                 //System.out.print("\nINPUT_ERROR: genre input ");
                 //System.out.print(multiinput[i]);
                 //System.out.print(" is invalid genre. \n");
             }
         }
-        if (input_validity_counter != input_genre.length) {
+        if (input_validity_counter != multiinput.length) {
             bufer = bufer.substring(0, bufer.length()-2);
-            System.out.printf("\nInputInvalidError : Entered genre (%s) doesn't exist.\n",bufer);
+            System.out.printf("InputInvalidError : Entered genre (%s) doesn't exist.\n",bufer);
             //System.out.println("Error code: 5\n");
             //System.exit(1);
             return false;
@@ -482,36 +526,43 @@ public class milestone2 {
         boolean b = check_age_validity(args[1]);
         boolean c = true;
         if(args.length==4){
-            String[] input_genre = args[3].trim().toLowerCase().split("\\|");
-            c = check_genre_validity(input_genre);
+            //String[] input_genre = args[3].trim().toLowerCase().split("\\|");
+            c = check_genre_validity(args[3]);
         }
         if(!a && b && c) {
             System.out.println("Gender input error");
-            System.exit(1);
+            return;
+            //System.exit(1);
         }
         else if(a && !b && c) {
             System.out.println("Age input error");
-            System.exit(1);
+            return;
+            //System.exit(1);
         }
         else if(a && b && !c) {
             System.out.println("Genre input error");
-            System.exit(1);
+            return;
+            //System.exit(1);
         }
         else if(!a && !b && c) {
             System.out.println("Gender and age input error");
-            System.exit(1);
+            return;
+            //System.exit(1);
         }
         else if(!a && b && !c) {
             System.out.println("Gender and genre input error");
-            System.exit(1);
+            return;
+            //System.exit(1);
         }
         else if(a && !b && !c) {
             System.out.println("Age and genre input error");
-            System.exit(1);
+            return;
+            //System.exit(1);
         }
         else if(!a && !b && !c) {
             System.out.println("Gender, age and genre input error");
-            System.exit(1);
+            return;
+            //System.exit(1);
         }
 
         HashMap<String, ArrayList<String>> user_data = make_user_data();
