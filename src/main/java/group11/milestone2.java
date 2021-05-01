@@ -214,16 +214,51 @@ public class milestone2 {
         }
         else return Integer.parseInt(age.trim()) >= 1;
     }
-    static boolean check_genre_validity(String[] input_genre){
+    static boolean check_genre_validity(String genre){
         String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","crime","documentary","drama","fantasy","film-noir",
                 "horror","musical","mystery","romance","sci-fi","thriller","war","western", "other"};
-        boolean A;
+
+        String genreinput=genre.toLowerCase().trim();
+        String[] multiinput=genreinput.split("\\|");;
+        ArrayList<String> inputlist =new ArrayList<String>();
         int input_validity_counter = 0;
+
+        //check empty input (eg. "", )
+        if (genreinput.trim().length() <=0) {
+            //input_validity_counter=-99;//It indicate invalid input. -99 don't have meaning, just mean error.
+            //System.out.println("\nInputEmptyError : No argument has passed. 2 arguments are required. (InputStr1 InputStr2)");
+            //System.out.println("Error code: 1\n");
+            //System.exit(1);
+            return false;
+        }
+        // check input has "|" as last character. (eg. "|", "comedy|")
+        else {
+            if(genreinput.trim().charAt(genreinput.length()-1)=='|') {
+                //input_validity_counter=-99;//It indicate invalid input. -99 don't have meaning, just mean error.
+                //System.out.println("\nInputInvalidError : Entered genre input is invalid.");
+                //System.out.println("Error code: 4\n");
+                //System.exit(1);
+                return false;
+            }
+        }
+        //check empty input surround '|'  (eg.  "|academic", "academic||engineer")
+        for (int i = 0; i < multiinput.length; i++) {
+            if (multiinput[i].isBlank()) {
+                //System.out.print("\n empty input \n");
+                //input_validity_counter=-99; //It indicate invalid input. -99 don't have meaning, just mean error.
+                //System.out.println("\nInputInvalidError : Entered genre input is invalid.");
+                //System.out.println("Error code: 4\n");
+                //System.exit(1);
+                return false;
+            }
+        }
+
+        boolean A;
         String bufer = "";
-        for (int i = 0; i < input_genre.length; i++) {
+        for (int i = 0; i < multiinput.length; i++) {
             A=false;
             for(int j=0; j< dbgenre.length; j++) {
-                if( input_genre[i].trim().equals(dbgenre[j])) {
+                if( multiinput[i].trim().equals(dbgenre[j])) {
                     input_validity_counter++;
                     A=true;
                     //System.out.print("\n genre input matched");
@@ -231,13 +266,13 @@ public class milestone2 {
                 }
             }
             if(!A) {
-                bufer += input_genre[i].trim() + ", ";
+                bufer += multiinput[i].trim() + ", ";
                 //System.out.print("\nINPUT_ERROR: genre input ");
                 //System.out.print(multiinput[i]);
                 //System.out.print(" is invalid genre. \n");
             }
         }
-        if (input_validity_counter != input_genre.length) {
+        if (input_validity_counter != multiinput.length) {
             bufer = bufer.substring(0, bufer.length()-2);
             System.out.printf("\nInputInvalidError : Entered genre (%s) doesn't exist.\n",bufer);
             //System.out.println("Error code: 5\n");
@@ -482,8 +517,8 @@ public class milestone2 {
         boolean b = check_age_validity(args[1]);
         boolean c = true;
         if(args.length==4){
-            String[] input_genre = args[3].trim().toLowerCase().split("\\|");
-            c = check_genre_validity(input_genre);
+            //String[] input_genre = args[3].trim().toLowerCase().split("\\|");
+            c = check_genre_validity(args[3]);
         }
         if(!a && b && c) {
             System.out.println("Gender input error");
