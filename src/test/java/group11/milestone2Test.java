@@ -1,25 +1,17 @@
 package group11;
 
-import junitparams.JUnitParamsRunner;
-import org.junit.After;
-import org.junit.Before;
-
+import org.junit.Rule;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.runner.RunWith;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
 public class milestone2Test extends milestone2 {
 
-    //private final String emptyValue = null;
 
     @Test
     public void valid_genre_test() {
@@ -34,15 +26,20 @@ public class milestone2Test extends milestone2 {
     }
 
     //------------------------------------------------------------------
-    /*
-    @Test
-    public void average_rating_test(){
 
-        HashMap<String, ArrayList<Integer>> h_map = ;
-        double val;
-        assertNotNull(milestone2.percentile(h_map, val));
+    @Test
+    public void age_input_test() throws IOException {
+        HashMap<String, ArrayList<String>> user_data = milestone2.make_user_data();
+
+        String[] age_list = new String[]{
+                "10", "20", "30", "40", "48", "50", "57"
+        };
+
+        for (String age_input : age_list) {
+            assertAll( () -> milestone2.make_user_list_age(user_data, age_input));
+        }
     }
-    */
+
     @Test
     public void occu_input_test() throws IOException {
         HashMap<String, ArrayList<String>> user_data = milestone2.make_user_data();
@@ -62,12 +59,37 @@ public class milestone2Test extends milestone2 {
 
     //------------------------------------------------------------------
 
+    @Rule
+    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+
+    @Test
+    public void exitsWithStatusCode1() throws IOException {
+        String[][] args_list = new String[][]{
+                {"A","25","Action"}, /*->Invalid gender*/
+                {"F" ,"-50" ,"Action"}, /*->Invalid age*/
+                {"F" ,"25" ,"Accion"}, /*->Invalid genre*/
+                {"A" ,"-50","Action"} /*->Invalid gender&age*/
+        };
+
+        exit.expectSystemExitWithStatus(1);
+        milestone2.main(args_list[0]);
+        /*
+        for (String[] args : args_list) {
+            exit.expectSystemExitWithStatus(1);
+            milestone2.main(args);
+        }
+        */
+    }
+
+
+
+
+
+    //------------------------------------------------------------------
+
     @Test
     public void empty_3args_test() {
-        String[] args = new String[3];
-        args[0] = "";
-        args[1] = "";
-        args[2] = "";
+        String[] args = new String[]{"", "", ""};
 
         assertAll( () -> milestone2.main(args));
     }
@@ -84,11 +106,7 @@ public class milestone2Test extends milestone2 {
 
     @Test
     public void empty_4args_test() {
-        String[] args = new String[4];
-        args[0] = "";
-        args[1] = "";
-        args[2] = "";
-        args[3] = "Action";
+        String[] args = new String[]{"", "", "", "Action"};
 
         assertAll( () -> milestone2.main(args));
     }
