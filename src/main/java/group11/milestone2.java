@@ -206,13 +206,23 @@ public class milestone2 {
     }
 
     static boolean check_gender_validity(String gender){
-        return gender.trim().toLowerCase().equals("") || gender.trim().toLowerCase().equals("m") || gender.trim().toLowerCase().equals("f");
+        if(gender.trim().toLowerCase().equals("") || gender.trim().toLowerCase().equals("m") || gender.trim().toLowerCase().equals("f")){
+            return true;
+        }
+        else{
+            System.out.println("InputInvalidError : Entered gender input is invalid.");
+            return false;
+        }
     }
     static boolean check_age_validity(String age){
         if(age.trim().equals("")){
             return true;
         }
-        else return Integer.parseInt(age.trim()) >= 1;
+        else if(Integer.parseInt(age.trim())<1){
+            System.out.println("InputInvalidError : Entered age input is invalid.");
+            return false;
+        }
+        return true;
     }
     static boolean check_genre_validity(String genre){
         String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","crime","documentary","drama","fantasy","film-noir",
@@ -220,13 +230,12 @@ public class milestone2 {
 
         String genreinput=genre.toLowerCase().trim();
         String[] multiinput=genreinput.split("\\|");;
-        ArrayList<String> inputlist =new ArrayList<String>();
         int input_validity_counter = 0;
 
         //check empty input (eg. "", )
         if (genreinput.trim().length() <=0) {
             //input_validity_counter=-99;//It indicate invalid input. -99 don't have meaning, just mean error.
-            //System.out.println("\nInputEmptyError : No argument has passed. 2 arguments are required. (InputStr1 InputStr2)");
+            System.out.println("InputEmptyError : Genre input doesn't have passed. Genre input should not be empty");
             //System.out.println("Error code: 1\n");
             //System.exit(1);
             return false;
@@ -235,7 +244,7 @@ public class milestone2 {
         else {
             if(genreinput.trim().charAt(genreinput.length()-1)=='|') {
                 //input_validity_counter=-99;//It indicate invalid input. -99 don't have meaning, just mean error.
-                //System.out.println("\nInputInvalidError : Entered genre input is invalid.");
+                System.out.println("InputInvalidError : Entered genre input is invalid.");
                 //System.out.println("Error code: 4\n");
                 //System.exit(1);
                 return false;
@@ -246,7 +255,7 @@ public class milestone2 {
             if (multiinput[i].isBlank()) {
                 //System.out.print("\n empty input \n");
                 //input_validity_counter=-99; //It indicate invalid input. -99 don't have meaning, just mean error.
-                //System.out.println("\nInputInvalidError : Entered genre input is invalid.");
+                System.out.println("InputInvalidError : Entered genre input is invalid.");
                 //System.out.println("Error code: 4\n");
                 //System.exit(1);
                 return false;
@@ -274,7 +283,7 @@ public class milestone2 {
         }
         if (input_validity_counter != multiinput.length) {
             bufer = bufer.substring(0, bufer.length()-2);
-            System.out.printf("\nInputInvalidError : Entered genre (%s) doesn't exist.\n",bufer);
+            System.out.printf("InputInvalidError : Entered genre (%s) doesn't exist.\n",bufer);
             //System.out.println("Error code: 5\n");
             //System.exit(1);
             return false;
