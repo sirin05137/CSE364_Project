@@ -462,7 +462,7 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
         else
             return true;
     }
-    static ArrayList<String> make_intersection_list(String args[])throws IOException{
+    static ArrayList<String> make_intersection_list(String[] args)throws IOException{
         BufferedReader get_user_data = new BufferedReader(new FileReader("data/users.dat"));
         ArrayList<String> result = new ArrayList<>();
         while(true){
@@ -491,8 +491,9 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
         // I defined "similar users" as
         // 1. same sex, same occupation (no matter with age)
         // 2. sane sex, same age (no matter with occupation)
-        if(result.size() <minimum_number_for_valid_user_list){
-            ArrayList<String> temp = result;
+        if(result.size() < minimum_number_for_valid_user_list){
+            ArrayList<String> temp = null;
+            temp = (ArrayList<String>) result.clone();
             String[] args_for_similar_user1= {args[0], "", args[2]};
             String[] args_for_similar_user2 = {args[0], args[1], ""};
             temp.addAll(make_intersection_list(args_for_similar_user1));
@@ -500,6 +501,7 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
 
             result.clear(); //clear result
             // remove duplication from temp and save to result.
+
             for (int i =0; i < temp.size(); i++) {
                 if (!result.contains(temp.get(i))) {
                     result.add(temp.get(i));
