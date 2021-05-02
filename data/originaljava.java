@@ -306,7 +306,7 @@ public class milestone2 {
         }
         return true;
     }
-/*
+
     static HashMap<String, ArrayList<String>> make_user_data() throws IOException{
         HashMap<String, ArrayList<String>> user_data = new HashMap<>();
         BufferedReader get_user_data = new BufferedReader(new FileReader("data/users.dat"));
@@ -317,62 +317,86 @@ public class milestone2 {
                 break;
             //System.out.println(line);
             String[] word = line.toLowerCase().split("::");
-            inner_list.add(word[0]); //User_ID
-            inner_list.add(word[1]); //Gender
-            inner_list.add(word[2]); //Age
-            inner_list.add(word[3]); //Occupation
+            inner_list.add(word[1]);
+            inner_list.add(word[2]);
+            inner_list.add(word[3]);
+            user_data.put(word[0], inner_list);
         }
         get_user_data.close();
         return  user_data;
     }
- */
-static boolean make_user_list_gender(ArrayList<String> inner_list, String args0){
-        String Input_Gender = args0.trim().toLowerCase();
-        if(!Input_Gender.equals("")) {
-            if (inner_list.get(1).equals(Input_Gender))
-                return true;
-            else
-                return false;
+    static ArrayList<String> make_user_list_gender(HashMap<String, ArrayList<String>> user_data, String args0){
+        ArrayList<String> valid_user_list_gender = new ArrayList<>();
+        if(!args0.trim().equals("")) {
+            String gender = args0.trim().toLowerCase();
+            for (Map.Entry<String, ArrayList<String>> Iter : user_data.entrySet()) {
+                if (Iter.getValue().get(0).equals(gender)) {
+                    valid_user_list_gender.add(Iter.getKey());
+                    //user_data.entrySet().remove(Iter);
+                }
+            }
         }
-        else
-            return true;
+        else{
+            for (Map.Entry<String, ArrayList<String>> Iter : user_data.entrySet()) {
+                valid_user_list_gender.add(Iter.getKey());
+            }
+        }
+        return valid_user_list_gender;
     }
-
-    static boolean make_user_list_age(ArrayList<String> inner_list, String args1){
-        String Input_Age = args1.replace(" ", "");
-        if(!Input_Age.trim().equals("")) {
+    static ArrayList<String> make_user_list_age(HashMap<String, ArrayList<String>> user_data, String args1_input){
+        String args1 = args1_input.replace(" ", "");
+        ArrayList<String> valid_user_list_age = new ArrayList<>();
+        if(!args1.trim().equals("")) {
             String age = "";
-            int age_int = Integer.parseInt(Input_Age);
-            if(age_int <18)
+            int age_int = Integer.parseInt(args1);
+            /*if(age_int<1) {
+                System.out.println("Invalid age input");
+                System.exit(1);
+            }*/
+            if(age_int <18) {
                 age="1";
-            else if(age_int<25)
+            }
+            else if(age_int<25) {
                 age="18";
-            else if(age_int<35)
+            }
+            else if(age_int<35) {
                 age="25";
-            else if(age_int<45)
+            }
+            else if(age_int<45) {
                 age="35";
-            else if(age_int<50)
+            }
+            else if(age_int<50) {
                 age="45";
-            else if(age_int<56)
+            }
+            else if(age_int<56) {
                 age="50";
-            else
+            }
+            else{
                 age="56";
-
-            if (inner_list.get(2).equals(age))
-                return true;
-            else
-                return false;
+            }
+            for (Map.Entry<String, ArrayList<String>> Iter : user_data.entrySet()) {
+                if (Iter.getValue().get(1).equals(age)) {
+                    valid_user_list_age.add(Iter.getKey());
+                }
+            }
         }
-        else
-            return true;
+        else{
+            for (Map.Entry<String, ArrayList<String>> Iter : user_data.entrySet()) {
+                valid_user_list_age.add(Iter.getKey());
+            }
+        }
+        return  valid_user_list_age;
     }
-    static boolean make_user_list_occu(ArrayList<String> inner_list, String args2){
-        String Input_Occupation = args2.replace(" ", "");
-        Input_Occupation=Input_Occupation.toLowerCase().trim();
-        if(!Input_Occupation.equals("")) {
+    static ArrayList<String> make_user_list_occu(HashMap<String, ArrayList<String>> user_data, String args2_input){
+        String args2 = args2_input.replace(" ", "");
+        //System.out.println(args2);
+        ArrayList<String> valid_user_list_occu = new ArrayList<>();
+        //직업 입력시 grad student처럼 중간에 띄어쓰기 있는 경우 처리할 것
+        if(!args2.trim().equals("")) {
+            String occupationinput = args2.toLowerCase().trim();
             String OccupationNumber = "";
 
-            switch (Input_Occupation) {
+            switch (occupationinput) {
                 case "academic":
                 case "educator":
                     OccupationNumber = "1";
@@ -449,72 +473,33 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
             }
             if (OccupationNumber.equals("0"))
             {
-                if(!Input_Occupation.trim().equals("other"))
+                if(!occupationinput.trim().equals("other"))
                 {
                     System.out.println("InputInvalidWarning : Entered occupation doesn't exist. Based on the movie rated by A, it is recommended instead.\n");
                 }
             }
-            if (inner_list.get(3).equals(OccupationNumber))
-              return true;
-            else
-                return false;
+            for (Map.Entry<String, ArrayList<String>> Iter : user_data.entrySet()) {
+                if (Iter.getValue().get(2).equals(OccupationNumber)) {
+                    valid_user_list_occu.add(Iter.getKey());
+                }
+            }
         }
-        else
-            return true;
+        else{
+            for (Map.Entry<String, ArrayList<String>> Iter : user_data.entrySet()) {
+                valid_user_list_occu.add(Iter.getKey());
+            }
+        }
+        return valid_user_list_occu;
     }
-    static ArrayList<String> make_intersection_list(String args[])throws IOException{
-        BufferedReader get_user_data = new BufferedReader(new FileReader("data/users.dat"));
-        ArrayList<String> result = new ArrayList<>();
-        while(true){
-            ArrayList<String> inner_list = new ArrayList<>();
-            String line = get_user_data.readLine();
-            if (line == null)
-                break;
-            //System.out.println(line);
-            String[] word = line.toLowerCase().split("::");
-            inner_list.add(word[0]); //User_ID
-            inner_list.add(word[1]); //Gender
-            inner_list.add(word[2]); //Age
-            inner_list.add(word[3]); //Occupation
-
-            if (make_user_list_gender(inner_list, args[0])){
-                if(make_user_list_age(inner_list, args[1])){
-                    if(make_user_list_occu(inner_list, args[2])){
-                        result.add(inner_list.get(0));
-                    }
-                }
-            }
-        }
-
-        int minimum_number_for_valid_user_list =5;
-        //if valid_user is small, add "similar users" to valid_user.
-        // I defined "similar users" as
-        // 1. same sex, same occupation (no matter with age)
-        // 2. sane sex, same age (no matter with occupation)
-        if(result.size() <minimum_number_for_valid_user_list){
-            ArrayList<String> temp = result;
-            String[] args_for_similar_user1= {args[0], "", args[2]};
-            String[] args_for_similar_user2 = {args[0], args[1], ""};
-            temp.addAll(make_intersection_list(args_for_similar_user1));
-            temp.addAll(make_intersection_list(args_for_similar_user2));
-
-            result.clear(); //clear result
-            // remove duplication from temp and save to result.
-            for (int i =0; i < temp.size(); i++) {
-                if (!result.contains(temp.get(i))) {
-                    result.add(temp.get(i));
-                }
-            }
-        }
-
-        get_user_data.close();
-        return result;
+    static ArrayList<String> make_intersection_list(ArrayList<String> A, ArrayList<String> B, ArrayList<String> C){
+        B.retainAll(C);
+        A.retainAll(B);
+        return A;
     }
     // 입력된 사용자 정보를 토대로 분류한 사용자들의 영화 평가를 이용하여 map을 생성
     static HashMap<String,ArrayList<Integer>> make_movie_rating_map(ArrayList<String> valid_user_list) throws  IOException{
         HashMap<String,ArrayList<Integer>> movie_rating_map = new HashMap<>();
         BufferedReader get_rating_data = new BufferedReader(new FileReader("data/ratings.dat"));
-
         while(true){
             String line = get_rating_data.readLine();
             if (line == null)
@@ -539,8 +524,6 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
         get_rating_data.close();
         return movie_rating_map;
     }
-
-
 
     static void set_movie_data_in_node(ArrayList<Movie_data_node> movie_data_table) throws IOException{
         BufferedReader get_movie_data = new BufferedReader(new FileReader("data/movies.dat"));
@@ -601,8 +584,18 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
             System.exit(1);
         }
 
-        ArrayList<String> valid_user_list = make_intersection_list(args);
-        HashMap<String,ArrayList<Integer>>  movie_rating_map = make_movie_rating_map(valid_user_list);
+        HashMap<String, ArrayList<String>> user_data = make_user_data();
+        //System.out.println(user_data.size());
+
+        ArrayList<String> valid_user_list_gender = make_user_list_gender(user_data,args[0]);
+        ArrayList<String> valid_user_list_age = make_user_list_age(user_data,args[1]);
+        ArrayList<String> valid_user_list_occu = make_user_list_occu(user_data,args[2]);
+
+        ArrayList<String> valid_user_list = make_intersection_list(valid_user_list_gender, valid_user_list_age, valid_user_list_occu);
+
+
+        HashMap<String,ArrayList<Integer>> movie_rating_map = make_movie_rating_map(valid_user_list);
+
 
         if(args.length==3) {
             ArrayList<Movie_data_node> movie_data_table = new ArrayList<>();
