@@ -78,6 +78,9 @@ public class milestone2Test extends milestone2 {
         //System.out.printf("outcontent is %s ", outContent.toString());
         assertEquals("Gender input error\n", outContent.toString());
     }
+    */
+
+    /*
     @Test
     public void invalid_input_test_1() throws IOException {
         milestone2.main(args_list[1]);
