@@ -187,11 +187,13 @@ public class milestone2 {
         Collections.sort(classified_table); //내림차순으로 정렬
         return classified_table;
     }
+
     static void print_output_format(ArrayList<Classified_by_vote> classified_table){
         for (int i = 0; i < 10; i++) {
             System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
         }
     }
+
     static ArrayList<Movie_data_node> make_table_with_genre(ArrayList<Movie_data_node> inputlist, String[] input_genre){
         ArrayList<Movie_data_node> result = new ArrayList<>();
         for(int i=0; i<inputlist.size();i++) {
@@ -306,27 +308,8 @@ public class milestone2 {
         }
         return true;
     }
-/*
-    static HashMap<String, ArrayList<String>> make_user_data() throws IOException{
-        HashMap<String, ArrayList<String>> user_data = new HashMap<>();
-        BufferedReader get_user_data = new BufferedReader(new FileReader("data/users.dat"));
-        while(true){
-            ArrayList<String> inner_list = new ArrayList<>();
-            String line = get_user_data.readLine();
-            if (line == null)
-                break;
-            //System.out.println(line);
-            String[] word = line.toLowerCase().split("::");
-            inner_list.add(word[0]); //User_ID
-            inner_list.add(word[1]); //Gender
-            inner_list.add(word[2]); //Age
-            inner_list.add(word[3]); //Occupation
-        }
-        get_user_data.close();
-        return  user_data;
-    }
- */
-static boolean make_user_list_gender(ArrayList<String> inner_list, String args0){
+
+    static boolean make_user_list_gender(ArrayList<String> inner_list, String args0){
         String Input_Gender = args0.trim().toLowerCase();
         if(!Input_Gender.equals("")) {
             if (inner_list.get(1).equals(Input_Gender))
@@ -337,7 +320,6 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
         else
             return true;
     }
-
     static boolean make_user_list_age(ArrayList<String> inner_list, String args1){
         String Input_Age = args1.replace(" ", "");
         if(!Input_Age.trim().equals("")) {
@@ -371,7 +353,6 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
         Input_Occupation=Input_Occupation.toLowerCase().trim();
         if(!Input_Occupation.equals("")) {
             String OccupationNumber = "";
-
             switch (Input_Occupation) {
                 case "academic":
                 case "educator":
@@ -449,9 +430,10 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
             }
             if (OccupationNumber.equals("0"))
             {
-                if(!Input_Occupation.trim().equals("other"))
+                if(!Input_Occupation.trim().equals("other") && inner_list.get(0).equals("group11"))
                 {
-                    System.out.println("InputInvalidWarning : Entered occupation doesn't exist. Based on the movie rated by A, it is recommended instead.\n");
+                    System.out.println("InputInvalidWarning : Entered occupation doesn't exist. We can't recommend movies with this occupation.\n");
+                    System.exit(1);
                 }
             }
             if (inner_list.get(3).equals(OccupationNumber))
@@ -485,64 +467,65 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
                 }
             }
         }
-
-        int minimum_number_for_valid_user_list =5;
-        //if valid_user is small, add "similar users" to valid_user.
-        // I defined "similar users" as
-        // 1. same sex, same occupation (no matter with age)
-        // 2. sane sex, same age (no matter with occupation)
-        if(result.size() < minimum_number_for_valid_user_list){
-            ArrayList<String> temp = null;
-            temp = (ArrayList<String>) result.clone();
-            String[] args_for_similar_user1= {args[0], "", args[2]};
-            String[] args_for_similar_user2 = {args[0], args[1], ""};
-            temp.addAll(make_intersection_list(args_for_similar_user1));
-            temp.addAll(make_intersection_list(args_for_similar_user2));
-
-            result.clear(); //clear result
-            // remove duplication from temp and save to result.
-
-            for (int i =0; i < temp.size(); i++) {
-                if (!result.contains(temp.get(i))) {
-                    result.add(temp.get(i));
-                }
-            }
-        }
-
         get_user_data.close();
         return result;
     }
     // 입력된 사용자 정보를 토대로 분류한 사용자들의 영화 평가를 이용하여 map을 생성
-    static HashMap<String,ArrayList<Integer>> make_movie_rating_map(ArrayList<String> valid_user_list) throws  IOException{
+    static HashMap<String,ArrayList<Integer>> make_movie_rating_map(String[] args, int valid_user_range) throws  IOException{
         HashMap<String,ArrayList<Integer>> movie_rating_map = new HashMap<>();
         BufferedReader get_rating_data = new BufferedReader(new FileReader("data/ratings.dat"));
+        ArrayList<String> valid_user_list;
 
-        while(true){
-            String line = get_rating_data.readLine();
-            if (line == null)
-                break;
-            //System.out.println(line);
-            String[] word = line.toLowerCase().split("::");
-            if(valid_user_list.contains(word[0])){
-                if(movie_rating_map.containsKey(word[1])){
-                    int a = movie_rating_map.get(word[1]).get(0)+Integer.parseInt(word[2]);
-                    movie_rating_map.get(word[1]).set(0,a);
-                    int b = movie_rating_map.get(word[1]).get(1)+1;
-                    movie_rating_map.get(word[1]).set(1,b);
-                }
-                else{
-                    ArrayList<Integer> inner_list = new ArrayList<>();
-                    inner_list.add(Integer.parseInt(word[2]));
-                    inner_list.add(1);
-                    movie_rating_map.put(word[1],inner_list);
+        // make movie rating map until it has more than 500 movies.
+        // if it has smaller than 500 movies, expand valid_user_list according to "valid_user_range".
+        // and remake movie rating map using expanded valid_user_list.
+        while(true) {
+            if (valid_user_range > 4){
+                System.out.println("data is too small to rank top10 movies.");
+                System.exit(1);
+            }
+
+            String[] args_copy = args.clone(); //deep copy. to conserve original args
+            if (valid_user_range == 0) { } // all coincidence. do nothing
+            else if (valid_user_range == 1) {args_copy[1] = ""; } // occupation, gender coincidence
+            else if (valid_user_range == 2) {args_copy[0] = ""; } // occupation, age coincidence
+            else if (valid_user_range == 3) {args_copy[2] = ""; } // gender, age coincidence
+            else if (valid_user_range == 4) {args_copy[0] = ""; args_copy[1] = "";} // occupation coincidence
+            valid_user_list = make_intersection_list(args_copy);
+
+            while (true) {
+                String line = get_rating_data.readLine();
+                if (line == null)
+                    break;
+                //System.out.println(line);
+                String[] word = line.toLowerCase().split("::");
+                if (valid_user_list.contains(word[0])) {
+                    if (movie_rating_map.containsKey(word[1])) {
+                        int a = movie_rating_map.get(word[1]).get(0) + Integer.parseInt(word[2]);
+                        movie_rating_map.get(word[1]).set(0, a);
+                        int b = movie_rating_map.get(word[1]).get(1) + 1;
+                        movie_rating_map.get(word[1]).set(1, b);
+                    } else {
+                        ArrayList<Integer> inner_list = new ArrayList<>();
+                        inner_list.add(Integer.parseInt(word[2]));
+                        inner_list.add(1);
+                        movie_rating_map.put(word[1], inner_list);
+                    }
                 }
             }
+
+            if (movie_rating_map.size() < 500) {
+                movie_rating_map.clear();
+                valid_user_list.clear();
+                valid_user_range++;
+            }
+            else
+                break;
         }
+
         get_rating_data.close();
         return movie_rating_map;
     }
-
-
 
     static void set_movie_data_in_node(ArrayList<Movie_data_node> movie_data_table) throws IOException{
         BufferedReader get_movie_data = new BufferedReader(new FileReader("data/movies.dat"));
@@ -602,11 +585,12 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
             System.out.println("Gender, age and genre input error");
             System.exit(1);
         }
-
-        ArrayList<String> valid_user_list = make_intersection_list(args);
-        HashMap<String,ArrayList<Integer>>  movie_rating_map = make_movie_rating_map(valid_user_list);
+        //for occupation input validity test
+        ArrayList<String> for_occupation_input_test = new ArrayList<>(List.of("group11", "is the", "best group","!!!"));
+        make_user_list_occu(for_occupation_input_test, args[2]);
 
         if(args.length==3) {
+            HashMap<String,ArrayList<Integer>>  movie_rating_map = make_movie_rating_map(args,0);
             ArrayList<Movie_data_node> movie_data_table = new ArrayList<>();
             for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
                 Movie_data_node inner_class = new Movie_data_node();
@@ -623,37 +607,40 @@ static boolean make_user_list_gender(ArrayList<String> inner_list, String args0)
             print_output_format(classified_table);
         }
         else if(args.length==4) {
-            String genre_no_empty = args[3].replace(" ", "");
-            String[] input_genre = genre_no_empty.toLowerCase().split("\\|");
-            ArrayList<Movie_data_node> movie_data_table = new ArrayList<>();
-            for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
-                Movie_data_node inner_class = new Movie_data_node();
-                inner_class.setMovieID(Iter.getKey());
-                inner_class.setTotal_rating(Iter.getValue().get(0));
-                inner_class.setCounter(Iter.getValue().get(1));
-                //inner_class.setW(C, m);
-                movie_data_table.add(inner_class);
+            ArrayList<Movie_data_node> table_classified_by_genre;
+            int valid_user_range =0;
+            //while table_classified_by_genre.size is larger than 44.
+            while(true) {
+                HashMap<String,ArrayList<Integer>>  movie_rating_map = make_movie_rating_map(args,valid_user_range);
+                String genre_no_empty = args[3].replace(" ", "");
+
+                String[] input_genre = genre_no_empty.toLowerCase().split("\\|");
+                ArrayList<Movie_data_node> movie_data_table = new ArrayList<>();
+                for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
+                    Movie_data_node inner_class = new Movie_data_node();
+                    inner_class.setMovieID(Iter.getKey());
+                    inner_class.setTotal_rating(Iter.getValue().get(0));
+                    inner_class.setCounter(Iter.getValue().get(1));
+                    //inner_class.setW(C, m);
+                    movie_data_table.add(inner_class);
+                }
+                set_movie_data_in_node(movie_data_table);
+                table_classified_by_genre = make_table_with_genre(movie_data_table, input_genre);
+                if (table_classified_by_genre.size() < 44) // "Film-Noir" genres has total 44 movies.
+                {
+                    movie_rating_map.clear();
+                    movie_data_table.clear();
+                    table_classified_by_genre.clear();
+                    valid_user_range++;
+                }
+                else
+                    break;
             }
-            set_movie_data_in_node(movie_data_table);
-            ArrayList<Movie_data_node> table_classified_by_genre = make_table_with_genre(movie_data_table, input_genre);
 
             double C = total_average_rating(table_classified_by_genre);
             int m = percentile(table_classified_by_genre,0.8);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(table_classified_by_genre, C, m);
             print_output_format(classified_table);
         }
-
-
-        //System.out.println(movie_rating_map);
-
-
-        //long end = System.currentTimeMillis();
-        //System.out.println(end-start  );
-        /*for(int i=0;i<movie_rating_matrix_genre_classified.size();i++){
-                movie_rating_matrix_genre_classified.get(i).print_node();
-            }*/
-        /*for(int i=0;i<classified_table.size();i++){
-            classified_table.get(i).print_node();
-        }*/
     }
 }
