@@ -576,13 +576,12 @@ The code coverage report `index.html` can be found in `target/jacoco-report/` an
 * For the System Exit related tests, to prevent the Java VM termination issue, the external extension written by Todd Ginsberg has been used here. [Reference : JUnit5 System.exit() Extension](https://github.com/tginsberg/junit5-system-exit)
 
 ##### Example of Report
-# 스 크 린 샷 추 가 !
+![image](https://user-images.githubusercontent.com/38070937/116877570-163b8b80-ac59-11eb-9111-91ec3a950e0b.png)
 
 ### Contribution by Area
 | Area | Contribution |
 | :--- | :--- |
 Java Implementation | **Models and Data Structures** <br> 👑 Yeongjun Kwak <br> **Exception Handling** <br> 👑 Sanghun Lee, Yeongjun Kwak <br>**Unit Test Building** <br> 👑 Yujin Lee
-Environment Setup | **Maven Dependancy** <br> Yujin Lee
 Documentation | **README.md** <br> 👑 Yujin Lee
 
 <br>
