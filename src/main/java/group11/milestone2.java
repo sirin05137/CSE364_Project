@@ -649,6 +649,15 @@ public class milestone2 {
         }
         get_movie_data.close();
     }
+    static void map_to_table(HashMap<String,ArrayList<Integer>> movie_rating_map, ArrayList<Movie_data_node> movie_data_table){
+        for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
+            Movie_data_node inner_class = new Movie_data_node();
+            inner_class.setMovieID(Iter.getKey());
+            inner_class.setTotal_rating(Iter.getValue().get(0));
+            inner_class.setCounter(Iter.getValue().get(1));
+            movie_data_table.add(inner_class);
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         //long start = System.currentTimeMillis();
@@ -679,13 +688,7 @@ public class milestone2 {
 
         if(args.length==3) {
             ArrayList<Movie_data_node> movie_data_table = new ArrayList<>();
-            for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
-                Movie_data_node inner_class = new Movie_data_node();
-                inner_class.setMovieID(Iter.getKey());
-                inner_class.setTotal_rating(Iter.getValue().get(0));
-                inner_class.setCounter(Iter.getValue().get(1));
-                movie_data_table.add(inner_class);
-            }
+            map_to_table(movie_rating_map, movie_data_table);
             //set_movie_data_in_node(movie_data_table);
             double p = set_p(movie_data_table.size());
             int m = percentile(movie_data_table,p);
@@ -724,13 +727,7 @@ public class milestone2 {
                 movie_rating_map.clear();
                 movie_rating_map = make_movie_rating_map(valid_user_list);
                 movie_data_table.clear();
-                for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
-                    Movie_data_node inner_class = new Movie_data_node();
-                    inner_class.setMovieID(Iter.getKey());
-                    inner_class.setTotal_rating(Iter.getValue().get(0));
-                    inner_class.setCounter(Iter.getValue().get(1));
-                    movie_data_table.add(inner_class);
-                }
+                map_to_table(movie_rating_map, movie_data_table);
                 p = set_p(movie_data_table.size());
                 m = percentile(movie_data_table,p);
                 if(i==7)
@@ -748,13 +745,7 @@ public class milestone2 {
             String genre_no_empty = args[3].replace(" ", "");
             String[] input_genre = genre_no_empty.toLowerCase().split("\\|");
             ArrayList<Movie_data_node> movie_data_table = new ArrayList<>();
-            for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
-                Movie_data_node inner_class = new Movie_data_node();
-                inner_class.setMovieID(Iter.getKey());
-                inner_class.setTotal_rating(Iter.getValue().get(0));
-                inner_class.setCounter(Iter.getValue().get(1));
-                movie_data_table.add(inner_class);
-            }
+            map_to_table(movie_rating_map, movie_data_table);
             set_movie_data_in_node(movie_data_table);
             ArrayList<Movie_data_node> table_classified_by_genre = make_table_with_genre(movie_data_table, input_genre);
             double p = set_p(table_classified_by_genre.size());
@@ -795,13 +786,7 @@ public class milestone2 {
                 movie_rating_map.clear();
                 movie_rating_map = make_movie_rating_map(valid_user_list);
                 movie_data_table.clear();
-                for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
-                    Movie_data_node inner_class = new Movie_data_node();
-                    inner_class.setMovieID(Iter.getKey());
-                    inner_class.setTotal_rating(Iter.getValue().get(0));
-                    inner_class.setCounter(Iter.getValue().get(1));
-                    movie_data_table.add(inner_class);
-                }
+                map_to_table(movie_rating_map, movie_data_table);
                 set_movie_data_in_node(movie_data_table);
                 table_classified_by_genre.clear();
                 table_classified_by_genre = make_table_with_genre(movie_data_table, input_genre);
