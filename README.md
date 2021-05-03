@@ -520,9 +520,9 @@ Possible errors thrown by invalid input.
 
 ##### **Table 2** No data exist error
 
-| Error  | Code | Message | Description | 
-| :---: | :---: | --- | --- |
-| `NoDBError` | 7 | Rating data matching the input pair doesn't exist. | Thrown when there's no available Rating data for the genre-occupation pair **OR** When there's no Movie data matching the entered genre (combination).
+| Error  | Message | Description | 
+| :---: | --- | --- |
+| `NoDBError` | Rating data matching the input pair doesn't exist. | Thrown when there's no available Rating data for the genre-occupation pair **OR** When there's no Movie data matching the entered genre (combination).
 
 * If the system is terminated with the error code listed above, the system exit status is `1`.
 
