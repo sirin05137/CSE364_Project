@@ -304,10 +304,10 @@ public class project
         {
             double CalculatedInput = fullrating/fullcount;
             if (occuIsInvalid == 1){ // InputInvalidWarning
-                System.out.printf("\nThe rating of %s rated by other : %.2f\n", genreinput, CalculatedInput);
+                System.out.printf("The rating of %s rated by other : %.2f", genreinput, CalculatedInput);
             }
             else {
-                System.out.printf("\nThe rating of %s rated by %s : %.2f\n", genreinput, occupationinput, CalculatedInput);
+                System.out.printf("The rating of %s rated by %s : %.2f", genreinput, occupationinput, CalculatedInput);
             }
             }
         else

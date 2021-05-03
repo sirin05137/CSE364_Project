@@ -19,6 +19,7 @@
         <encoding>UTF-8</encoding>
         <java.version>11</java.version>
         <junit.version>5</junit.version>
+        <jacoco.version>0.8.2</jacoco.version>
     </properties>
 
     <!-- 필수사항 : 프로젝트에 import 되는 dependency 목록-->
@@ -46,6 +47,12 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
             <version>5.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ginsberg</groupId>
+            <artifactId>junit5-system-exit</artifactId>
+            <version>1.1.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -107,7 +114,7 @@
                 </dependencies>
                 <configuration>
                     <argLine>
-                        --illegal-access=permit
+                        ${surefire.argLine} -XX:MaxPermSize=512m --illegal-access=permit
                     </argLine>
                     <additionalClasspathElements>
                         <additionalClasspathElement>
@@ -125,6 +132,59 @@
                         --illegal-access=permit
                     </argLine>
                 </configuration>
+            </plugin>
+            <plugin><!-- measure branch test coverage -->
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/**/project.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <propertyName>surefire.argLine</propertyName>
+                        </configuration>
+                    </execution>
+                    <!-- Jacoco Report is saved at /src/test/jacoco-report -->
+                    <execution>
+                        <id>jacoco-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/jacoco-report</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <!-- Test Coverage (currently 0.9) -->
+                    <execution>
+                        <id>jacoco-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.5</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
