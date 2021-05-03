@@ -220,9 +220,9 @@ public class milestone2Test extends milestone2 {
     @Test
     public void sample_3args_test() {
         String[] args = new String[3];
-        args[0] = "M";
-        args[1] = "20";
-        args[2] = "farmer";
+        args[0] = "F";
+        args[1] = "10";
+        args[2] = "Farmer";
 
         assertAll( () -> milestone2.main(args));
     }
