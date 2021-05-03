@@ -301,7 +301,7 @@ By making use of Bayesian Estimate, the algorithm calculates Weighted Rating (`W
 In this way, the movies with very few ratings or below-average ratings will have comparably light weight.
 
 In Detail, the calculation of Weighted Rating(`W`) is implemented by
-* Making an ArrayList (`classified_table`) by selecting the object with more than `m` votes from `movie_rating_table`.
+* Making an ArrayList (`classified_table`) by selecting the object with more than `m` votes from `movie_data_table`.
 * Sorting the ArrayList with descending-weighted-rating-order and printing Top 10 movies from it.
 
 The original reference for Baysian Estimate can be found [here](https://www.fxsolver.com/browse/formulas/Bayes+estimator+-+Internet+Movie+Database+%28IMDB%29). However, in this project, the estimation method and variables has been set differently to adjust the differences in requirements.
@@ -319,9 +319,9 @@ C | Average rating across **all the movies**
 * `v` and `R`
   * The value of `v` and `R` are obtained by making use of `Movie_data_node`. 
 * `m` : Minimum Number of Ratings 
-  * The value of `m` is obtained by the `Percentile` function. The function returns the number of votes of the movie that corresponds to (1-`p`)*100 % .
+  * The value of `m` is obtained by the `percentile` function. The function returns the number of votes of the movie that corresponds to (1-`p`)*100 % .
     ```ruby
-    static int Percentile(ArrayList<Movie_data_node> movie_rating_matrix, double p)
+    static int percentile(ArrayList<Movie_data_node> movie_rating_matrix, double p)
     ```
   * The value of `p` is differently set for number of movies by `set_p` function ; so that the validity of the weighted rating can be enhanced.
     ```ruby
@@ -526,10 +526,9 @@ Possible errors thrown by invalid input.
 | `InputInvalidError` | Entered gender input is invalid. | Thrown when the entered gender is invalid.
 | `InputInvalidError` | Entered age input is invalid. Age must be a natural number. | Thrown when the entered age is invalid.
 | `InputInvalidError` | Entered occupation (_*inputString*_) doesn't exist. | Thrown when the entered occupation is invalid.
-| `InputInvalidError` | Entered genre input is invalid. | Thrown when the entered genre is invalid.
+| `InputInvalidError` | Entered genre input is invalid. | Thrown when the entered genre is invalid. (e.g. Location of pipeline `|`)
 | `InputInvalidError` | Entered genre (_*inputString*_) doesn't exist. | Thrown when the entered genre is invalid.
 | `InputEmptyError` | Genre input hasn't passed. Genre must not be empty | Thrown when the `""` is passed for the genre input.
-
 
 
 ##### **Table 2** No data exist error
@@ -545,17 +544,26 @@ Possible errors thrown by invalid input.
 #### Examples for the Error Codes
 
 ```ruby
-% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project 
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 
+InputNumError: The input must be in this format : "gender" "age" "occupation" "genre" (genre is optional).
 
-InputEmptyError : No argument has passed. 2 arguments are required. (InputStr1 InputStr2)
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "Female" "25" "Gradstudent"
+InputInvalidError : Entered gender input is invalid.
 
-% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project Drama
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "F" "12.5" "Gradstudent"
+InputInvalidError : Entered age input is invalid. Age must be a natural number.
 
-InputNumError : Only 1 input has passed. 2 arguments are required.
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "F" "25" "Lizard"       
+InputInvalidError : Entered occupation (Lizard) doesn't exist.
 
-% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project Drama Scientist Scientist
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "F" "25" "Gradstudent" "Action|Adventure|"
+InputInvalidError : Entered genre input is invalid.
 
-InputNumError : More than 2 arguments have passed. 2 arguments are required.
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "F" "25" "Gradstudent" "ACCCCCTION"
+InputInvalidError : Entered genre (accccction) doesn't exist.
+
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "F" "25" "Gradstudent" ""          
+InputEmptyError : Genre input hasn't passed. Genre must not be empty
 ```
 
 <br>
@@ -573,7 +581,7 @@ The code coverage report `index.html` can be found in `target/jacoco-report/` an
 ### Contribution by Area
 | Area | Contribution |
 | :--- | :--- |
-Java Implementation | **Models and Data Structures** <br> 👑 Yeongjun Kwak <br> **Exception Handling** <br> 👑 Sanghun Lee, Yeongjun Kwak <br>**Unit Test Building** <br> Yujin Lee
+Java Implementation | **Models and Data Structures** <br> 👑 Yeongjun Kwak <br> **Exception Handling** <br> 👑 Sanghun Lee, Yeongjun Kwak <br>**Unit Test Building** <br> 👑 Yujin Lee
 Environment Setup | **Maven Dependancy** <br> Yujin Lee
 Documentation | **README.md** <br> 👑 Yujin Lee
 
