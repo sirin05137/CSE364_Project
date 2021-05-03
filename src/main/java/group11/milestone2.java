@@ -149,8 +149,9 @@ public class milestone2 {
             }
         }
         if(vote_counting_list.size()==0){
-            System.out.println("No counter!");
-            System.exit(1);
+            //System.out.println("No counter!");
+            //System.exit(1);
+            return 0;
         }
         Collections.sort(vote_counting_list); //오름차순으로 정렬
         BigDecimal One = new BigDecimal("1.0");
@@ -675,15 +676,8 @@ public class milestone2 {
 
         //valid_user_list의 크기가 0이거나 movie_rating_map의 크기가 매우 작을 경우 해결방법 생각하기
         HashMap<String,ArrayList<Integer>> movie_rating_map = make_movie_rating_map(valid_user_list);
-        //System.out.println(valid_user_list.size());
-        //System.out.println(movie_rating_map.size());
 
         if(args.length==3) {
-            if(movie_rating_map.size()<100) {
-                valid_user_list = make_intersection_list_macro(user_data, args[0], "", args[2]);
-                movie_rating_map.clear();
-                movie_rating_map = make_movie_rating_map(valid_user_list);
-            }
             ArrayList<Movie_data_node> movie_data_table = new ArrayList<>();
             for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
                 Movie_data_node inner_class = new Movie_data_node();
@@ -692,11 +686,61 @@ public class milestone2 {
                 inner_class.setCounter(Iter.getValue().get(1));
                 movie_data_table.add(inner_class);
             }
-
-            set_movie_data_in_node(movie_data_table);
-            double C = total_average_rating(movie_data_table);
+            //set_movie_data_in_node(movie_data_table);
             double p = set_p(movie_data_table.size());
             int m = percentile(movie_data_table,p);
+            for(int i =1;movie_data_table.size()<100||m<10;i++){
+                System.out.println(m);
+                if(i==1){
+                    valid_user_list = make_intersection_list_macro(user_data, args[0],"",args[2]);
+                }
+                else if(i==2){
+                    temp = make_intersection_list_macro(user_data,"",args[1], args[2]);
+                    valid_user_list.addAll(temp);
+                }
+                else if(i==3){
+                    temp = make_intersection_list_macro(user_data,"","", args[2]);
+                    valid_user_list.addAll(temp);
+                }
+                else if(i==4){
+                    temp = make_intersection_list_macro(user_data,args[0], args[1], "");
+                    valid_user_list.addAll(temp);
+                }
+                else if(i==5){
+                    temp = make_intersection_list_macro(user_data,"", args[1], "");
+                    valid_user_list.addAll(temp);
+                }
+                else if(i==6){
+                    temp = make_intersection_list_macro(user_data,args[0], "", "");
+                    valid_user_list.addAll(temp);
+                }
+                else{
+                    temp = make_intersection_list_macro(user_data,"", "", "");
+                    valid_user_list.addAll(temp);
+                }
+                HashSet<String> hashSet = new HashSet<>(valid_user_list);
+                valid_user_list.clear();
+                valid_user_list = new ArrayList<>(hashSet);
+                movie_rating_map.clear();
+                movie_rating_map = make_movie_rating_map(valid_user_list);
+                movie_data_table.clear();
+                for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
+                    Movie_data_node inner_class = new Movie_data_node();
+                    inner_class.setMovieID(Iter.getKey());
+                    inner_class.setTotal_rating(Iter.getValue().get(0));
+                    inner_class.setCounter(Iter.getValue().get(1));
+                    movie_data_table.add(inner_class);
+                }
+                p = set_p(movie_data_table.size());
+                m = percentile(movie_data_table,p);
+                if(i==7)
+                    break;
+            }
+
+            System.out.println(m);
+            set_movie_data_in_node(movie_data_table);
+            double C = total_average_rating(movie_data_table);
+            //System.out.println(m);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(movie_data_table, C, m);
             print_output_format(classified_table);
         }
@@ -713,8 +757,11 @@ public class milestone2 {
             }
             set_movie_data_in_node(movie_data_table);
             ArrayList<Movie_data_node> table_classified_by_genre = make_table_with_genre(movie_data_table, input_genre);
+            double p = set_p(table_classified_by_genre.size());
+            int m = percentile(table_classified_by_genre,p);
 
-            for(int i =1;table_classified_by_genre.size()<50;i++){
+            for(int i =1;table_classified_by_genre.size()<50||m<10;i++){
+                System.out.println(m);
                 if(i==1){
                     valid_user_list = make_intersection_list_macro(user_data, args[0],"",args[2]);
                 }
@@ -758,12 +805,14 @@ public class milestone2 {
                 set_movie_data_in_node(movie_data_table);
                 table_classified_by_genre.clear();
                 table_classified_by_genre = make_table_with_genre(movie_data_table, input_genre);
+                p = set_p(table_classified_by_genre.size());
+                m = percentile(table_classified_by_genre,p);
                 if(i==7)
                     break;
             }
+            System.out.println(m);
             double C = total_average_rating(table_classified_by_genre);
-            double p = set_p(table_classified_by_genre.size());
-            int m = percentile(table_classified_by_genre,p);
+            //System.out.println(m);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(table_classified_by_genre, C, m);
             print_output_format(classified_table);
         }
