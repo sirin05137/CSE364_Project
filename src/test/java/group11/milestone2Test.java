@@ -1,30 +1,18 @@
 package group11;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+
 
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class milestone2Test extends milestone2 {
-
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-    private final PrintStream originalErr = System.err;
-
-    @BeforeEach
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
-    }
 
     //------------------------------------------------------------------
 
@@ -60,92 +48,118 @@ public class milestone2Test extends milestone2 {
 
     //------------------------------------------------------------------
 
-    String[][] args_list = new String[][]{
-            {"A","25","Action"}, /*->Invalid Gender input */
-            {"F" ,"-50" ,"Action"}, /*->Invalid Age input */
-            {"F" ,"25" ,"Accccion"}, /*->Invalid Genre input e*/
-            {"A" ,"THISISNOTAGE","Action"}, /*->Invalid Gender and age input */
-            {"A" ,"25","Accccion"}, /*->Invalid Gender and genre input */
-            {"F" ,"THISISNOTAGE","Accccion"}, /*->Invalid Age and genre input */
-            {"A" ,"THISISNOTAGE","Accccion"} /*->Invalid Gender, age and genre input */
-    };
-
-    // Those tests will exit with Status Code 1
-    /*
     @Test
-    public void invalid_input_test_0() throws IOException {
-        milestone2.main(args_list[0]);
-        //System.out.printf("outcontent is %s ", outContent.toString());
-        assertEquals("Gender input error\n", outContent.toString());
-    }
-    */
-
-    /*
-    @Test
-    public void invalid_input_test_1() throws IOException {
-        milestone2.main(args_list[1]);
-        assertEquals("Age input error\n", outContent.toString());
-    }
-    @Test
-    public void invalid_input_test_2() throws IOException {
-        milestone2.main(args_list[2]);
-        assertEquals("Genre input error\n", outContent.toString());
-    }
-    @Test
-    public void invalid_input_test_3() throws IOException {
-        milestone2.main(args_list[3]);
-        assertEquals("Gender and age input error\n", outContent.toString());
+    public void gender_validity_valid_test(){
+        //String gender = "M";
+        assertTrue(milestone2.check_gender_validity(""));
+        assertTrue(milestone2.check_gender_validity("M"));
+        assertTrue(milestone2.check_gender_validity("F"));
     }
 
     @Test
-    public void invalid_input_test_4() throws IOException {
-        milestone2.main(args_list[4]);
-        assertEquals("Gender and genre input error\n", outContent.toString());
+    public void gender_validity_invalid_test(){
+        String gender = "Female";
+        assertFalse(milestone2.check_gender_validity(gender));
     }
 
     @Test
-    public void invalid_input_test_5() throws IOException {
-        milestone2.main(args_list[5]);
-        assertEquals("Age and genre input error\n", outContent.toString());
+    public void age_validity_valid_test(){
+        assertTrue(milestone2.check_age_validity(""));
+        assertTrue(milestone2.check_age_validity("25"));
     }
-    @Test
-    public void invalid_input_test_6() throws IOException {
-        milestone2.main(args_list[6]);
-        assertEquals("Gender, age and genre input error\n", outContent.toString());
-    }
-*/
 
+    @Test
+    public void age_validity_invalid_test(){
+        assertFalse(milestone2.check_age_validity("twelve"));
+        assertFalse(milestone2.check_age_validity("12.4"));
+        assertFalse(milestone2.check_age_validity("0"));
+    }
+
+    @Test
+    public void genre_validity_invalid_test(){
+        //Cannot be empty
+        assertFalse(milestone2.check_genre_validity(""));
+        //pipeline_error_1
+        assertFalse(milestone2.check_genre_validity("comedy|"));
+        //pipeline_error_2
+        assertFalse(milestone2.check_genre_validity("Adventure||Action"));
+        //wrong input(spelling)
+        assertFalse(milestone2.check_genre_validity("Adventure|Drama|PSYYYYFI"));
+    }
 
     //------------------------------------------------------------------
 
+    @Test
+    public void Classified_by_vote_generator_test(){
+        assertNotNull(new Classified_by_vote());
+    }
+
+    @Test
+    public void Classified_by_vote_setW_test(){
+        assertAll( ()-> new Classified_by_vote().setW(3,3));
+    }
+    //------------------------------------------------------------------
+    @Test
+    public void setP_test(){
+        assertEquals(0.5 , milestone2.set_p(50));
+        assertEquals(0.6 , milestone2.set_p(150));
+        assertEquals(0.7 , milestone2.set_p(250));
+        assertEquals(0.8 , milestone2.set_p(1000));
+    }
+
+    @Test
+    public void percentile_test(){
+        Movie_data_node nodeA = new Movie_data_node();
+        nodeA.setMovieID("1");
+        nodeA.setTitle("Toy Story");
+        nodeA.setGenre("Animation");
+        nodeA.setTotal_rating(1234);
+        nodeA.setCounter(500);
+
+        assertAll(()-> nodeA.print_node());
+    }
+
+    /*
     @Test
     public void empty_3args_test() {
         String[] args = new String[]{"", "", ""};
 
         assertAll( () -> milestone2.main(args));
     }
+     */
+    //------------------------------------------------------------------
 
-    @Test
-    public void valid_3args_test() {
-        String[] args = new String[3];
-        args[0] = "F";
-        args[1] = "56";
-        args[2] = "retired";
-
-        assertAll( () -> milestone2.main(args));
-    }
 
     @Test
     public void empty_4args_test() {
-        String[] args = new String[]{"", "", "", "Action"};
+        String[] args = new String[]{"", "", "", "Documentary|War"};
 
         assertAll( () -> milestone2.main(args));
     }
 
+
     //------------------------------------------------------------------
-    @AfterEach
-    public void restoreStreams() {
-        System.setOut(originalOut);
-        System.setErr(originalErr);
+
+    @Test
+    public void userlist_3args_test() {
+        String[] args = new String[3];
+        args[0] = "M";
+        args[1] = "20";
+        args[2] = "farmer";
+
+        assertAll( () -> milestone2.main(args));
     }
+
+    @Test
+    public void userlist_4args_test() {
+        String[] args = new String[4];
+        args[0] = "F";
+        args[1] = "1";
+        args[2] = "farmer";
+        args[3] = "film-noir";
+
+        assertAll( () -> milestone2.main(args));
+    }
+
+
 }

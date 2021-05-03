@@ -8,6 +8,7 @@
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Milestone 1](#milestone-1)
+  * [Explanation of the Algorithm](#explanation-of-the-algorithm)
   * [Running the Tests](#running-the-tests)
     * [Examples](#examples)
   * [Supported Inputs](#supported-inputs)
@@ -18,6 +19,9 @@
   * [About JUnit Test](#about-junit-test)
   * [Contribution by Area](#contribution-by-area)
 * [Milestone 2](#milestone-2)
+  * [Explanation of the Algorithm](#explanation-of-the-algorithm-1)
+    * [1) Bayesian Estimate](#1-bayesian-estimate)
+    * [2) Priority rule for including similar users](#2-priority-rule-for-including-similar-users)
   * [Running the Tests](#running-the-tests-1)
     * [Examples](#examples-1)
   * [Supported Inputs](#supported-inputs-1)
@@ -87,9 +91,13 @@ $ docker run -it new_image_name
 root@containerID:~/project# . run.sh
 ```
 
-## :triangular_flag_on_post:
+---
+
 ## Milestone 1 
 > Goal : Environment setup, data loading, data preprocessing
+
+### Explanation of the Algorithm
+On Milestone 1, the code calculates and returns **the average rating** from ratings data for specified **_occupation_** and **_genre_**. 
 
 ### Running the Test
 Continued from [Installation](#installation) steps.
@@ -275,38 +283,108 @@ Environment Setup | **dockerfile, pom.xml** <br> Yujin Lee
 Java Implementation | **Models and Data Structures** <br> 👑 Yeongjun Kwak <br> **Exception Handling** <br> 👑 Sanghun Lee, Yeongjun Kwak <br>**Unit Test Building** <br> Yujin Lee <br> **Final Reviewer** <br> Sanghun Lee, Yeongjun Kwak
 Documentation | **README.md** <br> 👑 Yujin Lee, Sanghun Lee
 
+<br>
 
-## :triangular_flag_on_post:
+---
+
 ## Milestone 2
 > Goal : Implement Top 10 Movies Recommendation Features
+
+### Explanation of the Algorithm
+On Milestone 2, the code returns **the recommendation of Top 10 movies** for specified **_gender, age, occupation_** or **_genre(s)_**.
+First, to recommend **'relevant'** movies, the code makes use of **_1) Bayesian Estimate_**, which is used to calculate Top 250 movies by IMDB as well, when calculating and comparing the ratings of movies.
+Also, to set the **'similar'** users (in case there aren't enough ratings that match gender, age and occupation), we have set **_2) Priority rule for including similar users_**.
+
+#### 1) Bayesian Estimate
+Bayesian Estimate is an estimator that can help minimizing the risk of including  that minimizes the posterior expected value of a loss function.
+
+By making use of Bayesian Estimate, the algorithm calculates Weighted Rating (`W`) and arranges movies with `W`.
+그 후 Weighted rating에 따라 내림차순으로 List를 sort 하고 상위 10개의 영화만 출력한다.
+
+In this way, the movies with very few ratings or below-average ratings will have comparably light weight.
+The original reference for Baysian Estimate can be found [here](https://www.fxsolver.com/browse/formulas/Bayes+estimator+-+Internet+Movie+Database+%28IMDB%29).
+
+`W = (vR+mC)/(v+m)`
+> 공식 사진으로 대체하기 
+
+| Variables | Explanation |
+| :---: | :--- |
+W | Weighted rating
+v | Total number of ratings **for the movie** = (votes)
+m | Minimum number of ratings required to be listed in the Top 10
+R | Average rating **for the movie** as a number from 0 to 5 (mean)
+C | Average rating across **all the movies**
+
+* `m` : Minimum Number of Ratings 
+  * The value of `m` is obtained by the `Percentile` function. The function returns the number of votes of the movie that corresponds to (1-`p`)*100 % .
+  * Currenly the `p` is set to `0.8`.
+    i.e. If there are 100 movies with average ratings, the function returns **the number of ratings** of 20th-highest movie.
+
+* `R` : Average rating across **all the movies**
+  * The value of `R` is obtained by the `total_average_rating` function.
+  
+
+#### 2) Priority rule for including similar users
+
+The **'similar'** users refer to the users that may be used to secure enough number of movies (when there aren't enough ratings for specified user data).
+
+> 벤다이어그램 사진 옮겨 넣기
+
+When there are less than `100` movies, until the number of movies reaches `100`, the algorithm gradually includes 'similar' users with 
+1. Same **Occupation** and **Gender** with inputs
+   * This refers to the part `A` in the diagram.
+2. Same **Occupation** and **Age range** with inputs
+    * This refers to the part `B` in the diagram.
+3. Same **Gender** and **Age range** with inputs
+    * This refers to the part `C` in the diagram.
+
+<br>
 
 ### Running the Test
 Continued from [Installation](#installation) steps.
 1. (In the Docker Container) Run Java command with **3 or 4 arguments**.
-   4 Arguments(_InputStr1 InputStr2 InputStr3 InputStr4_) are accordingly **Gender, Age, Occupation, _(and Genre)_**.
+   The Arguments(_InputStr1 InputStr2 InputStr3 InputStr4_) are accordingly **Gender, Age, Occupation, _(and Genre)_**.
 ```ruby
 root@containerID:~/project# java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 InputStr1 InputStr2 InputStr3 InputStr4
 ```
 
 #### Examples
-##### Testing with 3 inputs
+
 When valid inputs are passed, the output message will look like this :
+
+##### Testing with 3 inputs
 ```ruby
 // Input
-java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 InputStr1 InputStr2 InputStr3
+java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 “” “” “”
 // Output
-3.42
+Bamboozled (2000) (http://www.imdb.com/title/tt0215545)
+Bootmen (2000) (http://www.imdb.com/title/ttXXXXXXX)
+Digimon: The Movie (2000) (http://www.imdb.com/title/ttXXXXXXX)
+Get Carter (2000) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 5 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 6 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 7 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 8 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 9 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 10 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
 ```
 ##### Testing with 4 inputs
 ```ruby
 // Input
 java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 InputStr1 InputStr2 InputStr3 InputStr4
 // Output
-3.42
+Bamboozled (2000) (http://www.imdb.com/title/tt0215545)
+Bootmen (2000) (http://www.imdb.com/title/ttXXXXXXX)
+Digimon: The Movie (2000) (http://www.imdb.com/title/ttXXXXXXX)
+Get Carter (2000) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 5 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 6 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 7 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 8 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 9 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Movie 10 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
 ```
 > 예시 맞게 수정하
-
-
 
 #### Supported Inputs
 InputStr1 | InputStr2 | InputStr3 | _(InputStr4)_
@@ -314,43 +392,120 @@ InputStr1 | InputStr2 | InputStr3 | _(InputStr4)_
 Gender | Age | Occupation | _(Genre)_
 
 * **Gender**
-  * Must be **one letter** and is not case-sensitive.<br>
+  * Must be **one letter** and is not case-sensitive.
   i.e. one of those ; **"`F`", "`f`", "`M`", "`m`"**.
-  * **Can be left empty** when replaced by **paired double quotation marks**. <br>
+  * **Can be left empty** when replaced by **paired double quotation marks**.
   i.e. `""`
     
-> 스페이스 포함인가? (수정예정)
-  
 * **Age**
   * Must be an **integer value** bigger than 0. 
-    * e.g. 35 (Supported) <br>
-      -23 (X) <br>
+    * e.g. 35 (Supported)
+      -23 (X)
       Thirty-Five (X)
-  * **Can be left empty** when replaced by **paired double quotation marks**. <br>
+  * **Can be left empty** when replaced by **paired double quotation marks**.
       i.e. `""`
 * **Occupation**
   * For Occupation, [the same rules from Milestone1](#supported-inputs) are applied here as well.
-  * **Can be left empty** when replaced by **paired double quotation marks**. <br>
+  * **Can be left empty** when replaced by **paired double quotation marks**.
       i.e. `""`
-* **Genre**
+* **Genre** (When testing with 4 inputs)
   * For Genre, [the same rules from Milestone1](#supported-inputs) are applied here as well.
-  * The combination of genre inputs are allowed as it were in Milestone1. Please refer to [Combination of multiple genres as an input (Milestone 1)](#combination-of-multiple-genres-as-an-input)
-  * **Cannot be left empty**. <br>
+  * For the combination of genre inputs, the formatting rules from Milestone 1 [(Combination of multiple genres as an input)](#combination-of-multiple-genres-as-an-input) applies here as well. <br> However, the pipeline(`|`) here is uesd to link **OR** conditions, not **AND**.
+    * e.g. `Adventure|Animation` includes all the movies that are categorized as Adventure **OR** Animation to candidates for Top 10 movies.
+  * **Cannot be left empty**.
     i.e. `""`
-    > 근데 어차피 인풋 3개면 can be left empty 아닌가? 머쓱.
-    
-> 예시 snippet  정리해서 넣기
+
+##### Testing with 3 inputs
+```ruby
+// Examples of Supported Inputs
+“F” “25” “Gradstudent”
+“M” “30” “Athletes”
+“F” “” “retired”
+“” “15” “”
+“” “” “”
+// Examples of Wrong Inputs
+"Female" "25" "Gradstudent" // Either "F" or "f" should be used.
+"25" "Gradstudent" // Empty part must be explicitly specified by ""
+"F" "-23" "Gradstudent" // Age must be an integer value.
+"F" "Twenty-three" "Gradstudent" // Age must be an integer value.
+"F" "25" "K12student" // The hyphens must not be omitted (K-12student). Please refer to the rule on Milestone 1.
+```
+
+##### Testing with 4 inputs
+```ruby
+“F” “25” “Grad student” “Action|Comedy”
+“M” “30” “Athletes” “Children’s”
+“F” “” “retired” “Animation|Drama|Fantasy”
+“” “15” “” “Sci-Fi”
+“” “” “” “Romance|Comedy”
+```
+<br>
+
+### Error Codes
+Possible errors thrown by invalid input.
+> 자바 최종 파일에 맞게 수정해야
+
+##### **Table 1** Invalid input errors
+
+| Error | Code | Message | Description | 
+| :---: | :---: | --- | --- |
+| `InputEmptyError` | 1 | No argument has passed. 2 arguments are required. (InputStr1 InputStr2) | Thrown when no input has entered.
+| `InputNumError` | 2 | Only 1 input has passed. 2 arguments are required. | Thrown when only 1 input has entered.
+| `InputNumError` | 3 | More than 2 arguments have passed. 2 arguments are required. | Thrown when more than 2 inputs have entered.
+| `InputInvalidError` | 4 | Entered genre input is invalid | Thrown when the entered genre (combination) is invalid.
+| `InputInvalidError` | 5 | Entered genre (_*inputString*_) doesn't exist. ( Invalid word : *input_string* ) | Thrown when the word in the entered genre (**OR** the word in genre combination) is invalid.
+
+##### **Table 2** Invalid input warning
+
+| Warning | Code | Message | Description | 
+| :---: | :---: | --- | --- |
+| `InputInvalidWarning` | 6 | Entered occupation doesn't exist. Rating by 'other' is shown instead. |  Thrown when the 2nd input is invalid.
+
+##### **Table 3** No data exist error
+
+| Error  | Code | Message | Description | 
+| :---: | :---: | --- | --- |
+| `NoDBError` | 7 | Rating data matching the input pair doesn't exist. | Thrown when there's no available Rating data for the genre-occupation pair **OR** When there's no Movie data matching the entered genre (combination).
+
+* If the system is terminated with the error code listed above, the system exit status is `1`.
+
+#### Examples for the Error Codes
+##### Error code : 1~3
+
+```ruby
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project 
+
+InputEmptyError : No argument has passed. 2 arguments are required. (InputStr1 InputStr2)
+Error code: 1
+
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project Drama
+
+InputNumError : Only 1 input has passed. 2 arguments are required.
+Error code: 2
+
+% java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project Drama Scientist Scientist
+
+InputNumError : More than 2 arguments have passed. 2 arguments are required.
+Error code: 3
+```
+
+<br>
 
 ### Contribution by Area
 | Area | Contribution |
 | :--- | :--- |
-Fundamental Research | Sanghun Lee
 Java Implementation | **Models and Data Structures** <br> 👑 Yeongjun Kwak <br> **Exception Handling** <br> 👑 Sanghun Lee, Yeongjun Kwak <br>**Unit Test Building** <br> Yujin Lee
 Environment Setup | **Maven Dependancy** <br> Yujin Lee
-Documentation | **README.md** <br> 👑 Yujin Lee, Sanghun Lee
+Documentation | **README.md** <br> 👑 Yujin Lee
 
+<br>
 
+---
 
+<br>
+
+## Milestone 3 (Upcoming)
+## Milestone 4 (Upcoming)
 
 ## Team Members
 * 20171012 Yeongjun Kwak (@sirin05137 ) - [kyj05137@unist.ac.kr](kyj05137@unist.ac.kr)
