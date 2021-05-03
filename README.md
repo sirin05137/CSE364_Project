@@ -519,6 +519,13 @@ Possible errors thrown by invalid input.
 | `InputNumError` | More than 2 arguments have passed. 2 arguments are required. | Thrown when more than 2 inputs have entered.
 | `InputInvalidError` | Entered genre input is invalid | Thrown when the entered genre (combination) is invalid.
 | `InputInvalidError` | Entered genre (_*inputString*_) doesn't exist. ( Invalid word : *input_string* ) | Thrown when the word in the entered genre (**OR** the word in genre combination) is invalid.
+| `InputInvalidError` | Entered gender input is invalid. | Thrown when the entered gender is invalid.
+| `InputInvalidError` | Age must be natural number. | Thrown when the entered age is invalid.
+| `InputInvalidError` | Entered occupation (_*inputString*_) doesn't exist. | Thrown when the entered occupation is invalid.
+
+| `InputEmptyError` | Genre must not be empty | Thrown when the `""` is passed for the genre input.
+
+
 
 ##### **Table 2** No data exist error
 
