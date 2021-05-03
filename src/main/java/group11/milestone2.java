@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
-
+// Class that store information of movies (like movieID, title, genre, total rating, vote counter)
 class Movie_data_node{
     String movieID;
     String title;
@@ -46,6 +46,8 @@ class Movie_data_node{
                 +this.total_rating+", counter : "+this.counter+"}");
     }
 }
+// Class inherited from Movie_data_node. It has information of movie link and weighted rating.
+// Movies rated above the minimum number of votes will be classified.
 class Classified_by_vote extends Movie_data_node implements Comparable {
     double W = 0;
     String link = "";
@@ -105,6 +107,7 @@ class Classified_by_vote extends Movie_data_node implements Comparable {
 
 public class milestone2 {
 
+    //Calculating the total average rating of movies classified by user data
     static double total_average_rating(ArrayList<Movie_data_node> movie_rating_matrix){
         BigDecimal sum_of_average_rating = new BigDecimal("0.0");
         int count = 0;
@@ -127,6 +130,7 @@ public class milestone2 {
         BigDecimal result = sum_of_average_rating.divide(c,2,RoundingMode.HALF_UP);
         return result.doubleValue();
     }
+
     static double set_p(int size){
         if(size<100){
             return 0.5;
@@ -141,6 +145,7 @@ public class milestone2 {
             return 0.8;
         }
     }
+    //get percentile when ratio is p
     static int percentile(ArrayList<Movie_data_node> movie_rating_matrix, double p){
         ArrayList<Integer> vote_counting_list = new ArrayList<Integer>();
         for(int i=0;i<movie_rating_matrix.size();i++) {
@@ -170,6 +175,7 @@ public class milestone2 {
             return vote_counting_list.get(b-1);
         }
     }
+    //Extract and sort movies with m or more votes.
     static ArrayList<Classified_by_vote> make_classified_table(ArrayList<Movie_data_node> movie_rating_matrix, double C, int m) throws IOException{
         ArrayList<Classified_by_vote> classified_table = new ArrayList<>();
         for(int i=0;i<movie_rating_matrix.size();i++){
@@ -202,11 +208,13 @@ public class milestone2 {
         Collections.sort(classified_table); //내림차순으로 정렬
         return classified_table;
     }
+    //print output format
     static void print_output_format(ArrayList<Classified_by_vote> classified_table){
         for (int i = 0; i < 10; i++) {
             System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
         }
     }
+    //Extract only movies that match genres from movies classified by user data
     static ArrayList<Movie_data_node> make_table_with_genre(ArrayList<Movie_data_node> inputlist, String[] input_genre){
         ArrayList<Movie_data_node> result = new ArrayList<>();
         for(int i=0; i<inputlist.size();i++) {
@@ -418,6 +426,7 @@ public class milestone2 {
         return true;
     }
 
+    //Form a map of users using users.dat. {UserID : [gender, age, occupation]}
     static HashMap<String, ArrayList<String>> make_user_data() throws IOException{
         HashMap<String, ArrayList<String>> user_data = new HashMap<>();
         BufferedReader get_user_data = new BufferedReader(new FileReader("data/users.dat"));
@@ -436,6 +445,7 @@ public class milestone2 {
         get_user_data.close();
         return  user_data;
     }
+
     static ArrayList<String> make_user_list_gender(HashMap<String, ArrayList<String>> user_data, String args0){
         ArrayList<String> valid_user_list_gender = new ArrayList<>();
         if(!args0.trim().equals("")) {
@@ -594,7 +604,16 @@ public class milestone2 {
         A.retainAll(B);
         return A;
     }
-    // 입력된 사용자 정보를 토대로 분류한 사용자들의 영화 평가를 이용하여 map을 생성
+    //Use the four functions above to form a user list that matches the user data entered.
+    static ArrayList<String> make_intersection_list_macro(HashMap<String, ArrayList<String>> user_data,String args0,String args1_input,String args2_input){
+        ArrayList<String> valid_user_list_gender = make_user_list_gender(user_data,args0);
+        ArrayList<String> valid_user_list_age = make_user_list_age(user_data,args1_input);
+        ArrayList<String> valid_user_list_occu = make_user_list_occu(user_data,args2_input);
+
+        return make_intersection_list(valid_user_list_gender, valid_user_list_age, valid_user_list_occu);
+    }
+
+    // Create a map using movie rating of users categorized based on user data entered.
     static HashMap<String,ArrayList<Integer>> make_movie_rating_map(ArrayList<String> valid_user_list) throws IOException{
         HashMap<String,ArrayList<Integer>> movie_rating_map = new HashMap<>();
         BufferedReader get_rating_data = new BufferedReader(new FileReader("data/ratings.dat"));
@@ -622,15 +641,17 @@ public class milestone2 {
         get_rating_data.close();
         return movie_rating_map;
     }
-
-    static ArrayList<String> make_intersection_list_macro(HashMap<String, ArrayList<String>> user_data,String args0,String args1_input,String args2_input){
-        ArrayList<String> valid_user_list_gender = make_user_list_gender(user_data,args0);
-        ArrayList<String> valid_user_list_age = make_user_list_age(user_data,args1_input);
-        ArrayList<String> valid_user_list_occu = make_user_list_occu(user_data,args2_input);
-
-        return make_intersection_list(valid_user_list_gender, valid_user_list_age, valid_user_list_occu);
+    // Change movie rating map to movie data table(List of class Movie_data_node)
+    static void map_to_table(HashMap<String,ArrayList<Integer>> movie_rating_map, ArrayList<Movie_data_node> movie_data_table){
+        for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
+            Movie_data_node inner_class = new Movie_data_node();
+            inner_class.setMovieID(Iter.getKey());
+            inner_class.setTotal_rating(Iter.getValue().get(0));
+            inner_class.setCounter(Iter.getValue().get(1));
+            movie_data_table.add(inner_class);
+        }
     }
-
+    //Get the movie information from movies.dat
     static void set_movie_data_in_node(ArrayList<Movie_data_node> movie_data_table) throws IOException{
         BufferedReader get_movie_data = new BufferedReader(new FileReader("data/movies.dat"));
         while(true){
@@ -649,15 +670,7 @@ public class milestone2 {
         }
         get_movie_data.close();
     }
-    static void map_to_table(HashMap<String,ArrayList<Integer>> movie_rating_map, ArrayList<Movie_data_node> movie_data_table){
-        for (Map.Entry<String, ArrayList<Integer>> Iter : movie_rating_map.entrySet()) {
-            Movie_data_node inner_class = new Movie_data_node();
-            inner_class.setMovieID(Iter.getKey());
-            inner_class.setTotal_rating(Iter.getValue().get(0));
-            inner_class.setCounter(Iter.getValue().get(1));
-            movie_data_table.add(inner_class);
-        }
-    }
+
 
     public static void main(String[] args) throws IOException {
         //long start = System.currentTimeMillis();
@@ -679,22 +692,18 @@ public class milestone2 {
         }
 
         HashMap<String, ArrayList<String>> user_data = make_user_data();
-        //System.out.println(user_data.size());
 
         ArrayList<String> valid_user_list_gender = make_user_list_gender(user_data,args[0]);
         ArrayList<String> valid_user_list_age = make_user_list_age(user_data,args[1]);
         ArrayList<String> valid_user_list_occu = make_user_list_occu(user_data,args[2]);
-
         ArrayList<String> valid_user_list = make_intersection_list(valid_user_list_gender, valid_user_list_age, valid_user_list_occu);
         ArrayList<String> temp;
 
-        //valid_user_list의 크기가 0이거나 movie_rating_map의 크기가 매우 작을 경우 해결방법 생각하기
         HashMap<String,ArrayList<Integer>> movie_rating_map = make_movie_rating_map(valid_user_list);
 
         if(args.length==3) {
             ArrayList<Movie_data_node> movie_data_table = new ArrayList<>();
             map_to_table(movie_rating_map, movie_data_table);
-            //set_movie_data_in_node(movie_data_table);
             double p = set_p(movie_data_table.size());
             int m = percentile(movie_data_table,p);
             for(int i =1;movie_data_table.size()<100||m<10;i++){
@@ -738,7 +747,6 @@ public class milestone2 {
                 if(i==7)
                     break;
             }
-
             //System.out.println(m);
             set_movie_data_in_node(movie_data_table);
             double C = total_average_rating(movie_data_table);
@@ -755,7 +763,6 @@ public class milestone2 {
             ArrayList<Movie_data_node> table_classified_by_genre = make_table_with_genre(movie_data_table, input_genre);
             double p = set_p(table_classified_by_genre.size());
             int m = percentile(table_classified_by_genre,p);
-
             for(int i =1;table_classified_by_genre.size()<50||m<10;i++){
                 //System.out.println(m);
                 if(i==1){
@@ -806,7 +813,6 @@ public class milestone2 {
             ArrayList<Classified_by_vote> classified_table = make_classified_table(table_classified_by_genre, C, m);
             print_output_format(classified_table);
         }
-
         //long end = System.currentTimeMillis();
         //System.out.println(end-start);
     }
