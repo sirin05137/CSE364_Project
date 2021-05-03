@@ -122,7 +122,7 @@ public class milestone2 {
         //System.out.println(count);
         BigDecimal c = new BigDecimal(String.valueOf(count));
         if(count==0){ //movie_rating_matrix에 원소가 없거나 투표수가 0인 영화만 있는 경우
-            System.out.println("no count");
+            System.out.println("NoDBError : There are no movie available for specified inputs.");
             System.exit(1);
         }
         //System.out.println(sum_of_average_rating.doubleValue());
@@ -185,7 +185,7 @@ public class milestone2 {
             }
         }
         if(classified_table.size()==0){
-            System.out.println("There are no movie which get more than "+m+" vote");
+            System.out.println("NoDBError : No movie available for more than "+m+" votes.");
             System.exit(1);
         }
         BufferedReader get_link_data = new BufferedReader(new FileReader("data/links.dat"));
@@ -250,11 +250,11 @@ public class milestone2 {
                 }
             }
             if(!isNumeric){
-                System.out.println("InputInvalidError : Age must be natural number.");
+                System.out.println("InputInvalidError : Entered age input is invalid. Age must be a natural number.");
                 return false;
             }
             else if(Integer.parseInt(age.trim())<1){
-                System.out.println("InputInvalidError : Age must be natural number.");
+                System.out.println("InputInvalidError : Entered age input is invalid. Age must be a natural number.");
                 return false;
             }
             else{
@@ -370,7 +370,7 @@ public class milestone2 {
         //check empty input (eg. "", )
         if (genreinput.trim().length() <=0) {
             //input_validity_counter=-99;//It indicate invalid input. -99 don't have meaning, just mean error.
-            System.out.println("InputEmptyError : Genre input doesn't have passed. Genre input should not be empty");
+            System.out.println("InputEmptyError : Genre input hasn't passed. Genre must not be empty");
             //System.out.println("Error code: 1\n");
             //System.exit(1);
             return false;
@@ -676,7 +676,7 @@ public class milestone2 {
         //long start = System.currentTimeMillis();
 
         if(!(args.length == 3 || args.length==4)) {
-            System.out.println("InputInvalidError: please follow valid input format; \"gender\" \"age\" \"occupation\" \"genre\" (genre is optional)");
+            System.out.println("InputNumError: The input must be in this format : \"gender\" \"age\" \"occupation\" \"genre\" (genre is optional).");
             System.exit(1);
         }
 

@@ -514,16 +514,13 @@ Possible errors thrown by invalid input.
 
 | Error | Message | Description | 
 | :---: | --- | --- |
-| `InputEmptyError` | No argument has passed. 2 arguments are required. (InputStr1 InputStr2) | Thrown when no input has entered.
-| `InputNumError` | Only 1 input has passed. 2 arguments are required. | Thrown when only 1 input has entered.
-| `InputNumError` | More than 2 arguments have passed. 2 arguments are required. | Thrown when more than 2 inputs have entered.
-| `InputInvalidError` | Entered genre input is invalid | Thrown when the entered genre (combination) is invalid.
-| `InputInvalidError` | Entered genre (_*inputString*_) doesn't exist. ( Invalid word : *input_string* ) | Thrown when the word in the entered genre (**OR** the word in genre combination) is invalid.
+| `InputNumError` | The input must be in this format : "gender" "age" "occupation" "genre" (genre is optional). | Thrown when the number of argument is not 3 or 4. 
 | `InputInvalidError` | Entered gender input is invalid. | Thrown when the entered gender is invalid.
-| `InputInvalidError` | Age must be natural number. | Thrown when the entered age is invalid.
+| `InputInvalidError` | Entered age input is invalid. Age must be a natural number. | Thrown when the entered age is invalid.
 | `InputInvalidError` | Entered occupation (_*inputString*_) doesn't exist. | Thrown when the entered occupation is invalid.
-
-| `InputEmptyError` | Genre must not be empty | Thrown when the `""` is passed for the genre input.
+| `InputInvalidError` | Entered genre input is invalid. | Thrown when the entered genre is invalid.
+| `InputInvalidError` | Entered genre (_*inputString*_) doesn't exist. | Thrown when the entered genre is invalid.
+| `InputEmptyError` | Genre input hasn't passed. Genre must not be empty | Thrown when the `""` is passed for the genre input.
 
 
 
@@ -531,7 +528,9 @@ Possible errors thrown by invalid input.
 
 | Error  | Message | Description | 
 | :---: | --- | --- |
-| `NoDBError` | Rating data matching the input pair doesn't exist. | Thrown when there's no available Rating data for the genre-occupation pair **OR** When there's no Movie data matching the entered genre (combination).
+| `NoDBError` | There are no movie available for more than _*m*_ votes | Thrown when there's no available movie list. This error is not likely to happen but implemented to prevent any error.
+| `NoDBError` | There are no movie available for specified inputs. | Thrown when there's no available movie list or there exist movie(s) with no votes only. This error is not likely to happen but implemented to prevent any error.
+
 
 * If the system is terminated with the error code listed above, the system exit status is `1`.
 
