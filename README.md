@@ -352,8 +352,11 @@ C | Average rating across **all the movies**
 The algorithm firstly makes the ArrayList(`valid_user_list`) of users that matches the inputs from `users.dat`.
 And then, this list is used to extract the ratings information and movie data from `ratings.dat` and `movies.dat`.
 
-However, when there aren't sufficient amount of movie candidates to be ranked (On here, it is set to `100 movies`) for specified user data,
-the **'similar'** users will also be added to `valid_user_list` in order of precedence (priority) by function `make_intersection_list_macro`, until the number of movie candidates gets bigger than `100`.
+However,
+* when there aren't sufficient amount of movie candidates to be ranked (On here, it is set to `100 movies`) for specified user data,
+* **OR** when `m` is small for the movie candidates. (On here, it is set to `10` votes).
+  * e.g. The case when less than 10 people have rated the movie is considered to be inappropriate.
+the **'similar'** users will also be added to `valid_user_list` in order of precedence (priority) by function `make_intersection_list_macro`, until the number of movie candidates gets bigger than `100` and `m` gets bigger than 10.
 
 The similar users with priority are the users with : 
 1. Same **Gender**, **Occupation** and **Gender**
@@ -376,6 +379,8 @@ Continued from [Installation](#installation) steps.
 ```ruby
 root@containerID:~/project# java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 InputStr1 InputStr2 InputStr3 InputStr4
 ```
+
+* The maven building process(`mvn install` or `mvn test`) might take up to a minute. 
 
 #### Examples
 
@@ -416,7 +421,7 @@ Raising Arizona (1987) (http://www.imdb.com/title/tt0093822)
 Breakfast Club, The (1985) (http://www.imdb.com/title/tt0088847)
 ```
 
-#### Supported Inputs
+### Supported Inputs
 InputStr1 | InputStr2 | InputStr3 | _(InputStr4)_
 | :---: | :---: | :---: | :---: |
 Gender | Age | Occupation | _(Genre)_
@@ -454,12 +459,15 @@ Gender | Age | Occupation | _(Genre)_
     
 * **Occupation**
   * For Occupation, [the same rules from Milestone1](#supported-inputs) are applied here as well.
+  * However, on milestone 2, the spacing between input is allowed here.
   * **Can be left empty** when replaced by **paired double quotation marks**.
       i.e. `""`
   * Examples
     ```ruby
     "k-12student"   // Supported
     "K12student"    // X (The hyphens must not be omitted.)
+    "Gradstudent"   // Supported
+    "Grad student"  // Supported (Was not supported from Milestone 1)
     (nothing)       // X (must be replaced by "")
     ""              // Supported
     ```
@@ -535,26 +543,32 @@ Possible errors thrown by invalid input.
 * If the system is terminated with the error code listed above, the system exit status is `1`.
 
 #### Examples for the Error Codes
-##### Error code : 1~3
 
 ```ruby
 % java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project 
 
 InputEmptyError : No argument has passed. 2 arguments are required. (InputStr1 InputStr2)
-Error code: 1
 
 % java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project Drama
 
 InputNumError : Only 1 input has passed. 2 arguments are required.
-Error code: 2
 
 % java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.project Drama Scientist Scientist
 
 InputNumError : More than 2 arguments have passed. 2 arguments are required.
-Error code: 3
 ```
 
 <br>
+
+### About JUnit Test
+The [JaCoCO plugin](https://www.eclemma.org/jacoco/) (ver : `0.8.2`) is used for this JUnit Test to generate the code coverage report. 
+The Code coverage goal for this project has been set to `0.9` (90%).
+The code coverage report `index.html` can be found in `target/jacoco-report/` and viewed with chrome or other extensions.
+* The test includes total 20 tests to check the code functionality across the implemented functions and variables.
+* For the System Exit related tests, to prevent the Java VM termination issue, the external extension written by Todd Ginsberg has been used here. [Reference : JUnit5 System.exit() Extension](https://github.com/tginsberg/junit5-system-exit)
+
+##### Example of Report
+# 스 크 린 샷 추 가 !
 
 ### Contribution by Area
 | Area | Contribution |
@@ -580,3 +594,4 @@ Documentation | **README.md** <br> 👑 Yujin Lee
 
 ## License & Acknowledgements
 * F. Maxwell Harper and Joseph A. Konstan. 2015. The MovieLens Datasets: History and Context. ACM Transactions on Interactive Intelligent Systems (TiiS) 5, 4, Article 19 (December 2015), 19 pages. DOI=http://dx.doi.org/10.1145/282787
+* T. Ginsberg, 2021, [JUnit5 System.exit() Extension](https://github.com/tginsberg/junit5-system-exit) 
