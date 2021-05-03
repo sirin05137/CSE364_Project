@@ -76,6 +76,24 @@ public class milestone2Test extends milestone2 {
     }
 
     @Test
+    public void occu_validity_test(){
+        String[] occu_list = new String[]{
+                "academic", "artist", "admin", "grad", "customerservice",
+                "doctor", "executive", "farmer", "homemaker", "k-12student",
+                "lawyer", "programmer", "retired", "marketing", "scientist",
+                "self-employed", "engineer", "tradesman", "unemployed",
+                "writer", "other" /*-> Last one falls to occunum 0*/
+        };
+
+        for (String occu_input : occu_list) {
+            assertTrue(milestone2.check_occu_validity(occu_input));
+        }
+
+        String invalid_input = "THISISWRONG";
+        assertFalse(milestone2.check_occu_validity(invalid_input));
+    }
+
+    @Test
     public void genre_validity_invalid_test(){
         //Cannot be empty
         assertFalse(milestone2.check_genre_validity(""));

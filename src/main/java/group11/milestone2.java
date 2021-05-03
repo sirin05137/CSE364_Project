@@ -245,13 +245,109 @@ public class milestone2 {
                 return false;
             }
             else if(Integer.parseInt(age.trim())<1){
-                System.out.println("InputInvalidError : Entered age input is invalid.");
+                System.out.println("InputInvalidError : Age must be natural number.");
                 return false;
             }
             else{
                 return true;
             }
         }
+    }
+    static boolean check_occu_validity(String occu_input){
+        String occu = occu_input.replace(" ", "");
+        if(occu.trim().toLowerCase().equals("")){
+            return true;
+        }
+        else {
+            String occupationinput = occu.toLowerCase().trim();
+            String OccupationNumber = "";
+
+            switch (occupationinput) {
+                case "academic":
+                case "educator":
+                    OccupationNumber = "1";
+                    break;
+                case "artist":
+                    OccupationNumber = "2";
+                    break;
+                case "clerical":
+                case "admin":
+                    OccupationNumber = "3";
+                    break;
+                case "college":
+                case "collegestudent":
+                case "grad":
+                case "gradstudent":
+                    OccupationNumber = "4";
+                    break;
+                case "customerservice":
+                    OccupationNumber = "5";
+                    break;
+                case "doctor":
+                case "healthcare":
+                    OccupationNumber = "6";
+                    break;
+                case "executive":
+                case "managerial":
+                    OccupationNumber = "7";
+                    break;
+                case "farmer":
+                    OccupationNumber = "8";
+                    break;
+                case "homemaker":
+                    OccupationNumber = "9";
+                    break;
+                case "k-12student":
+                    OccupationNumber = "10";
+                    break;
+                case "lawyer":
+                    OccupationNumber = "11";
+                    break;
+                case "programmer":
+                    OccupationNumber = "12";
+                    break;
+                case "retired":
+                    OccupationNumber = "13";
+                    break;
+                case "sales":
+                case "marketing":
+                    OccupationNumber = "14";
+                    break;
+                case "scientist":
+                    OccupationNumber = "15";
+                    break;
+                case "self-employed":
+                    OccupationNumber = "16";
+                    break;
+                case "technician":
+                case "engineer":
+                    OccupationNumber = "17";
+                    break;
+                case "tradesman":
+                case "craftsman":
+                    OccupationNumber = "18";
+                    break;
+                case "unemployed":
+                    OccupationNumber = "19";
+                    break;
+                case "writer":
+                    OccupationNumber = "20";
+                    break;
+                case "other":
+                    OccupationNumber = "0";
+                    break;
+                default:
+                    OccupationNumber = "100";
+            }
+            if (OccupationNumber.equals("100")){
+                System.out.printf("InputInvalidError : Entered occupation (%s) doesn't exist.\n", occu_input);
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+
     }
     static boolean check_genre_validity(String genre_input){
         String genre = genre_input.replace(" ", "");
@@ -400,7 +496,6 @@ public class milestone2 {
         String args2 = args2_input.replace(" ", "");
         //System.out.println(args2);
         ArrayList<String> valid_user_list_occu = new ArrayList<>();
-        //직업 입력시 grad student처럼 중간에 띄어쓰기 있는 경우 처리할 것
         if(!args2.trim().equals("")) {
             String occupationinput = args2.toLowerCase().trim();
             String OccupationNumber = "";
@@ -479,13 +574,6 @@ public class milestone2 {
                 case "other":
                 default:
                     OccupationNumber = "0";
-            }
-            if (OccupationNumber.equals("0"))
-            {
-                if(!occupationinput.trim().equals("other"))
-                {
-                    System.out.println("InputInvalidWarning : Entered occupation doesn't exist. Based on the movie rated by A, it is recommended instead.\n");
-                }
             }
             for (Map.Entry<String, ArrayList<String>> Iter : user_data.entrySet()) {
                 if (Iter.getValue().get(2).equals(OccupationNumber)) {
@@ -566,36 +654,12 @@ public class milestone2 {
 
         boolean a = check_gender_validity(args[0]);
         boolean b = check_age_validity(args[1]);
-        boolean c = true;
+        boolean c = check_occu_validity(args[2]);
+        boolean d = true;
         if(args.length==4){
-            c = check_genre_validity(args[3]);
+            d = check_genre_validity(args[3]);
         }
-        if(!a && b && c) {
-            System.out.println("Gender input error");
-            System.exit(1);
-        }
-        else if(a && !b && c) {
-            System.out.println("Age input error");
-            System.exit(1);
-        }
-        else if(a && b && !c) {
-            System.out.println("Genre input error");
-            System.exit(1);
-        }
-        else if(!a && !b && c) {
-            System.out.println("Gender and age input error");
-            System.exit(1);
-        }
-        else if(!a && b && !c) {
-            System.out.println("Gender and genre input error");
-            System.exit(1);
-        }
-        else if(a && !b && !c) {
-            System.out.println("Age and genre input error");
-            System.exit(1);
-        }
-        else if(!a && !b && !c) {
-            System.out.println("Gender, age and genre input error");
+        if(!(a && b && c && d)){
             System.exit(1);
         }
 
@@ -622,11 +686,11 @@ public class milestone2 {
                     valid_user_list.addAll(temp);
                 }
                 else if(i==3){
-                    temp = make_intersection_list_macro(user_data,args[0], args[1], "");
+                    temp = make_intersection_list_macro(user_data,"","", args[2]);
                     valid_user_list.addAll(temp);
                 }
                 else if(i==4){
-                    temp = make_intersection_list_macro(user_data,"","", args[2]);
+                    temp = make_intersection_list_macro(user_data,args[0], args[1], "");
                     valid_user_list.addAll(temp);
                 }
                 else if(i==5){
@@ -686,11 +750,11 @@ public class milestone2 {
                     valid_user_list.addAll(temp);
                 }
                 else if(i==3){
-                    temp = make_intersection_list_macro(user_data,args[0], args[1], "");
+                    temp = make_intersection_list_macro(user_data,"","", args[2]);
                     valid_user_list.addAll(temp);
                 }
                 else if(i==4){
-                    temp = make_intersection_list_macro(user_data,"","", args[2]);
+                    temp = make_intersection_list_macro(user_data,args[0], args[1], "");
                     valid_user_list.addAll(temp);
                 }
                 else if(i==5){
