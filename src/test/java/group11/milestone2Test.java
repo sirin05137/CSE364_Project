@@ -1,7 +1,6 @@
 package group11;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.DisplayName;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ public class milestone2Test extends milestone2 {
 
     //------------------------------------------------------------------
 
-    @DisplayName("Success Cases")
     @Test
     public void age_input_test() throws IOException {
         HashMap<String, ArrayList<String>> user_data = milestone2.make_user_data();
@@ -137,6 +135,8 @@ public class milestone2Test extends milestone2 {
         assertAll(()-> nodeA.print_node());
     }
 
+    //------------------------------------------------------------------
+
     @Test
     @ExpectSystemExitWithStatus(1)
     public void total_average_rating_SystemExit_test() {
@@ -196,27 +196,7 @@ public class milestone2Test extends milestone2 {
         milestone2.main(args);
     }
 
-
     //------------------------------------------------------------------
-    /*
-    @Test
-    public void intersection_list_3args_test() {
-        ArrayList<String> valid_user_list = null;
-        HashMap<String,ArrayList<Integer>> movie_rating_map = make_movie_rating_map(valid_user_list);
-    }
-     */
-
-    /*
-    @Test
-    public void empty_3args_test() {
-        String[] args = new String[]{"", "", ""};
-
-        assertAll( () -> milestone2.main(args));
-    }
-     */
-
-    //------------------------------------------------------------------
-
 
     @Test
     public void empty_4args_test() {
@@ -224,9 +204,6 @@ public class milestone2Test extends milestone2 {
 
         assertAll( () -> milestone2.main(args));
     }
-
-
-    //------------------------------------------------------------------
 
     @Test
     public void sample_3args_test() {
