@@ -154,8 +154,7 @@ public class milestone2Test extends milestone2 {
     }
 
     @Test
-    @ExpectSystemExitWithStatus(1)
-    public void percentile_SystemExit_test() {
+    public void percentile_listis0_test() {
         Movie_data_node nodeA = new Movie_data_node();
         nodeA.setMovieID("1");
         nodeA.setTitle("Toy Story");
@@ -166,7 +165,7 @@ public class milestone2Test extends milestone2 {
         ArrayList<Movie_data_node> matrixA = new ArrayList<>();
         matrixA.add(nodeA);
 
-        milestone2.percentile(matrixA, 0.8);
+        assertEquals(0, milestone2.percentile(matrixA, 0.8));
     }
 
     @Test
@@ -192,6 +191,19 @@ public class milestone2Test extends milestone2 {
         args[0] = "Female"; //this is invalid. Should be F or f
         args[1] = "25";
         args[2] = "gradstudent";
+
+        milestone2.main(args);
+    }
+
+    @Test
+    @ExpectSystemExitWithStatus(1)
+    public void main_argnumbers_SystemExit_test() throws IOException {
+        String[] args = new String[5];
+        args[0] = "Female"; //this is invalid. Should be F or f
+        args[1] = "25";
+        args[2] = "gradstudent";
+        args[3] = "Action";
+        args[4] = "dump";
 
         milestone2.main(args);
     }
@@ -225,6 +237,5 @@ public class milestone2Test extends milestone2 {
 
         assertAll( () -> milestone2.main(args));
     }
-
 
 }

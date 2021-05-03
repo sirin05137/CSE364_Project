@@ -170,7 +170,7 @@ java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.pr
   ```
 
 #### Combination of Multiple Genres as an Input
-* In order to get the average rating of the movies that fall into a combination of **multiple genres**, connect the words with **the pipeline('\\|')** and **enclosed by double quotation marks(" ")**.
+* In order to get the average rating of the movies that fall into a combination of **multiple genres**, connect the words with **the pipeline('|')** and **enclosed by double quotation marks(" ")**.
   ```ruby
   Action|Adventure               // X
   "Action|Adventure|"              // X (Pipeline should be between words)
@@ -296,16 +296,17 @@ First, to recommend **'relevant'** movies, the code makes use of **_1) Bayesian 
 Also, to set the **'similar'** users (in case there aren't enough ratings that match gender, age and occupation), we have set **_2) Priority rule for including similar users_**.
 
 #### 1) Bayesian Estimate
-Bayesian Estimate is an estimator that can help minimizing the risk of including  that minimizes the posterior expected value of a loss function.
-
+**Bayesian Estimate** is an estimator that can help minimizing the risk of including  that minimizes the posterior expected value of a loss function.
 By making use of Bayesian Estimate, the algorithm calculates Weighted Rating (`W`) and arranges movies with `W`.
-그 후 Weighted rating에 따라 내림차순으로 List를 sort 하고 상위 10개의 영화만 출력한다.
-
 In this way, the movies with very few ratings or below-average ratings will have comparably light weight.
-The original reference for Baysian Estimate can be found [here](https://www.fxsolver.com/browse/formulas/Bayes+estimator+-+Internet+Movie+Database+%28IMDB%29).
 
-`W = (vR+mC)/(v+m)`
-> 공식 사진으로 대체하기 
+In Detail, the calculation of Weighted Rating(`W`) is implemented by
+* Making an ArrayList (`classified_table`) by selecting the object with more than `m` votes from `movie_rating_table`.
+* Sorting the ArrayList with descending-weighted-rating-order and printing Top 10 movies from it.
+
+The original reference for Baysian Estimate can be found [here](https://www.fxsolver.com/browse/formulas/Bayes+estimator+-+Internet+Movie+Database+%28IMDB%29). However, in this project, the estimation method and variables has been set differently to adjust the differences in requirements.
+
+### `W = (vR+mC)/(v+m)`
 
 | Variables | Explanation |
 | :---: | :--- |
@@ -315,28 +316,56 @@ m | Minimum number of ratings required to be listed in the Top 10
 R | Average rating **for the movie** as a number from 0 to 5 (mean)
 C | Average rating across **all the movies**
 
+* `v` and `R`
+  * The value of `v` and `R` are obtained by making use of `Movie_data_node`. 
 * `m` : Minimum Number of Ratings 
   * The value of `m` is obtained by the `Percentile` function. The function returns the number of votes of the movie that corresponds to (1-`p`)*100 % .
-  * Currenly the `p` is set to `0.8`.
-    i.e. If there are 100 movies with average ratings, the function returns **the number of ratings** of 20th-highest movie.
+    ```ruby
+    static int Percentile(ArrayList<Movie_data_node> movie_rating_matrix, double p)
+    ```
+  * The value of `p` is differently set for number of movies by `set_p` function ; so that the validity of the weighted rating can be enhanced.
+    ```ruby
+    static double set_p(int size){
+        if(size<100){
+            return 0.5;
+        }
+        else if(size<200){
+            return 0.6;
+        }
+        else if(size<500){
+            return 0.7;
+        }
+        else{
+            return 0.8;
+        }
+    } 
+    ```
+    e.g If there are 1000 movies with average ratings, the function will return **the number of ratings** of 200th-highest movie.
 
-* `R` : Average rating across **all the movies**
-  * The value of `R` is obtained by the `total_average_rating` function.
-  
+* `C` : Average rating across **all the movies**
+  * The value of `C` is obtained by the `total_average_rating` function.
+  ```ruby
+  static double total_average_rating(ArrayList<Movie_data_node> movie_rating_matrix)
+  ```
 
 #### 2) Priority rule for including similar users
+The algorithm firstly makes the ArrayList(`valid_user_list`) of users that matches the inputs from `users.dat`.
+And then, this list is used to extract the ratings information and movie data from `ratings.dat` and `movies.dat`.
 
-The **'similar'** users refer to the users that may be used to secure enough number of movies (when there aren't enough ratings for specified user data).
+However, when there aren't sufficient amount of movie candidates to be ranked (On here, it is set to `100 movies`) for specified user data,
+the **'similar'** users will also be added to `valid_user_list` in order of precedence (priority) by function `make_intersection_list_macro`, until the number of movie candidates gets bigger than `100`.
 
-> 벤다이어그램 사진 옮겨 넣기
+The similar users with priority are the users with : 
+1. Same **Gender**, **Occupation** and **Gender**
+2. Same **Gender** and **Occupation**
+3. Same **Age range** and **Occupation**
+4. Same **Occupation**
+5. Same **Gender** and **Age range**
+6. Same **Gender**
+7. Same **Age range**
+8. All the users
 
-When there are less than `100` movies, until the number of movies reaches `100`, the algorithm gradually includes 'similar' users with 
-1. Same **Occupation** and **Gender** with inputs
-   * This refers to the part `A` in the diagram.
-2. Same **Occupation** and **Age range** with inputs
-    * This refers to the part `B` in the diagram.
-3. Same **Gender** and **Age range** with inputs
-    * This refers to the part `C` in the diagram.
+The priority has set as above to give a more weighting on **Occupation**, and less on **Gender** and **Age Range**.
 
 <br>
 
@@ -355,65 +384,99 @@ When valid inputs are passed, the output message will look like this :
 ##### Testing with 3 inputs
 ```ruby
 // Input
-java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 “” “” “”
+java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "F" "25" "Gradstudent"
+
 // Output
-Bamboozled (2000) (http://www.imdb.com/title/tt0215545)
-Bootmen (2000) (http://www.imdb.com/title/ttXXXXXXX)
-Digimon: The Movie (2000) (http://www.imdb.com/title/ttXXXXXXX)
-Get Carter (2000) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 5 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 6 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 7 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 8 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 9 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 10 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Sixth Sense, The (1999) (http://www.imdb.com/title/tt0167404)
+Matrix, The (1999) (http://www.imdb.com/title/tt0133093)
+Shawshank Redemption, The (1994) (http://www.imdb.com/title/tt0111161)
+Usual Suspects, The (1995) (http://www.imdb.com/title/tt0114814)
+Silence of the Lambs, The (1991) (http://www.imdb.com/title/tt0102926)
+Close Shave, A (1995) (http://www.imdb.com/title/tt0112691)
+Wrong Trousers, The (1993) (http://www.imdb.com/title/tt0108598)
+Cinema Paradiso (1988) (http://www.imdb.com/title/tt0095765)
+American Beauty (1999) (http://www.imdb.com/title/tt0169547)
+Raiders of the Lost Ark (1981) (http://www.imdb.com/title/tt0082971)
 ```
 ##### Testing with 4 inputs
 ```ruby
 // Input
-java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 InputStr1 InputStr2 InputStr3 InputStr4
+java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "F" "25" "Gradstudent" "Action|Comedy"
+
 // Output
-Bamboozled (2000) (http://www.imdb.com/title/tt0215545)
-Bootmen (2000) (http://www.imdb.com/title/ttXXXXXXX)
-Digimon: The Movie (2000) (http://www.imdb.com/title/ttXXXXXXX)
-Get Carter (2000) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 5 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 6 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 7 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 8 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 9 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
-Movie 10 (XXXX) (http://www.imdb.com/title/ttXXXXXXX)
+Matrix, The (1999) (http://www.imdb.com/title/tt0133093)
+Close Shave, A (1995) (http://www.imdb.com/title/tt0112691)
+Wrong Trousers, The (1993) (http://www.imdb.com/title/tt0108598)
+American Beauty (1999) (http://www.imdb.com/title/tt0169547)
+Shakespeare in Love (1998) (http://www.imdb.com/title/tt0138097)
+Raiders of the Lost Ark (1981) (http://www.imdb.com/title/tt0082971)
+Cinema Paradiso (1988) (http://www.imdb.com/title/tt0095765)
+Eat Drink Man Woman (1994) (http://www.imdb.com/title/tt0111797)
+Raising Arizona (1987) (http://www.imdb.com/title/tt0093822)
+Breakfast Club, The (1985) (http://www.imdb.com/title/tt0088847)
 ```
-> 예시 맞게 수정하
 
 #### Supported Inputs
 InputStr1 | InputStr2 | InputStr3 | _(InputStr4)_
 | :---: | :---: | :---: | :---: |
 Gender | Age | Occupation | _(Genre)_
 
+* **Common Rules for the inputs**
+  * All the inputs must be enclosed with double quotation marks(`""`).
+  * The inputs are **not case-sensitive**, therefore both "Action", "action" and "AcTiOn" are allowed.
+
 * **Gender**
   * Must be **one letter** and is not case-sensitive.
   i.e. one of those ; **"`F`", "`f`", "`M`", "`m`"**.
   * **Can be left empty** when replaced by **paired double quotation marks**.
   i.e. `""`
+  * Examples
+    ```ruby
+    "F"       // Supported
+    "Female"  // X
+    (nothing) // X (must be replaced by "")
+    ""        // Supported
+    ```
     
 * **Age**
-  * Must be an **integer value** bigger than 0. 
-    * e.g. 35 (Supported)
-      -23 (X)
-      Thirty-Five (X)
+  * Must be an **integer value** bigger than 0.
   * **Can be left empty** when replaced by **paired double quotation marks**.
       i.e. `""`
+  * Examples
+    ```ruby
+    "35"          // Supported
+    "35.5"        // X
+    "-23"         // X
+    "Thirty-five" // X
+    (nothing)     // X (must be replaced by "")
+    ""            // Supported
+    ```
+    
 * **Occupation**
   * For Occupation, [the same rules from Milestone1](#supported-inputs) are applied here as well.
   * **Can be left empty** when replaced by **paired double quotation marks**.
       i.e. `""`
+  * Examples
+    ```ruby
+    "k-12student"   // Supported
+    "K12student"    // X (The hyphens must not be omitted.)
+    (nothing)       // X (must be replaced by "")
+    ""              // Supported
+    ```
+
 * **Genre** (When testing with 4 inputs)
   * For Genre, [the same rules from Milestone1](#supported-inputs) are applied here as well.
   * For the combination of genre inputs, the formatting rules from Milestone 1 [(Combination of multiple genres as an input)](#combination-of-multiple-genres-as-an-input) applies here as well. <br> However, the pipeline(`|`) here is uesd to link **OR** conditions, not **AND**.
     * e.g. `Adventure|Animation` includes all the movies that are categorized as Adventure **OR** Animation to candidates for Top 10 movies.
-  * **Cannot be left empty**.
-    i.e. `""`
+  * **Must NOT be left empty**.
+  * Examples
+    ```ruby
+    "Film-noir"         // Supported
+    "Filmnoir"          // X (The hyphens must not be omitted.)
+    Action|Adventure    // X (Must be enclosed by pipeline)
+    "Action|Adventure|" // X (Pipeline should be between words)
+    ""                  // The genre must not be left empty.
+    ```
 
 ##### Testing with 3 inputs
 ```ruby
@@ -423,49 +486,45 @@ Gender | Age | Occupation | _(Genre)_
 “F” “” “retired”
 “” “15” “”
 “” “” “”
+
 // Examples of Wrong Inputs
-"Female" "25" "Gradstudent" // Either "F" or "f" should be used.
+"F" "25"           // Empty part must be explicitly specified by ""
 "25" "Gradstudent" // Empty part must be explicitly specified by ""
-"F" "-23" "Gradstudent" // Age must be an integer value.
-"F" "Twenty-three" "Gradstudent" // Age must be an integer value.
-"F" "25" "K12student" // The hyphens must not be omitted (K-12student). Please refer to the rule on Milestone 1.
 ```
 
 ##### Testing with 4 inputs
 ```ruby
+// Examples of Supported Inputs
 “F” “25” “Grad student” “Action|Comedy”
 “M” “30” “Athletes” “Children’s”
 “F” “” “retired” “Animation|Drama|Fantasy”
 “” “15” “” “Sci-Fi”
 “” “” “” “Romance|Comedy”
+
+// Examples of Wrong Inputs
+“F” “25” “Grad student” “”  // The genre must not be left empty.
+“F” “25” “Grad student” “Action|Comedy” "Drama" // Extra arguments are not allowed.
 ```
 <br>
 
 ### Error Codes
 Possible errors thrown by invalid input.
-> 자바 최종 파일에 맞게 수정해야
 
 ##### **Table 1** Invalid input errors
 
-| Error | Code | Message | Description | 
-| :---: | :---: | --- | --- |
-| `InputEmptyError` | 1 | No argument has passed. 2 arguments are required. (InputStr1 InputStr2) | Thrown when no input has entered.
-| `InputNumError` | 2 | Only 1 input has passed. 2 arguments are required. | Thrown when only 1 input has entered.
-| `InputNumError` | 3 | More than 2 arguments have passed. 2 arguments are required. | Thrown when more than 2 inputs have entered.
-| `InputInvalidError` | 4 | Entered genre input is invalid | Thrown when the entered genre (combination) is invalid.
-| `InputInvalidError` | 5 | Entered genre (_*inputString*_) doesn't exist. ( Invalid word : *input_string* ) | Thrown when the word in the entered genre (**OR** the word in genre combination) is invalid.
+| Error | Message | Description | 
+| :---: | --- | --- |
+| `InputEmptyError` | No argument has passed. 2 arguments are required. (InputStr1 InputStr2) | Thrown when no input has entered.
+| `InputNumError` | Only 1 input has passed. 2 arguments are required. | Thrown when only 1 input has entered.
+| `InputNumError` | More than 2 arguments have passed. 2 arguments are required. | Thrown when more than 2 inputs have entered.
+| `InputInvalidError` | Entered genre input is invalid | Thrown when the entered genre (combination) is invalid.
+| `InputInvalidError` | Entered genre (_*inputString*_) doesn't exist. ( Invalid word : *input_string* ) | Thrown when the word in the entered genre (**OR** the word in genre combination) is invalid.
 
-##### **Table 2** Invalid input warning
+##### **Table 2** No data exist error
 
-| Warning | Code | Message | Description | 
-| :---: | :---: | --- | --- |
-| `InputInvalidWarning` | 6 | Entered occupation doesn't exist. Rating by 'other' is shown instead. |  Thrown when the 2nd input is invalid.
-
-##### **Table 3** No data exist error
-
-| Error  | Code | Message | Description | 
-| :---: | :---: | --- | --- |
-| `NoDBError` | 7 | Rating data matching the input pair doesn't exist. | Thrown when there's no available Rating data for the genre-occupation pair **OR** When there's no Movie data matching the entered genre (combination).
+| Error  | Message | Description | 
+| :---: | --- | --- |
+| `NoDBError` | Rating data matching the input pair doesn't exist. | Thrown when there's no available Rating data for the genre-occupation pair **OR** When there's no Movie data matching the entered genre (combination).
 
 * If the system is terminated with the error code listed above, the system exit status is `1`.
 
