@@ -138,22 +138,6 @@ public class milestone2Test extends milestone2 {
     //------------------------------------------------------------------
 
     @Test
-    @ExpectSystemExitWithStatus(1)
-    public void total_average_rating_SystemExit_test() {
-        Movie_data_node nodeA = new Movie_data_node();
-        nodeA.setMovieID("1");
-        nodeA.setTitle("Toy Story");
-        nodeA.setGenre("Animation");
-        nodeA.setTotal_rating(0);
-        nodeA.setCounter(0);
-
-        ArrayList<Movie_data_node> matrixA = new ArrayList<>();
-        matrixA.add(nodeA);
-
-        milestone2.total_average_rating(matrixA);
-    }
-
-    @Test
     public void percentile_listis0_test() {
         Movie_data_node nodeA = new Movie_data_node();
         nodeA.setMovieID("1");
@@ -166,46 +150,6 @@ public class milestone2Test extends milestone2 {
         matrixA.add(nodeA);
 
         assertEquals(0, milestone2.percentile(matrixA, 0.8));
-    }
-
-    @Test
-    @ExpectSystemExitWithStatus(1)
-    public void make_classified_table_SystemExit_test() throws IOException {
-        Movie_data_node nodeA = new Movie_data_node();
-        nodeA.setMovieID("1");
-        nodeA.setTitle("Toy Story");
-        nodeA.setGenre("Animation");
-        nodeA.setTotal_rating(0);
-        nodeA.setCounter(0);
-
-        ArrayList<Movie_data_node> matrixA = new ArrayList<>();
-        matrixA.add(nodeA);
-
-        milestone2.make_classified_table(matrixA, 0.5, 10);
-    }
-
-    @Test
-    @ExpectSystemExitWithStatus(1)
-    public void main_SystemExit_test() throws IOException {
-        String[] args = new String[3];
-        args[0] = "Female"; //this is invalid. Should be F or f
-        args[1] = "25";
-        args[2] = "gradstudent";
-
-        milestone2.main(args);
-    }
-
-    @Test
-    @ExpectSystemExitWithStatus(1)
-    public void main_argnumbers_SystemExit_test() throws IOException {
-        String[] args = new String[5];
-        args[0] = "Female"; //this is invalid. Should be F or f
-        args[1] = "25";
-        args[2] = "gradstudent";
-        args[3] = "Action";
-        args[4] = "dump";
-
-        milestone2.main(args);
     }
 
     //------------------------------------------------------------------

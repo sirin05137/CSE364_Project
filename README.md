@@ -63,9 +63,10 @@ CSE364_Project/
 │       │   └── group11/
 │       │       └── projectTest.java
 │       └── resources/   
-├── target                            # Generated when mvn install
-│   └── jacoco-report/
-│   │       └── index.html            # JaCoCo Code Coverage Report                
+├── target/                           # Generated when mvn install
+│   └── site/
+│       └── jacoco/                           
+│           └── index.html            # JaCoCo Code Coverage Report                
 ├── pom.xml                           # Maven configuration
 └── README.md
 ```
@@ -582,9 +583,8 @@ InputEmptyError : Genre input hasn't passed. Genre must not be empty
 ### About JUnit Test
 The [JaCoCO plugin](https://www.eclemma.org/jacoco/) (ver : `0.8.2`) is used for this JUnit Test to generate the code coverage report. 
 The Code coverage goal for this project has been set to `0.9` (90%).
-The code coverage report `index.html` can be found in `target/jacoco-report/` and viewed with chrome or other extensions.
-* The test includes total 20 tests to check the code functionality across the implemented functions and variables.
-* For the System Exit related tests, to prevent the Java VM termination issue, the external extension written by Todd Ginsberg has been used here. [Reference : JUnit5 System.exit() Extension](https://github.com/tginsberg/junit5-system-exit)
+The code coverage report `index.html` can be found in `target/site/jacoco/` directory and viewed with chrome or other extensions.
+* The test includes total 16 tests to check the code functionality across the implemented functions and variables.
 
 ##### Example of Report
 ![image](https://user-images.githubusercontent.com/38070937/116877570-163b8b80-ac59-11eb-9111-91ec3a950e0b.png)
@@ -612,4 +612,3 @@ Documentation | **README.md** <br> 👑 Yujin Lee
 
 ## License & Acknowledgements
 * F. Maxwell Harper and Joseph A. Konstan. 2015. The MovieLens Datasets: History and Context. ACM Transactions on Interactive Intelligent Systems (TiiS) 5, 4, Article 19 (December 2015), 19 pages. DOI=http://dx.doi.org/10.1145/282787
-* T. Ginsberg, 2021, [JUnit5 System.exit() Extension](https://github.com/tginsberg/junit5-system-exit) 
