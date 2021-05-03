@@ -675,39 +675,12 @@ public class milestone2 {
 
         //valid_user_list의 크기가 0이거나 movie_rating_map의 크기가 매우 작을 경우 해결방법 생각하기
         HashMap<String,ArrayList<Integer>> movie_rating_map = make_movie_rating_map(valid_user_list);
+        //System.out.println(valid_user_list.size());
+        //System.out.println(movie_rating_map.size());
 
         if(args.length==3) {
-            for(int i =1;movie_rating_map.size()<100;i++){
-                if(i==1){
-                    valid_user_list = make_intersection_list_macro(user_data, args[0],"",args[2]);
-                }
-                else if(i==2){
-                    temp = make_intersection_list_macro(user_data,"",args[1], args[2]);
-                    valid_user_list.addAll(temp);
-                }
-                else if(i==3){
-                    temp = make_intersection_list_macro(user_data,"","", args[2]);
-                    valid_user_list.addAll(temp);
-                }
-                else if(i==4){
-                    temp = make_intersection_list_macro(user_data,args[0], args[1], "");
-                    valid_user_list.addAll(temp);
-                }
-                else if(i==5){
-                    temp = make_intersection_list_macro(user_data,"", args[1], "");
-                    valid_user_list.addAll(temp);
-                }
-                else if(i==6){
-                    temp = make_intersection_list_macro(user_data,args[0], "", "");
-                    valid_user_list.addAll(temp);
-                }
-                else{
-                    temp = make_intersection_list_macro(user_data,"", "", "");
-                    valid_user_list.addAll(temp);
-                }
-                HashSet<String> hashSet = new HashSet<>(valid_user_list);
-                valid_user_list.clear();
-                valid_user_list = new ArrayList<>(hashSet);
+            if(movie_rating_map.size()<100) {
+                valid_user_list = make_intersection_list_macro(user_data, args[0], "", args[2]);
                 movie_rating_map.clear();
                 movie_rating_map = make_movie_rating_map(valid_user_list);
             }
