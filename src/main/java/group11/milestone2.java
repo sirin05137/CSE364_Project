@@ -662,6 +662,11 @@ public class milestone2 {
     public static void main(String[] args) throws IOException {
         //long start = System.currentTimeMillis();
 
+        if(!(args.length == 3 || args.length==4)) {
+            System.out.println("InputInvalidError: please follow valid input format; \"gender\" \"age\" \"occupation\" \"genre\" (genre is optional)");
+            System.exit(1);
+        }
+
         boolean a = check_gender_validity(args[0]);
         boolean b = check_age_validity(args[1]);
         boolean c = check_occu_validity(args[2]);
@@ -693,7 +698,7 @@ public class milestone2 {
             double p = set_p(movie_data_table.size());
             int m = percentile(movie_data_table,p);
             for(int i =1;movie_data_table.size()<100||m<10;i++){
-                System.out.println(m);
+                //System.out.println(m);
                 if(i==1){
                     valid_user_list = make_intersection_list_macro(user_data, args[0],"",args[2]);
                 }
@@ -734,7 +739,7 @@ public class milestone2 {
                     break;
             }
 
-            System.out.println(m);
+            //System.out.println(m);
             set_movie_data_in_node(movie_data_table);
             double C = total_average_rating(movie_data_table);
             //System.out.println(m);
@@ -752,7 +757,7 @@ public class milestone2 {
             int m = percentile(table_classified_by_genre,p);
 
             for(int i =1;table_classified_by_genre.size()<50||m<10;i++){
-                System.out.println(m);
+                //System.out.println(m);
                 if(i==1){
                     valid_user_list = make_intersection_list_macro(user_data, args[0],"",args[2]);
                 }
@@ -795,7 +800,7 @@ public class milestone2 {
                 if(i==7)
                     break;
             }
-            System.out.println(m);
+            //System.out.println(m);
             double C = total_average_rating(table_classified_by_genre);
             //System.out.println(m);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(table_classified_by_genre, C, m);
