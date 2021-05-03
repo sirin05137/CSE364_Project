@@ -1,21 +1,20 @@
 package group11;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.api.DisplayName;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-
-
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class milestone2Test extends milestone2 {
 
+
     //------------------------------------------------------------------
 
+    @DisplayName("Success Cases")
     @Test
     public void age_input_test() throws IOException {
         HashMap<String, ArrayList<String>> user_data = milestone2.make_user_data();
@@ -116,6 +115,7 @@ public class milestone2Test extends milestone2 {
     public void Classified_by_vote_setW_test(){
         assertAll( ()-> new Classified_by_vote().setW(3,3));
     }
+
     //------------------------------------------------------------------
     @Test
     public void setP_test(){
@@ -137,6 +137,75 @@ public class milestone2Test extends milestone2 {
         assertAll(()-> nodeA.print_node());
     }
 
+    @Test
+    @ExpectSystemExitWithStatus(1)
+    public void total_average_rating_SystemExit_test() {
+        Movie_data_node nodeA = new Movie_data_node();
+        nodeA.setMovieID("1");
+        nodeA.setTitle("Toy Story");
+        nodeA.setGenre("Animation");
+        nodeA.setTotal_rating(0);
+        nodeA.setCounter(0);
+
+        ArrayList<Movie_data_node> matrixA = new ArrayList<>();
+        matrixA.add(nodeA);
+
+        milestone2.total_average_rating(matrixA);
+    }
+
+    @Test
+    @ExpectSystemExitWithStatus(1)
+    public void percentile_SystemExit_test() {
+        Movie_data_node nodeA = new Movie_data_node();
+        nodeA.setMovieID("1");
+        nodeA.setTitle("Toy Story");
+        nodeA.setGenre("Animation");
+        nodeA.setTotal_rating(0);
+        nodeA.setCounter(0);
+
+        ArrayList<Movie_data_node> matrixA = new ArrayList<>();
+        matrixA.add(nodeA);
+
+        milestone2.percentile(matrixA, 0.8);
+    }
+
+    @Test
+    @ExpectSystemExitWithStatus(1)
+    public void make_classified_table_SystemExit_test() throws IOException {
+        Movie_data_node nodeA = new Movie_data_node();
+        nodeA.setMovieID("1");
+        nodeA.setTitle("Toy Story");
+        nodeA.setGenre("Animation");
+        nodeA.setTotal_rating(0);
+        nodeA.setCounter(0);
+
+        ArrayList<Movie_data_node> matrixA = new ArrayList<>();
+        matrixA.add(nodeA);
+
+        milestone2.make_classified_table(matrixA, 0.5, 10);
+    }
+
+    @Test
+    @ExpectSystemExitWithStatus(1)
+    public void main_SystemExit_test() throws IOException {
+        String[] args = new String[3];
+        args[0] = "Female"; //this is invalid. Should be F or f
+        args[1] = "25";
+        args[2] = "gradstudent";
+
+        milestone2.main(args);
+    }
+
+
+    //------------------------------------------------------------------
+    /*
+    @Test
+    public void intersection_list_3args_test() {
+        ArrayList<String> valid_user_list = null;
+        HashMap<String,ArrayList<Integer>> movie_rating_map = make_movie_rating_map(valid_user_list);
+    }
+     */
+
     /*
     @Test
     public void empty_3args_test() {
@@ -145,6 +214,7 @@ public class milestone2Test extends milestone2 {
         assertAll( () -> milestone2.main(args));
     }
      */
+
     //------------------------------------------------------------------
 
 
@@ -159,7 +229,7 @@ public class milestone2Test extends milestone2 {
     //------------------------------------------------------------------
 
     @Test
-    public void userlist_3args_test() {
+    public void sample_3args_test() {
         String[] args = new String[3];
         args[0] = "M";
         args[1] = "20";
@@ -169,7 +239,7 @@ public class milestone2Test extends milestone2 {
     }
 
     @Test
-    public void userlist_4args_test() {
+    public void sample_4args_test() {
         String[] args = new String[4];
         args[0] = "F";
         args[1] = "1";
