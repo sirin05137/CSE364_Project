@@ -295,6 +295,17 @@ On Milestone 2, the code returns **the recommendation of Top 10 movies** for spe
 First, to recommend **'relevant'** movies, the code makes use of **_1) Bayesian Estimate_**, which is used to calculate Top 250 movies by IMDB as well, when calculating and comparing the ratings of movies.
 Also, to set the **'similar'** users (in case there aren't enough ratings that match gender, age and occupation), we have set **_2) Priority rule for including similar users_**.
 
+To briefly explain how the algorithm works : 
+1. First, it makes the ArrayList(`valid_user_list`) of users that matches the inputs from `users.dat`.
+2. And then, it extracts the ratings information and movie data from `ratings.dat` and `movies.dat` using `valid_user_list`.
+3. Check if there aren't sufficient amount of movie candidates to be ranked (On here, it is set to `100` movies) for specified user data **OR** when `m` is too small for the movie candidates (On here, it is set to `10` votes),
+   If the conditions are not met -> 4.
+   If all the conditions are met -> 5.
+4. 'Similar' users will be added to `valid_user_list` in order of precedence (priority) by function `make_intersection_list_macro`. 
+   After adding the similar users, it will repeat the steps from 2 with added `valid_user_list` again (Until the conditions on Step 3 is met).
+5. Print out Rank Top 10 movies based on calculated Weighted Rating(R).
+
+
 #### 1) Bayesian Estimate
 **Bayesian Estimate** is an estimator that can help minimizing the risk of including  that minimizes the posterior expected value of a loss function.
 By making use of Bayesian Estimate, the algorithm calculates Weighted Rating (`W`) and arranges movies with `W`.
