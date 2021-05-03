@@ -488,6 +488,7 @@ Gender | Age | Occupation | _(Genre)_
 “” “” “”
 
 // Examples of Wrong Inputs
+"F" "25"           // Empty part must be explicitly specified by ""
 "25" "Gradstudent" // Empty part must be explicitly specified by ""
 ```
 
@@ -502,6 +503,7 @@ Gender | Age | Occupation | _(Genre)_
 
 // Examples of Wrong Inputs
 “F” “25” “Grad student” “”  // The genre must not be left empty.
+“F” “25” “Grad student” “Action|Comedy” "Drama" // Extra arguments are not allowed.
 ```
 <br>
 
