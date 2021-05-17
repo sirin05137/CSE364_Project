@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class milestone2Test extends milestone2 {
 
+    /*
 
     //------------------------------------------------------------------
 
@@ -35,7 +36,7 @@ public class milestone2Test extends milestone2 {
                 "doctor", "executive", "farmer", "homemaker", "k-12student",
                 "lawyer", "programmer", "retired", "marketing", "scientist",
                 "self-employed", "engineer", "tradesman", "unemployed",
-                "writer", "ARBITRARYINPUT" /*-> Last one falls to occunum 0*/
+                "writer", "ARBITRARYINPUT"
         };
 
         for (String occu_input : occu_list) {
@@ -79,7 +80,7 @@ public class milestone2Test extends milestone2 {
                 "doctor", "executive", "farmer", "homemaker", "k-12student",
                 "lawyer", "programmer", "retired", "marketing", "scientist",
                 "self-employed", "engineer", "tradesman", "unemployed",
-                "writer", "other" /*-> Last one falls to occunum 0*/
+                "writer", "other"
         };
 
         for (String occu_input : occu_list) {
@@ -181,5 +182,7 @@ public class milestone2Test extends milestone2 {
 
         assertAll( () -> milestone2.main(args));
     }
+
+    */
 
 }
