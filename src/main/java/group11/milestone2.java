@@ -9,59 +9,46 @@ import java.util.*;
 
 
 // Class that store information of movies (like movieID, title, genre, total rating, vote counter)
-class Movie_data_node {
+class Movie_data_node{
     String movieID;
     String title;
     String genre;
-    int total_rating = 0;
-    int counter = 0;
+    int total_rating=0;
+    int counter=0;
 
     public void setMovieID(String movieID) {
         this.movieID = movieID;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
+    public void setGenre(String genre) { this.genre = genre; }
     public void setTotal_rating(int total_rating) {
         this.total_rating = total_rating;
     }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
-    }
-
+    public void setCounter(int counter) {this.counter = counter;}
     public String getMovieID() {
         return movieID;
     }
-
     public String getTitle() {
         return title;
     }
-
     public String getGenre() {
         return genre;
     }
-
     public int getTotal_rating() {
         return total_rating;
     }
-
     public int getCounter() {
         return counter;
     }
-
-    public void print_node() {
-        System.out.println("{movieID : " + this.movieID + ", Title : " + this.title + ", Genre : " + this.genre + ", total_rating : "
-                + this.total_rating + ", counter : " + this.counter + "}");
+    public void print_node(){
+        System.out.println("{movieID : "+this.movieID+", Title : "+this.title+", Genre : "+this.genre+", total_rating : "
+                +this.total_rating+", counter : "+this.counter+"}");
     }
 }
-
+// Class inherited from Movie_data_node. It has information of movie link and weighted rating.
+// Movies rated above the minimum number of votes will be classified.
 class Classified_by_vote extends Movie_data_node implements Comparable {
     double W = 0;
     String link = "";
@@ -69,7 +56,6 @@ class Classified_by_vote extends Movie_data_node implements Comparable {
     public int compareTo(Object o) {
         return compareTo((Classified_by_vote) o);
     }
-
     public int compareTo(Classified_by_vote another) {
         double thisVal = this.getW();
         double anotherVal = another.getW();
@@ -122,7 +108,7 @@ class Classified_by_vote extends Movie_data_node implements Comparable {
 
 public class milestone2 {
 
-    private static ArrayList<Classified_by_vote> classified_table;
+    private static ArrayList<Classified_by_vote> classified_table = null;
 
     //Calculating the total average rating of movies classified by user data
     static double total_average_rating(ArrayList<Movie_data_node> movie_rating_matrix){
@@ -192,12 +178,10 @@ public class milestone2 {
             return vote_counting_list.get(b-1);
         }
     }
-    //******** SETTER ********
     //Extract and sort movies with m or more votes.
-    public static void set_classified_table(ArrayList<Movie_data_node> movie_rating_matrix, double C, int m) throws IOException{
-        classified_table = new ArrayList<>();
-        //ArrayList<Classified_by_vote> classified_table = new ArrayList<>();
-        for (int i=0;i<movie_rating_matrix.size();i++){
+    public static ArrayList<Classified_by_vote> make_classified_table(ArrayList<Movie_data_node> movie_rating_matrix, double C, int m) throws IOException{
+        ArrayList<Classified_by_vote> classified_table = new ArrayList<>();
+        for(int i=0;i<movie_rating_matrix.size();i++){
             if(movie_rating_matrix.get(i).getCounter()>=m){
                 Classified_by_vote inner_data = new Classified_by_vote(movie_rating_matrix.get(i));
                 classified_table.add(inner_data);
@@ -225,15 +209,9 @@ public class milestone2 {
             classified_table.get(i).setW(C,m);
         }
         Collections.sort(classified_table); //내림차순으로 정렬
-        //return classified_table;
+        milestone2.classified_table = classified_table;
+        return classified_table;
     }
-    //print output format
-    static void print_output_format(){
-        for (int i = 0; i < 10; i++) {
-            System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
-        }
-    }
-    //******** GETTER ********
     public String get_classified_table(int index){
         // index : Rank of the movie (Top i-th movie)
         StringBuilder test = new StringBuilder();
@@ -249,38 +227,15 @@ public class milestone2 {
                 + "\""
                 + "}");
 
-        /*
-        test.append("[");
-        for (int i = 0; i < limit; i++) {
-            test.append("{");
-            test.append(System.getProperty("line.separator"));
-
-            test.append("\"title\":");
-            test.append("\"").append(classified_table.get(i).getTitle()).append("\"");
-
-            test.append(",");
-            test.append(System.getProperty("line.separator"));
-
-            test.append("\"genre\":");
-            test.append("\"").append(classified_table.get(i).getGenre()).append("\"");
-
-            test.append(",");
-            test.append(System.getProperty("line.separator"));
-
-            test.append("\"imdb\":");
-            test.append("\"").append(classified_table.get(i).getLink()).append("\"");
-            test.append(System.getProperty("line.separator"));
-
-            test.append("}");
-
-            if ( i < (limit - 1)) { test.append(","); }
-            test.append(System.getProperty("line.separator"));
-        }
-        test.append("]");
-        */
-
         return test.toString();
     }
+    //print output format
+    static void print_output_format(ArrayList<Classified_by_vote> classified_table){
+        for (int i = 0; i < 10; i++) {
+            System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
+        }
+    }
+
     //Extract only movies that match genres from movies classified by user data
     static ArrayList<Movie_data_node> make_table_with_genre(ArrayList<Movie_data_node> inputlist, String[] input_genre){
         ArrayList<Movie_data_node> result = new ArrayList<>();
@@ -818,8 +773,8 @@ public class milestone2 {
             set_movie_data_in_node(movie_data_table);
             double C = total_average_rating(movie_data_table);
             //System.out.println(m);
-            set_classified_table(movie_data_table, C, m);
-            print_output_format();
+            ArrayList<Classified_by_vote> classified_table = make_classified_table(movie_data_table, C, m);
+            print_output_format(classified_table);
         }
         else if(args.length==4) {
             String genre_no_empty = args[3].replace(" ", "");
@@ -877,8 +832,8 @@ public class milestone2 {
             //System.out.println(m);
             double C = total_average_rating(table_classified_by_genre);
             //System.out.println(m);
-            set_classified_table(movie_data_table, C, m);
-            print_output_format();
+            ArrayList<Classified_by_vote> classified_table = make_classified_table(table_classified_by_genre, C, m);
+            print_output_format(classified_table);
         }
         //long end = System.currentTimeMillis();
         //System.out.println(end-start);
