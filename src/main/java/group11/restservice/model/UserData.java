@@ -1,19 +1,20 @@
-package group11.restservice;
+package group11.restservice.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// USER INPUT
 //A model object to represent the passed JSON data
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserData {
-	private String gender;
-	private String age;
-	private String occupation;
-	private String genre;
+	private String gender = "";
+	private String age = "";
+	private String occupation = "";
+	private String genre = "";
 
 	@JsonProperty("gender")
 	public String getGender() { return gender; }
@@ -44,5 +45,12 @@ public class UserData {
 
 		return javainput;
 	}
+
+	/*
+	@Override
+	public String toString() {
+		return "[\"gender\" : \"" + gender + "]";
+	}
+	*/
 
 }

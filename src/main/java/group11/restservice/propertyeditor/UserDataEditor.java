@@ -1,7 +1,8 @@
-package group11.restservice;
+package group11.restservice.propertyeditor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import group11.restservice.model.UserData;
 import org.junit.platform.commons.util.StringUtils;
 
 import java.beans.PropertyEditorSupport;
