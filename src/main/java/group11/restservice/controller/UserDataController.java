@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-
 @RestController
 @RequestMapping("/users")
 public class UserDataController {
@@ -47,33 +46,35 @@ public class UserDataController {
     //@PostMapping(path = "/create", consumes = "application/json", produces = "application/json")
     @PostMapping("/create")
     public UserData addUserData (@RequestBody(required = false) UserData userdata) {
-
         return userdata;
     }
 
 
     // Controller to handle GET requests
-    // localhost:8080/users/recommend/get
-    //	@GetMapping(path = "/users/recommend/get",consumes = "application/json", produces = "application/json")
-    @GetMapping("/recommend/get")
+    // localhost:8080/users/recommendations/get
+    //	@GetMapping(path = "/users/recommendations/get",consumes = "application/json", produces = "application/json")
+    @GetMapping("/recommendations/get")
     @ResponseStatus(value = HttpStatus.OK)
-    public String getUserRecommendation(@RequestParam(name = "gender", required = false) String gender,
+    public String getUserRecommendations(@RequestBody(required = false) String userdata) throws JsonMappingException, JsonProcessingException, IOException {
+
+        // Set UserData input from json input
+        UserData ud = objectMapper.readValue(userdata, UserData.class);
+        /*
+        //Below is for http://localhost:8080/users/recommendations/get?gender=F&age=25&occupation=Gradstudent&genre=Action
+        public String getUserRecommendation(@RequestParam(name = "gender", required = false) String gender,
                                         @RequestParam(name = "age", required = false) String age,
                                         @RequestParam(name = "occupation", required = false) String occupation,
-                                        @RequestParam(name = "genre", required = false) String genre) throws JsonMappingException, JsonProcessingException, IOException {
-        // Set UserData input from json input
+                                        @RequestParam(name = "genre", required = false) String genre)
+
         UserData ud = new UserData();
-        //UserData ud = objectMapper.readValue(userdata, UserData.class);
-        ud.setGender(gender);
-        ud.setAge(age);
-        ud.setOccupation(occupation);
-        ud.setGenre(genre);
+        ud.setGender(gender); ud.setAge(age); ud.setOccupation(occupation); ud.setGenre(genre);
+        */
 
         // Execute milestone2.class with UserData input
         milestone2 program = new milestone2();
         program.main(ud.getJavaInput());
 
-        // Make json arraylist (Recommendation) from classified table
+        // Make json arraylist (Recommendations) from classified table
         List<RecoData> recoList = new ArrayList<RecoData>();
         RecoData reco = null;
 
@@ -88,18 +89,9 @@ public class UserDataController {
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(recoList);
     }
 
-    /*
-    @GetMapping("/recommend/get2")
+    @GetMapping("/recommendations/test")
     @ResponseStatus(value = HttpStatus.OK)
-    public UserData get2UserRecommendation(@RequestParam UserData userdata) throws JsonMappingException, JsonProcessingException, IOException {
-
-        return userdata;
-    }
-     */
-
-    @GetMapping("/recommend/test")
-    @ResponseStatus(value = HttpStatus.OK)
-    public String get2UserRecommendation() throws JsonMappingException, JsonProcessingException, IOException {
+    public String get2UserRecommendations() throws JsonMappingException, JsonProcessingException, IOException {
         RecoData reco = new RecoData();
         reco.setTitle("Toy Story (1995)");
         reco.setGenre("Animation");

@@ -37,12 +37,21 @@ public class UserData {
 	public void setGenre(String value) { this.genre = value; }
 
 	public String[] getJavaInput() {
-		String[] javainput = new String[4];
-		javainput[0] = gender;
-		javainput[1] = age;
-		javainput[2] = occupation;
-		javainput[3] = genre;
+		String[] javainput;
 
+		if (genre.equals("")){
+			javainput = new String[3];
+			javainput[0] = gender;
+			javainput[1] = age;
+			javainput[2] = occupation;
+		}
+		else {
+			javainput = new String[4];
+			javainput[0] = gender;
+			javainput[1] = age;
+			javainput[2] = occupation;
+			javainput[3] = genre;
+		}
 		return javainput;
 	}
 
