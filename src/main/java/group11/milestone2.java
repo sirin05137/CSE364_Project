@@ -121,12 +121,50 @@ public class milestone2 {
         }
     }
     //******** GETTER ********
-    public String get_classified_table(){
+    public String get_classified_table(int index){
+        // index : Rank of the movie (Top i-th movie)
         StringBuilder test = new StringBuilder();
-        for (int i = 0; i < 10; i++) {
-            test.append(classified_table.get(i).getTitle()).append(" (").append(classified_table.get(i).getLink()).append(")");
+        test.append("{"
+                + "\"title\":\""
+                + classified_table.get(index).getTitle()
+                + "\","
+                + "\"genre\":\""
+                + classified_table.get(index).getGenre()
+                + "\","
+                + "\"imdb\":\""
+                + classified_table.get(index).getLink()
+                + "\""
+                + "}");
+
+        /*
+        test.append("[");
+        for (int i = 0; i < limit; i++) {
+            test.append("{");
+            test.append(System.getProperty("line.separator"));
+
+            test.append("\"title\":");
+            test.append("\"").append(classified_table.get(i).getTitle()).append("\"");
+
+            test.append(",");
+            test.append(System.getProperty("line.separator"));
+
+            test.append("\"genre\":");
+            test.append("\"").append(classified_table.get(i).getGenre()).append("\"");
+
+            test.append(",");
+            test.append(System.getProperty("line.separator"));
+
+            test.append("\"imdb\":");
+            test.append("\"").append(classified_table.get(i).getLink()).append("\"");
+            test.append(System.getProperty("line.separator"));
+
+            test.append("}");
+
+            if ( i < (limit - 1)) { test.append(","); }
             test.append(System.getProperty("line.separator"));
         }
+        test.append("]");
+        */
 
         return test.toString();
     }

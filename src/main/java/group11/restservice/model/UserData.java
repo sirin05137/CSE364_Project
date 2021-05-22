@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserData {
-	private String gender = "";
+	private String gender = ""; // OR null for errors?
 	private String age = "";
 	private String occupation = "";
 	private String genre = "";

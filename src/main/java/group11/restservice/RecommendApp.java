@@ -7,14 +7,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.IOException;
 
 @SpringBootApplication
-public class RecommendApplication {
+public class RecommendApp {
 
 	public static void main(String[] args) throws JSONException, IOException {
 		/*
-		SpringApplication application = new SpringApplication(RecommendApplication.class);
+		SpringApplication application = new SpringApplication(RecommendApp.class);
 		application.run(args);
 		*/
-		SpringApplication.run(RecommendApplication.class, args);
+		SpringApplication.run(RecommendApp.class, args);
 		//SpringApplication.run(milestone2.class, userData.getJavaInput());
 	}
 }
