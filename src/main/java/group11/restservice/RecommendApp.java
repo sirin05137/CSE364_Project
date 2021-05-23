@@ -14,7 +14,11 @@ public class RecommendApp {
 		SpringApplication application = new SpringApplication(RecommendApp.class);
 		application.run(args);
 		*/
-		SpringApplication.run(RecommendApp.class, args);
+		try {
+			SpringApplication.run(RecommendApp.class, args);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		//SpringApplication.run(milestone2.class, userData.getJavaInput());
 	}
 }

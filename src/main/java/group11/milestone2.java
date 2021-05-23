@@ -250,7 +250,7 @@ public class milestone2 {
         return result;
     }
 
-    static boolean check_gender_validity(String gender){
+    public static boolean check_gender_validity(String gender){
         if(gender.trim().toLowerCase().equals("") || gender.trim().toLowerCase().equals("m") || gender.trim().toLowerCase().equals("f")){
             return true;
         }
@@ -259,7 +259,7 @@ public class milestone2 {
             return false;
         }
     }
-    static boolean check_age_validity(String age_input){
+    public static boolean check_age_validity(String age_input){
         String age = age_input.replace(" ", "");
         if(age.trim().equals("")){
             return true;
@@ -284,7 +284,7 @@ public class milestone2 {
             }
         }
     }
-    static boolean check_occu_validity(String occu_input){
+    public static boolean check_occu_validity(String occu_input){
         String occu = occu_input.replace(" ", "");
         if(occu.trim().toLowerCase().equals("")){
             return true;
@@ -380,7 +380,7 @@ public class milestone2 {
         }
 
     }
-    static boolean check_genre_validity(String genre_input){
+    public static boolean check_genre_validity(String genre_input){
         String genre = genre_input.replace(" ", "");
         String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","crime","documentary","drama","fantasy","film-noir",
                 "horror","musical","mystery","romance","sci-fi","thriller","war","western", "other"};

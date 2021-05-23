@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MovieData {
     private String title;
-    private int limit;
+    private int limit = 10;
 
     @JsonProperty("title")
     public String getTitle() { return title; }

@@ -1,6 +1,7 @@
 package group11.restservice.controller;
 
 import group11.milestone2;
+import group11.restservice.exception.InputInvalidException;
 import group11.restservice.model.RecoData;
 import group11.restservice.model.UserData;
 import group11.restservice.propertyeditor.UserDataEditor;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -69,6 +69,23 @@ public class UserDataController {
         UserData ud = new UserData();
         ud.setGender(gender); ud.setAge(age); ud.setOccupation(occupation); ud.setGenre(genre);
         */
+        // Check Validity of UserData
+        if (!milestone2.check_gender_validity(ud.getGender())) {
+            throw new InputInvalidException("gender", ud.getGender());
+        }
+        if (!milestone2.check_age_validity(ud.getAge())) {
+            throw new InputInvalidException("age", ud.getAge());
+        }
+        if (!milestone2.check_occu_validity(ud.getOccupation())) {
+            throw new InputInvalidException("occupation", ud.getOccupation());
+        }
+        if (!ud.getGenre().equals("")) {
+            if (!milestone2.check_genre_validity(ud.getGenre())) {
+                throw new InputInvalidException("genre", ud.getGenre());
+            }
+        }
+
+
 
         // Execute milestone2.class with UserData input
         milestone2 program = new milestone2();
