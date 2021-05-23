@@ -16,6 +16,7 @@ public class ApiError {
     public ApiError(String error, String message) {
         super();
         this.error = error;
+        // this can make an error later on - e.g. message containing comma splited when unwanted
         message = message.replace("[", "");
         message = message.replace("]", "");
         this.message = Arrays.asList(message.split(","));

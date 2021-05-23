@@ -6,17 +6,15 @@ import group11.restservice.model.RecoData;
 import group11.restservice.model.UserData;
 import group11.restservice.propertyeditor.UserDataEditor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.io.IOException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +22,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -55,12 +55,12 @@ public class UserDataController {
     //	@GetMapping(path = "/users/recommendations/get",consumes = "application/json", produces = "application/json")
     @GetMapping("/recommendations/get")
     @ResponseStatus(value = HttpStatus.OK)
-    public String getUserRecommendations(@RequestBody(required = false) String userdata) throws JsonMappingException, JsonProcessingException, IOException, InputInvalidException {
+    public String getUserRecommendations(@RequestBody(required = false) String userdata) throws Exception {
 
         // Set UserData input from json input
         UserData ud = objectMapper.readValue(userdata, UserData.class);
 
-        // Check Validity of UserData
+        // Check Validity of UserData ( throws InputInvalidException when invalid)
         boolean isException = false;
         ArrayList<String> msg = new ArrayList<>();
 
@@ -88,8 +88,6 @@ public class UserDataController {
             throw new InputInvalidException(msg);
         }
 
-
-
         // Execute milestone2.class with UserData input
         milestone2 program = new milestone2();
         program.main(ud.getJavaInput());
@@ -109,6 +107,7 @@ public class UserDataController {
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(recoList);
     }
 
+    /*
     @GetMapping("/recommendations/test")
     @ResponseStatus(value = HttpStatus.OK)
     public String get2UserRecommendations() throws JsonMappingException, JsonProcessingException, IOException {
@@ -125,6 +124,6 @@ public class UserDataController {
 
         return json;
     }
-
+    */
 
 }

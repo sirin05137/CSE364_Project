@@ -16,4 +16,13 @@ public class ApiExceptionHandler {
                 new ApiError("InputInvalidError", ex.getMessage());
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
+    /*
+    // 404 Not Found
+    @ExceptionHandler(NoDBException.class)
+    ResponseEntity<ApiError> handleException(final NoDBException ex) {
+        final ApiError apiError =
+                new ApiError("NoDBError", ex.getMessage());
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+    */
 }
