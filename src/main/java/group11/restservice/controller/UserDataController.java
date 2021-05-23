@@ -9,9 +9,6 @@ import group11.restservice.propertyeditor.UserDataEditor;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.io.IOException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.HttpStatus;
@@ -107,23 +104,5 @@ public class UserDataController {
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(recoList);
     }
 
-    /*
-    @GetMapping("/recommendations/test")
-    @ResponseStatus(value = HttpStatus.OK)
-    public String get2UserRecommendations() throws JsonMappingException, JsonProcessingException, IOException {
-        RecoData reco = new RecoData();
-        reco.setTitle("Toy Story (1995)");
-        reco.setGenre("Animation");
-        reco.setImdb("https://www.imdb.com/title/tt0114709/");
-
-        //UserData ud = objectMapper.readValue(userdata, UserData.class);
-        //MyValue value = mapper.readValue(new File("data.json"), MyValue.class);
-        //value = mapper.readValue("{\"name\":\"Bob\", \"age\":13}", MyValue.class);
-
-        String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(reco);
-
-        return json;
-    }
-    */
 
 }
