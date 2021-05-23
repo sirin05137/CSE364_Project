@@ -1,28 +1,16 @@
 package group11.restservice.exception;
 
+import java.util.List;
 
 public class InputInvalidException extends RuntimeException {
-    private String fieldname;
-    private String input;
+    private List<String> message;
 
-    public InputInvalidException(String fieldname, String input) {
-        this.fieldname = fieldname;
-        this.input = input;
+    public InputInvalidException(List<String> message) {
+        this.message = message;
     }
 
-    public String getFieldname() {
-        return fieldname;
-    }
-
-    public String getInput() {
-        return input;
-    }
-
-    public void setFieldname(String fieldname) {
-        this.fieldname = fieldname;
-
-    }
-    public void setInput(String input) {
-        this.input = input;
-    }
+    public String getMessage() { return String.valueOf(message); }
+    /*
+    public void setMessage(List<String> message) { this.message = message; }
+    */
 }

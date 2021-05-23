@@ -55,34 +55,37 @@ public class UserDataController {
     //	@GetMapping(path = "/users/recommendations/get",consumes = "application/json", produces = "application/json")
     @GetMapping("/recommendations/get")
     @ResponseStatus(value = HttpStatus.OK)
-    public String getUserRecommendations(@RequestBody(required = false) String userdata) throws JsonMappingException, JsonProcessingException, IOException {
+    public String getUserRecommendations(@RequestBody(required = false) String userdata) throws JsonMappingException, JsonProcessingException, IOException, InputInvalidException {
 
         // Set UserData input from json input
         UserData ud = objectMapper.readValue(userdata, UserData.class);
-        /*
-        //Below is for http://localhost:8080/users/recommendations/get?gender=F&age=25&occupation=Gradstudent&genre=Action
-        public String getUserRecommendation(@RequestParam(name = "gender", required = false) String gender,
-                                        @RequestParam(name = "age", required = false) String age,
-                                        @RequestParam(name = "occupation", required = false) String occupation,
-                                        @RequestParam(name = "genre", required = false) String genre)
 
-        UserData ud = new UserData();
-        ud.setGender(gender); ud.setAge(age); ud.setOccupation(occupation); ud.setGenre(genre);
-        */
         // Check Validity of UserData
+        boolean isException = false;
+        ArrayList<String> msg = new ArrayList<>();
+
         if (!milestone2.check_gender_validity(ud.getGender())) {
-            throw new InputInvalidException("gender", ud.getGender());
+            isException = true;
+            msg.add("Entered gender input ("+ ud.getGender() +") is invalid.");
+            //throw new InputInvalidException("gender", ud.getGender());
         }
         if (!milestone2.check_age_validity(ud.getAge())) {
-            throw new InputInvalidException("age", ud.getAge());
+            isException = true;
+            msg.add("Entered age input ("+ ud.getAge() +") is invalid.");
         }
         if (!milestone2.check_occu_validity(ud.getOccupation())) {
-            throw new InputInvalidException("occupation", ud.getOccupation());
+            isException = true;
+            msg.add("Entered occupation input ("+ ud.getOccupation() +") is invalid.");
         }
         if (!ud.getGenre().equals("")) {
             if (!milestone2.check_genre_validity(ud.getGenre())) {
-                throw new InputInvalidException("genre", ud.getGenre());
+                isException = true;
+                msg.add("Entered genre input ("+ ud.getGenre() +") is invalid.");
             }
+        }
+
+        if (isException) {
+            throw new InputInvalidException(msg);
         }
 
 
