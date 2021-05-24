@@ -1,10 +1,12 @@
 package group11.restservice.controller;
 
+import group11.milestone3;
 import group11.restservice.model.RecoData;
 import group11.restservice.model.MovieData;
 import group11.restservice.propertyeditor.MovieDataEditor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,22 +42,34 @@ public class MovieDataController {
         return moviedata;
     }
 
-    @GetMapping("/recommendations/get")
+    @GetMapping("/recommendations")
     @ResponseStatus(value = HttpStatus.OK)
     public String getMovieRecommendations(@RequestBody(required = false) String moviedata) throws Exception {
 
         // Set UserData input from json input
         MovieData md = objectMapper.readValue(moviedata, MovieData.class);
-
+        System.out.println(Arrays.toString(md.getJavaInput()));
         // Check Validity of Moviedata ( throws InputInvalidException when invalid)
         /* code */
 
         // Execute milestone3.class with MovieData input
+        milestone3 program = new milestone3();
+        program.main(md.getJavaInput());
 
         // Make json arraylist (Recommendations) from classified table
+        List<RecoData> recoList = new ArrayList<RecoData>();
+        RecoData reco = null;
 
+        int limit = Integer.parseInt(md.getLimit());
 
-        return moviedata;
+        for (int index = 0 ; index < limit ; index++){
+            reco = new RecoData();
+            reco = objectMapper.readValue(program.get_classified_table(index), RecoData.class);
+            recoList.add(reco);
+        }
+
+        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(recoList);
+        //return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(md);
     }
 
 }

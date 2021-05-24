@@ -23,15 +23,15 @@ public class MovieDataEditor extends PropertyEditorSupport {
         if (StringUtils.isBlank(text)) {
             setValue(null);
         } else {
-            MovieData ud = new MovieData();
+            MovieData md = new MovieData();
             try {
-                ud = objectMapper.readValue(text, MovieData.class);
+                md = objectMapper.readValue(text, MovieData.class);
             } catch (JsonProcessingException e) {
                 throw new IllegalArgumentException(e);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            setValue(ud);
+            setValue(md);
         }
     }
 

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MovieData {
     private String title;
-    private int limit = 10;
+    private String limit = "10";
 
     @JsonProperty("title")
     public String getTitle() { return title; }
@@ -19,7 +19,18 @@ public class MovieData {
     public void setTitle(String value) { this.title = value; }
 
     @JsonProperty("limit")
-    public int getLimit() { return limit; }
+    public String getLimit() { return limit; }
     @JsonProperty("limit")
-    public void setLimit(String value) { this.limit = Integer.parseInt(value); }
+    public void setLimit(int value) { this.limit = String.valueOf(value); }
+
+    public String[] getJavaInput() {
+        String[] javainput;
+
+        javainput = new String[2];
+        javainput[0] = title;
+        javainput[1] = limit;
+
+        return javainput;
+    }
+
 }

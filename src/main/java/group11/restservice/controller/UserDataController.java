@@ -50,7 +50,7 @@ public class UserDataController {
     // Controller to handle GET requests
     // localhost:8080/users/recommendations/get
     //	@GetMapping(path = "/users/recommendations/get",consumes = "application/json", produces = "application/json")
-    @GetMapping("/recommendations/get")
+    @GetMapping("/recommendations")
     @ResponseStatus(value = HttpStatus.OK)
     public String getUserRecommendations(@RequestBody(required = false) String userdata) throws Exception {
 
