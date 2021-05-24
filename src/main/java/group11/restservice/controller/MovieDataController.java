@@ -1,6 +1,7 @@
 package group11.restservice.controller;
 
 import group11.milestone3;
+import group11.restservice.exception.InputInvalidException;
 import group11.restservice.model.RecoData;
 import group11.restservice.model.MovieData;
 import group11.restservice.propertyeditor.MovieDataEditor;
@@ -49,8 +50,24 @@ public class MovieDataController {
         // Set UserData input from json input
         MovieData md = objectMapper.readValue(moviedata, MovieData.class);
         System.out.println(Arrays.toString(md.getJavaInput()));
+
         // Check Validity of Moviedata ( throws InputInvalidException when invalid)
-        /* code */
+        boolean isException = false;
+        ArrayList<String> msg = new ArrayList<>();
+
+        if (!milestone3.check_title_validity(md.getTitle(), milestone3.make_movie_data_map())) {
+            isException = true;
+            msg.add("Entered title input (" + md.getTitle() + ") is invalid.");
+        }
+        if (!milestone3.check_limit_validity(md.getLimit())) {
+            isException = true;
+            msg.add("Entered limit input (" + md.getLimit() + ") is invalid.");
+        }
+
+        if (isException) {
+            throw new InputInvalidException(msg);
+        }
+
 
         // Execute milestone3.class with MovieData input
         milestone3 program = new milestone3();
@@ -68,8 +85,6 @@ public class MovieDataController {
             reco = objectMapper.readValue(program.get_classified_table(index), RecoData.class);
             recoList.add(reco);
         }
-
-
 
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(recoList);
         //return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(md);

@@ -71,7 +71,7 @@ public class milestone3 {
     }
 
     //{movieID : [title, genre]}//
-    static HashMap<String, ArrayList<String>> make_movie_data_map() throws IOException {
+    public static HashMap<String, ArrayList<String>> make_movie_data_map() throws IOException {
         HashMap<String, ArrayList<String>> movie_data_map = new HashMap<>();
         BufferedReader get_movie_data = new BufferedReader(new FileReader("data/movies.dat"));
         while (true) {
@@ -188,7 +188,7 @@ public class milestone3 {
         return A.divide(B,3,RoundingMode.HALF_UP).doubleValue();
     }
 
-    static boolean check_title_validity(String title_input, HashMap<String, ArrayList<String>> movie_data_map) {
+    public static boolean check_title_validity(String title_input, HashMap<String, ArrayList<String>> movie_data_map) {
         String title = title_input.replace(" ", "");
         for (Map.Entry<String, ArrayList<String>> Iter : movie_data_map.entrySet()) {
             String A = Iter.getValue().get(0).replace(" ", "");
@@ -199,7 +199,7 @@ public class milestone3 {
         return false;
     }
 
-    static boolean check_limit_validity(String limit_input) {
+    public static boolean check_limit_validity(String limit_input) {
         String limit = limit_input.replace(" ", "");
         boolean isNumeric = true;
         for (int i = 0; i < limit.length(); i++) {
