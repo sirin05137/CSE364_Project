@@ -24,6 +24,14 @@ public class milestone3Test extends milestone3 {
     }
 
     @Test
+    public void sample_args_test_2 () {
+        String[] args = new String[2];
+        args[0] = "Hungarian Fairy Tale, A (1987)";
+        args[1] = "50";
+        assertAll( () -> milestone3.main(args));
+    }
+
+    @Test
     public void similarity_of_movie_test () {
         Similarity_of_movie sim = new Similarity_of_movie();
         sim.setMovieID("1234");
