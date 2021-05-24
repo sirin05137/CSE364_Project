@@ -27,8 +27,6 @@ public class UserDataEditor extends PropertyEditorSupport {
                 ud = objectMapper.readValue(text, UserData.class);
             } catch (JsonProcessingException e) {
                 throw new IllegalArgumentException(e);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
             setValue(ud);
         }

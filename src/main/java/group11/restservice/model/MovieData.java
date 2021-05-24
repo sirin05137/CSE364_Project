@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 // MOVIE INPUT
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class MovieData {

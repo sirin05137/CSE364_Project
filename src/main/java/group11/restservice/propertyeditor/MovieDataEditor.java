@@ -28,8 +28,6 @@ public class MovieDataEditor extends PropertyEditorSupport {
                 md = objectMapper.readValue(text, MovieData.class);
             } catch (JsonProcessingException e) {
                 throw new IllegalArgumentException(e);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
             setValue(md);
         }
