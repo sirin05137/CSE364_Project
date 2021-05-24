@@ -218,7 +218,6 @@ public class milestone2 {
         }
         Collections.sort(classified_table); //내림차순으로 정렬
         milestone2.classified_table = classified_table;
-        milestone3.classified_table = classified_table;
         return classified_table;
     }
     public String get_classified_table(int index){
@@ -238,12 +237,7 @@ public class milestone2 {
 
         return test.toString();
     }
-    //print output format
-    static void print_output_format(ArrayList<Classified_by_vote> classified_table){
-        for (int i = 0; i < 10; i++) {
-            System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
-        }
-    }
+
 
     //Extract only movies that match genres from movies classified by user data
     static ArrayList<Movie_data_node> make_table_with_genre(ArrayList<Movie_data_node> inputlist, String[] input_genre){
@@ -783,7 +777,9 @@ public class milestone2 {
             double C = total_average_rating(movie_data_table);
             //System.out.println(m);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(movie_data_table, C, m);
-            print_output_format(classified_table);
+            for (int i = 0; i < 10; i++) {
+                System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
+            }
         }
         else if(args.length==4) {
             String genre_no_empty = args[3].replace(" ", "");
@@ -842,7 +838,9 @@ public class milestone2 {
             double C = total_average_rating(table_classified_by_genre);
             //System.out.println(m);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(table_classified_by_genre, C, m);
-            print_output_format(classified_table);
+            for (int i = 0; i < 10; i++) {
+                System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
+            }
         }
         //long end = System.currentTimeMillis();
         //System.out.println(end-start);
