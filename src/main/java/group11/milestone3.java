@@ -238,20 +238,13 @@ public class milestone3 {
         return limit_number.intValue();
     }
 
-    static int get_smallest_counter(ArrayList<Movie_data_node> movie_data_table) {
-        ArrayList<Integer> vote_counting_list = new ArrayList<Integer>();
-        for (int i = 0; i < movie_data_table.size(); i++) {
-            if (movie_data_table.get(i).getCounter() != 0) {
-                vote_counting_list.add(movie_data_table.get(i).getCounter());
-            }
-        }
-        if (vote_counting_list.size() == 0) {
-            //System.out.println("No counter!");
-            //System.exit(1);
-            return 0;
-        }
-        Collections.sort(vote_counting_list); //오름차순으로 정렬
-        return vote_counting_list.get(0);
+    static double get_ratio(int a, int b){
+        BigDecimal aa = new BigDecimal(String.valueOf(a));
+        BigDecimal bb = new BigDecimal(String.valueOf(b));
+        BigDecimal temp = aa.divide(bb,1,RoundingMode.UP);
+        BigDecimal one = new BigDecimal("1");
+        BigDecimal ratio = one.subtract(temp);
+        return ratio.doubleValue();
     }
 
     static ArrayList<Movie_data_node> make_movie_data_table(HashMap<String,HashMap<String,Integer>> rating_data_map,ArrayList<String> related_movie_list, HashMap<String, ArrayList<String>> movie_data_map){
@@ -333,13 +326,10 @@ public class milestone3 {
         ArrayList<Similarity_of_movie> movie_similarity_table = new ArrayList<>();
         ArrayList<Similarity_of_movie> genre_similarity_table = new ArrayList<>();
 
-        //double mean_rating_of_input = get_average_rating(rating_data_map.get(id_of_input));
-        //double distance_of_input = get_distance_of_vector(rating_data_map.get(id_of_input), mean_rating_of_input);
         if(rating_data_map.containsKey(id_of_input)&&rating_data_map.get(id_of_input).size()>20) {
             double mean_rating_of_input = get_average_rating(rating_data_map.get(id_of_input));
             double distance_of_input = get_distance_of_vector(rating_data_map.get(id_of_input), mean_rating_of_input);
 
-            //ArrayList<Similarity_of_movie> Similarity_table = new ArrayList<>();
             for (Map.Entry<String, HashMap<String, Integer>> Iter : rating_data_map.entrySet()) {
                 double movie_similarity = get_pearson_similarity(Iter.getValue(), rating_data_map.get(id_of_input), mean_rating_of_input, distance_of_input);
                 Similarity_of_movie inner_class = new Similarity_of_movie(Iter.getKey(), movie_similarity);
@@ -355,7 +345,7 @@ public class milestone3 {
             }
 
             ArrayList<Movie_data_node> movie_data_table = make_movie_data_table(rating_data_map, related_movie_list, movie_data_map);
-            int m = get_smallest_counter(movie_data_table);
+            int m = percentile(movie_data_table,0);
             double C = total_average_rating(movie_data_table);
             ArrayList<Classified_by_vote> classified_table = make_classified_table_with_similarity(movie_data_table, C, m, similarity_map);
 
@@ -387,7 +377,6 @@ public class milestone3 {
                 }
             }
             else if(genre_similarity_table.get(limit-1).getSimilarity()!=0 && genre_similarity_table.get(larger_limit-1).getSimilarity()==0){
-                //System.out.println("test");
                 for(int i = 0 ; i < limit+1 ; i++){
                     if(!genre_similarity_table.get(i).getMovieID().equals(id_of_input))
                         related_movie_list.add(genre_similarity_table.get(i).getMovieID());
@@ -397,7 +386,6 @@ public class milestone3 {
                 }
             }
             else{
-                //System.out.println("test");
                 for(int i = 0 ; genre_similarity_table.get(i).getSimilarity()!=0;i++){
                     if(!genre_similarity_table.get(i).getMovieID().equals(id_of_input))
                         related_movie_list.add(genre_similarity_table.get(i).getMovieID());
@@ -408,93 +396,28 @@ public class milestone3 {
                 ArrayList<Movie_data_node> temp_table = make_movie_data_table(rating_data_map, related_movie_list, movie_data_map);
                 ArrayList<Movie_data_node> movie_data_table = make_movie_data_table(rating_data_map, unrelated_movie_list, movie_data_map);
 
-                BigDecimal aa = new BigDecimal(String.valueOf(limit-temp_table.size()));
-                BigDecimal bb = new BigDecimal(String.valueOf(movie_data_table.size()));
-                BigDecimal temp = aa.divide(bb,1,RoundingMode.UP);
-                BigDecimal one = new BigDecimal("1");
-                BigDecimal ratio = one.subtract(temp);
-                double p = ratio.doubleValue();
-
-
+                int temp = limit - temp_table.size();
+                double p = get_ratio(temp, movie_data_table.size());
 
                 int m = percentile(movie_data_table,p);
                 double C = total_average_rating(movie_data_table);
                 ArrayList<Classified_by_vote> classified_table = make_classified_table(movie_data_table, C, m);
                 int list_size = temp_table.size();
-                //System.out.println(list_size);
-                //System.out.println(classified_table.size());
                 for(int i =0 ; i<limit-list_size;i++){
                     related_movie_list.add(classified_table.get(i).getMovieID());
                 }
 
             }
 
-            BigDecimal aa = new BigDecimal(String.valueOf(limit));
-            BigDecimal bb = new BigDecimal(String.valueOf(related_movie_list.size()));
-            BigDecimal temp = aa.divide(bb,1,RoundingMode.UP);
-            BigDecimal one = new BigDecimal("1");
-            BigDecimal ratio = one.subtract(temp);
-            double p = ratio.doubleValue();
-            //System.out.println(p);
-            //System.out.println(related_movie_list.size());
+            double p = get_ratio(limit,related_movie_list.size());
 
             ArrayList<Movie_data_node> movie_data_table = make_movie_data_table(rating_data_map, related_movie_list, movie_data_map);
-            //System.out.println(movie_data_table.size());
             int m = percentile(movie_data_table,p);
             double C = total_average_rating(movie_data_table);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(movie_data_table, C, m);
             for(int i =0 ; i<limit ; i++){
                 System.out.println(classified_table.get(i).getTitle() + " " + classified_table.get(i).getLink() + " " + classified_table.get(i).getW());
             }
-
         }
-
-        /*for(int i = 0; i < 30 ; i++){
-            System.out.println(movie_data_map.get(movie_similarity_table.get(i).getMovieID()).get(0) + " : " + movie_similarity_table.get(i).getSimilarity());
-        }*/
-
-
-
-        //ArrayList<String> related_movie_list = new ArrayList<>();
-
-        /*for(int i = 0; i<large_limit;i++){
-            related_movie_list.add(movie_similarity_table.get(i).getMovieID());
-        }*/
-
-
-
-
-
-        /*BigDecimal aa = new BigDecimal(String.valueOf(limit));
-        BigDecimal bb = new BigDecimal(String.valueOf(related_movie_list.size()));
-        BigDecimal temp = aa.divide(bb,1,RoundingMode.UP);
-        BigDecimal one = new BigDecimal("1");
-        BigDecimal ratio = one.subtract(temp);
-        double p = ratio.doubleValue();*/
-
-
-
-
-
-
-
-/*
-
-
-Collections.sort(genre_similarity_table);
-
-        for(int i = 0; i < 20 ; i++){
-            System.out.println(movie_data_map.get(genre_similarity_table.get(i).getMovieID()).get(0) + " : "+ movie_data_map.get(genre_similarity_table.get(i).getMovieID()).get(1)+" : "+ genre_similarity_table.get(i).getSimilarity());
-        }
-
-
-        Collections.sort(movie_similarity_table);
-
-        for(int i = 0; i < 20 ; i++){
-            System.out.println(movie_data_map.get(movie_similarity_table.get(i).getMovieID()).get(0) + " : " + movie_similarity_table.get(i).getSimilarity());
-        }
-
-        System.out.println(movie_similarity_table.size());*/
     }
-
 }
