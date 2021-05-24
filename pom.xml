@@ -42,6 +42,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!-- <exclusions>
+            <exclusion>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+            </exclusion>
+        </exclusions> -->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -75,6 +81,17 @@
             <version>${spring.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+        </dependency>
         <!-- Spring framework - compile related settings -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -99,6 +116,12 @@
             <artifactId>spring-tx</artifactId>
             <version>${spring.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -134,6 +157,12 @@
         </dependency>
         <!-- JUnit test -->
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-jupiter.version}</version>
@@ -150,6 +179,7 @@
             <version>${junit-platform.version}</version>
             <scope>test</scope>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
@@ -162,6 +192,7 @@
             <version>1.1.1</version>
             <scope>test</scope>
         </dependency>
+        -->
         <!-- Spring test -->
         <dependency>
             <groupId>org.hamcrest</groupId>
