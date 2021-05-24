@@ -217,7 +217,7 @@ public class milestone2 {
             classified_table.get(i).setW(C,m);
         }
         Collections.sort(classified_table); //내림차순으로 정렬
-        milestone2.classified_table = classified_table;
+
         return classified_table;
     }
     public String get_classified_table(int index){
@@ -777,6 +777,7 @@ public class milestone2 {
             double C = total_average_rating(movie_data_table);
             //System.out.println(m);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(movie_data_table, C, m);
+            milestone2.classified_table = classified_table;
             for (int i = 0; i < 10; i++) {
                 System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
             }
@@ -838,6 +839,7 @@ public class milestone2 {
             double C = total_average_rating(table_classified_by_genre);
             //System.out.println(m);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(table_classified_by_genre, C, m);
+            milestone2.classified_table = classified_table;
             for (int i = 0; i < 10; i++) {
                 System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
             }

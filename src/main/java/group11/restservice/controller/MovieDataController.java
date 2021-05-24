@@ -62,11 +62,14 @@ public class MovieDataController {
 
         int limit = Integer.parseInt(md.getLimit());
 
+
         for (int index = 0 ; index < limit ; index++){
             reco = new RecoData();
             reco = objectMapper.readValue(program.get_classified_table(index), RecoData.class);
             recoList.add(reco);
         }
+
+
 
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(recoList);
         //return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(md);

@@ -47,42 +47,11 @@ class Similarity_of_movie implements Comparable{
 
 public class milestone3 {
 
-    public static ArrayList<Classified_by_vote> classified_table = null;
+    private static ArrayList<Classified_by_vote> classified_table = null;
 
-    public static ArrayList<Classified_by_vote> make_classified_table_m3(ArrayList<Movie_data_node> movie_rating_matrix, double C, int m) throws IOException{
-        ArrayList<Classified_by_vote> classified_table = new ArrayList<>();
-        for(int i=0;i<movie_rating_matrix.size();i++){
-            if(movie_rating_matrix.get(i).getCounter()>=m){
-                Classified_by_vote inner_data = new Classified_by_vote(movie_rating_matrix.get(i));
-                classified_table.add(inner_data);
-            }
-        }
-        if(classified_table.size()==0){
-            System.out.println("NoDBError : No movie available for more than "+m+" votes.");
-            System.exit(1);
-        }
-        BufferedReader get_link_data = new BufferedReader(new FileReader("data/links.dat"));
-        while(true){
-            String line = get_link_data.readLine();
-            if (line == null)
-                break;
-            String[] word = line.split("::");
-            for(int i=0;i< classified_table.size();i++){
-                if(classified_table.get(i).getMovieID().equals(word[0])){
-                    classified_table.get(i).setLink("http://www.imdb.com/title/tt"+word[1]);
-                    break;
-                }
-            }
-        }
-        get_link_data.close();
-        for(int i=0;i<classified_table.size();i++){
-            classified_table.get(i).setW(C,m);
-        }
-        Collections.sort(classified_table); //내림차순으로 정렬
-        milestone3.classified_table = classified_table;
-        return classified_table;
+    private static void set_classified_table(ArrayList<Classified_by_vote> cf){
+        milestone3.classified_table = cf;
     }
-
     public String get_classified_table(int index){
         // index : Rank of the movie (Top i-th movie)
         StringBuilder test = new StringBuilder();
@@ -412,7 +381,7 @@ public class milestone3 {
             int m = get_smallest_counter(movie_data_table);
             double C = total_average_rating(movie_data_table);
             ArrayList<Classified_by_vote> classified_table = make_classified_table_with_similarity(movie_data_table, C, m, similarity_map);
-
+            set_classified_table(classified_table);
             for(int i =0 ; i<limit ; i++){
                 System.out.println(classified_table.get(i).getTitle() + " " + classified_table.get(i).getLink() + " " + classified_table.get(i).getW());
             }
@@ -497,6 +466,7 @@ public class milestone3 {
             int m = percentile(movie_data_table,p);
             double C = total_average_rating(movie_data_table);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(movie_data_table, C, m);
+            set_classified_table(classified_table);
 
             for(int i =0 ; i<limit ; i++){
                 System.out.println(classified_table.get(i).getTitle() + " " + classified_table.get(i).getLink() + " " + classified_table.get(i).getW());
