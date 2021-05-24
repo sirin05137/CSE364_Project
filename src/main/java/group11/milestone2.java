@@ -91,6 +91,12 @@ class Classified_by_vote extends Movie_data_node implements Comparable {
         }
     }
 
+    public void W_plus_similarity(double similarity){
+        BigDecimal w_rating = new BigDecimal(String.valueOf(this.W));
+        BigDecimal temp = new BigDecimal(String.valueOf(similarity));
+        this.W = w_rating.add(temp).doubleValue();
+    }
+
     public String getLink() {
         return link;
     }
@@ -166,6 +172,8 @@ public class milestone2 {
         if(np.remainder(One).doubleValue()==0.0){
             //System.out.println("test");
             int a = np.intValue();
+            if(a==0)
+                return vote_counting_list.get(0);
             return (vote_counting_list.get(a-1)+vote_counting_list.get(a))/2;
         }
         else{
