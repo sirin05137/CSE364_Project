@@ -15,10 +15,11 @@ public class RecommendApp extends SpringBootServletInitializer {
 			e.printStackTrace();
 		}
 	}
-
+	/*
 	// Used when deploying to a standalone servlet container ????
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(RecommendApp.class);
 	}
+	 */
 }
