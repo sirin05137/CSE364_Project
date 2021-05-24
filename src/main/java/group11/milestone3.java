@@ -190,7 +190,10 @@ public class milestone3 {
         } else if (Integer.parseInt(limit.trim()) < 1) {
             System.out.println("InputInvalidError : Entered limit input is invalid. Limit must be a natural number.");
             return false;
-        } else {
+        }else if(Integer.parseInt(limit.trim()) > 2000){
+            System.out.println("InputInvalidError : Entered limit input is invalid. Limit must be less than 2000.");
+            return false;
+        }else {
             return true;
         }
     }
@@ -270,9 +273,6 @@ public class milestone3 {
     }
 
 
-
-
-
     public static void main(String[] args) throws IOException{
 
         if(!(args.length == 1 || args.length==2)) {
@@ -299,7 +299,6 @@ public class milestone3 {
 
         //{movieID : {userID : rating}}//
         HashMap<String,HashMap<String,Integer>> rating_data_map = make_rating_data_map();
-        //System.out.println(rating_data_map.get("2308"));
 
         //--------------------------------------
 
@@ -314,8 +313,6 @@ public class milestone3 {
                 break;
             }
         }
-        //System.out.println(id_of_input);
-        //System.out.println(genre_of_input);
 
         //--------------------------------------
 
@@ -358,9 +355,11 @@ public class milestone3 {
             String[] genre_of_input_array = genre_of_input.split("\\|");
             ArrayList<String> genre_of_input_list = new ArrayList<>(Arrays.asList(genre_of_input_array));
             for(Map.Entry<String, ArrayList<String>> Iter : movie_data_map.entrySet()){
-                double genre_similarity = get_jaccard_similarity(Iter.getValue() ,genre_of_input_list);
-                Similarity_of_movie inner_class = new Similarity_of_movie(Iter.getKey(), genre_similarity);
-                genre_similarity_table.add(inner_class);
+                if(rating_data_map.containsKey(Iter.getKey()) && !Iter.getKey().equals(id_of_input)) {
+                    double genre_similarity = get_jaccard_similarity(Iter.getValue(), genre_of_input_list);
+                    Similarity_of_movie inner_class = new Similarity_of_movie(Iter.getKey(), genre_similarity);
+                    genre_similarity_table.add(inner_class);
+                }
             }
 
             Collections.sort(genre_similarity_table);
@@ -368,45 +367,40 @@ public class milestone3 {
             ArrayList<String> related_movie_list = new ArrayList<>();
             ArrayList<String> unrelated_movie_list = new ArrayList<>();
             if(genre_similarity_table.get(larger_limit-1).getSimilarity()!=0){
-                for(int i = 0 ; i < larger_limit+1 ; i++){
-                    if(!genre_similarity_table.get(i).getMovieID().equals(id_of_input))
-                        related_movie_list.add(genre_similarity_table.get(i).getMovieID());
+                for(int i = 0 ; i < larger_limit ; i++){
+                    related_movie_list.add(genre_similarity_table.get(i).getMovieID());
                 }
-                for(int i = larger_limit+1 ; genre_similarity_table.get(i).getSimilarity()==genre_similarity_table.get(larger_limit-1).getSimilarity();i++){
+                for(int i = larger_limit ; genre_similarity_table.get(i).getSimilarity()==genre_similarity_table.get(larger_limit-1).getSimilarity();i++){
                     related_movie_list.add(genre_similarity_table.get(i).getMovieID());
                 }
             }
             else if(genre_similarity_table.get(limit-1).getSimilarity()!=0 && genre_similarity_table.get(larger_limit-1).getSimilarity()==0){
-                for(int i = 0 ; i < limit+1 ; i++){
-                    if(!genre_similarity_table.get(i).getMovieID().equals(id_of_input))
-                        related_movie_list.add(genre_similarity_table.get(i).getMovieID());
+                for(int i = 0 ; i < limit ; i++){
+                    related_movie_list.add(genre_similarity_table.get(i).getMovieID());
                 }
-                for(int i = limit+1 ; genre_similarity_table.get(i).getSimilarity()==genre_similarity_table.get(limit-1).getSimilarity();i++){
+                for(int i = limit ; genre_similarity_table.get(i).getSimilarity()==genre_similarity_table.get(limit-1).getSimilarity();i++){
                     related_movie_list.add(genre_similarity_table.get(i).getMovieID());
                 }
             }
             else{
                 for(int i = 0 ; genre_similarity_table.get(i).getSimilarity()!=0;i++){
-                    if(!genre_similarity_table.get(i).getMovieID().equals(id_of_input))
-                        related_movie_list.add(genre_similarity_table.get(i).getMovieID());
+                    related_movie_list.add(genre_similarity_table.get(i).getMovieID());
                 }
-                for(int i =related_movie_list.size()+1;i<genre_similarity_table.size();i++) {
+                for(int i =related_movie_list.size();i<genre_similarity_table.size();i++) {
                     unrelated_movie_list.add(genre_similarity_table.get(i).getMovieID());
                 }
-                ArrayList<Movie_data_node> temp_table = make_movie_data_table(rating_data_map, related_movie_list, movie_data_map);
                 ArrayList<Movie_data_node> movie_data_table = make_movie_data_table(rating_data_map, unrelated_movie_list, movie_data_map);
 
-                int temp = limit - temp_table.size();
+                int temp = limit - related_movie_list.size();
                 double p = get_ratio(temp, movie_data_table.size());
 
                 int m = percentile(movie_data_table,p);
                 double C = total_average_rating(movie_data_table);
                 ArrayList<Classified_by_vote> classified_table = make_classified_table(movie_data_table, C, m);
-                int list_size = temp_table.size();
+                int list_size = related_movie_list.size();
                 for(int i =0 ; i<limit-list_size;i++){
                     related_movie_list.add(classified_table.get(i).getMovieID());
                 }
-
             }
 
             double p = get_ratio(limit,related_movie_list.size());
