@@ -852,11 +852,13 @@ curl -X GET 'http://localhost:8080/movies/recommendations' \
 * The field name must match exactly to "gender", "age", "occupation", "genre" and should be in the lower-case.
 * For the gender, age, occupation, and genre inputs, [the same rules from Milestone2](#supported-inputs-1) are applied here as well.
 * However, each of the fields **can be left empty**.
-* When the field(s) are missing OR the wrong field name has passed, for that field, the web service makes a get request with default value `""` .
+* When the field(s) are missing **OR** the wrong field name has passed, for that field, the web service makes a get request with default value `""`.
   
-  * Examples
+* Please note that **genre**(singular) is used, not ***genres*** (plurar).
+* Examples
     ```ruby
-    // Example 1 - Field name wrong. gender = "" is passed to program instead.
+    // Example 1 - Field name wrong.
+    // "" "25" "Grad" "Action" is passed to program instead.
     {
         "Gender": "F",
         "age": "25",
@@ -864,32 +866,56 @@ curl -X GET 'http://localhost:8080/movies/recommendations' \
         "genre": "Action"
     }
     
-    // Example 2 - Field name wrong. gender = "" is passed to program instead.
+    // Example 2 - Missing field.
+    // "" "" "" "" is passed to program instead.
     {
-        "Gender": "F",
-        "age": "25",
-        "occupation": "Grad",
-        "genre": "Action"
+    
     }
     
+    // Example 3 - It should be genre, not genres.
+    // "F" "25" "Grad" "" is passed to program instead.
+    {
+        "gender": "F",
+        "age": "25",
+        "occupation": "Grad",
+        "genres": "Action"
+    }
     ```
-  
+
+##### Testing for the Milestone 3 feature
+* The field name must match exactly to "title", "limit" and should be in the lower-case.
+* For the **title**, the title should be the existing name in the `movies.dat`.
+   * The program accepts white space error and is not case-sensitive.
+     Toy Story (1995) // O
+     ToyStory(1995)   // O
+     toy stoRy (1995) // O
+     Toy Story        // X (The name in movies.dat is with year)
+* For the **limit**, it should be int value with 0 < limit <= 2000
+* However, each of the fields **can be left empty**.
+* When the field(s) are missing **OR** the wrong field name has passed, for that field, the web service makes a get request with default value `""`.
+
+* Examples
+    ```ruby
+    // Example 1 - Field name wrong.
+    // This is invalid input.
+    {
+    "Title": "Toy Story (1995)",
+    "limit": -5
+    }
+    
+    // Example 2 - Missing field.
+    // "Toy Story (1995)" "" is passed to program instead.
+    {
+    "title": "Toy Story (1995)"
+    }
+    ```
 
 <br>
 
 ### Error Codes
 > Possible errors thrown by invalid json body input.
 
-When wrong input is put, the web service returns the error message (json body) with Http Status code `400` (Bad Request)
-
-
-
-##### **Table 1** Invalid input errors
-
-| Error | Message | Description | 
-| :---: | --- | --- |
-| `InputInvalidError` | Entered age input is invalid. Age must be a natural number. | Thrown when the entered age is invalid.
-
+When invalid input is put, the web service returns the error message (json body) with Http Status code `400` (Bad Request)
 
 
 #### Examples for the Error Codes
