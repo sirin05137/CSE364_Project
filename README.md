@@ -636,48 +636,53 @@ i.e. if a user group who highly rated Movie A have rated Movie B highly, the Mov
 1. First, to measure the **similarity** between movies, **Pearson correlation coefficient** has used.
 The details for **Pearson correlation coefficient** can be found [here](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient).
 The formula to get Pearson correlation coefficient is as below :
-> 공식사진 /  indent check
+   ![image](https://user-images.githubusercontent.com/38070937/119506343-cb6ce980-bda8-11eb-9b59-c064741d7c58.png)
 
    The method in program (`milestone3.java`) that implements the Pearson correlation coefficient is as below :
-```java
-static double get_pearson_similarity(HashMap<String, Integer> rating, HashMap<String, Integer> rating_of_input, double mean_rating_of_input, double distance_of_input)
-```
+   ```java
+   static double get_pearson_similarity(HashMap<String, Integer> rating, HashMap<String, Integer> rating_of_input, double mean_rating_of_input, double distance_of_input)
+   ```
+<br>
 
 2. After getting the **similarity** between movies by Pearson correlation coefficient, the movies are sorted by decreasing similarity order.
 
-##### Example - Movies sorted by decreasing similarity order
-> 영준 예시 사진 (유사도
+   ##### Example - Movies sorted by decreasing similarity order
+   ![image](https://user-images.githubusercontent.com/38070937/119506629-1129b200-bda9-11eb-9704-33f6d06a091d.png)
 
-When the sorting has finished, the program adds (1.5 * limit) numbers of items from this list to `ArrayList<Movie_data_node> movie_data_table`.
-(If the input was "Superman (1978)", it excludes the same movie when adding as the same movie as input should be excluded in the recommendation result.)
-
+   When the sorting has finished, the program adds (1.5 * limit) numbers of items from this list to `ArrayList<Movie_data_node> movie_data_table`.
+   (If the input was "Superman (1978)", it excludes the same movie when adding as the same movie as input should be excluded in the recommendation result.)
+   
+<br>
+   
 3. After then, the program calculates the **Weighted Rating** by adding **Pearson correlation coefficient** and **IMDB Weighted Rating**.
    (The **IMDB weighted rating** here is same from milestone2.)
 
+   * ##### Recap for IMDB Weighted Rating `W = (vR+mC)/(v+m)`
+   | Variables | Explanation |
+   | :---: | :--- |
+   W | Weighted rating
+   v | Total number of ratings **for the movie** = (votes)
+   m | Minimum number of ratings required to be listed in the Top 10
+   R | Average rating **for the movie** as a number from 0 to 5 (mean)
+   C | Average rating across **all the movies**
+   * The reason of adding **Pearson correlation coefficient** and **IMDB Weighted Rating** is that it can give more weight on the movies with higher **similarity**.
+   
+      For example, when the input is `"Superman (1978)`, the movies "Superman II (1980)" and "Superman III (1983)" get to have high similarity with the input from the method above. 
+     
+      However, these movies have comparably low average rating (from users).
+      To give more weight on these movies (high similarity but low rating), **Pearson correlation coefficient** and **IMDB Weighted Rating** has added.
 
-* ##### Recap for IMDB Weighted Rating `W = (vR+mC)/(v+m)`
-| Variables | Explanation |
-| :---: | :--- |
-W | Weighted rating
-v | Total number of ratings **for the movie** = (votes)
-m | Minimum number of ratings required to be listed in the Top 10
-R | Average rating **for the movie** as a number from 0 to 5 (mean)
-C | Average rating across **all the movies**
-* The reason of adding **Pearson correlation coefficient** and **IMDB Weighted Rating** is that it can give more weight on the movies with higher **similarity**.
-For example, when the input is `"Superman (1978)`, the movies "Superman II (1980)" and "Superman III (1983)" get to have high similarity with the input from the method above.
-However, these movies have comparably low average rating (from users).
-To give more weight on these movies (high similarity but low rating), **Pearson correlation coefficient** and **IMDB Weighted Rating** has added.
-
-* The value of `v` and `R` above can be easily calculated from `Movie_data_node`.
-And the value of  `m` and `C` can be calculated from the methods each below :
-```java
-static int percentile(ArrayList<Movie_data_node> movie_rating_matrix, double p)
-```
-```java
-static double total_average_rating(ArrayList<Movie_data_node> movie_rating_matrix)
-```
-The two methods above are imported from the milestone2.
-And the value of `p` in `Percentile` method is set to 0 (zero) here. (If p > 0, the movies with high similarity can be ignored)
+   * The value of `v` and `R` above can be easily calculated from `Movie_data_node`.
+   And the value of  `m` and `C` can be calculated from the methods each below :
+   ```java
+   static int percentile(ArrayList<Movie_data_node> movie_rating_matrix, double p)
+   ```
+   ```java
+   static double total_average_rating(ArrayList<Movie_data_node> movie_rating_matrix)
+   ```
+   The two methods above are imported from the milestone2.
+   And the value of `p` in `Percentile` method is set to 0 (zero) here. (If p > 0, the movies with high similarity can be ignored)
+<br>
 
 4. Lastly, the `classified_table`(ArrayList) are made by selecting the items with more than `m` vote counts from `movie_data_table`.
    And then, the program sorts the list with decreasing Weighted Rating value and prints out the upper `limit` number of movies.
@@ -703,12 +708,12 @@ Genre-based recommendation generates movie recommendation by calculating **the s
 
 1. First, To measure the **similarity**, the algorithm uses **Jaccard similarity**.
 The formula to get **Jaccard similarity** is as below :
-> 공식사진
+   ![image](https://user-images.githubusercontent.com/38070937/119506368-d0ca3400-bda8-11eb-8500-85f27995f622.png)
 
-The method in program (milestone3.java) that implements the Pearson correlation coefficient is as below :
-```java
-static double get_jaccard_similarity(ArrayList<String> movie_data ,ArrayList<String> genre_of_input_list)
-```
+   The method in program (milestone3.java) that implements the Pearson correlation coefficient is as below :
+   ```java
+   static double get_jaccard_similarity(ArrayList<String> movie_data ,ArrayList<String> genre_of_input_list)
+   ```
 
 2. After getting the similarity between movies by Jaccard similarity, the movies are sorted by decreasing similarity order.
    On here, there's 3 cases regarding the similarity and number of movies to recommend (limit).
