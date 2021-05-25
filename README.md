@@ -736,63 +736,100 @@ static double get_jaccard_similarity(ArrayList<String> movie_data ,ArrayList<Str
 
 #### Interpretation of the Algorithm Output
 
-마일스톤3 파트 2에서 아이템 기반 협업 필터링을 사용하는 경우, 우선 유사도가 높은 순서로 정렬하고 그 다음 첫번째 항목부터 (limit*1.5)번째 항목까지를 변형된 IMDb방식으로 평가하여 순위를 매긴다. 하지만 이 순위는 limit의 크기에 따라 크게 달라진다.
+When the Item-based collaborative filtering is used,
+the program sorts the movies in decreasing similarity order and rank the 1 ~ (limit*1.5)th movies with altered IMDB weighted rating.
+However, this rank gets differ greatly depends on the size of `limit`.
 
-* Limit이 10이나 20같이 작은 경우
-비교적 유사도가 높은 데이터셋에서 순위를 정하기 때문에 결과값 또한 유사도가 높다.
+* When the number of `limit` is small enough (e.g. `limit` is 10 or 20)
+The dataset that is used for ranking has high similarity, making the output (recommended movies) having high similarity.
+* When the number of `limit` is too big (e.g. `limit` is 1000)
+The similarity of the output gets low but the movies with high ratings get priority for the recommendation.
+i.e. it's hard to find the movies with high similarity among the highly placed movies in output.
 
-* Limit이 1000과 같이 큰 경우
-유사도는 현저히 낮지만 많은 사람들이 관람하였고 평점이 매우 높은 영화들이 우선적으로 추천된다.
-즉 유사도가 높은 영화들은 거의 대부분이 상위 순위에서 찾을 수 없다.
-만약 두 영화 A와 B가 있을 때 limit이 커지면 커질 수록 결과값의 상위 순위가 유사해진다.
+If there's movie A and movie B, as `limit` gets bigger and bigger, the highly placed movies in output gets similar.
 
 ### Running the Test
 Continued from [Installation](#installation) steps.
-1. (In the Docker Container) Run `./mvnw `
-   The Arguments(_InputStr1 InputStr2 InputStr3 InputStr4_) are accordingly **Gender, Age, Occupation, _(and Genre)_**.
+1. (In the Docker Container) Run `./mvnw spring-boot:run`
 ```ruby
-root@containerID:~/project# java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 InputStr1 InputStr2 InputStr3 InputStr4
+root@containerID:~/project# ./mvnw spring-boot:run
 ```
-
-* The maven building process(`mvn install` or `mvn test`) might take up to a minute.
+2. Open the another terminal and type the curl command there.
+```ruby
+// sample command
+root@containerID:~/project# curl -X GET 'http://localhost:8080/movies/recommendations' \
+-H 'Content-type: application/json' \
+-d '{ "title": "Toy Story (1995)", "limit": 3 }'
+```
 
 #### Examples
 
 When valid inputs are passed, the output message will look like this :
-
-##### Testing with 3 inputs
 ```ruby
-// Input
-java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "F" "25" "Gradstudent"
-
-// Output
-Sixth Sense, The (1999) (http://www.imdb.com/title/tt0167404)
-Matrix, The (1999) (http://www.imdb.com/title/tt0133093)
-Shawshank Redemption, The (1994) (http://www.imdb.com/title/tt0111161)
-Usual Suspects, The (1995) (http://www.imdb.com/title/tt0114814)
-Silence of the Lambs, The (1991) (http://www.imdb.com/title/tt0102926)
-Close Shave, A (1995) (http://www.imdb.com/title/tt0112691)
-Wrong Trousers, The (1993) (http://www.imdb.com/title/tt0108598)
-Cinema Paradiso (1988) (http://www.imdb.com/title/tt0095765)
-American Beauty (1999) (http://www.imdb.com/title/tt0169547)
-Raiders of the Lost Ark (1981) (http://www.imdb.com/title/tt0082971)
+[ {
+  "title" : "Toy Story 2 (1999)",
+  "genre" : "Animation|Children's|Comedy",
+  "imdb" : "http://www.imdb.com/title/tt0120363"
+}, {
+  "title" : "Bug's Life, A (1998)",
+  "genre" : "Animation|Children's|Comedy",
+  "imdb" : "http://www.imdb.com/title/tt0120623"
+}, {
+  "title" : "Beauty and the Beast (1991)",
+  "genre" : "Animation|Children's|Musical",
+  "imdb" : "http://www.imdb.com/title/tt0101414"
+} ]
 ```
-##### Testing with 4 inputs
+
+* Please note that **genre**(singular) is used, not ***genres*** (plurar).
+
+##### Testing for the Milestone 2 feature
+Movie recommendation based on **gender / age / occupation / genre**
 ```ruby
 // Input
-java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "F" "25" "Gradstudent" "Action|Comedy"
+curl -X GET 'http://localhost:8080/users/recommendations' \
+-H 'Content-type: application/json' \
+-d '{"gender":"F", "age":"25", "occupation":"Grad student", "genre":"Action"}'
 
-// Output
-Matrix, The (1999) (http://www.imdb.com/title/tt0133093)
-Close Shave, A (1995) (http://www.imdb.com/title/tt0112691)
-Wrong Trousers, The (1993) (http://www.imdb.com/title/tt0108598)
-American Beauty (1999) (http://www.imdb.com/title/tt0169547)
-Shakespeare in Love (1998) (http://www.imdb.com/title/tt0138097)
-Raiders of the Lost Ark (1981) (http://www.imdb.com/title/tt0082971)
-Cinema Paradiso (1988) (http://www.imdb.com/title/tt0095765)
-Eat Drink Man Woman (1994) (http://www.imdb.com/title/tt0111797)
-Raising Arizona (1987) (http://www.imdb.com/title/tt0093822)
-Breakfast Club, The (1985) (http://www.imdb.com/title/tt0088847)
+// Output - Top 10 movies are returned.
+[ {
+  "title" : "Princess Bride, The (1987)",
+  "genre" : "action|adventure|comedy|romance",
+  "imdb" : "http://www.imdb.com/title/tt0093779"
+}, {
+  "title" : "Matrix, The (1999)",
+  "genre" : "action|sci-fi|thriller",
+  "imdb" : "http://www.imdb.com/title/tt0133093"
+}, {
+  "title" : "Raiders of the Lost Ark (1981)",
+  "genre" : "action|adventure",
+  "imdb" : "http://www.imdb.com/title/tt0082971"
+},
+...
+```
+##### Testing for the Milestone 3 feature 
+Movie recommendation based on the **movie title / limit**
+```ruby
+// Input
+curl -X GET 'http://localhost:8080/movies/recommendations' \
+-H 'Content-type: application/json' \
+-d '{ "title": "Toy Story (1995)", "limit": 3 }' 
+
+// Output - (limit) number of movies are returned.
+// (when limit is not specified, 10 movies are returned.)                          
+[ {
+  "title" : "Toy Story 2 (1999)",
+  "genre" : "Animation|Children's|Comedy",
+  "imdb" : "http://www.imdb.com/title/tt0120363"
+}, {
+  "title" : "Bug's Life, A (1998)",
+  "genre" : "Animation|Children's|Comedy",
+  "imdb" : "http://www.imdb.com/title/tt0120623"
+}, {
+  "title" : "Beauty and the Beast (1991)",
+  "genre" : "Animation|Children's|Musical",
+  "imdb" : "http://www.imdb.com/title/tt0101414"
+} ]%
 ```
 
 ### Supported Inputs
@@ -817,63 +854,8 @@ Gender | Age | Occupation | _(Genre)_
     ""        // Supported
     ```
 
-* **Age**
-  * Must be an **integer value** bigger than 0.
-  * **Can be left empty** when replaced by **paired double quotation marks**.
-    i.e. `""`
-  * Examples
-    ```ruby
-    "35"          // Supported
-    "35.5"        // X
-    "-23"         // X
-    "Thirty-five" // X
-    (nothing)     // X (must be replaced by "")
-    ""            // Supported
-    ```
+  
 
-* **Occupation**
-  * For Occupation, [the same rules from Milestone1](#supported-inputs) are applied here as well.
-  * However, on milestone 2, the spacing between input is allowed here.
-  * **Can be left empty** when replaced by **paired double quotation marks**.
-    i.e. `""`
-  * Examples
-    ```ruby
-    "k-12student"   // Supported
-    "K12student"    // X (The hyphens must not be omitted.)
-    "Gradstudent"   // Supported
-    "Grad student"  // Supported (Was not supported from Milestone 1)
-    (nothing)       // X (must be replaced by "")
-    ""              // Supported
-    ```
-
-* **Genre** (When testing with 4 inputs)
-  * For Genre, [the same rules from Milestone1](#supported-inputs) are applied here as well.
-  * For the combination of genre inputs, the formatting rules from Milestone 1 [(Combination of multiple genres as an input)](#combination-of-multiple-genres-as-an-input) applies here as well. <br> However, the pipeline(`|`) here is uesd to link **OR** conditions, not **AND**.
-    * e.g. `Adventure|Animation` includes all the movies that are categorized as Adventure **OR** Animation to candidates for Top 10 movies.
-  * **Must NOT be left empty**.
-  * Examples
-    ```ruby
-    "Film-noir"         // Supported
-    "Filmnoir"          // X (The hyphens must not be omitted.)
-    Action|Adventure    // X (Must be enclosed by pipeline)
-    "Action|Adventure|" // X (Pipeline should be between words)
-    ""                  // The genre must not be left empty.
-    ```
-
-##### Testing for Part 1
-* Please note that 
-```ruby
-curl -X GET 'http://localhost:8080/users/recommendations' \
--H 'Content-type: application/json' \
--d '{"gender":"F", "age":"25", "occupation":"Grad student", "genre":"Action"}'
-```
-
-##### Testing for Part 2
-```ruby
-curl -X GET 'http://localhost:8080/movies/recommendations' \
--H 'Content-type: application/json' \
--d '{ "title": "Toy Story (1995)", "limit": 20 }'
-```
 <br>
 
 ### Error Codes
@@ -885,19 +867,13 @@ To provide a flexible
 
 | Error | Message | Description | 
 | :---: | --- | --- |
-| `InputNumError` | The input must be in this format : "gender" "age" "occupation" "genre" (genre is optional). | Thrown when the number of argument is not 3 or 4.
-| `InputInvalidError` | Entered gender input is invalid. | Thrown when the entered gender is invalid.
 | `InputInvalidError` | Entered age input is invalid. Age must be a natural number. | Thrown when the entered age is invalid.
-| `InputInvalidError` | Entered occupation (_*inputString*_) doesn't exist. | Thrown when the entered occupation is invalid.
-| `InputInvalidError` | Entered genre input is invalid. | Thrown when the entered genre is invalid. (e.g. Location of pipeline `|`)
-| `InputInvalidError` | Entered genre (_*inputString*_) doesn't exist. | Thrown when the entered genre is invalid.
-| `InputEmptyError` | Genre input hasn't passed. Genre must not be empty | Thrown when the `""` is passed for the genre input.
 
 
 * When put wrong input, the web service returns the error message (json body) with Http Status code 400 (Bad Request)
 
 #### Examples for the Error Codes
-##### For Part 1
+##### For the Milestone 2 feature
 Input (json body)
 ```json
 {
@@ -920,7 +896,7 @@ Output (json body) - Status code **400 Bad Request**
 }
 ```
 
-##### For Part 2
+##### For the Milestone 3 feature
 Input (json body)
 ```json
 {
