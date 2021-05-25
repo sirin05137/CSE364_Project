@@ -30,6 +30,13 @@
   * [About JUnit Test](#about-junit-test-1)
   * [Contribution by Area](#contribution-by-area-1)
 * [Milestone 3](#milestone-3)
+  * [Explanation of the Algorithm](#explanation-of-the-algorithm-1)
+     * [1) Bayesian Estimate](#1-bayesian-estimate)
+     * [2) Priority rule for including similar users](#2-priority-rule-for-including-similar-users)
+     * [Interpretation of the Algorithm Output](#interpretation-of-the-algorithm-output)
+  * [Running the Tests](#running-the-tests-2)
+    * [Examples](#examples-2)
+  * [Supported Inputs](#supported-inputs-2)  
   * [Error Codes](#error-codes-2)
   * [Examples for the Error Codes](#examples-for-the-error-codes-2)
   * [About JUnit Test](#about-junit-test-2)
@@ -610,14 +617,12 @@ Documentation | **README.md** <br> 👑 Yujin Lee
 > * Movies Recommendation Feature based on the **Movie title** (and limit).
 
 ### Explanation of the Algorithm
-> This part explains about the Movies recommendation feature based on the **Movie title**.
-
 On Milestone 3, the new feature has added to provide movies recommendation from the **Movie title** input.
 The code returns the input-specified numbers(`limit`, default = 10) of movies for the specified movie title.
 
 The algorithm is built based on the two concepts below :
-1) Item-based Collaborative Filtering
-2) Genre-based Recommendation
+   1) Item-based Collaborative Filtering
+   2) Genre-based Recommendation
 
 
 #### 1) Item-based Collaborative Filtering
@@ -627,7 +632,7 @@ Collaborative Filtering are subdivided to two methods ; User-based and Item-base
 This program uses **Item-based Collaborative Filtering**.
 i.e. if a user group who highly rated Movie A have rated Movie B highly, the Movie A and Movie B are considered to be **similar**.
 
-##### Step-by-step Explanation of Algorithm
+#### Step-by-step Explanation of Algorithm
 1. First, to measure the **similarity** between movies, **Pearson correlation coefficient** has used.
 The details for **Pearson correlation coefficient** can be found [here](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient).
 The formula to get Pearson correlation coefficient is as below :
@@ -650,8 +655,7 @@ When the sorting has finished, the program adds (1.5 * limit) numbers of items f
    (The **IMDB weighted rating** here is same from milestone2.)
 
 
-##### Recap for IMDB Weighted Rating `W = (vR+mC)/(v+m)`
-
+* ##### Recap for IMDB Weighted Rating `W = (vR+mC)/(v+m)`
 | Variables | Explanation |
 | :---: | :--- |
 W | Weighted rating
@@ -659,13 +663,12 @@ v | Total number of ratings **for the movie** = (votes)
 m | Minimum number of ratings required to be listed in the Top 10
 R | Average rating **for the movie** as a number from 0 to 5 (mean)
 C | Average rating across **all the movies**
-
-The reason of adding **Pearson correlation coefficient** and **IMDB Weighted Rating** is that it can give more weight on the movies with higher **similarity**.
+* The reason of adding **Pearson correlation coefficient** and **IMDB Weighted Rating** is that it can give more weight on the movies with higher **similarity**.
 For example, when the input is `"Superman (1978)`, the movies "Superman II (1980)" and "Superman III (1983)" get to have high similarity with the input from the method above.
 However, these movies have comparably low average rating (from users).
 To give more weight on these movies (high similarity but low rating), **Pearson correlation coefficient** and **IMDB Weighted Rating** has added.
 
-The value of `v` and `R` above can be easily calculated from `Movie_data_node`.
+* The value of `v` and `R` above can be easily calculated from `Movie_data_node`.
 And the value of  `m` and `C` can be calculated from the methods each below :
 ```java
 static int percentile(ArrayList<Movie_data_node> movie_rating_matrix, double p)
@@ -675,32 +678,73 @@ static double total_average_rating(ArrayList<Movie_data_node> movie_rating_matri
 ```
 The two methods above are imported from the milestone2.
 And the value of `p` in `Percentile` method is set to 0 (zero) here. (If p > 0, the movies with high similarity can be ignored)
-And then, the `classified_table`(ArrayList) are made by selecting the items with more than `m` vote counts from `movie_data_table`.
 
-Lastly, the program sorts the list with decreasing Weighted Rating value and prints out the upper `limit` number of movies.
-
-
-
-
-
-
-
-
-
-
-#### 2) Priority rule for including similar users
-The algorithm firstly makes the ArrayList(`valid_user_list`) of users that matches the inputs from `users.dat`.
-
-However,
-* when there aren't sufficient amount of movie candidates to be ranked (On here, it is set to `100 movies`) for specified user data,
-
-The similar users with priority are the users with :
-1. Same **Gender**, **Occupation** and **Gender**
-
-
-The priority has set as above to give a more weighting on **Occupation**, and less on **Gender** and **Age Range**.
+4. Lastly, the `classified_table`(ArrayList) are made by selecting the items with more than `m` vote counts from `movie_data_table`.
+   And then, the program sorts the list with decreasing Weighted Rating value and prints out the upper `limit` number of movies.
 
 <br>
+   
+#### 2) Genre-based Recommendation
+
+##### Intro - The Weakness of Item-based Collaborative Filtering
+The Genre-based Recommendation has implemented to complement the weakness of Item-based Collaborative Filtering.
+The weaknesses of Item-based Collaborative Filtering are : 
+* When there is no rating data available for the movie (input), the **similarity** cannot be calculated.
+* When there are too few rating data for the movie (input), the recommendation output is not reliable.
+* When the rating for specific movie from different users are the same, the **Pearson correlation coefficient** cannot be calculated.
+  e.g movie A : (3,3,0,3) * 0 means didnt rate.
+  
+In these cases, the recommendation output is not reliable or cannot be calculated.
+To complement this weaknesses, **when the number of ratings for the movie input is less than 100**, Genre-based recommendation is used.
+
+Genre-based recommendation generates movie recommendation by calculating **the similarity between the genre(s) of input movie's and others'**.
+
+#### Step-by-step Explanation of Algorithm
+
+1. First, To measure the **similarity**, the algorithm uses **Jaccard similarity**.
+The formula to get **Jaccard similarity** is as below :
+> 공식사진
+
+The method in program (milestone3.java) that implements the Pearson correlation coefficient is as below :
+```java
+static double get_jaccard_similarity(ArrayList<String> movie_data ,ArrayList<String> genre_of_input_list)
+```
+
+2. After getting the similarity between movies by Jaccard similarity, the movies are sorted by decreasing similarity order.
+   On here, there's 3 cases regarding the similarity and number of movies to recommend (limit).
+      * Case 1, The similarity of (limit*1.5)th movie is not 0
+        (**A** : the similarity of (limit*1.5)th movie)
+        Add all the movies with similarity 1~A to `ArrayList<Movie_data_node> movie_data_table`.
+        In this case, the length of List is bigger than (limit*1.5) as the movies with similarity A are also added.
+      * Case 2, The similarity of (limit*1.5)th movie is 0 but (limit)th movie's is not 0
+        (**B** : the similarity of (limit)th movie)
+        Add all the movies with similarity 1~B to `ArrayList<Movie_data_node> movie_data_table`.
+        In this case, the length of List is bigger than (limit) and smaller than (limit*1.5) as the movies with similarity B are also added.
+      * Case 3, The similarity of (limit)th movie is 0
+        Add all the movies with **non-zero** similarity to `ArrayList<Movie_data_node> movie_data_table`.
+        Calculate the IMDB weighted rating for the movies with zero similarity and Add (limit - listlength) number of movies to `movie_data_table`.
+   The same movie with the movie input is excluded for the recommendation when adding movies to `movie_data_table`.
+
+3. After then, the program calculates the **Weighted Rating** (in IMDB weighted rating way)
+   The value of `p` here in `Percentile` method is calculated from the method below :
+  ```java
+    static double get_ratio(int a, int b)
+  ```
+
+4. Lastly, the `classified_table`(ArrayList) are made by selecting the items with more than `m` vote counts from `movie_data_table`.
+    And then,  the program sorts the list with decreasing Weighted Rating value and prints out the upper `limit` number of movies.
+
+#### Interpretation of the Algorithm Output
+
+마일스톤3 파트 2에서 아이템 기반 협업 필터링을 사용하는 경우, 우선 유사도가 높은 순서로 정렬하고 그 다음 첫번째 항목부터 (limit*1.5)번째 항목까지를 변형된 IMDb방식으로 평가하여 순위를 매긴다. 하지만 이 순위는 limit의 크기에 따라 크게 달라진다.
+
+* Limit이 10이나 20같이 작은 경우
+비교적 유사도가 높은 데이터셋에서 순위를 정하기 때문에 결과값 또한 유사도가 높다.
+
+* Limit이 1000과 같이 큰 경우
+유사도는 현저히 낮지만 많은 사람들이 관람하였고 평점이 매우 높은 영화들이 우선적으로 추천된다.
+즉 유사도가 높은 영화들은 거의 대부분이 상위 순위에서 찾을 수 없다.
+만약 두 영화 A와 B가 있을 때 limit이 커지면 커질 수록 결과값의 상위 순위가 유사해진다.
 
 ### Running the Test
 Continued from [Installation](#installation) steps.
