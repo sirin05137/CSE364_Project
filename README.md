@@ -790,6 +790,7 @@ When valid inputs are passed, the output message will look like this :
 
 ##### Testing for the Milestone 2 feature
 Movie recommendation based on **gender / age / occupation / genre**
+Test with different json body parts as your need.
 ```ruby
 // Input
 curl -X GET 'http://localhost:8080/users/recommendations' \
@@ -814,6 +815,7 @@ curl -X GET 'http://localhost:8080/users/recommendations' \
 ```
 ##### Testing for the Milestone 3 feature 
 Movie recommendation based on the **movie title / limit**
+Test with different json body parts as your need.
 ```ruby
 // Input
 curl -X GET 'http://localhost:8080/movies/recommendations' \
@@ -838,6 +840,11 @@ curl -X GET 'http://localhost:8080/movies/recommendations' \
 ```
 
 ### Supported Inputs
+##### Testing for the Milestone 2 feature
+For the gender, age, occupation, and genre inputs, [the same rules from Milestone2](#supported-inputs-1) are applied here as well.
+
+
+
 InputStr1 | InputStr2 | InputStr3 | _(InputStr4)_
 | :---: | :---: | :---: | :---: |
 Gender | Age | Occupation | _(Genre)_
@@ -866,7 +873,7 @@ Gender | Age | Occupation | _(Genre)_
 ### Error Codes
 > Possible errors thrown by invalid json body input.
 
-To provide a flexible 
+
 
 ##### **Table 1** Invalid input errors
 

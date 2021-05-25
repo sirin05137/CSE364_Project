@@ -333,6 +333,8 @@
                         <exclude>**/milestone2.class</exclude>
                         <exclude>**/Classified_by_vote.class</exclude>
                         <exclude>**/Movie_data_node.class</exclude>
+                        <exclude>**/MovieDataController.class</exclude>
+                        <exclude>**/UserDataController.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>

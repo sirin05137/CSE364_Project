@@ -172,6 +172,7 @@ public class milestone3Test extends milestone3 {
     public void mdeditorTest() {
         ObjectMapper objectMapper = new ObjectMapper();
         MovieDataEditor mdeditor = new MovieDataEditor(objectMapper);
+        mdeditor.setAsText("");
         mdeditor.setAsText("{\"title\":\"Action\"}");
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             mdeditor.setAsText("{\"gender\"\"F\",,,}"); });
