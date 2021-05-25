@@ -1,11 +1,29 @@
-.idea
-.settings
 scripts/*
 !scripts/dockerfile
 !scripts/run.sh
+!scripts/movie_num_per_genre.xlsx
+
 target
-.classpath
-.project
-*.iml
+!../.mvn/wrapper/maven-wrapper.jar
 .DS_Store
+
+out.json
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+!../.mvn/wrapper/wrapper.iml
+
+
 src/main/java/group11/testclass.java

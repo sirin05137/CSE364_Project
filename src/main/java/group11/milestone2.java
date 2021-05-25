@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+
 // Class that store information of movies (like movieID, title, genre, total rating, vote counter)
 class Movie_data_node{
     String movieID;
@@ -114,6 +115,8 @@ class Classified_by_vote extends Movie_data_node implements Comparable {
 
 public class milestone2 {
 
+    private static ArrayList<Classified_by_vote> classified_table = null;
+
     //Calculating the total average rating of movies classified by user data
     static double total_average_rating(ArrayList<Movie_data_node> movie_rating_matrix){
         BigDecimal sum_of_average_rating = new BigDecimal("0.0");
@@ -185,7 +188,7 @@ public class milestone2 {
         }
     }
     //Extract and sort movies with m or more votes.
-    static ArrayList<Classified_by_vote> make_classified_table(ArrayList<Movie_data_node> movie_rating_matrix, double C, int m) throws IOException{
+    public static ArrayList<Classified_by_vote> make_classified_table(ArrayList<Movie_data_node> movie_rating_matrix, double C, int m) throws IOException{
         ArrayList<Classified_by_vote> classified_table = new ArrayList<>();
         for(int i=0;i<movie_rating_matrix.size();i++){
             if(movie_rating_matrix.get(i).getCounter()>=m){
@@ -217,12 +220,25 @@ public class milestone2 {
         Collections.sort(classified_table); //내림차순으로 정렬
         return classified_table;
     }
-    //print output format
-    static void print_output_format(ArrayList<Classified_by_vote> classified_table){
-        for (int i = 0; i < 10; i++) {
-            System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
-        }
+    public String get_classified_table(int index){
+        // index : Rank of the movie (Top i-th movie)
+        StringBuilder test = new StringBuilder();
+        test.append("{"
+                + "\"title\":\""
+                + classified_table.get(index).getTitle()
+                + "\","
+                + "\"genre\":\""
+                + classified_table.get(index).getGenre()
+                + "\","
+                + "\"imdb\":\""
+                + classified_table.get(index).getLink()
+                + "\""
+                + "}");
+
+        return test.toString();
     }
+
+
     //Extract only movies that match genres from movies classified by user data
     static ArrayList<Movie_data_node> make_table_with_genre(ArrayList<Movie_data_node> inputlist, String[] input_genre){
         ArrayList<Movie_data_node> result = new ArrayList<>();
@@ -237,7 +253,7 @@ public class milestone2 {
         return result;
     }
 
-    static boolean check_gender_validity(String gender){
+    public static boolean check_gender_validity(String gender){
         if(gender.trim().toLowerCase().equals("") || gender.trim().toLowerCase().equals("m") || gender.trim().toLowerCase().equals("f")){
             return true;
         }
@@ -246,7 +262,7 @@ public class milestone2 {
             return false;
         }
     }
-    static boolean check_age_validity(String age_input){
+    public static boolean check_age_validity(String age_input){
         String age = age_input.replace(" ", "");
         if(age.trim().equals("")){
             return true;
@@ -271,7 +287,7 @@ public class milestone2 {
             }
         }
     }
-    static boolean check_occu_validity(String occu_input){
+    public static boolean check_occu_validity(String occu_input){
         String occu = occu_input.replace(" ", "");
         if(occu.trim().toLowerCase().equals("")){
             return true;
@@ -367,7 +383,7 @@ public class milestone2 {
         }
 
     }
-    static boolean check_genre_validity(String genre_input){
+    public static boolean check_genre_validity(String genre_input){
         String genre = genre_input.replace(" ", "");
         String[] dbgenre= {"action", "adventure", "animation", "children's","comedy","crime","documentary","drama","fantasy","film-noir",
                 "horror","musical","mystery","romance","sci-fi","thriller","war","western", "other"};
@@ -761,7 +777,10 @@ public class milestone2 {
             double C = total_average_rating(movie_data_table);
             //System.out.println(m);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(movie_data_table, C, m);
-            print_output_format(classified_table);
+            milestone2.classified_table = classified_table;
+            for (int i = 0; i < 10; i++) {
+                System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
+            }
         }
         else if(args.length==4) {
             String genre_no_empty = args[3].replace(" ", "");
@@ -820,7 +839,10 @@ public class milestone2 {
             double C = total_average_rating(table_classified_by_genre);
             //System.out.println(m);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(table_classified_by_genre, C, m);
-            print_output_format(classified_table);
+            milestone2.classified_table = classified_table;
+            for (int i = 0; i < 10; i++) {
+                System.out.println(classified_table.get(i).getTitle() + " (" + classified_table.get(i).getLink() + ")");
+            }
         }
         //long end = System.currentTimeMillis();
         //System.out.println(end-start);

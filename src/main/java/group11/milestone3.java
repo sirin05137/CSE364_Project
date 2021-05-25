@@ -47,8 +47,31 @@ class Similarity_of_movie implements Comparable{
 
 public class milestone3 {
 
+    private static ArrayList<Classified_by_vote> classified_table = null;
+
+    private static void set_classified_table(ArrayList<Classified_by_vote> cf){
+        milestone3.classified_table = cf;
+    }
+    public String get_classified_table(int index){
+        // index : Rank of the movie (Top i-th movie)
+        StringBuilder test = new StringBuilder();
+        test.append("{"
+                + "\"title\":\""
+                + classified_table.get(index).getTitle()
+                + "\","
+                + "\"genre\":\""
+                + classified_table.get(index).getGenre()
+                + "\","
+                + "\"imdb\":\""
+                + classified_table.get(index).getLink()
+                + "\""
+                + "}");
+
+        return test.toString();
+    }
+
     // Create map of format {movieID : [title, genre]}
-    static HashMap<String, ArrayList<String>> make_movie_data_map() throws IOException {
+    public static HashMap<String, ArrayList<String>> make_movie_data_map() throws IOException {
         HashMap<String, ArrayList<String>> movie_data_map = new HashMap<>();
         BufferedReader get_movie_data = new BufferedReader(new FileReader("data/movies.dat"));
         while (true) {
@@ -166,8 +189,7 @@ public class milestone3 {
         return A.divide(B,3,RoundingMode.HALF_UP).doubleValue();
     }
 
-    // Method to check the validity of the input title
-    static boolean check_title_validity(String title_input, HashMap<String, ArrayList<String>> movie_data_map) {
+    public static boolean check_title_validity(String title_input, HashMap<String, ArrayList<String>> movie_data_map) {
         String title = title_input.replace(" ", "");
         for (Map.Entry<String, ArrayList<String>> Iter : movie_data_map.entrySet()) {
             String A = Iter.getValue().get(0).replace(" ", "");
@@ -180,7 +202,7 @@ public class milestone3 {
     }
 
     // Method to check the validity of the input limit
-    static boolean check_limit_validity(String limit_input) {
+    public static boolean check_limit_validity(String limit_input) {
         String limit = limit_input.replace(" ", "");
         boolean isNumeric = true;
         for (int i = 0; i < limit.length(); i++) {
@@ -443,6 +465,7 @@ public class milestone3 {
             int m = percentile(movie_data_table,p);
             double C = total_average_rating(movie_data_table);
             ArrayList<Classified_by_vote> classified_table = make_classified_table(movie_data_table, C, m);
+            set_classified_table(classified_table);
 
             for(int i =0 ; i<limit ; i++){
                 System.out.println(classified_table.get(i).getTitle() + " " + classified_table.get(i).getLink() + " " + classified_table.get(i).getW());
