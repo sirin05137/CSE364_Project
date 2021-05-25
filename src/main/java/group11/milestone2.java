@@ -95,6 +95,7 @@ class Classified_by_vote extends Movie_data_node implements Comparable {
         BigDecimal w_rating = new BigDecimal(String.valueOf(this.W));
         BigDecimal temp = new BigDecimal(String.valueOf(similarity));
         this.W = w_rating.add(temp).doubleValue();
+        //this.W = w_rating.multiply(temp).doubleValue();
     }
 
     public String getLink() {
@@ -192,10 +193,10 @@ public class milestone2 {
                 classified_table.add(inner_data);
             }
         }
-        if(classified_table.size()==0){
+        /*if(classified_table.size()==0){
             System.out.println("NoDBError : No movie available for more than "+m+" votes.");
             System.exit(1);
-        }
+        }*/
         BufferedReader get_link_data = new BufferedReader(new FileReader("data/links.dat"));
         while(true){
             String line = get_link_data.readLine();
