@@ -72,6 +72,33 @@ public class milestone3Test extends milestone3 {
         Assertions.assertFalse(check_limit_validity("0"));
     }
 
+    @Test
+    public void sample_args_test_4 () {
+        String[] args = new String[1];
+        args[0] = "Prince of Central Park, The (1999)";
+        assertAll( () -> milestone3.main(args));
+    }
+    @Test
+    public void sample_args_test_5 () {
+        String[] args = new String[2];
+        args[0] = "Prince of Central Park, The (1999)";
+        args[1] = "100";
+        assertAll( () -> milestone3.main(args));
+    }
+    @Test
+    public void sample_args_test_6 () {
+        String[] args = new String[2];
+        args[0] = "Prince of Central Park, The (1999)";
+        args[1] = "1200";
+        assertAll( () -> milestone3.main(args));
+    }
+    @Test
+    public void sample_args_test_7 () {
+        String[] args = new String[2];
+        args[0] = "Prince of Central Park, The (1999)";
+        args[1] = "2000";
+        assertAll( () -> milestone3.main(args));
+    }
 
     /*
     @Test

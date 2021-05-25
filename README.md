@@ -9,7 +9,7 @@
   * [Installation](#installation)
 * [Milestone 1](#milestone-1)
   * [Explanation of the Algorithm](#explanation-of-the-algorithm)
-  * [Running the Tests](#running-the-tests)
+  * [Running the Test](#running-the-test)
     * [Examples](#examples)
   * [Supported Inputs](#supported-inputs)
     * [Rules for the Inputs](#rules-for-the-inputs)
@@ -22,7 +22,7 @@
   * [Explanation of the Algorithm](#explanation-of-the-algorithm-1)
     * [1) Bayesian Estimate](#1-bayesian-estimate)
     * [2) Priority rule for including similar users](#2-priority-rule-for-including-similar-users)
-  * [Running the Tests](#running-the-tests-1)
+  * [Running the Test](#running-the-test-1)
     * [Examples](#examples-1)
   * [Supported Inputs](#supported-inputs-1)
   * [Error Codes](#error-codes-1)
@@ -31,14 +31,14 @@
   * [Contribution by Area](#contribution-by-area-1)
 * [Milestone 3](#milestone-3)
   * [Explanation of the Algorithm](#explanation-of-the-algorithm-1)
-     * [1) Bayesian Estimate](#1-bayesian-estimate)
-     * [2) Priority rule for including similar users](#2-priority-rule-for-including-similar-users)
+     * [1) Item-based Collaborative Filtering](#1-item-based-collaborative-filtering)
+     * [2) Genre-based Recommendation](#2-genre-based-recommendation)
      * [Interpretation of the Algorithm Output](#interpretation-of-the-algorithm-output)
-  * [Running the Tests](#running-the-tests-2)
+  * [Running the Test](#running-the-test-2)
     * [Examples](#examples-2)
   * [Supported Inputs](#supported-inputs-2)  
   * [Error Codes](#error-codes-2)
-  * [Examples for the Error Codes](#examples-for-the-error-codes-2)
+     * [Examples for the Error Codes](#examples-for-the-error-codes-2)
   * [About JUnit Test](#about-junit-test-2)
   * [Contribution by Area](#contribution-by-area-2)
 * Milestone 4 (Upcoming)
@@ -759,13 +759,17 @@ Continued from [Installation](#installation) steps.
 ```ruby
 root@containerID:~/project# ./mvnw spring-boot:run
 ```
-2. Open the another terminal and type the curl command there.
+2. Open another terminal and type the curl command there.
 ```ruby
 // sample command
-root@containerID:~/project# curl -X GET 'http://localhost:8080/movies/recommendations' \
+curl -X GET 'http://localhost:8080/movies/recommendations' \
 -H 'Content-type: application/json' \
 -d '{ "title": "Toy Story (1995)", "limit": 3 }'
 ```
+To access the docker that is running on #1,
+On another terminal, use `docker ps` to get the running container's ID and
+type `docker exec -it (containerID) (your_own_bash_command)`.
+i.e. you can put the curl command on the `your_own_bash_command` field above.
 
 #### Examples
 
@@ -787,9 +791,11 @@ When valid inputs are passed, the output message will look like this :
 ```
 
 * Please note that **genre**(singular) is used, not ***genres*** (plurar).
-
+  
 ##### Testing for the Milestone 2 feature
 Movie recommendation based on **gender / age / occupation / genre**
+
+Below is curl command example for GET requests passing the user input in JSON type
 Test with different json body parts as your need.
 ```ruby
 // Input
@@ -815,6 +821,8 @@ curl -X GET 'http://localhost:8080/users/recommendations' \
 ```
 ##### Testing for the Milestone 3 feature 
 Movie recommendation based on the **movie title / limit**
+
+Below is curl command example for GET requests passing the movie input in JSON type
 Test with different json body parts as your need.
 ```ruby
 // Input
@@ -841,37 +849,38 @@ curl -X GET 'http://localhost:8080/movies/recommendations' \
 
 ### Supported Inputs
 ##### Testing for the Milestone 2 feature
-For the gender, age, occupation, and genre inputs, [the same rules from Milestone2](#supported-inputs-1) are applied here as well.
-
-
-
-InputStr1 | InputStr2 | InputStr3 | _(InputStr4)_
-| :---: | :---: | :---: | :---: |
-Gender | Age | Occupation | _(Genre)_
-
-* **Common Rules for the inputs**
-  * All the inputs must be enclosed with double quotation marks(`""`).
-  * The inputs are **not case-sensitive**, therefore both "Action", "action" and "AcTiOn" are allowed.
-
-* **Gender**
-  * Must be **one letter** and is not case-sensitive.
-    i.e. one of those ; **"`F`", "`f`", "`M`", "`m`"**.
-  * **Can be left empty** when replaced by **paired double quotation marks**.
-    i.e. `""`
+* The field name must match exactly to "gender", "age", "occupation", "genre" and should be in the lower-case.
+* For the gender, age, occupation, and genre inputs, [the same rules from Milestone2](#supported-inputs-1) are applied here as well.
+* However, each of the fields **can be left empty**.
+* When the field(s) are missing OR the wrong field name has passed, for that field, the web service makes a get request with default value `""` .
+  
   * Examples
     ```ruby
-    "F"       // Supported
-    "Female"  // X
-    (nothing) // X (must be replaced by "")
-    ""        // Supported
+    // Example 1 - Field name wrong. gender = "" is passed to program instead.
+    {
+        "Gender": "F",
+        "age": "25",
+        "occupation": "Grad",
+        "genre": "Action"
+    }
+    
+    // Example 2 - Field name wrong. gender = "" is passed to program instead.
+    {
+        "Gender": "F",
+        "age": "25",
+        "occupation": "Grad",
+        "genre": "Action"
+    }
+    
     ```
-
   
 
 <br>
 
 ### Error Codes
 > Possible errors thrown by invalid json body input.
+
+When wrong input is put, the web service returns the error message (json body) with Http Status code `400` (Bad Request)
 
 
 
@@ -882,7 +891,6 @@ Gender | Age | Occupation | _(Genre)_
 | `InputInvalidError` | Entered age input is invalid. Age must be a natural number. | Thrown when the entered age is invalid.
 
 
-* When put wrong input, the web service returns the error message (json body) with Http Status code 400 (Bad Request)
 
 #### Examples for the Error Codes
 ##### For the Milestone 2 feature
