@@ -1,6 +1,9 @@
 package group11;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import group11.restservice.controller.HelloController;
+import group11.restservice.controller.MovieDataController;
+import group11.restservice.controller.UserDataController;
 import group11.restservice.exception.ApiError;
 import group11.restservice.exception.ApiExceptionHandler;
 import group11.restservice.exception.InputInvalidException;
@@ -9,8 +12,10 @@ import group11.restservice.model.RecoData;
 import group11.restservice.model.UserData;
 import group11.restservice.propertyeditor.MovieDataEditor;
 import group11.restservice.propertyeditor.UserDataEditor;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.bind.WebDataBinder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +43,13 @@ public class milestone3Test extends milestone3 {
         String[] args = new String[2];
         args[0] = "Hungarian Fairy Tale, A (1987)";
         args[1] = "50";
+        assertAll( () -> milestone3.main(args));
+    }
+    @Test
+    public void sample_args_test_3 () {
+        String[] args = new String[2];
+        args[0] = "Hungarian Fairy Tale, A (1987)";
+        args[1] = "100";
         assertAll( () -> milestone3.main(args));
     }
 
@@ -73,9 +85,7 @@ public class milestone3Test extends milestone3 {
         make_classified_table_with_similarity(movie_data_table, 5, 1000, similarity_map);
     }
      */
-}
-
-class restserviceTest1 {
+    //---------------------------------------------------------------------------------------------------------
 
     @Test
     public void udtest ()
@@ -170,5 +180,66 @@ class restserviceTest1 {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             mdeditor.setAsText("{\"gender\"\"F\",,,}"); });
     }
+
+    //---------------------------------------------------------------------------------------------------------
+
+    @Test
+    public void contextLoads() {
+        String response = "";
+        HelloController controller = new HelloController();
+        response = controller.helloWorld();
+
+        Assertions.assertEquals(response, "Hello World!");
+        //assertThat(controller).isNotNull();
+        //Assertions.assertEquals(controller.helloWorld(),"Hello World!");
+        //System.out.println(controller.helloWorld());
+
+        /*
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Hello World!"));
+        */
+    }
+
+    @SneakyThrows
+    @Test
+    public void UDcontrollerTest_1 () {
+        UserDataController udcontroller = new UserDataController();
+
+        String attributeName = "sessionAttr";
+        String attribute = "value";
+        WebDataBinder binder = new WebDataBinder(attribute, attributeName);
+        udcontroller.initBinder(binder);
+
+        UserData ud = new UserData("F", "25", "Grad", "Action");
+        Assertions.assertEquals(udcontroller.addUserData(ud),ud);
+    }
+
+    @Test
+    public void MDcontrollerTest_1 () {
+        MovieDataController mdcontroller = new MovieDataController();
+
+        String attributeName = "sessionAttr";
+        String attribute = "value";
+        WebDataBinder binder = new WebDataBinder(attribute, attributeName);
+        mdcontroller.initBinder(binder);
+
+        MovieData md = new MovieData("Title", "20");
+        Assertions.assertEquals(mdcontroller.addMovieData(md),md);
+
+    }
+
+    @Test
+    public void UDcontrollerTest_2 () {
+        UserDataController udcontroller = new UserDataController();
+
+        //String request = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(ud);
+        //System.out.println(request);
+
+        String request = "{}";
+        //Assertions.assertAll(udcontroller.getUserRecommendations(request));
+    }
+
 
 }
