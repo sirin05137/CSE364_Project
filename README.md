@@ -29,7 +29,11 @@
     * [Examples for the Error Codes](#examples-for-the-error-codes-1)
   * [About JUnit Test](#about-junit-test-1)
   * [Contribution by Area](#contribution-by-area-1)
-* Milestone 3 (Upcoming)
+* [Milestone 3](#milestone-3)
+  * [Error Codes](#error-codes-2)
+  * [Examples for the Error Codes](#examples-for-the-error-codes-2)
+  * [About JUnit Test](#about-junit-test-2)
+  * [Contribution by Area](#contribution-by-area-2)
 * Milestone 4 (Upcoming)
 * [Team members](#team-members)
 * [License & Acknowledgements](#license--acknowledgements)
@@ -599,9 +603,286 @@ Documentation | **README.md** <br> 👑 Yujin Lee
 
 ---
 
+
+## Milestone 3
+> Goal : 
+> * Implement RESTful web service
+> * Movies Recommendation Feature based on the **Movie title** (and limit).
+
+### Explanation of the Algorithm
+> This part explains about the Movies recommendation feature based on the **Movie title**.
+
+On Milestone 3, the new feature has added to provide movies recommendation from the **Movie title** input.
+The code returns the input-specified numbers(`limit`, default = 10) of movies for the specified movie title.
+
+The algorithm is built based on the two concepts below :
+* 1) Item-based Collaborative Filtering
+* 2) Genre-based Recommendation
+
+
+#### 1) Item-based Collaborative Filtering
+입력받은 영화와 각 영화별 유사도를 계산하여 영화를 추천해주는 방식이다.
+협업 필터링은 아이템 기반과 유저 기반 두가지로 나눌 수 있는데 여기서는 아이템 기반을 사용한다.
+이는 만약 영화 A를 재밌게 본 사람들이 영화 B도 재밌게 봤다면 영화 A와 영화 B는 유사하다고 보는 것이다.
+
+각 영화별 유사도를 측정하는 데에는 피어슨 상관계수(Pearson correlation coefficient)를 사용하였다.
+피어슨 상관계수에 대한 자세한 내용은 여기를 참고하기 바란다.
+피어슨 상관계수를 구하는 공식은 다음과 같다.
+> 공식사진
+
+프로그램에서, 피어슨 상관계수는 아 메소드를 통해 구할 수 있다.
+```java
+static double get_pearson_similarity(HashMap<String, Integer> rating, HashMap<String, Integer> rating_of_input, double mean_rating_of_input, double distance_of_input)
+```
+
+
+**Bayesian Estimate** is an estimator that can help minimizing the risk of including  that minimizes the posterior expected value of a loss function.
+
+The original reference for **Pearson correlation coefficient** can be found [here](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient).
+
+### `W = (vR+mC)/(v+m)`
+
+| Variables | Explanation |
+| :---: | :--- |
+W | Weighted rating
+
+
+* `v` and `R`
+  * The value of `v` and `R` are obtained by making use of `Movie_data_node`.
+
+
+#### 2) Priority rule for including similar users
+The algorithm firstly makes the ArrayList(`valid_user_list`) of users that matches the inputs from `users.dat`.
+
+However,
+* when there aren't sufficient amount of movie candidates to be ranked (On here, it is set to `100 movies`) for specified user data,
+
+The similar users with priority are the users with :
+1. Same **Gender**, **Occupation** and **Gender**
+
+
+The priority has set as above to give a more weighting on **Occupation**, and less on **Gender** and **Age Range**.
+
 <br>
 
-## Milestone 3 (Upcoming)
+### Running the Test
+Continued from [Installation](#installation) steps.
+1. (In the Docker Container) Run `./mvnw `
+   The Arguments(_InputStr1 InputStr2 InputStr3 InputStr4_) are accordingly **Gender, Age, Occupation, _(and Genre)_**.
+```ruby
+root@containerID:~/project# java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 InputStr1 InputStr2 InputStr3 InputStr4
+```
+
+* The maven building process(`mvn install` or `mvn test`) might take up to a minute.
+
+#### Examples
+
+When valid inputs are passed, the output message will look like this :
+
+##### Testing with 3 inputs
+```ruby
+// Input
+java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "F" "25" "Gradstudent"
+
+// Output
+Sixth Sense, The (1999) (http://www.imdb.com/title/tt0167404)
+Matrix, The (1999) (http://www.imdb.com/title/tt0133093)
+Shawshank Redemption, The (1994) (http://www.imdb.com/title/tt0111161)
+Usual Suspects, The (1995) (http://www.imdb.com/title/tt0114814)
+Silence of the Lambs, The (1991) (http://www.imdb.com/title/tt0102926)
+Close Shave, A (1995) (http://www.imdb.com/title/tt0112691)
+Wrong Trousers, The (1993) (http://www.imdb.com/title/tt0108598)
+Cinema Paradiso (1988) (http://www.imdb.com/title/tt0095765)
+American Beauty (1999) (http://www.imdb.com/title/tt0169547)
+Raiders of the Lost Ark (1981) (http://www.imdb.com/title/tt0082971)
+```
+##### Testing with 4 inputs
+```ruby
+// Input
+java -cp target/cse364-project-1.0-SNAPSHOT-jar-with-dependencies.jar group11.milestone2 "F" "25" "Gradstudent" "Action|Comedy"
+
+// Output
+Matrix, The (1999) (http://www.imdb.com/title/tt0133093)
+Close Shave, A (1995) (http://www.imdb.com/title/tt0112691)
+Wrong Trousers, The (1993) (http://www.imdb.com/title/tt0108598)
+American Beauty (1999) (http://www.imdb.com/title/tt0169547)
+Shakespeare in Love (1998) (http://www.imdb.com/title/tt0138097)
+Raiders of the Lost Ark (1981) (http://www.imdb.com/title/tt0082971)
+Cinema Paradiso (1988) (http://www.imdb.com/title/tt0095765)
+Eat Drink Man Woman (1994) (http://www.imdb.com/title/tt0111797)
+Raising Arizona (1987) (http://www.imdb.com/title/tt0093822)
+Breakfast Club, The (1985) (http://www.imdb.com/title/tt0088847)
+```
+
+### Supported Inputs
+InputStr1 | InputStr2 | InputStr3 | _(InputStr4)_
+| :---: | :---: | :---: | :---: |
+Gender | Age | Occupation | _(Genre)_
+
+* **Common Rules for the inputs**
+  * All the inputs must be enclosed with double quotation marks(`""`).
+  * The inputs are **not case-sensitive**, therefore both "Action", "action" and "AcTiOn" are allowed.
+
+* **Gender**
+  * Must be **one letter** and is not case-sensitive.
+    i.e. one of those ; **"`F`", "`f`", "`M`", "`m`"**.
+  * **Can be left empty** when replaced by **paired double quotation marks**.
+    i.e. `""`
+  * Examples
+    ```ruby
+    "F"       // Supported
+    "Female"  // X
+    (nothing) // X (must be replaced by "")
+    ""        // Supported
+    ```
+
+* **Age**
+  * Must be an **integer value** bigger than 0.
+  * **Can be left empty** when replaced by **paired double quotation marks**.
+    i.e. `""`
+  * Examples
+    ```ruby
+    "35"          // Supported
+    "35.5"        // X
+    "-23"         // X
+    "Thirty-five" // X
+    (nothing)     // X (must be replaced by "")
+    ""            // Supported
+    ```
+
+* **Occupation**
+  * For Occupation, [the same rules from Milestone1](#supported-inputs) are applied here as well.
+  * However, on milestone 2, the spacing between input is allowed here.
+  * **Can be left empty** when replaced by **paired double quotation marks**.
+    i.e. `""`
+  * Examples
+    ```ruby
+    "k-12student"   // Supported
+    "K12student"    // X (The hyphens must not be omitted.)
+    "Gradstudent"   // Supported
+    "Grad student"  // Supported (Was not supported from Milestone 1)
+    (nothing)       // X (must be replaced by "")
+    ""              // Supported
+    ```
+
+* **Genre** (When testing with 4 inputs)
+  * For Genre, [the same rules from Milestone1](#supported-inputs) are applied here as well.
+  * For the combination of genre inputs, the formatting rules from Milestone 1 [(Combination of multiple genres as an input)](#combination-of-multiple-genres-as-an-input) applies here as well. <br> However, the pipeline(`|`) here is uesd to link **OR** conditions, not **AND**.
+    * e.g. `Adventure|Animation` includes all the movies that are categorized as Adventure **OR** Animation to candidates for Top 10 movies.
+  * **Must NOT be left empty**.
+  * Examples
+    ```ruby
+    "Film-noir"         // Supported
+    "Filmnoir"          // X (The hyphens must not be omitted.)
+    Action|Adventure    // X (Must be enclosed by pipeline)
+    "Action|Adventure|" // X (Pipeline should be between words)
+    ""                  // The genre must not be left empty.
+    ```
+
+##### Testing for Part 1
+* Please note that 
+```ruby
+curl -X GET 'http://localhost:8080/users/recommendations' \
+-H 'Content-type: application/json' \
+-d '{"gender":"F", "age":"25", "occupation":"Grad student", "genre":"Action"}'
+```
+
+##### Testing for Part 2
+```ruby
+curl -X GET 'http://localhost:8080/movies/recommendations' \
+-H 'Content-type: application/json' \
+-d '{ "title": "Toy Story (1995)", "limit": 20 }'
+```
+<br>
+
+### Error Codes
+> Possible errors thrown by invalid json body input.
+
+To provide a flexible 
+
+##### **Table 1** Invalid input errors
+
+| Error | Message | Description | 
+| :---: | --- | --- |
+| `InputNumError` | The input must be in this format : "gender" "age" "occupation" "genre" (genre is optional). | Thrown when the number of argument is not 3 or 4.
+| `InputInvalidError` | Entered gender input is invalid. | Thrown when the entered gender is invalid.
+| `InputInvalidError` | Entered age input is invalid. Age must be a natural number. | Thrown when the entered age is invalid.
+| `InputInvalidError` | Entered occupation (_*inputString*_) doesn't exist. | Thrown when the entered occupation is invalid.
+| `InputInvalidError` | Entered genre input is invalid. | Thrown when the entered genre is invalid. (e.g. Location of pipeline `|`)
+| `InputInvalidError` | Entered genre (_*inputString*_) doesn't exist. | Thrown when the entered genre is invalid.
+| `InputEmptyError` | Genre input hasn't passed. Genre must not be empty | Thrown when the `""` is passed for the genre input.
+
+
+* When put wrong input, the web service returns the error message (json body) with Http Status code 400 (Bad Request)
+
+#### Examples for the Error Codes
+##### For Part 1
+Input (json body)
+```json
+{
+    "gender": "ABCD",
+    "age": "EFG",
+    "occupation": "HIJK",
+    "genre": "LMN|OP"
+}
+```
+Output (json body) - Status code **400 Bad Request**
+```json
+{
+	"error": "InputInvalidError",
+	"message": [
+		"Entered gender input (ABCD) is invalid.",
+		" Entered age input (EFG) is invalid.",
+		" Entered occupation input (HIJK) is invalid.",
+		" Entered genre input (LMN|OP) is invalid."
+	]
+}
+```
+
+##### For Part 2
+Input (json body)
+```json
+{
+    "title": "Toy Story",
+    "limit": -5
+}
+```
+Output (json body) - Status code **400 Bad Request**
+```json
+{
+	"error": "InputInvalidError",
+	"message": [
+		"Entered title input (Toy Story) is invalid.",
+		" Entered limit input (-5) is invalid."
+	]
+}
+```
+
+<br>
+
+### About JUnit Test
+The [JaCoCO plugin](https://www.eclemma.org/jacoco/) (ver : `0.8.2`) is used for this JUnit Test to generate the code coverage report.
+The Code coverage goal for this project has been set to `0.9` (90%).
+The code coverage report `index.html` can be found in `target/site/jacoco/` directory and viewed with chrome or other extensions.
+* The test includes total 16 tests to check the code functionality across the implemented functions and variables.
+
+##### Example of Report
+(Below example is from Milestone 2)
+![image](https://user-images.githubusercontent.com/38070937/116877570-163b8b80-ac59-11eb-9111-91ec3a950e0b.png)
+
+### Contribution by Area
+| Area | Contribution |
+| :--- | :--- |
+Java Implementation | **Models and Data Structures** <br> 👑 Yeongjun Kwak <br> **Exception Handling** <br> 👑 Sanghun Lee, Yeongjun Kwak <br>**Unit Test Building** <br> 👑 Yujin Lee
+REST service Implementation & Dependancy management | 👑 Yujin Lee
+Documentation | **README.md** <br> 👑 Yujin Lee
+
+<br>
+
+---
+
+<br>
+
 ## Milestone 4 (Upcoming)
 
 ## Team Members

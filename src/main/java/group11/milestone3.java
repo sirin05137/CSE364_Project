@@ -385,7 +385,7 @@ public class milestone3 {
             int m = percentile(movie_data_table,0);
             double C = total_average_rating(movie_data_table);
             ArrayList<Classified_by_vote> classified_table = make_classified_table_with_similarity(movie_data_table, C, m, similarity_map);
-
+            set_classified_table(classified_table);
             for(int i =0 ; i<limit ; i++){
                 System.out.println(classified_table.get(i).getTitle() + " " + classified_table.get(i).getLink() + " " + classified_table.get(i).getW());
             }
