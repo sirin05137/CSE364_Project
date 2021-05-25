@@ -72,11 +72,7 @@ public class milestone3Test extends milestone3 {
         Assertions.assertFalse(check_limit_validity("0"));
     }
 
-    @Test
-    public void get_smallest_counter () {
-        ArrayList<Movie_data_node> movie_data_table = new ArrayList<>();
-        get_smallest_counter(movie_data_table);
-    }
+
     /*
     @Test
     public void make_classified_table_with_similarity () throws IOException {
