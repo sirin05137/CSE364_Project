@@ -197,6 +197,7 @@ public class milestone3 {
                 return true;
             }
         }
+        System.out.println("InputInvalidError : Entered title is invalid. Please check the title and release year again.");
         return false;
     }
 
