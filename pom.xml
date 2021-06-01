@@ -23,6 +23,8 @@
     <!--pom.xml에서 공통적으로 사용할 버전 및 설정값 정보-->
     <properties>
         <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
         <spring.version>5.0.6.RELEASE</spring.version>
         <!--<tomcat.version>8.0.30 (now 8.5.31)</tomcat.version>-->
@@ -39,6 +41,14 @@
     <!-- 필수사항 : 프로젝트에 import 되는 dependency 목록-->
     <dependencies>
         <!-- Spring framework - starter related settings -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -245,7 +255,7 @@
             <version>6.1.1</version>
             <scope>compile</scope>
         </dependency>
-</dependencies>
+    </dependencies>
 
 <!-- 필수사항 : Project Build 정보-->
     <build>

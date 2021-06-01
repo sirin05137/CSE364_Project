@@ -14,11 +14,11 @@ public class TestingWebApplicationTest {
     @Test
     public void applicationContextLoaded() {
     }
-
+    /*
     // To test RecommendApp.java
     @Test
     public void applicationContextTest() {
         RecommendApp.main(new String[] {});
     }
-
+    */
 }

@@ -12,6 +12,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import group11.restservice.repository.RecoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
@@ -27,6 +30,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/movies")
 public class MovieDataController {
     private ObjectMapper objectMapper;
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private final RecoRepository recoRepository;
+
+    public MovieDataController(RecoRepository recoRepository) {
+        this.recoRepository = recoRepository;
+        //this.recoRepository.save(RecoData);
+    }
 
     @Autowired
     public void setObjectMapper(ObjectMapper objectMapper) {
@@ -36,6 +46,14 @@ public class MovieDataController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(MovieData.class, new MovieDataEditor(objectMapper));
+    }
+
+    // This has to return all the movies
+    //@RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping("")
+    public List<RecoData> getAllMovies() {
+        LOG.info("Getting all movies.");
+        return recoRepository.findAll();
     }
 
     @PostMapping("/create")
