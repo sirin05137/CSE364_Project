@@ -1,18 +1,139 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="">
 <head>
-    <meta charset="UTF-8">
     <title>AnOtterMovie</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="hello.js"></script>
+    <meta charset="UTF-8">
+    <style>
+            body {
+                background-image: url(./background_movie.png);
+                background-repeat: no-repeat;
+                background-size: cover;
+                width:100%;
+                height: 100%;
+                color:white;
+            }
+    </style>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('#movie').hide();
+            $('#user').hide();
+            $('#input2').click(function(){
+                $('#user').hide()
+                $('#movie').show()
+            });
+            $('#input1').click(function(){
+                $('#movie').hide()
+                $('#user').show()
+            });
+        });
+
+        $(document).ready(function(){
+            $("#btn").click(function(){
+                $.get("http://localhost:8080/", function(data,status){
+                    //console.log(data);
+                    $('#tdata').empty();
+
+                    var i = 0;
+                    var j = 0;
+                    var content = "";
+
+                    data.forEach(function(dt){
+                        if (i % 5 === 0) {
+                            $("#tdata").append("<tr id='row" + i + "'></tr>");
+                            j = i;
+                        }
+                        $("#row" + j).append("<td><div><img src='" + dt.imglink +
+                                            "' style='width:200px;height:300px;'></div><div class='text-center'>" +
+                                            dt.title + " </br><div>" + dt.genre + "</div></div></td>");
+                        i += 1;
+                    });
+                });
+        });
+        });
+    </script>
+    <!-- Javascript : Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </head>
 <body>
-<script>
+<header class="header">
+    <div id="upper">
+        <div id="upper_left">
+            <img src="./logo.png" width="300px">
+        </div>
+        <div id="upper_right">
+            <div id="grouped-btn" class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" id="input1" class="btn btn-light">User-based</button>
+                <button type="button" id="input2" class="btn btn-light">Movie-based</button>
+            </div>
 
-</script>
-<div>
-<p class="hello-movieid">The ID is </p>
-<p class="hello-title">The content is </p>
-</div>
+            <div id="user">
+                <p>Gender</p>
+                <select name="gender">
+                    <option value="male">M</option>
+                    <option value="female">F</option>
+                </select>
+                Age<input id="age_input" type="number" placeholder="please type the age"/>
+                Occupation
+                <select name="occupation">
+                    <option selected>---</option>
+                    <option value="academic">Academic / Educator</option>
+                    <!-- <option value="educator">Educator</option> -->
+                    <option value="artist">Artist</option>
+                    <option value="clerical">Clerical / Admin</option>
+                    <!--<option value="admin">Admin</option>-->
+                    <option value="college">College Student / Grad student</option>
+                    <!--<option value="grad">Grad Student</option>-->
+                    <option value="CS">Customer Service</option>
+                    <option value="doctor">Doctor / Healthcare</option>
+                    <option value="executive">Executive / Managerial</option>
+                    <option value="farmer">Farmer</option>
+                    <option value="homemaker">Homemaker</option>
+                    <option value="k12">K-12 Student</option>
+                    <option value="lawyer">lawyer</option>
+                    <option value="programmer">programmer</option>
+                    <option value="retired">Retired</option>
+                    <option value="sales">Sales / Marketing</option>
+                    <option value="scientist">Scientist</option>
+                    <option value="self-employed">Self-employed</option>
+                    <option value="technician">Technician / Engineer</option>
+                    <option value="tradesman">Tradesman / Craftsman</option>
+                    <option value="unemployed">Unemployed</option>
+                    <option value="writer">Writer</option>
+                    <option value="other">Other</option>
+                </select>
+
+            </div>
+            <div id="movie">
+                <form>
+                    <p class="p1">Title</p><input id="title_input" type="text" placeholder="please type the title"/>
+                    <p class="p2">Limit</p><input id="limit_input" type="number" placeholder="please type the limit"/>
+                    <input class="submit" type="submit" value="submit"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="main">
+    <div id = "lower">
+        <h2><center>Movie Recommendations</center></h2>
+        <button class="btn btn-primary" id="btn">Get</button>
+        
+        <table class="recoTable">
+            <tbody id="tdata"></tbody>
+        </table>
+    </div>
+</main>
+
+
 </body>
 </html>

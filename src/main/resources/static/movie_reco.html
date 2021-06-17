@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>An Otter Movie</title>
+        <link href="movie_reco.css" rel="stylesheet" type="text/css"/>
+        <meta charset="UTF-8">
+        <style>
+            body {
+                background-color: #131313;
+                height:100%;
+                width: 100%;
+            }
+        </style>
+        <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+        <script type="text/javascript">
+        $(function(){
+            $('#movie').hide();
+            $('#user').hide();
+            $('.input2').click(function(){
+                $('#user').hide()
+                $('#movie').show()
+            });
+            $('.input1').click(function(){
+                $('#movie').hide()
+                $('#user').show()
+            });
+        });
+        </script>
+    </head>
+
+    <body>
+        <header class="header">
+            <div id="upper">
+                <a href="file:///Users/k/K/3%E1%84%92%E1%85%A1%E1%86%A8%E1%84%82%E1%85%A7%E1%86%AB/CSE364/html%20file/index.html"><img src="./trademark.png" width="250px" heigt="60px" style="background: transparent;"></a>
+                <div id="menubar">
+                    <div id="upper_right">
+                        <div id="input">
+                            <input class="input1" type="button" value="User-based"/>
+                            <input class="input2" type="button" value="Movie-based"/>
+                        </div>
+                    </div>
+                </div>
+                <div id="user">
+                    <p>Gender</p>
+                    <select name="gender">
+                        <option value="male">M</option>
+                        <option value="female">F</option>
+                    </select>
+                    <p>Age</p>
+                    <input id="age_input" type="number" placeholder="please type the age"/>
+                    <p>Occupation</p>
+                    <select name="occupation">
+                        <option value="academic">Academic</option>
+                        <option value="educator">Educator</option>
+                        <option value="artist">Artist</option>
+                        <option value="clerical">Clerical</option>
+                        <option value="admin">Admin</option>
+                        <option value="college">College Student</option>
+                        <option value="grad">Grad Student</option>
+                    </select>
+                </div>
+
+                <div id="movie">
+                    <p>Title</p><input id="title_input" type="text" placeholder="please type the title"/>
+                    <p>Limit</p><input id="limit_input" type="number" placeholder="please type the limit"/>
+                    <input class="submit" type="submit" value="submit"/>
+                </div>
+            </div>
+        </header>
+        
+    </body>
+
+
+
+
+
+
+
+  </html>

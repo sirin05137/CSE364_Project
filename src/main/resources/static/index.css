@@ -1,0 +1,85 @@
+html{
+    height: 100%;
+    overflow: hidden;
+}
+
+.header{
+    /*padding: 100px;*/
+    height: 45%;
+}
+
+#upper{
+    width:1551px;
+    height:442.8px;
+    left:0px;
+    right : 0px;
+    position:absolute;
+}
+#upper_left{
+    width: 900px;
+    height: 442.8px;
+    left:0px;
+    position: absolute;
+}
+#upper_right{
+    width: 651px;
+    height: 442.8px;
+    right:0px;
+    position: absolute;
+}
+
+#movie{
+    margin-top: 35px;
+    margin-left: 100px;
+    color: white;
+}
+
+#lower{
+    width:1800px;
+    height:600px;
+    left:0px;
+    right : 0px;
+    position:absolute;
+    color:white;
+    background-color:#131313;
+}
+
+#grouped-btn{
+    margin-top: 130px;
+    margin-left: 100px;
+}
+
+.p1, .p2{
+    margin-top:10px;
+    margin-bottom: 5px;
+}
+.p2{
+    margin-top: 20px;
+}
+.submit{
+    margin-left: 10px;
+}
+
+table.recoTable {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+table.recoTable td, table.recoTable th {
+  padding: 3px 2px;
+}
+table.recoTable tbody td {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.text-center {
+    color : white
+}
+/*.input1{
+    margin-left: 100px;
+    margin-top: 19%;
+}
+.input2{
+    margin-top: 19%;   
+}*/
