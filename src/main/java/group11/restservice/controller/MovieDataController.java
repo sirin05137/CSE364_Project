@@ -22,33 +22,35 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-@Service
+@Component
+@EnableMongoRepositories(basePackages = "group11.restservice.repository")
 @RestController
 @RequestMapping("/movies")
 public class MovieDataController {
     private ObjectMapper objectMapper;
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    //@Autowired
     private RecoRepository recoRepository;
 
-    public MovieDataController() throws IOException {
-        if (recoRepository != null) {recoRepository.deleteAll();}
-
-
+    public MovieDataController(RecoRepository recoRepository) throws IOException {
+        //if (recoRepository != null) {recoRepository.deleteAll();}
+        this.recoRepository = recoRepository;
+        /*
         Reader reader = Files.newBufferedReader(Paths.get("data/movies_corrected.csv"));
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
 
         final List<CSVRecord> records = csvParser.getRecords();
         for (CSVRecord csvRecord : records) {
             // Accessing Values by Column Index
-            RecoData recoData = new RecoData();
 
             String movieid = csvRecord.get(0);
             String title = csvRecord.get(1);
@@ -56,14 +58,20 @@ public class MovieDataController {
             //System.out.println("Record No - " + csvRecord.getRecordNumber());
             System.out.print(movieid + " / " + title + " / " + genre + "\n");
 
+            RecoData recoData = null;
+
             recoData.setMovieid(movieid);
             recoData.setTitle(title);
             recoData.setGenre(genre);
             recoData.setImdblink("SAMPLELINK");
-            //set img link
 
+            //set img link
             recoRepository.save(recoData);
+
+
         }
+
+         */
         LOG.info("MongoDB setup done");
 
 
@@ -87,16 +95,18 @@ public class MovieDataController {
     public List<RecoData> getAllMovies() {
         LOG.info("Getting all movies.");
         //SAMPLE DATA (WILL BE DELETED)
+        /*
         RecoData recoData = null;
-        assert false;
+
         recoData.setMovieid("hi");
         recoData.setTitle("thisis");
         recoData.setGenre("sample");
         recoData.setImdblink("linkhere");
 
-        //("hi", "thisis", "sample", "imdblinkhere");
-        this.recoRepository.save(recoData);
 
+
+        this.recoRepository.insert(new RecoData("a","b","c","d"));
+        */
         return this.recoRepository.findAll();
     }
 

@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
+@Document(collection = "recodata")
 public class RecoData {
     @Id
     private String movieid;
