@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -79,11 +80,13 @@ public class MovieDataController {
 
     @GetMapping("/recommendations")
     @ResponseStatus(value = HttpStatus.OK)
-    public String getMovieRecommendations(@RequestParam(required = false) String moviedata) throws Exception {
+    public String getMovieRecommendations(@RequestParam(name = "title") String title,
+                                          @RequestParam(name = "limit", required = false) String limit) throws Exception {
 
         // Set UserData input from json input
-        MovieData md = objectMapper.readValue(moviedata, MovieData.class);
-        System.out.println(Arrays.toString(md.getJavaInput()));
+        MovieData md = new MovieData();
+        if (title != null) md.setTitle(title);
+        if (limit != null) md.setLimit(limit);
 
         // Check Validity of Moviedata ( throws InputInvalidException when invalid)
         boolean isException = false;
@@ -108,16 +111,12 @@ public class MovieDataController {
         program.main(md.getJavaInput());
 
         // Make json arraylist (Recommendations) from classified table
-        List<RecoData> recoList = new ArrayList<RecoData>();
-        RecoData reco = null;
+        List<Optional<RecoData>> recoList = new ArrayList<>();
 
-        int limit = Integer.parseInt(md.getLimit());
+        int limit_toprint = Integer.parseInt(md.getLimit());
 
-
-        for (int index = 0 ; index < limit ; index++){
-            reco = new RecoData();
-            reco = objectMapper.readValue(program.get_classified_table(index), RecoData.class);
-            recoList.add(reco);
+        for (int index = 0 ; index < limit_toprint ; index++){
+            recoList.add(  this.recoRepository.findById( program.get_ith_movieid(index) )  );
         }
 
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(recoList);

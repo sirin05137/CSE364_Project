@@ -52,22 +52,9 @@ public class milestone3 {
     private static void set_classified_table(ArrayList<Classified_by_vote> cf){
         milestone3.classified_table = cf;
     }
-    public String get_classified_table(int index){
-        // index : Rank of the movie (Top i-th movie)
-        StringBuilder test = new StringBuilder();
-        test.append("{"
-                + "\"title\":\""
-                + classified_table.get(index).getTitle()
-                + "\","
-                + "\"genre\":\""
-                + classified_table.get(index).getGenre()
-                + "\","
-                + "\"imdb\":\""
-                + classified_table.get(index).getLink()
-                + "\""
-                + "}");
 
-        return test.toString();
+    public String get_ith_movieid(int index){
+        return classified_table.get(index).getMovieID();
     }
 
     // Create map of format {movieID : [title, genre]}

@@ -20,7 +20,7 @@ public class MovieData {
     @JsonProperty("limit")
     public String getLimit() { return limit; }
     @JsonProperty("limit")
-    public void setLimit(int value) { this.limit = String.valueOf(value); }
+    public void setLimit(String value) { this.limit = value; }
 
     public String[] getJavaInput() {
         String[] javainput;

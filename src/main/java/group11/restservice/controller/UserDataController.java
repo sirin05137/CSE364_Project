@@ -6,11 +6,16 @@ import group11.restservice.model.RecoData;
 import group11.restservice.model.UserData;
 import group11.restservice.propertyeditor.UserDataEditor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import group11.restservice.repository.RecoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
@@ -21,6 +26,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserDataController {
     private ObjectMapper objectMapper;
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+
+    private RecoRepository recoRepository;
+
+    public UserDataController(RecoRepository recoRepository) throws IOException {
+        this.recoRepository = recoRepository;
+
+        LOG.info("MongoDB setup done");
+    }
 
     @Autowired
     public void setObjectMapper(ObjectMapper objectMapper) {
@@ -32,24 +46,22 @@ public class UserDataController {
         binder.registerCustomEditor(UserData.class, new UserDataEditor(objectMapper));
     }
 
-    // Spring handler method that accepts POST requests
-    // localhost:8080/users/create
-    //@PostMapping(path = "/create", consumes = "application/json", produces = "application/json")
-    @PostMapping("/create")
-    public UserData addUserData (@RequestParam(required = false) UserData userdata) {
-        return userdata;
-    }
-
-
     // Controller to handle GET requests
     // localhost:8080/users/recommendations/get
     //	@GetMapping(path = "/users/recommendations/get",consumes = "application/json", produces = "application/json")
     @GetMapping("/recommendations")
     @ResponseStatus(value = HttpStatus.OK)
-    public String getUserRecommendations(@RequestParam(required = false) String userdata) throws Exception {
+    public String getUserRecommendations(@RequestParam(name = "gender", required = false) String gender,
+                                         @RequestParam(name = "age", required = false) String age,
+                                         @RequestParam(name = "occupation", required = false) String occupation,
+                                         @RequestParam(name = "genre", required = false) String genre) throws Exception {
 
         // Set UserData input from json input
-        UserData ud = objectMapper.readValue(userdata, UserData.class);
+        UserData ud = new UserData();
+        if (gender != null) ud.setGender(gender);
+        if (age != null) ud.setAge(age);
+        if (occupation != null) ud.setOccupation(occupation);
+        if (genre != null) ud.setGenre(genre);
 
         // Check Validity of UserData ( throws InputInvalidException when invalid)
         boolean isException = false;
@@ -84,15 +96,14 @@ public class UserDataController {
         program.main(ud.getJavaInput());
 
         // Make json arraylist (Recommendations) from classified table
-        List<RecoData> recoList = new ArrayList<RecoData>();
-        RecoData reco = null;
+        List<Optional<RecoData>> recoList = new ArrayList<>();
 
         int limit = 10; // number of movies to print out (Top 10 movies)
 
         for (int index = 0 ; index < limit ; index++){
-            reco = new RecoData();
-            reco = objectMapper.readValue(program.get_classified_table(index), RecoData.class);
-            recoList.add(reco);
+            //System.out.println(this.recoRepository.findById(program.get_ith_movieid(index)));
+            // above prints "Optional[group11.restservice.model.RecoData@3fb2331]"
+            recoList.add(  this.recoRepository.findById( program.get_ith_movieid(index) )  );
         }
 
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(recoList);
