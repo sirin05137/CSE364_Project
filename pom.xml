@@ -46,6 +46,11 @@
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver</artifactId>
+            <!--<version>3.12.6</version>-->
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
@@ -255,6 +260,11 @@
             <version>6.1.1</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.8</version>
+        </dependency>
     </dependencies>
 
 <!-- 필수사항 : Project Build 정보-->
@@ -339,12 +349,14 @@
                 <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
+                        <!--
                         <exclude>**/project.class</exclude>
                         <exclude>**/milestone2.class</exclude>
                         <exclude>**/Classified_by_vote.class</exclude>
                         <exclude>**/Movie_data_node.class</exclude>
                         <exclude>**/MovieDataController.class</exclude>
                         <exclude>**/UserDataController.class</exclude>
+                        -->
                     </excludes>
                 </configuration>
                 <executions>

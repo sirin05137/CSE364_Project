@@ -2,7 +2,6 @@ package group11.restservice.model;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,11 +11,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class RecoData {
     @Id
+    private String movieid;
     private String title;
     private String genre;
-    private String imdb;
+    private String imdblink;
 
-        //ArrayList<Movie_data_node>
+    //ArrayList<Movie_data_node>
+    @JsonProperty("movieid")
+    public String getMovieid() { return movieid;}
+    public void setMovieid(String value) { this.movieid = value;}
+
     @JsonProperty("title")
     public String getTitle() { return title; }
     @JsonProperty("title")
@@ -27,9 +31,9 @@ public class RecoData {
     @JsonProperty("genre")
     public void setGenre(String value) { this.genre = value; }
 
-    @JsonProperty("imdb")
-    public String getImdb() { return imdb; }
-    @JsonProperty("imdb")
-    public void setImdb(String value) { this.imdb = value; }
+    @JsonProperty("imdblink")
+    public String getImdblink() { return imdblink; }
+    @JsonProperty("imdblink")
+    public void setImdblink(String value) { this.imdblink = value; }
 
 }

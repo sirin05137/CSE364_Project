@@ -6,6 +6,10 @@ import group11.restservice.model.RecoData;
 import group11.restservice.model.MovieData;
 import group11.restservice.propertyeditor.MovieDataEditor;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,29 +17,56 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import group11.restservice.repository.RecoRepository;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@Service
 @RestController
 @RequestMapping("/movies")
 public class MovieDataController {
     private ObjectMapper objectMapper;
     private final Logger LOG = LoggerFactory.getLogger(getClass());
-    private final RecoRepository recoRepository;
 
-    public MovieDataController(RecoRepository recoRepository) {
-        this.recoRepository = recoRepository;
-        //this.recoRepository.save(RecoData);
+    @Autowired
+    private RecoRepository recoRepository;
+
+    public MovieDataController() throws IOException {
+        if (recoRepository != null) {recoRepository.deleteAll();}
+
+
+        Reader reader = Files.newBufferedReader(Paths.get("data/movies_corrected.csv"));
+        CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+
+        final List<CSVRecord> records = csvParser.getRecords();
+        for (CSVRecord csvRecord : records) {
+            // Accessing Values by Column Index
+            RecoData recoData = new RecoData();
+
+            String movieid = csvRecord.get(0);
+            String title = csvRecord.get(1);
+            String genre = csvRecord.get(2);
+            //System.out.println("Record No - " + csvRecord.getRecordNumber());
+            System.out.print(movieid + " / " + title + " / " + genre + "\n");
+
+            recoData.setMovieid(movieid);
+            recoData.setTitle(title);
+            recoData.setGenre(genre);
+            recoData.setImdblink("SAMPLELINK");
+            //set img link
+
+            recoRepository.save(recoData);
+        }
+        LOG.info("MongoDB setup done");
+
+
     }
 
     @Autowired
@@ -50,20 +81,30 @@ public class MovieDataController {
 
     // This has to return all the movies
     //@RequestMapping(value = "", method = RequestMethod.GET)
+
     @GetMapping("")
+    @ResponseStatus(value = HttpStatus.OK)
     public List<RecoData> getAllMovies() {
         LOG.info("Getting all movies.");
-        return recoRepository.findAll();
+        //SAMPLE DATA (WILL BE DELETED)
+        RecoData recoData = null;
+        assert false;
+        recoData.setMovieid("hi");
+        recoData.setTitle("thisis");
+        recoData.setGenre("sample");
+        recoData.setImdblink("linkhere");
+
+        //("hi", "thisis", "sample", "imdblinkhere");
+        this.recoRepository.save(recoData);
+
+        return this.recoRepository.findAll();
     }
 
-    @PostMapping("/create")
-    public MovieData addMovieData (@RequestBody(required = false) MovieData moviedata) {
-        return moviedata;
-    }
+
 
     @GetMapping("/recommendations")
     @ResponseStatus(value = HttpStatus.OK)
-    public String getMovieRecommendations(@RequestBody(required = false) String moviedata) throws Exception {
+    public String getMovieRecommendations(@RequestParam(required = false) String moviedata) throws Exception {
 
         // Set UserData input from json input
         MovieData md = objectMapper.readValue(moviedata, MovieData.class);

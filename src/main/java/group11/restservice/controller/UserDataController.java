@@ -14,13 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -42,7 +36,7 @@ public class UserDataController {
     // localhost:8080/users/create
     //@PostMapping(path = "/create", consumes = "application/json", produces = "application/json")
     @PostMapping("/create")
-    public UserData addUserData (@RequestBody(required = false) UserData userdata) {
+    public UserData addUserData (@RequestParam(required = false) UserData userdata) {
         return userdata;
     }
 
@@ -52,7 +46,7 @@ public class UserDataController {
     //	@GetMapping(path = "/users/recommendations/get",consumes = "application/json", produces = "application/json")
     @GetMapping("/recommendations")
     @ResponseStatus(value = HttpStatus.OK)
-    public String getUserRecommendations(@RequestBody(required = false) String userdata) throws Exception {
+    public String getUserRecommendations(@RequestParam(required = false) String userdata) throws Exception {
 
         // Set UserData input from json input
         UserData ud = objectMapper.readValue(userdata, UserData.class);
