@@ -13,15 +13,16 @@
                 color:white;
             }
     </style>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index.css" type="text/css">
+    <!-- Boot Strap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <!-- J QUERY & AJAX -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript">
         $(function(){
             $('#movie').hide();
@@ -36,32 +37,29 @@
             });
         });
 
-        $(document).ready(function(){
-            $("#btn").click(function(){
-                $.get("http://localhost:8080/", function(data,status){
-                    //console.log(data);
-                    $('#tdata').empty();
+        $(document).ready(function(){               //$("#btn").click(function(){
+            // GETS TOP 10 Movies ("","","","")
+            $.get("http://localhost:8080/users/recommendations", function(data,status){
+                //console.log(data);
+                $('#tdata').empty();
 
-                    var i = 0;
-                    var j = 0;
-                    var content = "";
+                var i = 0; var j = 0; var content = "";
 
-                    data.forEach(function(dt){
-                        if (i % 5 === 0) {
-                            $("#tdata").append("<tr id='row" + i + "'></tr>");
-                            j = i;
-                        }
-                        $("#row" + j).append("<td><div><img src='" + dt.imglink +
-                                            "' style='width:200px;height:300px;'></div><div class='text-center'>" +
-                                            dt.title + " </br><div>" + dt.genre + "</div></div></td>");
-                        i += 1;
-                    });
+                data.forEach(function(dt){
+                    if (i % 5 === 0) {
+                        $("#tdata").append("<tr id='row" + i + "'></tr>");
+                        j = i;
+                    }
+                    $("#row" + j).append("<td><div><img src='" + dt.imglink +
+                                       "' style='width:200px;height:300px;'></div><div class='text-center'>" +
+                                       dt.title + "</div></td>");
+                    i += 1;
                 });
+            });      //});
         });
-        });
+
+
     </script>
-    <!-- Javascript : Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </head>
 <body>
 <header class="header">
@@ -125,12 +123,11 @@
 
 <main class="main">
     <div id = "lower">
-        <h2><center>Movie Recommendations</center></h2>
-        <button class="btn btn-primary" id="btn">Get</button>
-        
+        <h2><center>AnOtterMovie Top 10</center></h2>
         <table class="recoTable">
             <tbody id="tdata"></tbody>
         </table>
+
     </div>
 </main>
 

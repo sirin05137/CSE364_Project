@@ -80,7 +80,7 @@ public class DataSeeder implements CommandLineRunner{
             // Save to the repository
             //System.out.print(movieid + " / " + title + " / " + genre +  " / " + imdblink + " / " + imglink + "\n");
             //if (imglink.equals("NO_IMG_LINK_FOUND")) { System.out.print(movieid+","); }
-            this.recoRepository.save(new RecoData(movieid, title, genre, imdblink, imglink));
+            this.recoRepository.save( new RecoData(movieid, title, genre, imdblink, imglink) );
         }
         //System.out.print("\n");
 

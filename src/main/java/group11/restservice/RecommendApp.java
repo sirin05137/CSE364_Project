@@ -17,6 +17,7 @@ public class RecommendApp extends SpringBootServletInitializer {
 	//MovieDataController movieDataController;
 
 	public static void main(String[] args) {
+		System.setProperty("spring.devtools.restart.enabled", "false");
 		try {
 			SpringApplication.run(RecommendApp.class, args);
 		} catch (Throwable e) {
