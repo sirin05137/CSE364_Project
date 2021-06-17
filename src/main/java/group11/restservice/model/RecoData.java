@@ -15,6 +15,7 @@ public class RecoData {
     private String title;
     private String genre;
     private String imdblink;
+    private String imglink;
 
     //ArrayList<Movie_data_node>
     @JsonProperty("movieid")
@@ -36,4 +37,8 @@ public class RecoData {
     @JsonProperty("imdblink")
     public void setImdblink(String value) { this.imdblink = value; }
 
+    @JsonProperty("imglink")
+    public String getImglink() { return imglink; }
+    @JsonProperty("imglink")
+    public void setImglink(String value) { this.imglink = value; }
 }

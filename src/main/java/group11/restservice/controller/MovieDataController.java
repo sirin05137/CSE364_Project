@@ -42,39 +42,9 @@ public class MovieDataController {
     private RecoRepository recoRepository;
 
     public MovieDataController(RecoRepository recoRepository) throws IOException {
-        //if (recoRepository != null) {recoRepository.deleteAll();}
         this.recoRepository = recoRepository;
-        /*
-        Reader reader = Files.newBufferedReader(Paths.get("data/movies_corrected.csv"));
-        CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
 
-        final List<CSVRecord> records = csvParser.getRecords();
-        for (CSVRecord csvRecord : records) {
-            // Accessing Values by Column Index
-
-            String movieid = csvRecord.get(0);
-            String title = csvRecord.get(1);
-            String genre = csvRecord.get(2);
-            //System.out.println("Record No - " + csvRecord.getRecordNumber());
-            System.out.print(movieid + " / " + title + " / " + genre + "\n");
-
-            RecoData recoData = null;
-
-            recoData.setMovieid(movieid);
-            recoData.setTitle(title);
-            recoData.setGenre(genre);
-            recoData.setImdblink("SAMPLELINK");
-
-            //set img link
-            recoRepository.save(recoData);
-
-
-        }
-
-         */
         LOG.info("MongoDB setup done");
-
-
     }
 
     @Autowired
@@ -92,22 +62,17 @@ public class MovieDataController {
 
     @GetMapping("")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<RecoData> getAllMovies() {
-        LOG.info("Getting all movies.");
+    public List<String> getAllMovieTitles() {
+        LOG.info("Getting all movie titles.");
         //SAMPLE DATA (WILL BE DELETED)
-        /*
-        RecoData recoData = null;
+        List<String> response = new ArrayList<>();
 
-        recoData.setMovieid("hi");
-        recoData.setTitle("thisis");
-        recoData.setGenre("sample");
-        recoData.setImdblink("linkhere");
+        for (RecoData recoData : this.recoRepository.findAll()){
+            response.add(recoData.getTitle());
+        }
 
-
-
-        this.recoRepository.insert(new RecoData("a","b","c","d"));
-        */
-        return this.recoRepository.findAll();
+        //return this.recoRepository.findAll();
+        return response;
     }
 
 
