@@ -12,9 +12,9 @@ jobs:
     
     steps:
     - name: Check_private_repo
-        uses: actions/checkout@v2
-        with:
-          token: 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 # `GitHub_PAT` is a secret that contains your PAT
+      uses: actions/checkout@v2
+      with:
+        token: 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 # `GitHub_PAT` is a secret that contains your PAT
     
     - name: Docker Setup QEMU (Docker install)
       uses: docker/setup-qemu-action@v1.2.0
