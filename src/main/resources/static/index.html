@@ -36,29 +36,6 @@
                 $('#user').show()
             });
         });
-
-        $(document).ready(function(){               //$("#btn").click(function(){
-            // GETS TOP 10 Movies ("","","","")
-            $.get("http://localhost:8080/users/recommendations", function(data,status){
-                //console.log(data);
-                $('#tdata').empty();
-
-                var i = 0; var j = 0; var content = "";
-
-                data.forEach(function(dt){
-                    if (i % 5 === 0) {
-                        $("#tdata").append("<tr id='row" + i + "'></tr>");
-                        j = i;
-                    }
-                    $("#row" + j).append("<td><div><img src='" + dt.imglink +
-                                       "' style='width:200px;height:300px;'></div><div class='text-center'>" +
-                                       dt.title + "</div></td>");
-                    i += 1;
-                });
-            });      //});
-        });
-
-
     </script>
 </head>
 <body>
@@ -123,14 +100,41 @@
 
 <main class="main">
     <div id = "lower">
-        <h2><center>AnOtterMovie Top 10</center></h2>
+        <div><h2><center>AnOtterMovie Top 10</center></h2></div>
         <table class="recoTable">
             <tbody id="tdata"></tbody>
         </table>
 
     </div>
 </main>
+<script>
+//$(document).ready(function(){
+//$("#btn").click(function(){
+
+$(document).ready(function(){
+// GETS TOP 10 Movies ("","","","")
+$.get("http://localhost:8080/users/recommendations", function(data,status){
+//console.log(data);
+data = JSON.parse(data);
+$('#tdata').empty();
+
+var i = 0; var j = 0; var content = "";
+
+data.forEach(function(dt){
+if (i % 5 === 0) {
+$("#tdata").append("<tr id='row" + i + "'></tr>");
+j = i;
+}
+$("#row" + j).append("<td><div><img src='" + dt.imglink +
+                                       "' style='width:200px;height:300px;'></div><div class='text-center'>" +
+    dt.title + "</div></td>");
+i += 1;
+});
+});
+});
 
 
+
+</script>
 </body>
 </html>

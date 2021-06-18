@@ -8,6 +8,10 @@ html{
     height: 45%;
 }
 
+div h2{
+	margin-top:3%;
+}
+
 #upper{
     width:1551px;
     height:442.8px;
@@ -35,7 +39,7 @@ html{
 
 #lower{
     width:1800px;
-    height:600px;
+    height:1800px;
     left:0px;
     right :0px;
     position:absolute;
@@ -60,6 +64,7 @@ html{
 }
 
 table.recoTable {
+  margin-top:40px;
   width: 80%;
   text-align: center;
   border-collapse: collapse;
@@ -76,7 +81,9 @@ table.recoTable tbody td {
 
 .text-center {
     color : white
+    margin-bottom: 30px;
 }
+
 /*.input1{
     margin-left: 100px;
     margin-top: 19%;

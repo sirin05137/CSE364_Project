@@ -77,6 +77,35 @@ public class DataSeeder implements CommandLineRunner{
             }
             imglink_reader.close();
 
+            if (imglink.equals("NO_IMG_LINK_FOUND")){
+                imglink = "/poster_alphabet/";
+                if (title.toLowerCase().charAt(0)=='a'){imglink += "a.png";}
+                if (title.toLowerCase().charAt(0)=='b'){imglink += "b.png";}
+                if (title.toLowerCase().charAt(0)=='c'){imglink += "c.png";}
+                if (title.toLowerCase().charAt(0)=='d'){imglink += "d.png";}
+                if (title.toLowerCase().charAt(0)=='e'){imglink += "e.png";}
+                if (title.toLowerCase().charAt(0)=='f'){imglink += "f.png";}
+                if (title.toLowerCase().charAt(0)=='g'){imglink += "g.png";}
+                if (title.toLowerCase().charAt(0)=='h'){imglink += "h.png";}
+                if (title.toLowerCase().charAt(0)=='i'){imglink += "i.png";}
+                if (title.toLowerCase().charAt(0)=='j'){imglink += "j.png";}
+                if (title.toLowerCase().charAt(0)=='k'){imglink += "k.png";}
+                if (title.toLowerCase().charAt(0)=='l'){imglink += "l.png";}
+                if (title.toLowerCase().charAt(0)=='m'){imglink += "m.png";}
+                if (title.toLowerCase().charAt(0)=='n'){imglink += "n.png";}
+                if (title.toLowerCase().charAt(0)=='o'){imglink += "o.png";}
+                if (title.toLowerCase().charAt(0)=='p'){imglink += "p.png";}
+                if (title.toLowerCase().charAt(0)=='q'){imglink += "q.png";}
+                if (title.toLowerCase().charAt(0)=='r'){imglink += "r.png";}
+                if (title.toLowerCase().charAt(0)=='s'){imglink += "s.png";}
+                if (title.toLowerCase().charAt(0)=='t'){imglink += "t.png";}
+                if (title.toLowerCase().charAt(0)=='u'){imglink += "u.png";}
+                if (title.toLowerCase().charAt(0)=='v'){imglink += "v.png";}
+                if (title.toLowerCase().charAt(0)=='w'){imglink += "w.png";}
+                if (title.toLowerCase().charAt(0)=='x'){imglink += "x.png";}
+                if (title.toLowerCase().charAt(0)=='y'){imglink += "y.png";}
+                if (title.toLowerCase().charAt(0)=='z'){imglink += "z.png";}
+            }
             // Save to the repository
             //System.out.print(movieid + " / " + title + " / " + genre +  " / " + imdblink + " / " + imglink + "\n");
             //if (imglink.equals("NO_IMG_LINK_FOUND")) { System.out.print(movieid+","); }
