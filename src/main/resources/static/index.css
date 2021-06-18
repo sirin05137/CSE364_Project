@@ -1,5 +1,5 @@
 html{
-    height: 250%;
+    height: 100%;
     overflow: scroll;
 }
 
@@ -10,7 +10,7 @@ html{
     display: block;
     margin=0;
     position=relative;
-    
+
     padding-left:15px;
     padding-right:15px;
     text-align:center;
@@ -73,7 +73,7 @@ display:block;
 }
 
 .btn-group {
-    display:block;  
+    display:block;
     margin:0;
     position:relative;
   }
@@ -184,16 +184,4 @@ table.recoTable td, table.recoTable th {
 table.recoTable tbody td {
   font-size: 13px;
   font-weight: bold;
-}
-
-.hello-container-container {
-  display: flex;
-  flex-direction:column;
-  justify-content:space-around;
-}
-
-.hello-container {
-  display: flex;
-  flex-direction:column;
-  justify-content:space-around;
 }
