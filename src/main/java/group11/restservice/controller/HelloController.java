@@ -22,6 +22,7 @@ public class HelloController {
 
     @RequestMapping("/")
     public List<RecoData> helloWorld() {
+
         RecoData rd1 = new RecoData("1","Toy Story","Animation","http://www.imdb.com/title/tt0114709","https://m.media-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@..jpg");
         RecoData rd2 = new RecoData("2","Jumanji","Adventure","http://www.imdb.com/title/tt0113497","https://m.media-amazon.com/images/M/MV5BZTk2ZmUwYmEtNTcwZS00YmMyLWFkYjMtNTRmZDA3YWExMjc2XkEyXkFqcGdeQXVyMTQxNzMzNDI@..jpg");
         RecoData rd3 = new RecoData("2","Jumanji","Adventure","http://www.imdb.com/title/tt0113497","https://m.media-amazon.com/images/M/MV5BZTk2ZmUwYmEtNTcwZS00YmMyLWFkYjMtNTRmZDA3YWExMjc2XkEyXkFqcGdeQXVyMTQxNzMzNDI@..jpg");

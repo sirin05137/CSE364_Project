@@ -1,34 +1,77 @@
 html{
-    height: 100%;
-    overflow: auto;
+    height: 150%;
+    overflow: scroll;
 }
 
 .header{
     /*padding: 100px;*/
-    height: 45%;
+    height: 40%;
+    width:100%;
+    display: block;
+    margin=0;
+    position=relative;
+    
+    padding-left:15px;
+    padding-right:15px;
+    text-align:center;
+    align-content:center;
 }
 
-div h2{
-	margin-top:3%;
+.p1, .p2, .p3 {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-#upper{
-    width:1551px;
-    height:442.8px;
-    left:0px;
-    right : 0px;
+.p1 {
+    font-weight: bold;
+    font-size:26px;
+    display: block;
     position:absolute;
+    margin:50px 0 0 0;
+    left: 50%;
+    transform: translate(-50%, 0)
 }
-#upper_left{
-    width: 900px;
-    height: 442.8px;
-    left:0px;
+
+.p2 {
+    font-weight: bold;
+    font-size:20px;
+    margin:5px;
+    position:relative;
 }
-#upper_right{
-    width: 651px;
-    height: 442.8px;
-    right:0px;
-    position: absolute;
+
+.p3 {
+    color:lightgrey;
+    font-size: 16px;
+    margin: 0 0 20px 0;
+    position:relative;
+}
+
+.text-left, .text-center, .text-right, .label {
+    color : white;
+}
+
+.text-right {
+    font-weight: bold;
+}
+
+.center {
+    display: block;
+    position:absolute;
+    margin:0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.btn-group {
+    display:block;  
+    margin:0;
+    position:relative;
+  }
+
+input, select{
+    width:15em;
+    height:1.5em;
+    box-sizing:border-box;
 }
 
 #movie{
@@ -47,21 +90,22 @@ div h2{
     background-color:#131313;
 }
 
-#grouped-btn{
-    margin-top: 130px;
-    margin-left: 100px;
+.btn-primary {
+    width:200px;
+    margin:20px;
+    color: #FFFFFF !important;
+    background-color: #369c9c !important;
+    border-color: #67c2c2 !important;
 }
 
-.p1, .p2{
-    margin-top:10px;
-    margin-bottom: 5px;
+.btn-primary:hover {
+    color: #FFFFFF !important;
+    background-color: #52bebe !important;
+    border-color: #93dbdb !important;
 }
-.p2{
-    margin-top: 20px;
-}
-.submit{
-    margin-left: 10px;
-}
+
+
+
 
 table.recoTable {
   margin-top:40px;
@@ -70,19 +114,28 @@ table.recoTable {
   border-collapse: collapse;
   margin-left: auto;
   margin-right: auto;
+  position:relative;
 }
 table.recoTable td, table.recoTable th {
   padding: 5px 10px;
+  margin: 10px;
 }
 table.recoTable tbody td {
   font-size: 13px;
   font-weight: bold;
 }
 
-.text-center {
-    color : white
-    margin-bottom: 30px;
+table.inputfieldtable {
+    width: 100%;
+    text-align: left;
 }
+
+table.inputfieldtable td, table.inputfieldtable th {
+    padding: 8px 10px;
+}
+
+
+
 
 /*.input1{
     margin-left: 100px;
