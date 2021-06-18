@@ -29,7 +29,7 @@ html{
     position:absolute;
     margin:50px 0 0 0;
     left: 50%;
-    transform: translate(-50%, 0)
+    transform: translate(-50%, 0);
 }
 
 .p2 {
@@ -90,11 +90,29 @@ input, select{
     background-color:#131313;
 }
 
+.custom-combobox {
+    position: relative;
+    display: inline-block;
+  }
+
+.custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+}
+
+.custom-combobox-input {
+    margin: 0;
+    padding: 5px 10px;
+}
+
 .btn-primary {
     width:200px;
     margin:20px;
     color: #FFFFFF !important;
-    background-color: #369c9c !important;
+    background-color: #298484 !important;
     border-color: #67c2c2 !important;
 }
 
@@ -102,9 +120,35 @@ input, select{
     color: #FFFFFF !important;
     background-color: #52bebe !important;
     border-color: #93dbdb !important;
+    font-weight: bold;
 }
 
+.btn-primary:focus {
+    color: #FFFFFF !important;
+    background-color: #52bebe !important;
+    border-color: #93dbdb !important;
+    font-weight: bold;
+}
 
+.btn-info {
+    color: #FFFFFF !important;
+    background-color: #298484 !important;
+    border-color: #67c2c2 !important;
+}
+
+.btn-info:hover {
+    color: #FFFFFF !important;
+    background-color: #52bebe !important;
+    border-color: #93dbdb !important;
+    font-weight: bold;
+}
+
+.btn-info:focus {
+    color: #FFFFFF !important;
+    background-color: #52bebe !important;
+    border-color: #93dbdb !important;
+    font-weight: bold;
+}
 
 
 table.recoTable {
@@ -112,9 +156,9 @@ table.recoTable {
   width: 80%;
   text-align: center;
   border-collapse: collapse;
+  margin-top: 100px;
   margin-left: auto;
   margin-right: auto;
-  position:relative;
 }
 table.recoTable td, table.recoTable th {
   padding: 5px 10px;
