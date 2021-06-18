@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Docker Setup QEMU (Docker install)
+      uses: docker/setup-qemu-action@v1.2.0
+      
+    - name: download Dockerfile and run.sh
+      uses: actions/checkout@master
+      with:
+        repository: sirin05317/CSW364_Project
+        token: ${{ secrets.my_pat }}
+      
+    - name: Build and run Docker image and mvn test
+      run: | 
+         cd scripts
+         docker build -t docker_image_by_workflow .
+         docker run -it docker_image_by_workflow
+         git clone https://7431831df8332ebd730fab69f7dbdc329659ed45@github.com/sirin05137/CSE364_Project.git
+         cd CSE364_Project
+         mvn test
