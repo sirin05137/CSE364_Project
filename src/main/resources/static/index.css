@@ -1,5 +1,5 @@
 html{
-    height: 200%;
+    height: 170%;
     overflow: scroll;
 }
 
@@ -8,8 +8,8 @@ html{
     height: 40%;
     width:100%;
     display: block;
-    margin=0;
-    position=relative;
+    margin:0;
+    position:relative;
     
     padding-left:15px;
     padding-right:15px;
@@ -51,7 +51,7 @@ display:block;
     color:lightgrey;
     font-size: 16px;
     position:absolute;
-    padding = 10px;
+    padding : 10px;
     left: 50%;
     transform: translate(-50%, 0);
 }
@@ -62,6 +62,10 @@ display:block;
 
 .text-right {
     font-weight: bold;
+}
+
+.text-center {
+    word-wrap: break-word;
 }
 
 .center {
@@ -97,7 +101,7 @@ input, select{
     right :0px;
     position:absolute;
     color:white;
-    background-color:#131313;
+    background-color:#212529;
 }
 
 .custom-combobox {
@@ -177,6 +181,7 @@ table.recoTable {
   margin-top: 100px;
   margin-left: auto;
   margin-right: auto;
+  table-layout: fixed
 }
 table.recoTable td, table.recoTable th {
   padding: 5px 10px;
