@@ -30,7 +30,6 @@
     <script type="text/javascript">
         $(function(){
             $('#movie-based').hide();
-            $('#user-based').hide();
             $('#btn-movie-based').click(function(){
                 $('#user-based').hide()
                 $('#movie-based').show()
@@ -170,35 +169,6 @@
                                };
                            }
                        }));
-                   },
-
-                   _removeIfInvalid: function(event, ui) {
-                       if(ui.item) {
-                           return;
-                       }
-                       var value = this.input.val(), valueLowerCase = value.toLowerCase(), valid = false;
-                       this.element.children( "option" ).each(function() {
-                           if($(this).text().toLowerCase() === valueLowerCase) {
-                               this.selected = valid = true;
-                               return false;
-                           }
-                       });
-
-                       if(valid) { return; }
-
-                       this.input
-                           .val("")
-                           .attr("title", value + "No matching items.")
-                           .tooltip("open");
-                       this.element.val("");
-                       this._delay(function() {
-                           this.input.tooltip("close").attr("title", "");
-                       }, 2500);
-                       this.input.autocomplete("instance").term = "";
-                   },
-                   _destroy: function() {
-                       this.wrapper.remove();
-                       this.element.show();
                    }
                });
                $("#input-genre").combobox();
