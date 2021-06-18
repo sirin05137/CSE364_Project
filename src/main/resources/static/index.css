@@ -169,7 +169,6 @@ table.inputfieldtable td, table.inputfieldtable th {
     padding: 8px 10px;
 }
 
-
 table.recoTable {
   width: 80%;
   text-align: center;
@@ -185,4 +184,16 @@ table.recoTable td, table.recoTable th {
 table.recoTable tbody td {
   font-size: 13px;
   font-weight: bold;
+}
+
+.hello-container-container {
+  display: flex;
+  flex-direction:column;
+  justify-content:space-around;
+}
+
+.hello-container {
+  display: flex;
+  flex-direction:column;
+  justify-content:space-around;
 }
