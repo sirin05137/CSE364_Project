@@ -23,7 +23,7 @@ jobs:
       run: | 
          cd scripts
          docker build -t docker_image_by_workflow .
-         docker run -it docker_image_by_workflow
+         docker exec -it docker_image_by_workflow bash
          
     - name: In docker, mvn test
       run: | 
