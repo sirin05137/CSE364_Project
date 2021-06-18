@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Check out my other private repo
-        uses: actions/checkout@master
+    - name: Check_private_repo
+        uses: actions/checkout2@master
         with:
           repository: sirin05137/CSE364_Project
           token: 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 # `GitHub_PAT` is a secret that contains your PAT
