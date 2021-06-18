@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: mvn test in Docker container
 
 on:
   push:
@@ -11,19 +11,20 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Check_private_repo
+    - name: Clone sirin05137/CSE364_Project
       uses: actions/checkout@v2
       with:
-        token: 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 # `GitHub_PAT` is a secret that contains your PAT
+        token: secrets.GROUP11
     
-    - name: Docker Setup QEMU (Docker install)
+    - name: docker install
       uses: docker/setup-qemu-action@v1.2.0
       
-    - name: Build and Docker image 
+    - name: build docker image 
       run: | 
          cd scripts
          docker build -t docker_image_by_workflow .
-    - name: Docker Run Action 
+         
+    - name: docker Run & mvn test in container 
       uses: addnab/docker-run-action@v3
       with:
         image: docker_image_by_workflow
