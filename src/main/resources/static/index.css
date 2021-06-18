@@ -1,5 +1,5 @@
 html{
-    height: 150%;
+    height: 250%;
     overflow: scroll;
 }
 
@@ -23,11 +23,11 @@ html{
 }
 
 .p1 {
+    display:block;
     font-weight: bold;
     font-size:26px;
-    display: block;
     position:absolute;
-    margin:50px 0 0 0;
+    padding:50px;
     left: 50%;
     transform: translate(-50%, 0);
 }
@@ -44,6 +44,16 @@ html{
     font-size: 16px;
     margin: 0 0 20px 0;
     position:relative;
+}
+
+.p4 {
+display:block;
+    color:lightgrey;
+    font-size: 16px;
+    position:absolute;
+    padding = 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
 .text-left, .text-center, .text-right, .label {
@@ -82,7 +92,7 @@ input, select{
 
 #lower{
     width:1800px;
-    height:1800px;
+    height:5400px;
     left:0px;
     right :0px;
     position:absolute;
@@ -150,9 +160,17 @@ input, select{
     font-weight: bold;
 }
 
+table.inputfieldtable {
+    width: 100%;
+    text-align: left;
+}
+
+table.inputfieldtable td, table.inputfieldtable th {
+    padding: 8px 10px;
+}
+
 
 table.recoTable {
-  margin-top:40px;
   width: 80%;
   text-align: center;
   border-collapse: collapse;
@@ -168,23 +186,3 @@ table.recoTable tbody td {
   font-size: 13px;
   font-weight: bold;
 }
-
-table.inputfieldtable {
-    width: 100%;
-    text-align: left;
-}
-
-table.inputfieldtable td, table.inputfieldtable th {
-    padding: 8px 10px;
-}
-
-
-
-
-/*.input1{
-    margin-left: 100px;
-    margin-top: 19%;
-}
-.input2{
-    margin-top: 19%;   
-}*/

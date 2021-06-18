@@ -41,7 +41,6 @@
         });
 
 
-
         //$(document).ready(function(){
         //$("#btn").click(function(){
 
@@ -50,13 +49,97 @@
             $.get("http://localhost:8080/users/recommendations", function(data,status){
                 //console.log(data);
                 data = JSON.parse(data);
-                $('#tdata').empty();
+                $('#tdata-noinputs').empty();
 
                 var i = 0; var j = 0; var content = "";
                 
                 data.forEach(function(dt){
                 if (i % 5 === 0) {
-                    $("#tdata").append("<tr id='row" + i + "'></tr>");
+                    $("#tdata-noinputs").append("<tr id='row" + i + "'></tr>");
+                    j = i;
+                }
+                $("#row" + j).append("<td><div><img src='" + dt.imglink +
+                    "' style='width:200px;height:300px;'></div><div class='text-center'>" +
+                        dt.title + "</div></td>");
+                        i += 1;
+                    });
+                });
+            });
+
+            $(document).ready(function(){
+            $.get("http://localhost:8080/users/recommendations?gender=m&age=25&occupation=college", function(data,status){
+                //console.log(data);
+                data = JSON.parse(data);
+                $('#tdata-m-25-college').empty();
+
+                var i = 0; var j = 0; var content = "";
+
+                data.forEach(function(dt){
+                if (i % 5 === 0) {
+                    $("#tdata-m-25-college").append("<tr id='row" + i + "'></tr>");
+                    j = i;
+                }
+                $("#row" + j).append("<td><div><img src='" + dt.imglink +
+                    "' style='width:200px;height:300px;'></div><div class='text-center'>" +
+                        dt.title + "</div></td>");
+                        i += 1;
+                    });
+                });
+            });
+
+            $(document).ready(function(){
+            $.get("http://localhost:8080/users/recommendations?genre=sci-fi", function(data,status){
+                //console.log(data);
+                data = JSON.parse(data);
+                $('#tdata-sci-fi').empty();
+
+                var i = 0; var j = 0; var content = "";
+
+                data.forEach(function(dt){
+                if (i % 5 === 0) {
+                    $("#tdata-sci-fi").append("<tr id='row" + i + "'></tr>");
+                    j = i;
+                }
+                $("#row" + j).append("<td><div><img src='" + dt.imglink +
+                    "' style='width:200px;height:300px;'></div><div class='text-center'>" +
+                        dt.title + "</div></td>");
+                        i += 1;
+                    });
+                });
+            });
+
+            $(document).ready(function(){
+            $.get("http://localhost:8080/users/recommendations?genre=horror%7Cthriller", function(data,status){
+                //console.log(data);
+                data = JSON.parse(data);
+                $('#tdata-horror-thriller').empty();
+
+                var i = 0; var j = 0; var content = "";
+
+                data.forEach(function(dt){
+                if (i % 5 === 0) {
+                    $("#tdata-horror-thriller").append("<tr id='row" + i + "'></tr>");
+                    j = i;
+                }
+                $("#row" + j).append("<td><div><img src='" + dt.imglink +
+                    "' style='width:200px;height:300px;'></div><div class='text-center'>" +
+                        dt.title + "</div></td>");
+                        i += 1;
+                    });
+                });
+            });
+
+            $(document).ready(function(){
+            $.get("http://localhost:8080/movies/recommendations?title=BeforeSunrise(1995)&limit=10", function(data,status){
+                //console.log(data);
+                data = JSON.parse(data);
+                $('#tdata-before-sunrise').empty();
+
+                var i = 0; var j = 0; var content = "";
+
+                data.forEach(function(dt){
+                if (i % 5 === 0) {
+                    $("#tdata-before-sunrise").append("<tr id='row" + i + "'></tr>");
                     j = i;
                 }
                 $("#row" + j).append("<td><div><img src='" + dt.imglink +
@@ -261,7 +344,7 @@
                 </tbody>
             </table>
 
-            <button class="btn btn-primary" id="btn-submit-2">Submit</button>
+            <button class="btn btn-primary" id="btn-submit-1">Submit</button>
 
         </div>
         <div id="movie-based">
@@ -289,10 +372,53 @@
 
 <main class="main">
     <div id = "lower">
-        <div><p class="p1">AnOtterMovie Top 10</p></div>
-        <table class="recoTable">
-            <tbody id="tdata"></tbody>
-        </table>
+        <div id="content-hello">
+            <table class="inputfieldtable">
+                <tbody>
+                <tr>
+                    <td>
+                        <p class="p1">Top 10 best movies</p>
+                            <br><br><br><br><p class="p4">Most beloved movies of all time</p>
+                        <table id="recoTable-noinputs" class="recoTable">
+                            <tbody id="tdata-noinputs"></tbody>
+                        </table>
+                        <br>
+                    </td></tr><tr>
+                    <td>
+                        <p class="p1">Made for you</p>
+                        <br><br><br><br><p class="p4">People like you (M, 25, College student) rated these items favorably</p>
+                        <table id="recoTable-m-25-college" class="recoTable">
+                            <tbody id="tdata-m-25-college"></tbody>
+                        </table>
+                        <br>
+                    </td></tr><tr>
+                    <td>
+                        <p class="p1">Open up your imagination</p>
+                            <br><br><br><br><p class="p4">Best Sci-fi Movies</p>
+                        <table id="recoTable-sci-fi" class="recoTable">
+                            <tbody id="tdata-sci-fi"></tbody>
+                        </table>
+                        <br>
+                    </td></tr><tr>
+                    <td>
+                        <p class="p1">Scary movies for when the world is a fright</p>
+                        <br><br><br><br><p class="p4">The ultimate Horror&Thriller movies for this summer</p>
+                        <table id="recoTable-horror-thriller" class="recoTable">
+                            <tbody id="tdata-horror-thriller"></tbody>
+                        </table>
+                        <br>
+                    </td></tr><tr>
+                    <td>
+                        <p class="p1">"When love can come as a complete surprise"</p>
+                            <br><br><br><br><p class="p4">More like 'Before Sunrise (1995)' you watched recently</p>
+                        <table id="recoTable-before-sunrise" class="recoTable">
+                            <tbody id="tdata-before-sunrise"></tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
     </div>
 </main>
