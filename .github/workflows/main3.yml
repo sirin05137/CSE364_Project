@@ -14,7 +14,7 @@ jobs:
     - name: Clone sirin05137/CSE364_Project
       uses: actions/checkout@v2
       with:
-        token: secrets.GROUP11
+        token: ${{ secrets.GROUP11 }}
     
     - name: docker install
       uses: docker/setup-qemu-action@v1.2.0
