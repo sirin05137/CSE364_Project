@@ -1,11 +1,11 @@
 html{
-    height: 250%;
+    height: 100%;
     overflow: scroll;
 }
 
 .header{
     /*padding: 100px;*/
-    height: 40%;
+    height: 60%;
     width:100%;
     display: block;
     margin:0;
@@ -183,6 +183,7 @@ table.recoTable tbody td {
     display: inline-block;
     padding: 3px 10px;
     clear: both;
+    font-size:12px;
     font-weight: normal;
     line-height: 1.42857143;
     color: #333;
@@ -202,8 +203,8 @@ table.recoTable tbody td {
 }
 
 .dropdown-menu {
-    width:15em;
-    height:13em;
+    width:30em;
+    height:12em;
     overflow: scroll;
 }
 
@@ -211,4 +212,8 @@ button#dropdownMenu1 {
     width: 15em;
     text-align: left;
     height:2em;
+}
+
+ul.dropdown-menu.checkbox-menu.allow-focus {
+    columns: 4;
 }

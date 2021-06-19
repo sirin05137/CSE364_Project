@@ -220,48 +220,6 @@
 
         }
 
-                   _createShowAllButton: function() {
-                       var input = this.input, wasOpen = false;
-
-                       $("<a>")
-                           .attr("tabIndex", -1)
-                           .attr("title", "View All")
-                           .tooltip()
-                           .appendTo( this.wrapper )
-                           .button({
-                               icons: {primary: "ui-icon-triangle-1-s"},
-                               text: false
-                           })
-                           .removeClass( "ui-corner-all" )
-                           .addClass("custom-combobox-toggle ui-corner-right")
-                           .on("mousedown", function() {
-                               wasOpen = input.autocomplete("widget").is(":visible");
-                           })
-                           .on("click", function() {
-                               input.trigger( "focus" );
-                               //if(wasOpen) { return; }
-                               input.autocomplete("search", "");
-                           }
-                       );
-                   },
-
-                   _source: function(request, response) {
-                       //var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
-                       response( this.element.children("option").map(function() {
-                           var text = $(this).text();
-                           if(this.value && (!request.term || matcher.test(text))) {
-                               return {
-                                   label: text,
-                                   value: text,
-                                   option: this
-                               };
-                           }
-                       }));
-                   }
-               });
-               $("#input-genre").combobox();
-           });
-           //]]>
 
     </script>
 </head>
