@@ -85,3 +85,42 @@ table.recoTable {
     font-size: 13px;
     font-weight: bold;
   }
+
+
+  .text-left, .text-center, .text-right, .label {
+    color : black;
+}
+
+.text-right {
+    font-weight: bold;
+}
+
+.text-center {
+    word-wrap: break-word;
+}
+.btn-primary {
+    width:200px;
+    margin:20px;
+    color: #FFFFFF !important;
+    background-color: #298484 !important;
+    border-color: #67c2c2 !important;
+}
+
+.btn-primary:hover {
+    color: #FFFFFF !important;
+    background-color: #52bebe !important;
+    border-color: #93dbdb !important;
+    font-weight: bold;
+}
+
+.btn-primary:focus {
+    color: #FFFFFF !important;
+    background-color: #52bebe !important;
+    border-color: #93dbdb !important;
+    font-weight: bold;
+}
+input, select{
+    width:15em;
+    height:1.5em;
+    box-sizing:border-box;
+}
