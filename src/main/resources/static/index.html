@@ -19,12 +19,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script>
     <!-- J QUERY & AJAX -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
@@ -48,6 +50,27 @@
             });
         });
 
+        $(".checkbox-menu").on("change", "input[type='checkbox']", function() {
+           $(this).closest("li").toggleClass("active", this.checked);
+        });
+
+        $(document).on('click', '.allow-focus', function (e) {
+          e.stopPropagation();
+        });
+
+        $("ul.dropdown-menu input[type=checkbox]").on('change', function() {
+            let multi_text = "";
+              $("ul.dropdown-menu input[type=checkbox]").each(function() {
+                if ($(this).is(":checked")) {
+                  multi_text += $(this).val() + " | ";
+                } else {}
+                if (multi_text !== '') {
+                  $(".form-control").text(multi_text);
+                } else {
+                  $(".form-control").text("Multiple Selection ▼");
+                }
+              });
+        });
 
         //$(document).ready(function(){
         //$("#btn").click(function(){
@@ -179,92 +202,7 @@
                 delay:100
             });
         });
-        //]]>
 
-
-        // Genre auto complete
-        //<![CDATA[
-           $(function() {
-               $.widget("custom.combobox", {
-                   _create: function() {
-                       this.wrapper = $("<span>").addClass("custom-combobox").insertAfter(this.element);
-                       this.element.hide();
-                       this._createAutocomplete();
-                       this._createShowAllButton();
-                   },
-                   _createAutocomplete: function() {
-                       var selected = this.element.children(":selected"), value = selected.val() ? selected.text() : "";
-
-                       this.input = $("<input>")
-                           .appendTo(this.wrapper)
-                           .val(value)
-                           .attr("title", "")
-                           .addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
-                           .autocomplete({
-                               delay: 0,
-                               minLength: 0,
-                               source: $.proxy(this, "_source"),
-                               focus: function(event, ui) {
-                                   return false;
-                               },
-                               select: function(event, ui) {
-                               }
-                           })
-                           .tooltip({
-                               classes: {"ui-tooltip": "ui-state-highlight"}
-                           });
-
-                       this._on( this.input, {
-                           autocompleteselect: function( event, ui ) {
-                               ui.item.option.selected = true;
-                               this._trigger( "select", event, {item: ui.item.option});
-                           },
-                           autocompletechange: "_removeIfInvalid"
-                       });
-                   },
-
-                   _createShowAllButton: function() {
-                       var input = this.input, wasOpen = false;
-
-                       $("<a>")
-                           .attr("tabIndex", -1)
-                           .attr("title", "View All")
-                           .tooltip()
-                           .appendTo( this.wrapper )
-                           .button({
-                               icons: {primary: "ui-icon-triangle-1-s"},
-                               text: false
-                           })
-                           .removeClass( "ui-corner-all" )
-                           .addClass("custom-combobox-toggle ui-corner-right")
-                           .on("mousedown", function() {
-                               wasOpen = input.autocomplete("widget").is(":visible");
-                           })
-                           .on("click", function() {
-                               input.trigger( "focus" );
-                               //if(wasOpen) { return; }
-                               input.autocomplete("search", "");
-                           }
-                       );
-                   },
-
-                   _source: function(request, response) {
-                       //var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
-                       response( this.element.children("option").map(function() {
-                           var text = $(this).text();
-                           if(this.value && (!request.term || matcher.test(text))) {
-                               return {
-                                   label: text,
-                                   value: text,
-                                   option: this
-                               };
-                           }
-                       }));
-                   }
-               });
-               $("#input-genre").combobox();
-           });
-           //]]>
 
     </script>
 </head>
@@ -328,32 +266,38 @@
                 </tr>
                 <tr>
                     <td><p class="text-right">Genre</p></td>
-                    <td><div class="ui-widget">
-                        <select id="input-genre" name="genre">
-                            <option value="" selected hidden>---</option>
-                            <option value="Action">Action</option>
-                            <option value="Adventure">Adventure</option>
-                            <option value="Children\'s">Children's</option>
-                            <option value="Comedy">Comedy</option>
-                            <option value="Crime">Crime</option>
-                            <option value="Documentary">Documentary</option>
-                            <option value="Drama">Drama</option>
-                            <option value="Film-Noir">Film-Noir</option>
-                            <option value="Horror">Horror</option>
-                            <option value="Musical">Musical</option>
-                            <option value="Mystery">Mystery</option>
-                            <option value="Romance">Romance</option>
-                            <option value="Sci-Fi">Sci-Fi</option>
-                            <option value="Thriller">Thriller</option>
-                            <option value="War">War</option>
-                            <option value="Western">Western</option>
-                        </select></div>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button"
+                                    id="dropdownMenu1" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="true">
+                                Select genre(s)
+                            </button>
+                            <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
+                                <li ><label><input value="Action" type="checkbox">Action</label></li>
+                                <li ><label><input value="Adventure" type="checkbox">Adventure</label></li>
+                                <li ><label><input value="Children's" type="checkbox">Children's</label></li>
+                                <li ><label><input value="Comedy" type="checkbox">Comedy</label></li>
+                                <li ><label><input value="Crime" type="checkbox">Crime</label></li>
+                                <li ><label><input value="Documentary" type="checkbox">Documentary</label></li>
+                                <li ><label><input value="Drama" type="checkbox">Drama</label></li>
+                                <li ><label><input value="Film-Noir" type="checkbox">Film-Noir</label></li>
+                                <li ><label><input value="Horror" type="checkbox">Horror</label></li>
+                                <li ><label><input value="Musical" type="checkbox">Musical</label></li>
+                                <li ><label><input value="Mystery" type="checkbox">Mystery</label></li>
+                                <li ><label><input value="Romance" type="checkbox">Romance</label></li>
+                                <li ><label><input value="Sci-Fi" type="checkbox">Sci-Fi</label></li>
+                                <li ><label><input value="Thriller" type="checkbox">Thriller</label></li>
+                                <li ><label><input value="War" type="checkbox">War</label></li>
+                                <li ><label><input value="Western" type="checkbox">Western</label></li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
 
-            <button class="btn btn-primary" id="btn-submit-1" type="submit">Submit</button>
+            <button class="btn btn-primary" id="btn-submit-1" type="submit" onclick="return genre_validity()">Submit</button>
             </form>
         </div>
         <div id="movie-based">
@@ -365,7 +309,7 @@
                 <tr>
                     <td><p class="text-right">Title</p></td>
                     <td><div class="ui-widget"><label for="input-title"></label>
-                        <input id="input-title" name="title" type="text" placeholder="e.g. Toy Story (1995)"/></div></td>
+                        <input id="input-title" name="title" type="text" placeholder="e.g. Toy Story (1995)" required/></div></td>
                 </tr>
                 <tr>
                     <td><p class="text-right">Limit</p></td>
