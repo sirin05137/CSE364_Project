@@ -5,11 +5,11 @@ html{
 
 .header{
     /*padding: 100px;*/
-    height: 40%;
+    height: 60%;
     width:100%;
     display: block;
-    margin=0;
-    position=relative;
+    margin:0;
+    position:relative;
 
     padding-left:15px;
     padding-right:15px;
