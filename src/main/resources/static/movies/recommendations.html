@@ -5,15 +5,13 @@
     <meta charset="UTF-8">
     <style>
             body {
-                background-image: url(./background_movie.png);
-                background-repeat: no-repeat;
-                background-size: cover;
+                background-color: #212529 !important;
                 width:100%;
                 height: 100%;
                 color:white;
             }
     </style>
-    <link rel="stylesheet" href="index.css" type="text/css">
+    <link rel="stylesheet" href="./recommendation.css" type="text/css">
     <!-- Boot Strap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
@@ -28,13 +26,6 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
-        /*var cast = { 
-            "gender" : "", 
-            "age" : "28", 
-            "occupation" : "2002", 
-            "genre" : "농구"
-        }; // Json Object를 저장하기 
-        localStorage.setItem("cast", JSON.stringify(cast));*/
 
         $(function(){
             $('#movie-based').hide();
@@ -48,13 +39,19 @@
             });
         });
 
-
-        //$(document).ready(function(){
-        //$("#btn").click(function(){
-
         $(document).ready(function(){
+
+          var url = document.location.href;
+          var temp = url.split("?")
+          var data = temp[1].split("&");
+          var title = data[0].split("=")[1];
+          var limit = data[1].split("=")[1];
+          if(limit==""){
+              limit=10;
+          }
+
             // GETS TOP 10 Movies ("","","","")
-            $.get("http://localhost:8080/users/recommendations?gender=&age=&occupation=&genre=", function(data,status){
+            $.get("http://localhost:8080/movies/recommendations?title=" + title + "&limit=" + limit, function(data,status){
                 //console.log(data);
                 data = JSON.parse(data);
                 $('#tdata-noinputs').empty();
@@ -63,94 +60,10 @@
                 
                 data.forEach(function(dt){
                 if (i % 5 === 0) {
-                    $("#tdata-noinputs").append("<tr class='1" + i + "'></tr>");
+                    $("#tdata-input-data").append("<tr class='1" + i + "'></tr>");
                     j = i;
                 }
                 $(".1" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                    "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
-                        dt.title + "</div></td>");
-                        i += 1;
-                    });
-                });
-            });
-
-            $(document).ready(function(){
-            $.get("http://localhost:8080/users/recommendations?gender=m&age=25&occupation=college", function(data,status){
-                //console.log(data);
-                data = JSON.parse(data);
-                $('#tdata-m-25-college').empty();
-
-                var i = 0; var j = 0; var content = "";
-
-                data.forEach(function(dt){
-                if (i % 5 === 0) {
-                    $("#tdata-m-25-college").append("<tr class='2" + i + "'></tr>");
-                    j = i;
-                }
-                $(".2" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                    "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
-                        dt.title + "</div></td>");
-                        i += 1;
-                    });
-                });
-            });
-
-            $(document).ready(function(){
-            $.get("http://localhost:8080/users/recommendations?genre=sci-fi", function(data,status){
-                //console.log(data);
-                data = JSON.parse(data);
-                $('#tdata-sci-fi').empty();
-
-                var i = 0; var j = 0; var content = "";
-
-                data.forEach(function(dt){
-                if (i % 5 === 0) {
-                    $("#tdata-sci-fi").append("<tr class='3" + i + "'></tr>");
-                    j = i;
-                }
-                $(".3" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                    "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
-                        dt.title + "</div></td>");
-                        i += 1;
-                    });
-                });
-            });
-
-            $(document).ready(function(){
-            $.get("http://localhost:8080/users/recommendations?genre=horror%7Cthriller", function(data,status){
-                //console.log(data);
-                data = JSON.parse(data);
-                $('#tdata-horror-thriller').empty();
-
-                var i = 0; var j = 0; var content = "";
-
-                data.forEach(function(dt){
-                if (i % 5 === 0) {
-                    $("#tdata-horror-thriller").append("<tr class='4" + i + "'></tr>");
-                    j = i;
-                }
-                $(".4" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                    "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
-                        dt.title + "</div></td>");
-                        i += 1;
-                    });
-                });
-            });
-
-            $(document).ready(function(){
-            $.get("http://localhost:8080/movies/recommendations?title=BeforeSunrise(1995)&limit=10", function(data,status){
-                //console.log(data);
-                data = JSON.parse(data);
-                $('#tdata-before-sunrise').empty();
-
-                var i = 0; var j = 0; var content = "";
-
-                data.forEach(function(dt){
-                if (i % 5 === 0) {
-                    $("#tdata-before-sunrise").append("<tr class='5" + i + "'></tr>");
-                    j = i;
-                }
-                $(".5" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
                     "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
                         dt.title + "</div></td>");
                         i += 1;
@@ -268,170 +181,167 @@
 
     </script>
 </head>
-<body>
-<header class="header">
-    <div id="upper" class="center">
-        <div><img src="./logo.png" width="300px"></div>
-        <div id="grouped-btn" class="btn-group" role="group">
-            <button type="btn btn-default" id="btn-user-based" class="btn btn-info">User-based</button>
-            <button type="btn btn-default" id="btn-movie-based" class="btn btn-info">Movie-based</button>
-        </div>
-        <br><br>
 
-        <div id="user-based" class="center">
-            <form action="./users/recommendations.html">
-            <p class="p2">User-based Movie Reco.</p>
-            <p class="p3">Please fill in and submit the form below :)</p>
-            <table class="inputfieldtable">
-                <tbody>
-                <tr>
-                    <td><p class="text-right">Gender</p></td>
-                    <td><select name="gender">
-                        <option value="" selected hidden>---</option>
-                        <option value="M">M</option>
-                        <option value="F">F</option>
-                    </select> </td>
-                </tr>
-                <tr>
-                    <td><p class="text-right">Age</p></td>
-                    <td><input id="age" name="age" type="number" placeholder="e.g. 25" min="0"/></td>
-                </tr>
-                <tr>
-                    <td><p class="text-right">Occupation</p></td>
-                    <td><select name="occupation">
-                        <option selected hidden value="">---</option>
-                        <option value="Academic">Academic / Educator</option>
-                        <!-- <option value="educator">Educator</option> -->
-                        <option value="Artist">Artist</option>
-                        <option value="Clerical">Clerical / Admin</option>
-                        <!--<option value="admin">Admin</option>-->
-                        <option value="CollegeStudent">College Student / Grad student</option>
-                        <!--<option value="grad">Grad Student</option>-->
-                        <option value="CustomerService">Customer Service</option>
-                        <option value="Doctor">Doctor / Healthcare</option>
-                        <option value="Executive">Executive / Managerial</option>
-                        <option value="Farmer">Farmer</option>
-                        <option value="Homemaker">Homemaker</option>
-                        <option value="K-12Student">K-12 Student</option>
-                        <option value="Lawyer">Lawyer</option>
-                        <option value="Programmer">Programmer</option>
-                        <option value="Retired">Retired</option>
-                        <option value="Sales">Sales / Marketing</option>
-                        <option value="Scientist">Scientist</option>
-                        <option value="Self-employed">Self-employed</option>
-                        <option value="Technician">Technician / Engineer</option>
-                        <option value="Tradesman">Tradesman / Craftsman</option>
-                        <option value="Unemployed">Unemployed</option>
-                        <option value="Writer">Writer</option>
-                        <option value="Other">Other</option>
-                    </select></td>
-                </tr>
-                <tr>
-                    <td><p class="text-right">Genre</p></td>
-                    <td><div class="ui-widget">
-                        <select id="input-genre" name="genre">
-                            <option value="" selected hidden>---</option>
-                            <option value="Action">Action</option>
-                            <option value="Adventure">Adventure</option>
-                            <option value="Children\'s">Children's</option>
-                            <option value="Comedy">Comedy</option>
-                            <option value="Crime">Crime</option>
-                            <option value="Documentary">Documentary</option>
-                            <option value="Drama">Drama</option>
-                            <option value="Film-Noir">Film-Noir</option>
-                            <option value="Horror">Horror</option>
-                            <option value="Musical">Musical</option>
-                            <option value="Mystery">Mystery</option>
-                            <option value="Romance">Romance</option>
-                            <option value="Sci-Fi">Sci-Fi</option>
-                            <option value="Thriller">Thriller</option>
-                            <option value="War">War</option>
-                            <option value="Western">Western</option>
-                        </select></div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <body>
+        <header class="header">
+            <div id="upper">
+              
+                <nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: 20px;">
+                    <div class="container-fluid">
+                      <a class="navbar-brand" href="../index.html"><img src="../mark.png" alt="" width="150" height="24" style="color: transparent;"></a>
+                      
+                      <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                          <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                          </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-bs-toggle="collapse" href="#first" aria-expanded="false" aria-label="Toggle navigation" data-parent="#accordion">User-based</a>    
+                        </li>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#second" aria-expanded="false" aria-label="Toggle navigation" data-parent="#accordion">Movie-based</a>   
+                          </li>
+                        </ul>
+                        </div>
+                      </div>
+                    
+                  </nav>
 
-            <button class="btn btn-primary" id="btn-submit-1" type="submit">Submit</button>
-            </form>
-        </div>
-        <div id="movie-based">
-            <form action="./movies/recommendations.html">
-            <p class="p2">Movie-based Movie Reco.</p>
-            <p class="p3">Please fill in and submit the form below :)</p>
-            <table class="inputfieldtable">
-                <tbody>
-                <tr>
-                    <td><p class="text-right">Title</p></td>
-                    <td><div class="ui-widget"><label for="input-title"></label>
-                        <input id="input-title" name="title" type="text" placeholder="e.g. Toy Story (1995)"/></div></td>
-                </tr>
-                <tr>
-                    <td><p class="text-right">Limit</p></td>
-                    <td><input id="input-limit" name="limit" type="number" placeholder="e.g. 25 (0 < limit <= 2000)" min="0" max="2000"/></td>
-                </tr>
-                </tbody>
-            </table>
 
-            <button class="btn btn-primary" id="btn-submit-2" type="submit">Submit</button>
-            </form>
-        </div>
-    </div>
-</header>
-
-<main class="main">
-    <div id = "lower">
-        <div id="content-hello">
-            <table class="inputfieldtable">
-                <tbody>
-                <tr>
-                    <td>
-                        <p class="p1">Top 10 best movies</p>
-                            <br><br><br><br><p class="p4">Most beloved movies of all time</p>
-                        <table id="recoTable-noinputs" class="recoTable">
-                            <tbody id="tdata-noinputs"></tbody>
+                  <div class="collapse" id="first">
+                    <div class="bg-light">
+                      <div id="user-based" class="center">
+                        <form action="./users/recommendations.html">
+                        <p class="p2">User-based Movie Reco.</p>
+                        <p class="p3">Please fill in and submit the form below :)</p>
+                        <table class="inputfieldtable">
+                            <tbody>
+                            <tr>
+                                <td><p class="text-right">Gender</p></td>
+                                <td><select name="gender">
+                                    <option value="" selected hidden>---</option>
+                                    <option value="M">M</option>
+                                    <option value="F">F</option>
+                                </select> </td>
+                            </tr>
+                            <tr>
+                                <td><p class="text-right">Age</p></td>
+                                <td><input id="age" name="age" type="number" placeholder="e.g. 25" min="0"/></td>
+                            </tr>
+                            <tr>
+                                <td><p class="text-right">Occupation</p></td>
+                                <td><select name="occupation">
+                                    <option selected hidden value="">---</option>
+                                    <option value="Academic">Academic / Educator</option>
+                                    <!-- <option value="educator">Educator</option> -->
+                                    <option value="Artist">Artist</option>
+                                    <option value="Clerical">Clerical / Admin</option>
+                                    <!--<option value="admin">Admin</option>-->
+                                    <option value="CollegeStudent">College Student / Grad student</option>
+                                    <!--<option value="grad">Grad Student</option>-->
+                                    <option value="CustomerService">Customer Service</option>
+                                    <option value="Doctor">Doctor / Healthcare</option>
+                                    <option value="Executive">Executive / Managerial</option>
+                                    <option value="Farmer">Farmer</option>
+                                    <option value="Homemaker">Homemaker</option>
+                                    <option value="K-12Student">K-12 Student</option>
+                                    <option value="Lawyer">Lawyer</option>
+                                    <option value="Programmer">Programmer</option>
+                                    <option value="Retired">Retired</option>
+                                    <option value="Sales">Sales / Marketing</option>
+                                    <option value="Scientist">Scientist</option>
+                                    <option value="Self-employed">Self-employed</option>
+                                    <option value="Technician">Technician / Engineer</option>
+                                    <option value="Tradesman">Tradesman / Craftsman</option>
+                                    <option value="Unemployed">Unemployed</option>
+                                    <option value="Writer">Writer</option>
+                                    <option value="Other">Other</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                                <td><p class="text-right">Genre</p></td>
+                                <td><div class="ui-widget">
+                                    <select id="input-genre" name="genre">
+                                        <option value="" selected hidden>---</option>
+                                        <option value="Action">Action</option>
+                                        <option value="Adventure">Adventure</option>
+                                        <option value="Children\'s">Children's</option>
+                                        <option value="Comedy">Comedy</option>
+                                        <option value="Crime">Crime</option>
+                                        <option value="Documentary">Documentary</option>
+                                        <option value="Drama">Drama</option>
+                                        <option value="Film-Noir">Film-Noir</option>
+                                        <option value="Horror">Horror</option>
+                                        <option value="Musical">Musical</option>
+                                        <option value="Mystery">Mystery</option>
+                                        <option value="Romance">Romance</option>
+                                        <option value="Sci-Fi">Sci-Fi</option>
+                                        <option value="Thriller">Thriller</option>
+                                        <option value="War">War</option>
+                                        <option value="Western">Western</option>
+                                    </select></div>
+                                </td>
+                            </tr>
+                            </tbody>
                         </table>
-                        <br>
-                    </td></tr><tr>
-                    <td>
-                        <p class="p1">Made for you</p>
-                        <br><br><br><br><p class="p4">People like you (M, 25, College student) rated these items favorably</p>
-                        <table id="recoTable-m-25-college" class="recoTable">
-                            <tbody id="tdata-m-25-college"></tbody>
+            
+                        <button class="btn btn-primary" id="btn-submit-1" type="submit">Submit</button>
+                        </form>
+                    </div>
+                    </div>
+                  </div>
+                  
+                  <div class="collapse" id="second">
+                    <div class="bg-light">
+                      <div id="movie-based"class="center">
+                        <form action="./movies/recommendations.html">
+                        <p class="p2">Movie-based Movie Reco.</p>
+                        <p class="p3">Please fill in and submit the form below :)</p>
+                        <table class="inputfieldtable">
+                            <tbody>
+                            <tr>
+                                <td><p class="text-right">Title</p></td>
+                                <td><div class="ui-widget"><label for="input-title"></label>
+                                    <input id="input-title" name="title" type="text" placeholder="e.g. Toy Story (1995)"/></div></td>
+                            </tr>
+                            <tr>
+                                <td><p class="text-right">Limit</p></td>
+                                <td><input id="input-limit" name="limit" type="number" placeholder="e.g. 25 (0 < limit <= 2000)" min="0" max="2000"/></td>
+                            </tr>
+                            </tbody>
                         </table>
-                        <br>
-                    </td></tr><tr>
-                    <td>
-                        <p class="p1">Open up your imagination</p>
-                            <br><br><br><br><p class="p4">Best Sci-fi Movies</p>
-                        <table id="recoTable-sci-fi" class="recoTable">
-                            <tbody id="tdata-sci-fi"></tbody>
-                        </table>
-                        <br>
-                    </td></tr><tr>
-                    <td>
-                        <p class="p1">Scary movies for when the world is a fright</p>
-                        <br><br><br><br><p class="p4">The ultimate Horror&Thriller movies for this summer</p>
-                        <table id="recoTable-horror-thriller" class="recoTable">
-                            <tbody id="tdata-horror-thriller"></tbody>
-                        </table>
-                        <br>
-                    </td></tr><tr>
-                    <td>
-                        <p class="p1">"When love can come as a complete surprise"</p>
-                            <br><br><br><br><p class="p4">More like 'Before Sunrise (1995)' you watched recently</p>
-                        <table id="recoTable-before-sunrise" class="recoTable">
-                            <tbody id="tdata-before-sunrise"></tbody>
-                        </table>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+            
+                        <button class="btn btn-primary" id="btn-submit-2" type="submit">Submit</button>
+                        </form>
+                    </div>
+                    </div>
+                  </div>
 
-    </div>
-</main>
+            </div>
+            
+        </header>
+        <main>
+          <div id = "lower">
+            <div id="content-hello">
+                <table class="inputfieldtable">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <p class="p1">Movie-based Recommendation</p>
+                            <br><br><br><br><p class="p4">너가 고른 정보대로 추천해봤어 ><</p>
+                            <table id="recoTable-noinputs" class="recoTable">
+                                <tbody id="tdata-input-data"></tbody>
+                            </table>
+                            <br>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </main>
+      
+    </body>
 
-</body>
-</html>
+  </html>
