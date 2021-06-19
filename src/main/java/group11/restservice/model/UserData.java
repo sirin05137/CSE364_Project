@@ -6,12 +6,14 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 // USER INPUT
 //A model object to represent the passed JSON data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonNaming(PropertyNamingStrategy.LowerCaseStrategy.class)
+//@JsonNaming(PropertyNamingStrategy.LowerCaseStrategy.class)
 public class UserData {
 	private String gender = ""; // OR null for errors?
 	private String age = "";

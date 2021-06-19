@@ -25,6 +25,7 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class milestone3Test extends milestone3 {
+    /*
     @Test
     public void sample_args_test () {
         String[] args = new String[1];
@@ -100,14 +101,7 @@ public class milestone3Test extends milestone3 {
         assertAll( () -> milestone3.main(args));
     }
 
-    /*
-    @Test
-    public void make_classified_table_with_similarity () throws IOException {
-        ArrayList<Movie_data_node> movie_data_table = new ArrayList<>();
-        HashMap<String, Double> similarity_map = new HashMap<>();
-        make_classified_table_with_similarity(movie_data_table, 5, 1000, similarity_map);
-    }
-     */
+
     //---------------------------------------------------------------------------------------------------------
 
     @Test
@@ -218,12 +212,6 @@ public class milestone3Test extends milestone3 {
         //Assertions.assertEquals(controller.helloWorld(),"Hello World!");
         //System.out.println(controller.helloWorld());
 
-        /*
-        mockMvc.perform(
-                MockMvcRequestBuilders.get("/"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("Hello World!"));
-        */
     }
 
     @SneakyThrows
@@ -265,5 +253,5 @@ public class milestone3Test extends milestone3 {
         //Assertions.assertAll(udcontroller.getUserRecommendations(request));
     }
 
-
+    */
 }
