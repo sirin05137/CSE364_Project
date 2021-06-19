@@ -67,7 +67,15 @@ display:block;
 
 .text-center {
     word-wrap: break-word;
+    font-size: 15px;
 }
+.text-center-2 {
+    word-wrap: break-word;
+    font-size: 13px;
+    color:lightgrey;
+    font-weight: normal;
+}
+
 
 .center {
     display: block;
@@ -180,6 +188,7 @@ table.recoTable {
   margin-top: 100px;
   margin-left: auto;
   margin-right: auto;
+  table-layout: fixed
 }
 table.recoTable td, table.recoTable th {
   padding: 5px 10px;
@@ -228,4 +237,23 @@ button#dropdownMenu1 {
 
 ul.dropdown-menu.checkbox-menu.allow-focus {
     columns: 4;
+}
+
+a.show:hover + span.tooltip {
+    opacity:1;
+}
+
+.tooltip{
+    position: absolute;
+    z-index: 9999;
+    display: inline-block;
+    background: #464646;
+    border-radius: 6px;
+    padding: 3px 5px;
+    font-size: 14px;
+    width: 180px;
+}
+
+strong {
+    color: #FFFFFF !important;
 }
