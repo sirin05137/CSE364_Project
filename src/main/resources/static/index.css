@@ -67,7 +67,15 @@ display:block;
 
 .text-center {
     word-wrap: break-word;
+    font-size: 15px;
 }
+.text-center-2 {
+    word-wrap: break-word;
+    font-size: 13px;
+    color:lightgrey;
+    font-weight: normal;
+}
+
 
 .center {
     display: block;
@@ -180,6 +188,7 @@ table.recoTable {
   margin-top: 100px;
   margin-left: auto;
   margin-right: auto;
+  table-layout: fixed
 }
 table.recoTable td, table.recoTable th {
   padding: 5px 10px;
