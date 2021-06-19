@@ -1,0 +1,28 @@
+html{
+    height: 100%;
+    overflow: hidden;
+}
+
+#upper_right{
+    color: white;
+    float:right;
+    /*position: relative;*/
+}
+#input{
+    position:absolute;
+    float:right;
+}
+#user{
+    /*float:right;
+    position:absolute;*/
+}
+
+
+#menubar{
+    background-color: #434343;
+    position:absolute;
+    right:0px;
+    left:400px;
+    width:1000px;
+    height:90px;
+}

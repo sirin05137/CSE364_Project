@@ -1,0 +1,215 @@
+html{
+    height: 170%;
+    overflow: scroll;
+}
+
+.header{
+    /*padding: 100px;*/
+    height: 40%;
+    width:100%;
+    display: block;
+    margin:0;
+    position:relative;
+    
+    padding-left:15px;
+    padding-right:15px;
+    text-align:center;
+    align-content:center;
+}
+
+.p1, .p2, .p3 {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.p1 {
+    display:block;
+    font-weight: bold;
+    font-size:26px;
+    position:absolute;
+    padding:50px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.p2 {
+    font-weight: bold;
+    font-size:20px;
+    margin:5px;
+    position:relative;
+}
+
+.p3 {
+    color:lightgrey;
+    font-size: 16px;
+    margin: 0 0 20px 0;
+    position:relative;
+}
+
+.p4 {
+display:block;
+    color:lightgrey;
+    font-size: 16px;
+    position:absolute;
+    padding : 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.text-left, .text-center, .text-right, .label {
+    color : white;
+}
+
+.text-right {
+    font-weight: bold;
+}
+
+.text-center {
+    word-wrap: break-word;
+}
+
+.center {
+    display: block;
+    position:absolute;
+    margin:0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.btn-group {
+    display:block;  
+    margin:0;
+    position:relative;
+  }
+
+input, select{
+    width:15em;
+    height:1.5em;
+    box-sizing:border-box;
+}
+
+#movie{
+    margin-top: 35px;
+    margin-left: 100px;
+    color: white;
+}
+
+#lower{
+    width:1800px;
+    height:5400px;
+    left:0px;
+    right :0px;
+    position:absolute;
+    color:white;
+    background-color:#212529;
+}
+
+.ui-widget{
+    background-color: #FFFFFF;
+    width : 15em;
+    display:contents;
+}
+
+.btn-primary {
+    width:200px;
+    margin:20px;
+    color: #FFFFFF !important;
+    background-color: #298484 !important;
+    border-color: #67c2c2 !important;
+}
+
+.btn-primary:hover {
+    color: #FFFFFF !important;
+    background-color: #52bebe !important;
+    border-color: #93dbdb !important;
+    font-weight: bold;
+}
+
+.btn-primary:focus {
+    color: #FFFFFF !important;
+    background-color: #52bebe !important;
+    border-color: #93dbdb !important;
+    font-weight: bold;
+}
+
+.btn-info {
+    color: #FFFFFF !important;
+    background-color: #298484 !important;
+    border-color: #67c2c2 !important;
+}
+
+.btn-info:hover {
+    color: #FFFFFF !important;
+    background-color: #52bebe !important;
+    border-color: #93dbdb !important;
+    font-weight: bold;
+}
+
+.btn-info:focus {
+    color: #FFFFFF !important;
+    background-color: #52bebe !important;
+    border-color: #93dbdb !important;
+    font-weight: bold;
+}
+
+table.inputfieldtable {
+    width: 100%;
+    text-align: left;
+}
+
+table.inputfieldtable td, table.inputfieldtable th {
+    padding: 8px 10px;
+}
+
+
+table.recoTable {
+  width: 80%;
+  text-align: center;
+  border-collapse: collapse;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  table-layout: fixed
+}
+table.recoTable td, table.recoTable th {
+  padding: 5px 10px;
+  margin: 10px;
+}
+table.recoTable tbody td {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.checkbox-menu li label {
+    display: inline-block;
+    padding: 3px 10px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    margin:0;
+    transition: background-color .4s ease;
+}
+.checkbox-menu li input {
+    margin: 0px 5px;
+    top: 2px;
+    position: relative;
+    width : auto;
+}
+
+.checkbox-menu li.active label {
+    font-weight:bold;
+}
+
+.dropdown-menu {
+    width:15em;
+    height:13em;
+    overflow: scroll;
+}
+
+button#dropdownMenu1 {
+    width: 15em;
+    text-align: left;
+    height:2em;
+}
