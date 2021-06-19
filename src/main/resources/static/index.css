@@ -1,16 +1,16 @@
 html{
-    height: 100%;
+    height: 170%;
     overflow: scroll;
 }
 
 .header{
     /*padding: 100px;*/
-    height: 60%;
+    height: 40%;
     width:100%;
     display: block;
     margin:0;
     position:relative;
-
+    
     padding-left:15px;
     padding-right:15px;
     text-align:center;
@@ -51,7 +51,7 @@ display:block;
     color:lightgrey;
     font-size: 16px;
     position:absolute;
-    padding = 10px;
+    padding : 10px;
     left: 50%;
     transform: translate(-50%, 0);
 }
@@ -77,7 +77,7 @@ display:block;
 }
 
 .btn-group {
-    display:block;
+    display:block;  
     margin:0;
     position:relative;
   }
@@ -101,25 +101,13 @@ input, select{
     right :0px;
     position:absolute;
     color:white;
-    background-color:#131313;
+    background-color:#212529;
 }
 
-.custom-combobox {
-    position: relative;
-    display: inline-block;
-  }
-
-.custom-combobox-toggle {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin-left: -1px;
-    padding: 0;
-}
-
-.custom-combobox-input {
-    margin: 0;
-    padding: 5px 10px;
+.ui-widget{
+    background-color: #FFFFFF;
+    width : 15em;
+    display:contents;
 }
 
 .btn-primary {
@@ -173,6 +161,7 @@ table.inputfieldtable td, table.inputfieldtable th {
     padding: 8px 10px;
 }
 
+
 table.recoTable {
   width: 80%;
   text-align: center;
@@ -189,4 +178,38 @@ table.recoTable td, table.recoTable th {
 table.recoTable tbody td {
   font-size: 13px;
   font-weight: bold;
+}
+
+.checkbox-menu li label {
+    display: inline-block;
+    padding: 3px 10px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    margin:0;
+    transition: background-color .4s ease;
+}
+.checkbox-menu li input {
+    margin: 0px 5px;
+    top: 2px;
+    position: relative;
+    width : auto;
+}
+
+.checkbox-menu li.active label {
+    font-weight:bold;
+}
+
+.dropdown-menu {
+    width:15em;
+    height:13em;
+    overflow: scroll;
+}
+
+button#dropdownMenu1 {
+    width: 15em;
+    text-align: left;
+    height:2em;
 }
