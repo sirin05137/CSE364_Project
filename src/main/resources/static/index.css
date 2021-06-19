@@ -5,7 +5,7 @@ html{
 
 .header{
     /*padding: 100px;*/
-    height: 60%;
+    height: 62%;
     width:100%;
     display: block;
     margin:0;
@@ -15,6 +15,7 @@ html{
     padding-right:15px;
     text-align:center;
     align-content:center;
+    z-index:3;
 }
 
 .p1, .p2, .p3 {
@@ -76,6 +77,14 @@ display:block;
     transform: translate(-50%, 0);
 }
 
+.loaderimg {
+    display: block;
+    position:relative;
+    margin:0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
 .btn-group {
     display:block;  
     margin:0;
@@ -101,7 +110,9 @@ input, select{
     right :0px;
     position:absolute;
     color:white;
-    background-color:#212529;
+    background-color:#131313;
+        text-align:center;
+        align-content:center;
 }
 
 .ui-widget{
@@ -204,14 +215,15 @@ table.recoTable tbody td {
 
 .dropdown-menu {
     width:30em;
-    height:12em;
-    overflow: scroll;
+    height:auto;
 }
 
 button#dropdownMenu1 {
     width: 15em;
+    height:auto;
     text-align: left;
-    height:2em;
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 
 ul.dropdown-menu.checkbox-menu.allow-focus {

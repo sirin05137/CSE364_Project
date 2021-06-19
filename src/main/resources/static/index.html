@@ -57,21 +57,28 @@
            $(this).closest("li").toggleClass("active", this.checked);
 
             var sList = "";
+            var showList = "";
 	        $('input[type=checkbox]').each(function () {
 	        	if(this.checked) {
  	        		sList += $(this).val() + "|";
+ 	        		showList += $(this).val() + ", ";
 	        	}
 	        });
 
             var ginput = document.getElementById("genre");
             ginput.value =  sList.slice(0,-1);
+            //Change the text to be shown on the main field
+            if (sList ==""){
+                document.getElementById('dropdownMenu1').innerHTML = "Select genre(s)";
+            } else {
+                document.getElementById('dropdownMenu1').innerHTML = showList.slice(0,-2);
+            }
         });
         });
 
         $(document).on('click', '.allow-focus', function (e) {
           e.stopPropagation();
         });
-
 
         $(document).ready(function(){
             // GETS TOP 10 Movies ("","","","")
@@ -81,38 +88,41 @@
                 $('#tdata-noinputs').empty();
 
                 var i = 0; var j = 0; var content = "";
-                
+
                 data.forEach(function(dt){
-                if (i % 5 === 0) {
-                    $("#tdata-noinputs").append("<tr class='1" + i + "'></tr>");
-                    j = i;
-                }
-                $(".1" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                    "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
-                        dt.title + "</div></td>");
-                        i += 1;
-                    });
+                    if (i % 5 === 0) {
+                        $("#tdata-noinputs").append("<tr class='1" + i + "'></tr>");
+                        j = i;
+                    }
+                    $(".1" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
+                        "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
+                            dt.title + "</div></td>");
+                    i += 1;
                 });
+                $('#loader-1').hide();
+            });
             });
 
             $(document).ready(function(){
-            $.get("http://localhost:8080/users/recommendations?gender=m&age=25&occupation=college", function(data,status){
+            $.get("http://localhost:8080/users/recommendations?gender=f&age=25&occupation=college", function(data,status){
                 //console.log(data);
                 data = JSON.parse(data);
-                $('#tdata-m-25-college').empty();
+                $('#tdata-f-25-college').empty();
 
                 var i = 0; var j = 0; var content = "";
 
                 data.forEach(function(dt){
                 if (i % 5 === 0) {
-                    $("#tdata-m-25-college").append("<tr class='2" + i + "'></tr>");
+                    $("#tdata-f-25-college").append("<tr class='2" + i + "'></tr>");
                     j = i;
                 }
                 $(".2" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
                     "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
                         dt.title + "</div></td>");
                         i += 1;
-                    });
+                });
+                $('#loader-2').hide();
+
                 });
             });
 
@@ -133,7 +143,9 @@
                     "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
                         dt.title + "</div></td>");
                         i += 1;
-                    });
+                });
+                $('#loader-3').hide();
+
                 });
             });
 
@@ -154,7 +166,9 @@
                     "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
                         dt.title + "</div></td>");
                         i += 1;
-                    });
+                });
+                $('#loader-4').hide();
+
                 });
             });
 
@@ -168,14 +182,16 @@
 
                 data.forEach(function(dt){
                 if (i % 5 === 0) {
-                    $("#tdata-before-sunrise").append("<tr id='row" + i + "'></tr>");
+                    $("#tdata-before-sunrise").append("<tr class='5" + i + "'></tr>");
                     j = i;
                 }
-                $("#row" + j).append("<td><div><img src='" + dt.imglink +
-                    "' style='width:200px;height:300px;'></div><div class='text-center'>" +
+                $(".5" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
+                    "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
                         dt.title + "</div></td>");
                         i += 1;
-                    });
+                });
+                $('#loader-5').hide();
+
                 });
             });
 
@@ -199,7 +215,6 @@
                 delay:100
             });
         });
-        //]]>
 
         // Movie title validity check before submit
         function ValidationEvent() {
@@ -221,6 +236,7 @@
         }
 
 
+
     </script>
 </head>
 <body>
@@ -234,110 +250,110 @@
         <br><br>
 
         <div id="user-based" class="center">
-            <form action="./users/recommendations.html">
-            <p class="p2">User-based Movie Reco.</p>
-            <p class="p3">Please fill in and submit the form below :)</p>
-            <table class="inputfieldtable">
-                <tbody>
-                <tr>
-                    <td><p class="text-right">Gender</p></td>
-                    <td><select name="gender">
-                        <option value="" selected hidden>---</option>
-                        <option value="M">M</option>
-                        <option value="F">F</option>
-                    </select> </td>
-                </tr>
-                <tr>
-                    <td><p class="text-right">Age</p></td>
-                    <td><input id="age" name="age" type="number" placeholder="e.g. 25" min="0"/></td>
-                </tr>
-                <tr>
-                    <td><p class="text-right">Occupation</p></td>
-                    <td><select name="occupation">
-                        <option selected hidden value="">---</option>
-                        <option value="Academic">Academic / Educator</option>
-                        <!-- <option value="educator">Educator</option> -->
-                        <option value="Artist">Artist</option>
-                        <option value="Clerical">Clerical / Admin</option>
-                        <!--<option value="admin">Admin</option>-->
-                        <option value="CollegeStudent">College Student / Grad student</option>
-                        <!--<option value="grad">Grad Student</option>-->
-                        <option value="CustomerService">Customer Service</option>
-                        <option value="Doctor">Doctor / Healthcare</option>
-                        <option value="Executive">Executive / Managerial</option>
-                        <option value="Farmer">Farmer</option>
-                        <option value="Homemaker">Homemaker</option>
-                        <option value="K-12Student">K-12 Student</option>
-                        <option value="Lawyer">Lawyer</option>
-                        <option value="Programmer">Programmer</option>
-                        <option value="Retired">Retired</option>
-                        <option value="Sales">Sales / Marketing</option>
-                        <option value="Scientist">Scientist</option>
-                        <option value="Self-employed">Self-employed</option>
-                        <option value="Technician">Technician / Engineer</option>
-                        <option value="Tradesman">Tradesman / Craftsman</option>
-                        <option value="Unemployed">Unemployed</option>
-                        <option value="Writer">Writer</option>
-                        <option value="Other">Other</option>
-                    </select></td>
-                </tr>
-                <tr>
-                    <td><p class="text-right">Genre</p></td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button"
-                                    id="dropdownMenu1" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="true">
-                                Select genre(s)
-                            </button>
-                            <input name="genre" id="genre" type="hidden" >
-                            <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
-                                <li ><label><input value="Action" type="checkbox">Action</label></li>
-                                <li ><label><input value="Adventure" type="checkbox">Adventure</label></li>
-                                <li ><label><input value="Children's" type="checkbox">Children's</label></li>
-                                <li ><label><input value="Comedy" type="checkbox">Comedy</label></li>
-                                <li ><label><input value="Crime" type="checkbox">Crime</label></li>
-                                <li ><label><input value="Documentary" type="checkbox">Documentary</label></li>
-                                <li ><label><input value="Drama" type="checkbox">Drama</label></li>
-                                <li ><label><input value="Film-Noir" type="checkbox">Film-Noir</label></li>
-                                <li ><label><input value="Horror" type="checkbox">Horror</label></li>
-                                <li ><label><input value="Musical" type="checkbox">Musical</label></li>
-                                <li ><label><input value="Mystery" type="checkbox">Mystery</label></li>
-                                <li ><label><input value="Romance" type="checkbox">Romance</label></li>
-                                <li ><label><input value="Sci-Fi" type="checkbox">Sci-Fi</label></li>
-                                <li ><label><input value="Thriller" type="checkbox">Thriller</label></li>
-                                <li ><label><input value="War" type="checkbox">War</label></li>
-                                <li ><label><input value="Western" type="checkbox">Western</label></li>
-                            </ul>
+            <form id="user-based-inputs" action="./users/recommendations.html">
+                <p class="p2">User-based Movie Reco.</p>
+                <p class="p3">Please fill in and submit the form below :)</p>
+                <table class="inputfieldtable">
+                    <tbody>
+                    <tr>
+                        <td><p class="text-right">Gender</p></td>
+                        <td><select name="gender">
+                            <option value="" selected hidden>---</option>
+                            <option value="M">M</option>
+                            <option value="F">F</option>
+                        </select> </td>
+                    </tr>
+                    <tr>
+                        <td><p class="text-right">Age</p></td>
+                        <td><input id="age" name="age" type="number" placeholder="e.g. 25" min="0"/></td>
+                    </tr>
+                    <tr>
+                        <td><p class="text-right">Occupation</p></td>
+                        <td><select name="occupation">
+                            <option selected hidden value="">---</option>
+                            <option value="Academic">Academic / Educator</option>
+                            <!-- <option value="educator">Educator</option> -->
+                            <option value="Artist">Artist</option>
+                            <option value="Clerical">Clerical / Admin</option>
+                            <!--<option value="admin">Admin</option>-->
+                            <option value="CollegeStudent">College Student / Grad student</option>
+                            <!--<option value="grad">Grad Student</option>-->
+                            <option value="CustomerService">Customer Service</option>
+                            <option value="Doctor">Doctor / Healthcare</option>
+                            <option value="Executive">Executive / Managerial</option>
+                            <option value="Farmer">Farmer</option>
+                            <option value="Homemaker">Homemaker</option>
+                            <option value="K-12Student">K-12 Student</option>
+                            <option value="Lawyer">Lawyer</option>
+                            <option value="Programmer">Programmer</option>
+                            <option value="Retired">Retired</option>
+                            <option value="Sales">Sales / Marketing</option>
+                            <option value="Scientist">Scientist</option>
+                            <option value="Self-employed">Self-employed</option>
+                            <option value="Technician">Technician / Engineer</option>
+                            <option value="Tradesman">Tradesman / Craftsman</option>
+                            <option value="Unemployed">Unemployed</option>
+                            <option value="Writer">Writer</option>
+                            <option value="Other">Other</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td><p class="text-right">Genre</p></td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button"
+                                        id="dropdownMenu1" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="true">
+                                    Select genre(s)
+                                </button>
+                                <input name="genre" id="genre" type="hidden" >
+                                <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
+                                    <li ><label><input value="Action" type="checkbox">Action</label></li>
+                                    <li ><label><input value="Adventure" type="checkbox">Adventure</label></li>
+                                    <li ><label><input value="Children's" type="checkbox">Children's</label></li>
+                                    <li ><label><input value="Comedy" type="checkbox">Comedy</label></li>
+                                    <li ><label><input value="Crime" type="checkbox">Crime</label></li>
+                                    <li ><label><input value="Documentary" type="checkbox">Documentary</label></li>
+                                    <li ><label><input value="Drama" type="checkbox">Drama</label></li>
+                                    <li ><label><input value="Film-Noir" type="checkbox">Film-Noir</label></li>
+                                    <li ><label><input value="Horror" type="checkbox">Horror</label></li>
+                                    <li ><label><input value="Musical" type="checkbox">Musical</label></li>
+                                    <li ><label><input value="Mystery" type="checkbox">Mystery</label></li>
+                                    <li ><label><input value="Romance" type="checkbox">Romance</label></li>
+                                    <li ><label><input value="Sci-Fi" type="checkbox">Sci-Fi</label></li>
+                                    <li ><label><input value="Thriller" type="checkbox">Thriller</label></li>
+                                    <li ><label><input value="War" type="checkbox">War</label></li>
+                                    <li ><label><input value="Western" type="checkbox">Western</label></li>
+                                </ul>
 
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
-            <button class="btn btn-primary" id="btn-submit-1" type="submit">Submit</button>
+                <button class="btn btn-primary" id="btn-submit-1" type="submit">Submit</button>
             </form>
         </div>
         <div id="movie-based">
             <form action="./movies/recommendations.html">
-            <p class="p2">Movie-based Movie Reco.</p>
-            <p class="p3">Please fill in and submit the form below :)</p>
-            <table class="inputfieldtable">
-                <tbody>
-                <tr>
-                    <td><p class="text-right">Title</p></td>
-                    <td><div class="ui-widget"><label for="input-title"></label>
-                        <input id="input-title" name="title" type="text" placeholder="e.g. Toy Story (1995)" required/></div></td>
-                </tr>
-                <tr>
-                    <td><p class="text-right">Limit</p></td>
-                    <td><input id="input-limit" type="number" placeholder="e.g. 25 (0 < limit <= 2000)" min="0" max="2000"/></td>
-                </tr>
-                </tbody>
-            </table>
+                <p class="p2">Movie-based Movie Reco.</p>
+                <p class="p3">Please fill in and submit the form below :)</p>
+                <table class="inputfieldtable">
+                    <tbody>
+                    <tr>
+                        <td><p class="text-right">Title</p></td>
+                        <td><div class="ui-widget"><label for="input-title"></label>
+                            <input id="input-title" name="title" type="text" placeholder="e.g. Toy Story (1995)" required/></div></td>
+                    </tr>
+                    <tr>
+                        <td><p class="text-right">Limit</p></td>
+                        <td><input id="input-limit" name="limit" type="number" placeholder="e.g. 25 (0 < limit <= 2000)" min="0" max="2000"/></td>
+                    </tr>
+                    </tbody>
+                </table>
 
-            <button class="btn btn-primary" id="btn-submit-2" type="submit" onclick="return ValidationEvent()">Submit</button>
+                <button class="btn btn-primary" id="btn-submit-2" type="submit" onclick="return ValidationEvent()">Submit</button>
             </form>
         </div>
     </div>
@@ -351,26 +367,29 @@
                 <tr>
                     <td>
                         <p class="p1">Top 10 best movies</p>
-                            <br><br><br><br><p class="p4">Most beloved movies of all time</p>
+                        <br><br><br><br><p class="p4">Most beloved movies of all time</p>
                         <table id="recoTable-noinputs" class="recoTable">
                             <tbody id="tdata-noinputs"></tbody>
                         </table>
+                        <img src="otter_load.gif" id="loader-1" class="loaderimg">
                         <br>
                     </td></tr><tr>
                     <td>
                         <p class="p1">Made for you</p>
-                        <br><br><br><br><p class="p4">People like you (M, 25, College student) rated these items favorably</p>
-                        <table id="recoTable-m-25-college" class="recoTable">
-                            <tbody id="tdata-m-25-college"></tbody>
+                        <br><br><br><br><p class="p4">People like you (F, 25, College student) rated these items favorably</p>
+                        <table id="recoTable-f-25-college" class="recoTable">
+                            <tbody id="tdata-f-25-college"></tbody>
                         </table>
+                        <img src="otter_load.gif" id="loader-2" class="loaderimg">
                         <br>
                     </td></tr><tr>
                     <td>
                         <p class="p1">Open up your imagination</p>
-                            <br><br><br><br><p class="p4">Best Sci-fi Movies</p>
+                        <br><br><br><br><p class="p4">Best Sci-fi Movies</p>
                         <table id="recoTable-sci-fi" class="recoTable">
                             <tbody id="tdata-sci-fi"></tbody>
                         </table>
+                        <img src="otter_load.gif" id="loader-3" class="loaderimg">
                         <br>
                     </td></tr><tr>
                     <td>
@@ -379,14 +398,16 @@
                         <table id="recoTable-horror-thriller" class="recoTable">
                             <tbody id="tdata-horror-thriller"></tbody>
                         </table>
+                        <img src="otter_load.gif" id="loader-4" class="loaderimg">
                         <br>
                     </td></tr><tr>
                     <td>
                         <p class="p1">"When love can come as a complete surprise"</p>
-                            <br><br><br><br><p class="p4">More like 'Before Sunrise (1995)' you watched recently</p>
+                        <br><br><br><br><p class="p4">More like 'Before Sunrise (1995)' you watched recently</p>
                         <table id="recoTable-before-sunrise" class="recoTable">
                             <tbody id="tdata-before-sunrise"></tbody>
                         </table>
+                        <img src="otter_load.gif" id="loader-5" class="loaderimg">
                     </td>
                 </tr>
                 </tbody>
