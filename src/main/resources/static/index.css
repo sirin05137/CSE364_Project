@@ -1,5 +1,5 @@
 html{
-    height: 170%;
+    height: 250%;
     overflow: scroll;
 }
 
@@ -169,7 +169,6 @@ table.recoTable {
   margin-top: 100px;
   margin-left: auto;
   margin-right: auto;
-  table-layout: fixed
 }
 table.recoTable td, table.recoTable th {
   padding: 5px 10px;

@@ -31,12 +31,12 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
-        /*var cast = { 
-            "gender" : "", 
-            "age" : "28", 
-            "occupation" : "2002", 
+        /*var cast = {
+            "gender" : "",
+            "age" : "28",
+            "occupation" : "2002",
             "genre" : "농구"
-        }; // Json Object를 저장하기 
+        }; // Json Object를 저장하기
         localStorage.setItem("cast", JSON.stringify(cast));*/
 
         $(function(){
@@ -168,11 +168,11 @@
 
                 data.forEach(function(dt){
                 if (i % 5 === 0) {
-                    $("#tdata-before-sunrise").append("<tr class='5" + i + "'></tr>");
+                    $("#tdata-before-sunrise").append("<tr id='row" + i + "'></tr>");
                     j = i;
                 }
-                $(".5" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                    "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
+                $("#row" + j).append("<td><div><img src='" + dt.imglink +
+                    "' style='width:200px;height:300px;'></div><div class='text-center'>" +
                         dt.title + "</div></td>");
                         i += 1;
                     });
@@ -199,6 +199,7 @@
                 delay:100
             });
         });
+        //]]>
 
         // Movie title validity check before submit
         function ValidationEvent() {
@@ -219,7 +220,48 @@
 
         }
 
+                   _createShowAllButton: function() {
+                       var input = this.input, wasOpen = false;
 
+                       $("<a>")
+                           .attr("tabIndex", -1)
+                           .attr("title", "View All")
+                           .tooltip()
+                           .appendTo( this.wrapper )
+                           .button({
+                               icons: {primary: "ui-icon-triangle-1-s"},
+                               text: false
+                           })
+                           .removeClass( "ui-corner-all" )
+                           .addClass("custom-combobox-toggle ui-corner-right")
+                           .on("mousedown", function() {
+                               wasOpen = input.autocomplete("widget").is(":visible");
+                           })
+                           .on("click", function() {
+                               input.trigger( "focus" );
+                               //if(wasOpen) { return; }
+                               input.autocomplete("search", "");
+                           }
+                       );
+                   },
+
+                   _source: function(request, response) {
+                       //var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+                       response( this.element.children("option").map(function() {
+                           var text = $(this).text();
+                           if(this.value && (!request.term || matcher.test(text))) {
+                               return {
+                                   label: text,
+                                   value: text,
+                                   option: this
+                               };
+                           }
+                       }));
+                   }
+               });
+               $("#input-genre").combobox();
+           });
+           //]]>
 
     </script>
 </head>
@@ -234,7 +276,7 @@
         <br><br>
 
         <div id="user-based" class="center">
-            <form id="user-based-inputs" action="./users/recommendations.html">
+            <form action="./users/recommendations.html">
             <p class="p2">User-based Movie Reco.</p>
             <p class="p3">Please fill in and submit the form below :)</p>
             <table class="inputfieldtable">
@@ -332,7 +374,7 @@
                 </tr>
                 <tr>
                     <td><p class="text-right">Limit</p></td>
-                    <td><input id="input-limit" name="limit" type="number" placeholder="e.g. 25 (0 < limit <= 2000)" min="0" max="2000"/></td>
+                    <td><input id="input-limit" type="number" placeholder="e.g. 25 (0 < limit <= 2000)" min="0" max="2000"/></td>
                 </tr>
                 </tbody>
             </table>
