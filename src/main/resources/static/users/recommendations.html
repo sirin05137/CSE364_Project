@@ -27,18 +27,20 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
 
-        $(function(){
-            $('#movie-based').hide();
-            $('#btn-movie-based').click(function(){
-                $('#user-based').hide()
-                $('#movie-based').show()
+            $(function(){
+            $('#user-click').click(function(){
+                var aaaaa = $( '#second' ).attr( 'class' );
+                if(aaaaa=="collapse show"){
+                    $( '#second' ).attr( 'class' , 'collapse' );
+                }
             });
-            $('#btn-user-based').click(function(){
-                $('#movie-based').hide()
-                $('#user-based').show()
+            $('#movie-click').click(function(){
+                var bbbbb = $( '#first' ).attr( 'class' );
+                if(bbbbb=="collapse show"){
+                    $( '#first' ).attr( 'class' , 'collapse' );
+                }
             });
         });
-
         $(document).ready(function(){
 
           var url = document.location.href;
@@ -183,145 +185,144 @@
     </script>
 </head>
 
-    <body>
-        <header class="header">
-            <div id="upper">
-              
-                <nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: 20px;">
-                    <div class="container-fluid">
-                      <a class="navbar-brand" href="../index.html"><img src="../mark.png" alt="" width="150" height="24" style="color: transparent;"></a>
-                      
-                      <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                          <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
-                          </li>
-                        <li class="nav-item">
-                          <a class="nav-link" data-bs-toggle="collapse" href="#first" aria-expanded="false" aria-label="Toggle navigation" data-parent="#accordion">User-based</a>    
-                        </li>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="collapse" href="#second" aria-expanded="false" aria-label="Toggle navigation" data-parent="#accordion">Movie-based</a>   
-                          </li>
-                        </ul>
-                        </div>
-                      </div>
-                    
-                  </nav>
-
-
-                  <div class="collapse" id="first">
-                    <div class="bg-light">
-                      <div id="user-based" class="center">
-                        <form action="./users/recommendations.html">
-                        <p class="p2">User-based Movie Reco.</p>
-                        <p class="p3">Please fill in and submit the form below :)</p>
-                        <table class="inputfieldtable">
-                            <tbody>
-                            <tr>
-                                <td><p class="text-right">Gender</p></td>
-                                <td><select name="gender">
-                                    <option value="" selected hidden>---</option>
-                                    <option value="M">M</option>
-                                    <option value="F">F</option>
-                                </select> </td>
-                            </tr>
-                            <tr>
-                                <td><p class="text-right">Age</p></td>
-                                <td><input id="age" name="age" type="number" placeholder="e.g. 25" min="0"/></td>
-                            </tr>
-                            <tr>
-                                <td><p class="text-right">Occupation</p></td>
-                                <td><select name="occupation">
-                                    <option selected hidden value="">---</option>
-                                    <option value="Academic">Academic / Educator</option>
-                                    <!-- <option value="educator">Educator</option> -->
-                                    <option value="Artist">Artist</option>
-                                    <option value="Clerical">Clerical / Admin</option>
-                                    <!--<option value="admin">Admin</option>-->
-                                    <option value="CollegeStudent">College Student / Grad student</option>
-                                    <!--<option value="grad">Grad Student</option>-->
-                                    <option value="CustomerService">Customer Service</option>
-                                    <option value="Doctor">Doctor / Healthcare</option>
-                                    <option value="Executive">Executive / Managerial</option>
-                                    <option value="Farmer">Farmer</option>
-                                    <option value="Homemaker">Homemaker</option>
-                                    <option value="K-12Student">K-12 Student</option>
-                                    <option value="Lawyer">Lawyer</option>
-                                    <option value="Programmer">Programmer</option>
-                                    <option value="Retired">Retired</option>
-                                    <option value="Sales">Sales / Marketing</option>
-                                    <option value="Scientist">Scientist</option>
-                                    <option value="Self-employed">Self-employed</option>
-                                    <option value="Technician">Technician / Engineer</option>
-                                    <option value="Tradesman">Tradesman / Craftsman</option>
-                                    <option value="Unemployed">Unemployed</option>
-                                    <option value="Writer">Writer</option>
-                                    <option value="Other">Other</option>
-                                </select></td>
-                            </tr>
-                            <tr>
-                                <td><p class="text-right">Genre</p></td>
-                                <td><div class="ui-widget">
-                                    <select id="input-genre" name="genre">
-                                        <option value="" selected hidden>---</option>
-                                        <option value="Action">Action</option>
-                                        <option value="Adventure">Adventure</option>
-                                        <option value="Children\'s">Children's</option>
-                                        <option value="Comedy">Comedy</option>
-                                        <option value="Crime">Crime</option>
-                                        <option value="Documentary">Documentary</option>
-                                        <option value="Drama">Drama</option>
-                                        <option value="Film-Noir">Film-Noir</option>
-                                        <option value="Horror">Horror</option>
-                                        <option value="Musical">Musical</option>
-                                        <option value="Mystery">Mystery</option>
-                                        <option value="Romance">Romance</option>
-                                        <option value="Sci-Fi">Sci-Fi</option>
-                                        <option value="Thriller">Thriller</option>
-                                        <option value="War">War</option>
-                                        <option value="Western">Western</option>
-                                    </select></div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-            
-                        <button class="btn btn-primary" id="btn-submit-1" type="submit">Submit</button>
-                        </form>
-                    </div>
-                    </div>
-                  </div>
+<body>
+    <header class="header">
+        <div id="upper">
+          
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: 20px;">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="../index.html"><img src="../mark.png" alt="" width="150" height="24" style="color: transparent;"></a>
                   
-                  <div class="collapse" id="second">
-                    <div class="bg-light">
-                      <div id="movie-based"class="center">
-                        <form action="./movies/recommendations.html">
-                        <p class="p2">Movie-based Movie Reco.</p>
-                        <p class="p3">Please fill in and submit the form below :)</p>
-                        <table class="inputfieldtable">
-                            <tbody>
-                            <tr>
-                                <td><p class="text-right">Title</p></td>
-                                <td><div class="ui-widget"><label for="input-title"></label>
-                                    <input id="input-title" name="title" type="text" placeholder="e.g. Toy Story (1995)"/></div></td>
-                            </tr>
-                            <tr>
-                                <td><p class="text-right">Limit</p></td>
-                                <td><input id="input-limit" name="limit" type="number" placeholder="e.g. 25 (0 < limit <= 2000)" min="0" max="2000"/></td>
-                            </tr>
-                            </tbody>
-                        </table>
-            
-                        <button class="btn btn-primary" id="btn-submit-2" type="submit">Submit</button>
-                        </form>
-                    </div>
+                  <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                      </li>
+                    <li class="nav-item">
+                      <a id="user-click" class="nav-link" data-bs-toggle="collapse" href="#first" aria-expanded="false" aria-label="Toggle navigation" data-parent="#accordion">User-based</a>    
+                    </li>
+                      </li>
+                      <li class="nav-item">
+                        <a id="movie-click" class="nav-link" data-bs-toggle="collapse" href="#second" aria-expanded="false" aria-label="Toggle navigation" data-parent="#accordion">Movie-based</a>   
+                      </li>
+                    </ul>
                     </div>
                   </div>
+                
+              </nav>
 
-            </div>
+              <div class="collapse" id="first">
+                <div class="bg-light">
+                  <div id="user-based" class="center">
+                    <form action="../users/recommendations.html">
+                    <p class="p2">User-based Movie Reco.</p>
+                    <p class="p3">Please fill in and submit the form below :)</p>
+                    <table class="inputfieldtable">
+                        <tbody>
+                        <tr>
+                            <td><p class="text-right">Gender</p></td>
+                            <td><select name="gender">
+                                <option value="" selected hidden>---</option>
+                                <option value="M">M</option>
+                                <option value="F">F</option>
+                            </select> </td>
+                        </tr>
+                        <tr>
+                            <td><p class="text-right">Age</p></td>
+                            <td><input id="age" name="age" type="number" placeholder="e.g. 25" min="0"/></td>
+                        </tr>
+                        <tr>
+                            <td><p class="text-right">Occupation</p></td>
+                            <td><select name="occupation">
+                                <option selected hidden value="">---</option>
+                                <option value="Academic">Academic / Educator</option>
+                                
+                                <option value="Artist">Artist</option>
+                                <option value="Clerical">Clerical / Admin</option>
+                                
+                                <option value="CollegeStudent">College Student / Grad student</option>
+                                
+                                <option value="CustomerService">Customer Service</option>
+                                <option value="Doctor">Doctor / Healthcare</option>
+                                <option value="Executive">Executive / Managerial</option>
+                                <option value="Farmer">Farmer</option>
+                                <option value="Homemaker">Homemaker</option>
+                                <option value="K-12Student">K-12 Student</option>
+                                <option value="Lawyer">Lawyer</option>
+                                <option value="Programmer">Programmer</option>
+                                <option value="Retired">Retired</option>
+                                <option value="Sales">Sales / Marketing</option>
+                                <option value="Scientist">Scientist</option>
+                                <option value="Self-employed">Self-employed</option>
+                                <option value="Technician">Technician / Engineer</option>
+                                <option value="Tradesman">Tradesman / Craftsman</option>
+                                <option value="Unemployed">Unemployed</option>
+                                <option value="Writer">Writer</option>
+                                <option value="Other">Other</option>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td><p class="text-right">Genre</p></td>
+                            <td><div class="ui-widget">
+                                <select id="input-genre" name="genre">
+                                    <option value="" selected hidden>---</option>
+                                    <option value="Action">Action</option>
+                                    <option value="Adventure">Adventure</option>
+                                    <option value="Children\'s">Children's</option>
+                                    <option value="Comedy">Comedy</option>
+                                    <option value="Crime">Crime</option>
+                                    <option value="Documentary">Documentary</option>
+                                    <option value="Drama">Drama</option>
+                                    <option value="Film-Noir">Film-Noir</option>
+                                    <option value="Horror">Horror</option>
+                                    <option value="Musical">Musical</option>
+                                    <option value="Mystery">Mystery</option>
+                                    <option value="Romance">Romance</option>
+                                    <option value="Sci-Fi">Sci-Fi</option>
+                                    <option value="Thriller">Thriller</option>
+                                    <option value="War">War</option>
+                                    <option value="Western">Western</option>
+                                </select></div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+        
+                    <button class="btn btn-primary" id="btn-submit-1" type="submit">Submit</button>
+                    </form></div></div>
+                </div>
+                
+                <div class="collapse" id="second">
+                    <div class="bg-light">
+                  <div id="movie-based"class="center">
+                    <form action="../movies/recommendations.html">
+                    <p class="p2">Movie-based Movie Reco.</p>
+                    <p class="p3">Please fill in and submit the form below :)</p>
+                    <table class="inputfieldtable">
+                        <tbody>
+                        <tr>
+                            <td><p class="text-right">Title</p></td>
+                            <td><div class="ui-widget"><label for="input-title"></label>
+                                <input id="input-title" name="title" type="text" placeholder="e.g. Toy Story (1995)"/></div></td>
+                        </tr>
+                        <tr>
+                            <td><p class="text-right">Limit</p></td>
+                            <td><input id="input-limit" name="limit" type="number" placeholder="e.g. 25 (0 < limit <= 2000)" min="0" max="2000"/></td>
+                        </tr>
+                        </tbody>
+                    </table>
+        
+                    <button class="btn btn-primary" id="btn-submit-2" type="submit">Submit</button>
+                    </form>
+                </div>
+                </div>
+              </div>
             
-        </header>
+
+        </div>
+        
+    </header>
+        
         <main>
           <div id = "lower">
             <div id="content-hello">

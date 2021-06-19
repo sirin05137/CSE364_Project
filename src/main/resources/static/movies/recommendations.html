@@ -28,14 +28,17 @@
     <script type="text/javascript">
 
         $(function(){
-            $('#movie-based').hide();
-            $('#btn-movie-based').click(function(){
-                $('#user-based').hide()
-                $('#movie-based').show()
+            $('#user-click').click(function(){
+                var aaaaa = $( '#second' ).attr( 'class' );
+                if(aaaaa=="collapse show"){
+                    $( '#second' ).attr( 'class' , 'collapse' );
+                }
             });
-            $('#btn-user-based').click(function(){
-                $('#movie-based').hide()
-                $('#user-based').show()
+            $('#movie-click').click(function(){
+                var bbbbb = $( '#first' ).attr( 'class' );
+                if(bbbbb=="collapse show"){
+                    $( '#first' ).attr( 'class' , 'collapse' );
+                }
             });
         });
 
@@ -196,11 +199,11 @@
                             <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
                           </li>
                         <li class="nav-item">
-                          <a class="nav-link" data-bs-toggle="collapse" href="#first" aria-expanded="false" aria-label="Toggle navigation" data-parent="#accordion">User-based</a>    
+                          <a id="user-click" class="nav-link" data-bs-toggle="collapse" href="#first" aria-expanded="false" aria-label="Toggle navigation" data-parent="#accordion">User-based</a>    
                         </li>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="collapse" href="#second" aria-expanded="false" aria-label="Toggle navigation" data-parent="#accordion">Movie-based</a>   
+                            <a id="movie-click" class="nav-link" data-bs-toggle="collapse" href="#second" aria-expanded="false" aria-label="Toggle navigation" data-parent="#accordion">Movie-based</a>   
                           </li>
                         </ul>
                         </div>
@@ -208,11 +211,10 @@
                     
                   </nav>
 
-
                   <div class="collapse" id="first">
                     <div class="bg-light">
                       <div id="user-based" class="center">
-                        <form action="./users/recommendations.html">
+                        <form action="../users/recommendations.html">
                         <p class="p2">User-based Movie Reco.</p>
                         <p class="p3">Please fill in and submit the form below :)</p>
                         <table class="inputfieldtable">
@@ -234,12 +236,12 @@
                                 <td><select name="occupation">
                                     <option selected hidden value="">---</option>
                                     <option value="Academic">Academic / Educator</option>
-                                    <!-- <option value="educator">Educator</option> -->
+                                    
                                     <option value="Artist">Artist</option>
                                     <option value="Clerical">Clerical / Admin</option>
-                                    <!--<option value="admin">Admin</option>-->
+                                    
                                     <option value="CollegeStudent">College Student / Grad student</option>
-                                    <!--<option value="grad">Grad Student</option>-->
+                                    
                                     <option value="CustomerService">Customer Service</option>
                                     <option value="Doctor">Doctor / Healthcare</option>
                                     <option value="Executive">Executive / Managerial</option>
@@ -287,15 +289,13 @@
                         </table>
             
                         <button class="btn btn-primary" id="btn-submit-1" type="submit">Submit</button>
-                        </form>
+                        </form></div></div>
                     </div>
-                    </div>
-                  </div>
-                  
-                  <div class="collapse" id="second">
-                    <div class="bg-light">
+                    
+                    <div class="collapse" id="second">
+                        <div class="bg-light">
                       <div id="movie-based"class="center">
-                        <form action="./movies/recommendations.html">
+                        <form action="../movies/recommendations.html">
                         <p class="p2">Movie-based Movie Reco.</p>
                         <p class="p3">Please fill in and submit the form below :)</p>
                         <table class="inputfieldtable">
@@ -317,6 +317,7 @@
                     </div>
                     </div>
                   </div>
+                
 
             </div>
             
