@@ -994,17 +994,17 @@ Documentation | **README.md** <br> 👑 Yujin Lee
 ### User Documentation Contents 
 * [Overview : AnOtterMovie](#overview-:-anottermovie)
 * [System architecture](#system-architecture)
-* [Installation](#overview-:-anottermovie)
+* [Installation](#installation-1)
+* [How to use](#how-to-use)
 
-* [Making request](#overview-:-anottermovie)
-  * [Main-page](#main-page)
-  * [Main-page](#main-page)
-  * [Main-page](#main-page)
+<br>
 
 ### Overview : AnOtterMovie 
 ![image](https://user-images.githubusercontent.com/38070937/122673948-f282d380-d20d-11eb-97cf-16823fb4e765.png)
 
 AnOtterMovie is a Robust, Scalable, and user-centered movie recommendation engine and a user can get movie recommendation results by putting his demographic profile (gender, age, occupation, and genre preference) or movie metadata (movie title).
+
+<br>
 
 ### System architecture
 ![image](https://user-images.githubusercontent.com/38070937/122673471-8ef7a680-d20b-11eb-9478-e1501b77122a.png)
@@ -1024,6 +1024,7 @@ The detailed system architecture is as above, and
     
 are used respectively.
 
+<br>
 
 ### Installation
 
@@ -1044,7 +1045,9 @@ $ docker run -it new_image_name
 root@containerID:~/project# . run.sh
 ```
 
-### User Guide
+<br>
+
+### How to use
 ![image](https://user-images.githubusercontent.com/38070937/122673652-6623e100-d20c-11eb-9dcd-d157477d6251.png)
 After the installation, to use a service, either **1) URL (Website)** or  **2) CURL Command** can be used.
 In this documentation, the method using **URL (Website)** will be explicitly guided (as this documentation is for general users).
@@ -1072,7 +1075,7 @@ Title field is **required to fill in**, and Limit isn't (Limit will set to 10 wh
 * Title : When you type 2 or more characters, you will see the list of autocompleted titles. You can use **Up-arrow and Down-arrow keys** in your keyboard to navigate the list and select one by **Enter** (or Mouse-click).
 * Limit : You can type a number bigger than 0 and same or less than 2000 (0<limit<=2000). The wrong value will not be passed and you will get an error message.
 
-###### error page
+###### Main page : Field Errors
 ![image](https://user-images.githubusercontent.com/38070937/122674966-59a28700-d212-11eb-8e56-f147c334418f.png)
 Then next, press the **Submit** button.
 If you typed wrong input (or didn't fill in the title for Movie-based), you will get error messages via **tooltip** or **alert** as can be seen above.
@@ -1093,7 +1096,11 @@ For **Movie-based recommendation**, you will get recommendation of ***Limit*** (
 The system might take a bit of time when there are much data to process (especially when inputs are not specified in User-based mode).
 When the system is under the process, you will see an **awesome-otter-spinning-loader**, so please take your time :) 
 
+<br>
+
 ---
+
+<br>
 
 ## Team Members
 * 20171012 Yeongjun Kwak (@sirin05137 ) - [kyj05137@unist.ac.kr](kyj05137@unist.ac.kr)
