@@ -1090,8 +1090,8 @@ For **User-based recommendation**, you will get recommendation of 10 movies as c
 ![image](https://user-images.githubusercontent.com/38070937/122674775-95891c80-d211-11eb-99a3-7c537bc5cde8.png)
 For **Movie-based recommendation**, you will get recommendation of ***Limit*** (if not specified, 10) movies as can be seen above.
 
-#### Also...
-###### loader
+#### Remainder
+###### An Awesome-Otter-Spinning-Loader
 ![image](https://user-images.githubusercontent.com/38070937/122674847-d08b5000-d211-11eb-8dfc-e1fb4c7023be.png)
 The system might take a bit of time when there are much data to process (especially when inputs are not specified in User-based mode).
 When the system is under the process, you will see an **awesome-otter-spinning-loader**, so please take your time :) 
