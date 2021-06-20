@@ -991,12 +991,15 @@ Documentation | **README.md** <br> 👑 Yujin Lee
 ## Milestone 4 - User Documentation
 > This part contains **User Documentation** denoted for regular end-users and is focused on endpoints for those users.
 
-### Contents 
-#### [Overview : AnOtterMovie](#overview-:-anottermovie)
-#### [System architecture](#system-architecture)
-#### [Algorithm](#algorithm)
-#### [Overview : AnOtterMovie](#overview-:-anottermovie)
+### User Documentation Contents 
+* [Overview : AnOtterMovie](#overview-:-anottermovie)
+* [System architecture](#system-architecture)
+* [Installation](#overview-:-anottermovie)
 
+* [Making request](#overview-:-anottermovie)
+  * [Main-page](#main-page)
+  * [Main-page](#main-page)
+  * [Main-page](#main-page)
 
 ### Overview : AnOtterMovie 
 ![image](https://user-images.githubusercontent.com/38070937/122673948-f282d380-d20d-11eb-97cf-16823fb4e765.png)
@@ -1006,31 +1009,89 @@ AnOtterMovie is a Robust, Scalable, and user-centered movie recommendation engin
 ### System architecture
 ![image](https://user-images.githubusercontent.com/38070937/122673471-8ef7a680-d20b-11eb-9478-e1501b77122a.png)
 
+AnOtterMovie is based on Microservice architeture, which is an architectural style that structures an application as a collection of services that are. ([Microservices - Wikipedia](https://en.wikipedia.org/wiki/Microservices))
+
+The detailed system architecture is as above, and
+* for **Run environment (Backend)**
+    * Spring Boot
+    * Docker
+* for **Service (frontend)**
+    * REST Controller
+    * jQuery
+    * Ajax
+* for **Database**
+   * MongoDB
+    
+are used respectively.
+
 
 ### Installation
-### Making request
+
+##### Prerequisites
+* [Docker](https://www.docker.com/) should be installed and ready to use.
+* For the `git clone`, the user should be registered as a **Contributo** or **Collaborator** of this git project. _(Unless you have the OAuth access token.)_
+
+1. Download `dockerfile` and `run.sh` in the same directory.
+2. (In the terminal) Build Docker Image and Container by running the following commands.
+```ruby
+$ docker build -t new_image_name /path/to/dockerfile
+```
+```ruby
+$ docker run -it new_image_name
+```
+3. (In the Docker Container) Run ` . run.sh`
+```ruby
+root@containerID:~/project# . run.sh
+```
+
+### User Guide
 ![image](https://user-images.githubusercontent.com/38070937/122673652-6623e100-d20c-11eb-9dcd-d157477d6251.png)
+After the installation, to use a service, either **1) URL (Website)** or  **2) CURL Command** can be used.
+In this documentation, the method using **URL (Website)** will be explicitly guided (as this documentation is for general users).
 
-#### Main
+#### Step 1 : Access http://localhost:8080/index.html.
+
+###### Main page
 ![image](https://user-images.githubusercontent.com/38070937/122674584-be5ce200-d210-11eb-956b-0901bf2c6895.png)
+If you see the main page as above, you successfully finished your installation steps.
+You are able to toggle between **User-based recommendtation** and **Movie-based recommendtation** by using the **User-based** button and **Movie-based** button below the logo.
 
-##### Main : User-based recommendtaion
+###### Main page : User-based recommendtation
 ![image](https://user-images.githubusercontent.com/38070937/122674586-c026a580-d210-11eb-9180-31e323bb4d0a.png)
+For **User-based recommendation**, there are shown 4 fields ; **Gender, Age, Occupation, Genre**.
+Those 4 fields are all **not required** to fill in.
+* Gender : You can select **M** or **F** in the drop-down menu.
+* Age : You can type a number same or bigger than 0. The wrong value will not be passed and you will get an error message.
+* Occupation : You can select one of this list in the drop-down menu.
+* Genre : You can toggle checkboxes for each genres.
 
-##### Main : Movie-based recommendtaion
+###### Main page : Movie-based recommendtation
 ![image](https://user-images.githubusercontent.com/38070937/122674590-c288ff80-d210-11eb-8044-3b409af25295.png)
+For **Movie-based recommendation**, there are shown 2 fields ; **Title, Limit**.
+Title field is **required to fill in**, and Limit isn't (Limit will set to 10 when not specified). 
+* Title : When you type 2 or more characters, you will see the list of autocompleted titles. You can use **Up-arrow and Down-arrow keys** in your keyboard to navigate the list and select one by **Enter** (or Mouse-click).
+* Limit : You can type a number bigger than 0 and same or less than 2000 (0<limit<=2000). The wrong value will not be passed and you will get an error message.
 
-##### Result : User-based recommendtaion
-![image](https://user-images.githubusercontent.com/38070937/122674771-93bf5900-d211-11eb-8cb7-1c77b6f4348c.png)
-##### Result : Movie-based recommendtaion
-![image](https://user-images.githubusercontent.com/38070937/122674775-95891c80-d211-11eb-99a3-7c537bc5cde8.png)
-
-##### loader
-![image](https://user-images.githubusercontent.com/38070937/122674847-d08b5000-d211-11eb-8dfc-e1fb4c7023be.png)
-
-##### error page
-
+###### error page
 ![image](https://user-images.githubusercontent.com/38070937/122674966-59a28700-d212-11eb-8e56-f147c334418f.png)
+Then next, press the **Submit** button.
+If you typed wrong input (or didn't fill in the title for Movie-based), you will get error messages via **tooltip** or **alert** as can be seen above.
+
+#### Step 2 : Press the Submit button and get the recommendation result.
+On the Result pages, you are also allowed to make another request using the fields on the header.
+###### Result : User-based recommendtation
+![image](https://user-images.githubusercontent.com/38070937/122674771-93bf5900-d211-11eb-8cb7-1c77b6f4348c.png)
+For **User-based recommendation**, you will get recommendation of 10 movies as can be seen above.
+
+###### Result : Movie-based recommendtation
+![image](https://user-images.githubusercontent.com/38070937/122674775-95891c80-d211-11eb-99a3-7c537bc5cde8.png)
+For **Movie-based recommendation**, you will get recommendation of ***Limit*** (if not specified, 10) movies as can be seen above.
+
+#### Also...
+###### loader
+![image](https://user-images.githubusercontent.com/38070937/122674847-d08b5000-d211-11eb-8dfc-e1fb4c7023be.png)
+The system might take a bit of time when there are much data to process (especially when inputs are not specified in User-based mode).
+When the system is under the process, you will see an **awesome-otter-spinning-loader**, so please take your time :) 
 
 ---
 
