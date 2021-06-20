@@ -60,7 +60,7 @@
           var title = data[0].split("=")[1];
           var limit = data[1].split("=")[1];
 
-          document.getElementById('tstring').innerHTML = decodeURI(title.replace(/\+/g, ' ').replace('%2C', ','));
+          document.getElementById('tstring').innerHTML = decodeURI(title.replace(/\+/g, ' ').replace(/%2C/g, ',').replace(/%3A/g,':').replace(/%26/g,'&'));
           document.getElementById('lstring').innerHTML = decodeURI(limit.replace(/\+/g, ' ')) + " movies that are similar to '" + decodeURI(title.replace(/\+/g, ' '))+"'. (Sorted by relevance)";
 
           if(limit==""){

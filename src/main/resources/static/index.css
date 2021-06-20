@@ -175,7 +175,7 @@ input, select{
 
 table.inputfieldtable {
     width: 90%;
-    text-align: left;
+    margin: auto;
 }
 
 table.inputfieldtable td, table.inputfieldtable th {
