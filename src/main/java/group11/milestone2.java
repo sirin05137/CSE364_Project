@@ -440,7 +440,7 @@ public class milestone2 {
     //Form a map of users using users.dat. {UserID : [gender, age, occupation]}
     static HashMap<String, ArrayList<String>> make_user_data() throws IOException{
         HashMap<String, ArrayList<String>> user_data = new HashMap<>();
-        BufferedReader get_user_data = new BufferedReader(new FileReader("/Users/k/K/csv_file/users.dat"));
+        BufferedReader get_user_data = new BufferedReader(new FileReader("/Users/yujinlee/cse364-data-folder/users.dat"));
         while(true){
             ArrayList<String> inner_list = new ArrayList<>();
             String line = get_user_data.readLine();
@@ -627,7 +627,7 @@ public class milestone2 {
     // Create a map using movie rating of users categorized based on user data entered.
     static HashMap<String,ArrayList<Integer>> make_movie_rating_map(ArrayList<String> valid_user_list) throws IOException{
         HashMap<String,ArrayList<Integer>> movie_rating_map = new HashMap<>();
-        BufferedReader get_rating_data = new BufferedReader(new FileReader("/Users/k/K/csv_file/ratings.dat"));
+        BufferedReader get_rating_data = new BufferedReader(new FileReader("/Users/yujinlee/cse364-data-folder/ratings.dat"));
         while(true){
             String line = get_rating_data.readLine();
             if (line == null)
@@ -664,7 +664,7 @@ public class milestone2 {
     }
     //Get the movie information from movies.dat
     static void set_movie_data_in_node(ArrayList<Movie_data_node> movie_data_table) throws IOException{
-        BufferedReader get_movie_data = new BufferedReader(new FileReader("/Users/k/K/csv_file/movies.dat"));
+        BufferedReader get_movie_data = new BufferedReader(new FileReader("/Users/yujinlee/cse364-data-folder/movies.dat"));
         while(true){
             String line = get_movie_data.readLine();
             if (line == null)

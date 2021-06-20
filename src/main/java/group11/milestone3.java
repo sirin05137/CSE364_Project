@@ -60,7 +60,7 @@ public class milestone3 {
     // Create map of format {movieID : [title, genre]}
     public static HashMap<String, ArrayList<String>> make_movie_data_map() throws IOException {
         HashMap<String, ArrayList<String>> movie_data_map = new HashMap<>();
-        BufferedReader get_movie_data = new BufferedReader(new FileReader("/Users/k/K/csv_file/movies.dat"));
+        BufferedReader get_movie_data = new BufferedReader(new FileReader("/Users/yujinlee/cse364-data-folder/movies.dat"));
         while (true) {
             ArrayList<String> inner_list = new ArrayList<>();
             String line = get_movie_data.readLine();
@@ -79,7 +79,7 @@ public class milestone3 {
     // Create map of format {movieID : {userID : rating}}
     static HashMap<String, HashMap<String, Integer>> make_rating_data_map() throws IOException {
         HashMap<String, HashMap<String, Integer>> rating_data_map = new HashMap<>();
-        BufferedReader get_rating_data = new BufferedReader(new FileReader("/Users/k/K/csv_file/ratings.dat"));
+        BufferedReader get_rating_data = new BufferedReader(new FileReader("/Users/yujinlee/cse364-data-folder/ratings.dat"));
         while (true) {
             HashMap<String, Integer> inner_map = new HashMap<>();
             String line = get_rating_data.readLine();
@@ -272,7 +272,7 @@ public class milestone3 {
             System.out.println("NoDBError : No movie available for more than "+m+" votes.");
             System.exit(1);
         }*/
-        BufferedReader get_link_data = new BufferedReader(new FileReader("/Users/k/K/csv_file/links.dat"));
+        BufferedReader get_link_data = new BufferedReader(new FileReader("/Users/yujinlee/cse364-data-folder/csv_file/links.dat"));
         while(true){
             String line = get_link_data.readLine();
             if (line == null)

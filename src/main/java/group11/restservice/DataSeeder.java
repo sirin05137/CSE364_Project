@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
+import group11.restservice.URLChecker;
 import group11.restservice.model.RecoData;
 import group11.restservice.repository.RecoRepository;
 import org.apache.commons.csv.CSVFormat;
@@ -34,7 +35,7 @@ public class DataSeeder implements CommandLineRunner{
         this.recoRepository.deleteAll();
 
         // add movies to database
-        Reader reader = Files.newBufferedReader(Paths.get("/Users/k/K/csv_file/movies_corrected.csv"));
+        Reader reader = Files.newBufferedReader(Paths.get("/Users/yujinlee/cse364-data-folder/movies_corrected.csv"));
         //Reader reader = new BufferedReader(new FileReader("movies_corrected.csv"));
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
 
@@ -49,7 +50,7 @@ public class DataSeeder implements CommandLineRunner{
             String imglink = "NO_IMG_LINK_FOUND"; //if not replaced, it means img link is missing
 
             //GET IMDB link FROM CSV FILE
-            BufferedReader imdblink_reader = new BufferedReader(new FileReader("/Users/k/K/csv_file/links.csv"));
+            BufferedReader imdblink_reader = new BufferedReader(new FileReader("/Users/yujinlee/cse364-data-folder/links.csv"));
             while(true){
                 String line = imdblink_reader.readLine();
                 if (line == null)
@@ -64,7 +65,7 @@ public class DataSeeder implements CommandLineRunner{
             imdblink_reader.close();
 
             //GET IMG link FROM CSV FILE
-            BufferedReader imglink_reader = new BufferedReader(new FileReader("/Users/k/K/csv_file/movie_poster.csv"));
+            BufferedReader imglink_reader = new BufferedReader(new FileReader("/Users/yujinlee/cse364-data-folder/movie_poster.csv"));
             while(true){
                 String line = imglink_reader.readLine();
                 if (line == null)

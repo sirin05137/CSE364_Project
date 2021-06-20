@@ -23,8 +23,8 @@ public class HelloController {
     @RequestMapping("/")
     public List<RecoData> helloWorld() {
 
-        RecoData rd1 = new RecoData("1","Toy Story","Animation","http://www.imdb.com/title/tt0114709","https://m.media-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@..jpg","sampleplot");
-        RecoData rd2 = new RecoData("1","Toy Story","Animation","http://www.imdb.com/title/tt0114709","https://m.media-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@..jpg","sampleplot");
+        RecoData rd1 = new RecoData("1","Toy Story","Animation","http://www.imdb.com/title/tt0114709","https://m.media-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@..jpg");
+        RecoData rd2 = new RecoData("1","Toy Story","Animation","http://www.imdb.com/title/tt0114709","https://m.media-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@..jpg");
 
         return Arrays.asList(rd1,rd2);
     }
