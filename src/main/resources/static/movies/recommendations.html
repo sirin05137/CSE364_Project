@@ -30,16 +30,25 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
 
-        $(function(){
+        $(document).ready(function(){
             $('#movie-based').hide()
             $('#title-alert').hide();
+            $('#user-click-button').removeClass('active');
+            $('#user-click-button').addClass('active');
             $('#movie-click').click(function(){
                 $('#user-based').hide()
                 $('#movie-based').show()
+                //document.getElementById("movie-click-button").click();
+                $('#movie-click-button').removeClass('active');
+                $('#movie-click-button').addClass('active');
+                $('#user-click-button').removeClass('active');
             });
             $('#user-click').click(function(){
                 $('#movie-based').hide()
                 $('#user-based').show()
+                $('#user-click-button').removeClass('active');
+                $('#user-click-button').addClass('active');
+                $('#movie-click-button').removeClass('active');
             });
         });
 
@@ -50,11 +59,15 @@
           var data = temp[1].split("&");
           var title = data[0].split("=")[1];
           var limit = data[1].split("=")[1];
+
+          document.getElementById('tstring').innerHTML = decodeURI(title.replace(/\+/g, ' '));
+          document.getElementById('lstring').innerHTML = decodeURI(limit.replace(/\+/g, ' ')) + " movies that are similar to '" + decodeURI(title.replace(/\+/g, ' '))+"'. (Sorted by relevance)";
+
           if(limit==""){
               limit=10;
+              document.getElementById('lstring').innerHTML = 10 + " movies are shown below. (Sorted by Relevance)";
           }
 
-            // GETS TOP 10 Movies ("","","","")
             $.get("http://localhost:8080/movies/recommendations?title=" + title + "&limit=" + limit, function(data,status){
                 //console.log(data);
                 data = JSON.parse(data);
@@ -68,10 +81,11 @@
                     j = i;
                 }
                 $(".1" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                    "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
-                        dt.title + "</div></td>");
-                        i += 1;
-                    });
+                        "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
+                            dt.title + "</div><div class='text-center-2'>" +dt.genre + "</div></td>");
+                i += 1;
+                });
+                $('#loader-1').hide();
                 });
             });
 
@@ -161,14 +175,14 @@
                     </td><td>
                             <a aria-current="page" href="../index.html">Home</a>
                     </td><td>
-                          <a id="user-click">User-based</a>
+                          <a id="user-click"><button id="user-click-button">User-based</button></a>
                     </td><td>
-                            <a id="movie-click">Movie-based</a>
+                            <a id="movie-click"><button id="movie-click-button">Movie-based</button></a>
                     </td></tr></tbody>
             </table>
 
             <div id="user-based" class="center">
-                <form id="user-based-inputs" action="./users/recommendations.html">
+                <form id="user-based-inputs" action="http://localhost:8080/users/recommendations.html">
                     <!--<p class="p2">User-based Movie Recommendation</p>
                     <p class="p3">Please fill in and submit the form below :)</p>-->
                     <br>
@@ -260,7 +274,7 @@
                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                     <div id="title-alert-msg"></div>
                 </div>
-                <form action="./movies/recommendations.html">
+                <form action="http://localhost:8080/movies/recommendations.html">
                     <br>
                     <table class="inputfieldtable-2">
                         <tbody>
@@ -296,11 +310,12 @@
                     <tbody>
                     <tr>
                         <td>
-                            <p class="p1">Movie-based Recommendation</p>
-                            <br><br><br><br><p class="p4">너가 고른 정보대로 추천해봤어 ><</p>
+                            <p class="p1">Showing best popular movies like <button id="tstring"></button></p>
+                            <br><br><br><br><div class="p4" id="lstring"></div>
                             <table id="recoTable-noinputs" class="recoTable">
                                 <tbody id="tdata-input-data"></tbody>
                             </table>
+                            <img src="../otter_load.gif" id="loader-1" class="loaderimg">
                             <br>
                         </td>
                     </tr>

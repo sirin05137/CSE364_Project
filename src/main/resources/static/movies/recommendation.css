@@ -41,6 +41,17 @@ a {
     font-size : 16px !important;
 }
 
+.text-center {
+    word-wrap: break-word;
+    font-size: 15px;
+    color:white;
+}
+.text-center-2 {
+    word-wrap: break-word;
+    font-size: 13px;
+    color:lightgrey;
+    font-weight: normal;
+}
 
 
 .p1, .p2, .p3 {
@@ -69,6 +80,7 @@ a {
     color:white;
     font-size: 14px;
     font-weight: bold;
+    padding-top: 10px;
 }
 
 .p4 {
@@ -76,19 +88,19 @@ display:block;
     color:lightgrey;
     font-size: 16px;
     position:absolute;
-    padding : 10px;
+    padding : 20px;
     left: 50%;
     transform: translate(-50%, 0);
 }
 
 #lower{
     width:1800px;
-    /*height:5400px;*/
+    min-height:750px;
     left:0px;
     right :0px;
     position:relative;
     color:white;
-    background-color:#212529;
+    background-color:#131313;
 }
 .loaderimg {
     display: block;
@@ -104,7 +116,7 @@ display:block;
 
 
 table.recoTable {
-    width: 80%;
+    width: 100%;
     text-align: center;
     border-collapse: collapse;
     margin-top: 100px;
@@ -138,9 +150,9 @@ table.recoTable {
   }
 
   table.inputfieldtable {
-      width: 75%;
+      width: 60%;
       height:30%;
-      margin-left:0;
+      margin-left:20%;
       margin-right:0;
       text-align: left;
       table-layout:fixed;
@@ -155,9 +167,9 @@ table.recoTable {
   }
 
   table.inputfieldtable-2 {
-      width: 55%;
+      width: 47%;
       height:30%;
-      margin-left:0;
+      margin-left:30%;
       margin-right:0;
       text-align: left;
       table-layout:fixed;
@@ -185,6 +197,29 @@ table.recoTable {
 .text-center {
     word-wrap: break-word;
 }
+
+button {
+    width: 10em;
+    border: 0;
+    height: 2em;
+    background: #3e4749;
+    border-radius: 12px !important;
+}
+
+.active {
+    font-weight:bold;
+    background: #586568;
+
+}
+
+button#tstring {
+    border-radius: 20px !important;
+    width: auto;
+    margin: 0 10px 0 10px;
+    padding: 0 20px 0 20px;
+    font-size: smaller;
+}
+
 .btn-primary {
     width:200px;
     margin-left:20px;
@@ -255,13 +290,14 @@ ul.dropdown-menu.checkbox-menu.allow-focus {
 }
 
 .alert {
-    position: fixed !important;
+  position: fixed !important;
   background-color: #f44336;
   color: white;
   padding:0.6rem !important;
   font-size : 14px;
   width: 35%;
-  top:11%;
+  top:9%;
+  margin-left:30%;
   z-index: 9999;
 }
 
