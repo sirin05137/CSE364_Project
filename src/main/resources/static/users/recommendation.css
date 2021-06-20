@@ -192,7 +192,7 @@ table.recoTable {
 
   table.inputfieldtable-3 {
       width: 90%;
-      text-align: left;
+      margin: auto;
   }
 
   table.inputfieldtable-3 td, table.inputfieldtable-3 th {
