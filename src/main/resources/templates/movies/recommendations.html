@@ -1,56 +1,93 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="">
+<html lang="en" xmlns="" xmlns="">
 <head>
     <title>AnOtterMovie</title>
     <meta charset="UTF-8">
     <style>
             body {
-                background-image: url(./background_movie.png);
-                background-repeat: no-repeat;
-                background-size: cover;
+                background-color: #212529 !important;
                 width:100%;
                 height: 100%;
                 color:white;
             }
     </style>
-    <link rel="stylesheet" href="index.css" type="text/css">
+    <link rel="stylesheet" href="recommendation.css" type="text/css">
     <!-- Boot Strap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script>
     <!-- J QUERY & AJAX -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
-        /*var cast = {
-            "gender" : "",
-            "age" : "28",
-            "occupation" : "2002",
-            "genre" : "농구"
-        }; // Json Object를 저장하기
-        localStorage.setItem("cast", JSON.stringify(cast));*/
 
-        $(function(){
-            $('#movie-based').hide();
+        $(document).ready(function(){
+            $('#movie-based').hide()
             $('#title-alert').hide();
-            $('#btn-movie-based').click(function(){
+            $('#user-click-button').removeClass('active');
+            $('#user-click-button').addClass('active');
+            $('#movie-click').click(function(){
                 $('#user-based').hide()
                 $('#movie-based').show()
+                //document.getElementById("movie-click-button").click();
+                $('#movie-click-button').removeClass('active');
+                $('#movie-click-button').addClass('active');
+                $('#user-click-button').removeClass('active');
             });
-            $('#btn-user-based').click(function(){
+            $('#user-click').click(function(){
                 $('#movie-based').hide()
                 $('#user-based').show()
+                $('#user-click-button').removeClass('active');
+                $('#user-click-button').addClass('active');
+                $('#movie-click-button').removeClass('active');
             });
         });
+
+        $(document).ready(function(){
+
+          var url = document.location.href;
+          var temp = url.split("?")
+          var data = temp[1].split("&");
+          var title = data[0].split("=")[1];
+          var limit = data[1].split("=")[1];
+
+          document.getElementById('tstring').innerHTML = decodeURI(title.replace(/\+/g, ' ').replace(/%2C/g, ',').replace(/%3A/g,':').replace(/%26/g,'&'));
+          document.getElementById('lstring').innerHTML = decodeURI(limit.replace(/\+/g, ' ')) + " movies that are similar to '" + decodeURI(title.replace(/\+/g, ' '))+"'. (Sorted by relevance)";
+
+          if(limit==""){
+              limit=10;
+              document.getElementById('lstring').innerHTML = 10 + " movies are shown below. (Sorted by Relevance)";
+          }
+
+            $.get("http://localhost:8080/cse364-project/movies/recommendations?title=" + title + "&limit=" + limit, function(data,status){
+                //console.log(data);
+                data = JSON.parse(data);
+                $('#tdata-noinputs').empty();
+
+                var i = 0; var j = 0; var content = "";
+
+                data.forEach(function(dt){
+                if (i % 5 === 0) {
+                    $("#tdata-input-data").append("<tr class='1" + i + "'></tr>");
+                    j = i;
+                }
+                $(".1" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
+                        "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
+                            dt.title + "</div><div class='text-center-2'>" +dt.genre + "</div></td>");
+                i += 1;
+                });
+                $('#loader-1').hide();
+                });
+            });
 
         // Genres Dropdown Checkbox
         $(document).ready(function(){
@@ -81,121 +118,6 @@
           e.stopPropagation();
         });
 
-        $(document).ready(function(){
-            // GETS TOP 10 Movies ("","","","")
-            $.get("http://localhost:8080/cse364-project/users/recommendations?gender=&age=&occupation=&genre=", function(data,status){
-                //console.log(data);
-                data = JSON.parse(data);
-                $('#tdata-noinputs').empty();
-
-                var i = 0; var j = 0; var content = "";
-
-                data.forEach(function(dt){
-                    if (i % 5 === 0) {
-                        $("#tdata-noinputs").append("<tr class='1" + i + "'></tr>");
-                        j = i;
-                    }
-                    $(".1" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                        "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
-                            dt.title + "</div><div class='text-center-2'>" +dt.genre + "</div></td>");
-                    i += 1;
-                });
-                $('#loader-1').hide();
-            });
-            });
-
-            $(document).ready(function(){
-            $.get("http://localhost:8080/cse364-project/users/recommendations?gender=f&age=25&occupation=college", function(data,status){
-                //console.log(data);
-                data = JSON.parse(data);
-                $('#tdata-f-25-college').empty();
-
-                var i = 0; var j = 0; var content = "";
-
-                data.forEach(function(dt){
-                if (i % 5 === 0) {
-                    $("#tdata-f-25-college").append("<tr class='2" + i + "'></tr>");
-                    j = i;
-                }
-                $(".2" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                        "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
-                            dt.title + "</div><div class='text-center-2'>" +dt.genre + "</div></td>");
-                        i += 1;
-                });
-                $('#loader-2').hide();
-
-                });
-            });
-
-            $(document).ready(function(){
-            $.get("http://localhost:8080/cse364-project/users/recommendations?genre=sci-fi", function(data,status){
-                //console.log(data);
-                data = JSON.parse(data);
-                $('#tdata-sci-fi').empty();
-
-                var i = 0; var j = 0; var content = "";
-
-                data.forEach(function(dt){
-                if (i % 5 === 0) {
-                    $("#tdata-sci-fi").append("<tr class='3" + i + "'></tr>");
-                    j = i;
-                }
-                $(".3" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                        "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
-                            dt.title + "</div><div class='text-center-2'>" +dt.genre + "</div></td>");
-                        i += 1;
-                });
-                $('#loader-3').hide();
-
-                });
-            });
-
-            $(document).ready(function(){
-            $.get("http://localhost:8080/cse364-project/users/recommendations?genre=horror%7Cthriller", function(data,status){
-                //console.log(data);
-                data = JSON.parse(data);
-                $('#tdata-horror-thriller').empty();
-
-                var i = 0; var j = 0; var content = "";
-
-                data.forEach(function(dt){
-                if (i % 5 === 0) {
-                    $("#tdata-horror-thriller").append("<tr class='4" + i + "'></tr>");
-                    j = i;
-                }
-                $(".4" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                        "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
-                            dt.title + "</div><div class='text-center-2'>" +dt.genre + "</div></td>");
-                        i += 1;
-                });
-                $('#loader-4').hide();
-
-                });
-            });
-
-            $(document).ready(function(){
-            $.get("http://localhost:8080/cse364-project/movies/recommendations?title=BeforeSunrise(1995)&limit=10", function(data,status){
-                //console.log(data);
-                data = JSON.parse(data);
-                $('#tdata-before-sunrise').empty();
-
-                var i = 0; var j = 0; var content = "";
-
-                data.forEach(function(dt){
-                if (i % 5 === 0) {
-                    $("#tdata-before-sunrise").append("<tr class='5" + i + "'></tr>");
-                    j = i;
-                }
-                $(".5" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
-                        "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
-                            dt.title + "</div><div class='text-center-2'>" +dt.genre + "</div></td>");
-                        i += 1;
-                });
-                $('#loader-5').hide();
-
-                });
-            });
-
         // Movie title auto complete
         $(function() {
             var availableTitle = ["Toy Story (1995)","Jumanji (1995)","Grumpier Old Men (1995)","Waiting to Exhale (1995)","Father of the Bride Part II (1995)","Heat (1995)","Sabrina (1995)","Tom and Huck (1995)","Sudden Death (1995)","GoldenEye (1995)","American President, The (1995)","Dracula: Dead and Loving It (1995)","Balto (1995)","Nixon (1995)","Cutthroat Island (1995)","Casino (1995)","Sense and Sensibility (1995)","Four Rooms (1995)","Ace Ventura: When Nature Calls (1995)","Money Train (1995)","Get Shorty (1995)","Copycat (1995)","Assassins (1995)","Powder (1995)","Leaving Las Vegas (1995)","Othello (1995)","Now and Then (1995)","Persuasion (1995)","City of Lost Children, The (1995)","Shanghai Triad (Yao a yao yao dao waipo qiao) (1995)","Dangerous Minds (1995)","Twelve Monkeys (1995)","Wings of Courage (1995)","Babe (1995)","Carrington (1995)","Dead Man Walking (1995)","Across the Sea of Time (1995)","It Takes Two (1995)","Clueless (1995)","Cry, the Beloved Country (1995)","Richard III (1995)","Dead Presidents (1995)","Restoration (1995)","Mortal Kombat (1995)","To Die For (1995)","How to Make an American Quilt (1995)","Seven (Se7en) (1995)","Pocahontas (1995)","When Night Is Falling (1995)","Usual Suspects, The (1995)","Guardian Angel (1994)","Mighty Aphrodite (1995)","Lamerica (1994)","Big Green, The (1995)","Georgia (1995)","Kids of the Round Table (1995)","Home for the Holidays (1995)","Postino, Il (The Postman) (1994)","Confessional, The (Le Confessionnal) (1995)","Indian in the Cupboard, The (1995)","Eye for an Eye (1996)","Mr. Holland's Opus (1995)","Don't Be a Menace to South Central While Drinking Your Juice in the Hood (1996)","Two if by Sea (1996)","Bio-Dome (1996)","Lawnmower Man 2: Beyond Cyberspace (1996)","Two Bits (1995)","French Twist (Gazon maudit) (1995)","Friday (1995)","From Dusk Till Dawn (1996)","Fair Game (1995)","Kicking and Screaming (1995)","Mis�rables, Les (1995)","Bed of Roses (1996)","Big Bully (1996)","Screamers (1995)","Nico Icon (1995)","Crossing Guard, The (1995)","Juror, The (1996)","White Balloon, The (Badkonake Sefid ) (1995)","Things to Do in Denver when You're Dead (1995)","Antonia's Line (Antonia) (1995)","Once Upon a Time... When We Were Colored (1995)","Last Summer in the Hamptons (1995)","Angels and Insects (1995)","White Squall (1996)","Dunston Checks In (1996)","Black Sheep (1996)","Nick of Time (1995)","Journey of August King, The (1995)","Mary Reilly (1996)","Vampire in Brooklyn (1995)","Beautiful Girls (1996)","Broken Arrow (1996)","In the Bleak Midwinter (1995)","Hate (Haine, La) (1995)","Shopping (1994)","Heidi Fleiss: Hollywood Madam (1995)","City Hall (1996)","Bottle Rocket (1996)","Mr. Wrong (1996)","Unforgettable (1996)","Happy Gilmore (1996)","Bridges of Madison County, The (1995)","Nobody Loves Me (Keiner liebt mich) (1994)","Muppet Treasure Island (1996)","Catwalk (1995)","Headless Body in Topless Bar (1995)","Braveheart (1995)","Taxi Driver (1976)","Rumble in the Bronx (1995)","Before and After (1996)","Margaret's Museum (1995)","Happiness Is in the Field (1995)","Anne Frank Remembered (1995)","Young Poisoner's Handbook, The (1995)","If Lucy Fell (1996)","Steal Big, Steal Little (1995)","Race the Sun (1996)","Boys of St. Vincent, The (1993)","Boomerang (1992)","Chungking Express (1994)","Star Maker, The (Uomo delle stelle, L') (1995)","Flirting With Disaster (1996)","NeverEnding Story III, The (1994)","Silence of the Palace, The (Saimt el Qusur) (1994)","Jupiter's Wife (1994)","Pie in the Sky (1995)","Angela (1995)","Frankie Starlight (1995)","Jade (1995)","Nueba Yol (1995)","Sonic Outlaws (1995)","Down Periscope (1996)","From the Journals of Jean Seberg (1995)","Man of the Year (1995)","Neon Bible, The (1995)","Target (1995)","Up Close and Personal (1996)","Birdcage, The (1996)","Shadows (Cienie) (1988)","Gospa (1995)","Brothers McMullen, The (1995)","Bad Boys (1995)","Amazing Panda Adventure, The (1995)","Basketball Diaries, The (1995)","Awfully Big Adventure, An (1995)","Amateur (1994)","Apollo 13 (1995)","Rob Roy (1995)","Addiction, The (1995)","Batman Forever (1995)","Belle de jour (1967)","Beyond Rangoon (1995)","Blue in the Face (1995)","Canadian Bacon (1994)","Casper (1995)","Clockers (1995)","Congo (1995)","Crimson Tide (1995)","Crumb (1994)","Desperado (1995)","Devil in a Blue Dress (1995)","Die Hard: With a Vengeance (1995)","Doom Generation, The (1995)","Feast of July (1995)","First Knight (1995)","Free Willy 2: The Adventure Home (1995)","Hackers (1995)","Jeffrey (1995)","Johnny Mnemonic (1995)","Judge Dredd (1995)","Jury Duty (1995)","Kids (1995)","Living in Oblivion (1995)","Lord of Illusions (1995)","Love & Human Remains (1993)","Mad Love (1995)","Mallrats (1995)","Mighty Morphin Power Rangers: The Movie (1995)","Moonlight and Valentino (1995)","Mute Witness (1994)","Nadja (1994)","Net, The (1995)","Nine Months (1995)","Party Girl (1995)","Prophecy, The (1995)","Reckless (1995)","Safe (1995)","Scarlet Letter, The (1995)","Show, The (1995)","Showgirls (1995)","Smoke (1995)","Something to Talk About (1995)","Species (1995)","Stars Fell on Henrietta, The (1995)","Strange Days (1995)","Umbrellas of Cherbourg, The (Parapluies de Cherbourg, Les) (1964)","Tie That Binds, The (1995)","Three Wishes (1995)","Total Eclipse (1995)","To Wong Foo, Thanks for Everything! Julie Newmar (1995)","Under Siege 2: Dark Territory (1995)","Unstrung Heroes (1995)","Unzipped (1995)","Walk in the Clouds, A (1995)","Waterworld (1995)","White Man's Burden (1995)","Wild Bill (1995)","Browning Version, The (1994)","Bushwhacked (1995)","Burnt By the Sun (Utomlyonnye solntsem) (1994)","Before the Rain (Pred dozhdot) (1994)","Before Sunrise (1995)","Billy Madison (1995)","Babysitter, The (1995)","Boys on the Side (1995)","Cure, The (1995)","Castle Freak (1995)","Circle of Friends (1995)","Clerks (1994)","Don Juan DeMarco (1995)","Disclosure (1994)","Dream Man (1995)","Drop Zone (1994)","Destiny Turns on the Radio (1995)","Death and the Maiden (1994)","Dolores Claiborne (1994)","Dumb & Dumber (1994)","Eat Drink Man Woman (1994)","Exotica (1994)","Exit to Eden (1994)","Ed Wood (1994)","French Kiss (1995)","Forget Paris (1995)","Far From Home: The Adventures of Yellow Dog (1995)","Goofy Movie, A (1995)","Hideaway (1995)","Fluke (1995)","Farinelli: il castrato (1994)","Gordy (1995)","Gumby: The Movie (1995)","Glass Shield, The (1994)","Hoop Dreams (1994)","Heavenly Creatures (1994)","Houseguest (1994)","Immortal Beloved (1994)","Heavyweights (1994)","Hunted, The (1995)","I.Q. (1994)","Interview with the Vampire (1994)","Jefferson in Paris (1995)","Jerky Boys, The (1994)","Junior (1994)","Just Cause (1995)","Kid in King Arthur's Court, A (1995)","Kiss of Death (1995)","Star Wars: Episode IV - A New Hope (1977)","Little Women (1994)","Little Princess, A (1995)","Ladybird Ladybird (1994)","Enfer, L' (1994)","Like Water for Chocolate (Como agua para chocolate) (1992)","Legends of the Fall (1994)","Major Payne (1994)","Little Odessa (1994)","My Crazy Life (Mi vida loca) (1993)","Love Affair (1994)","Losing Isaiah (1995)","Madness of King George, The (1994)","Mary Shelley's Frankenstein (1994)","Man of the House (1995)","Mixed Nuts (1994)","Milk Money (1994)","Miracle on 34th Street (1994)","Miami Rhapsody (1995)","My Family (1995)","Murder in the First (1995)","Nobody's Fool (1994)","Nell (1994)","New Jersey Drive (1995)","New York Cop (1996)","Beyond Bedlam (1993)","Nemesis 2: Nebula (1995)","Nina Takes a Lover (1994)","Natural Born Killers (1994)","Only You (1994)","Once Were Warriors (1994)","Poison Ivy II (1995)","Outbreak (1995)","Professional, The (a.k.a. Leon: The Professional) (1994)","Perez Family, The (1995)","Pyromaniac's Love Story, A (1995)","Pulp Fiction (1994)","Panther (1995)","Pushing Hands (1992)","Priest (1994)","Quiz Show (1994)","Picture Bride (1995)","Queen Margot (La Reine Margot) (1994)","Quick and the Dead, The (1995)","Roommates (1995)","Ready to Wear (Pret-A-Porter) (1994)","Three Colors: Red (1994)","Three Colors: Blue (1993)","Three Colors: White (1994)","Red Firecracker, Green Firecracker (1994)","Rent-a-Kid (1995)","Relative Fear (1994)","Stuart Saves His Family (1995)","Swan Princess, The (1994)","Secret of Roan Inish, The (1994)","Specialist, The (1994)","Stargate (1994)","Santa Clause, The (1994)","Shawshank Redemption, The (1994)","Shallow Grave (1994)","Suture (1993)","Strawberry and Chocolate (Fresa y chocolate) (1993)","Swimming with Sharks (1995)","Sum of Us, The (1994)","National Lampoon's Senior Trip (1995)","To Live (Huozhe) (1994)","Tank Girl (1995)","Tales From the Crypt Presents: Demon Knight (1995)","Star Trek: Generations (1994)","Tales from the Hood (1995)","Tom & Viv (1994)","Village of the Damned (1995)","Tommy Boy (1995)","Vanya on 42nd Street (1994)","Underneath, The (1995)","Walking Dead, The (1995)","What's Eating Gilbert Grape (1993)","Virtuosity (1995)","While You Were Sleeping (1995)","War, The (1994)","Double Happiness (1994)","Muriel's Wedding (1994)","Baby-Sitters Club, The (1995)","Ace Ventura: Pet Detective (1994)","Adventures of Priscilla, Queen of the Desert, The (1994)","Backbeat (1993)","Bitter Moon (1992)","Bullets Over Broadway (1994)","Clear and Present Danger (1994)","Client, The (1994)","Corrina, Corrina (1994)","Crooklyn (1994)","Crow, The (1994)","Cobb (1994)","Flintstones, The (1994)","Forrest Gump (1994)","Four Weddings and a Funeral (1994)","Higher Learning (1995)","I Like It Like That (1994)","I Love Trouble (1994)","It Could Happen to You (1994)","Jungle Book, The (1994)","Wonderful, Horrible Life of Leni Riefenstahl, The (Die Macht der Bilder) (1993)","Lion King, The (1994)","Little Buddha (1993)","Wes Craven's New Nightmare (1994)","Mask, The (1994)","Maverick (1994)","Mrs. Parker and the Vicious Circle (1994)","Naked Gun 33 1/3: The Final Insult (1994)","Paper, The (1994)","Reality Bites (1994)","Red Rock West (1992)","Richie Rich (1994)","Safe Passage (1994)","River Wild, The (1994)","Speed (1994)","Speechless (1994)","Timecop (1994)","True Lies (1994)","When a Man Loves a Woman (1994)","Wolf (1994)","Wyatt Earp (1994)","Bad Company (1995)","Man of No Importance, A (1994)","S.F.W. (1994)","Low Down Dirty Shame, A (1994)","Boys Life (1995)","Colonel Chabert, Le (1994)","Faster Pussycat! Kill! Kill! (1965)","Jason's Lyric (1994)","Secret Adventures of Tom Thumb, The (1993)","Street Fighter (1994)","Coldblooded (1995)","Desert Winds (1995)","Fall Time (1995)","Fear, The (1995)","Frank and Ollie (1995)","Girl in the Cadillac (1995)","Homage (1995)","Mirage (1995)","Open Season (1996)","Two Crimes (1995)","Brother Minister: The Assassination of Malcolm X (1994)","Highlander III: The Sorcerer (1994)","Federal Hill (1994)","In the Mouth of Madness (1995)","8 Seconds (1994)","Above the Rim (1994)","Addams Family Values (1993)","You So Crazy (1994)","Age of Innocence, The (1993)","Airheads (1994)","Air Up There, The (1994)","Another Stakeout (1993)","Bad Girls (1994)","Barcelona (1994)","Being Human (1993)","Beverly Hillbillies, The (1993)","Beverly Hills Cop III (1994)","Black Beauty (1994)","Blink (1994)","Blown Away (1994)","Blue Chips (1994)","Blue Sky (1994)","Body Snatchers (1993)","Boxing Helena (1993)","Bronx Tale, A (1993)","Cabin Boy (1994)","Calendar Girl (1993)","Carlito's Way (1993)","City Slickers II: The Legend of Curly's Gold (1994)","Clean Slate (1994)","Cliffhanger (1993)","Coneheads (1993)","Color of Night (1994)","Cops and Robbersons (1994)","Cowboy Way, The (1994)","Dangerous Game (1993)","Dave (1993)","Dazed and Confused (1993)","Demolition Man (1993)","Endless Summer 2, The (1994)","Even Cowgirls Get the Blues (1993)","Fatal Instinct (1993)","Farewell My Concubine (1993)","Favor, The (1994)","Fearless (1993)","Fear of a Black Hat (1993)","With Honors (1994)","Flesh and Bone (1993)","Widows' Peak (1994)","For Love or Money (1993)","Firm, The (1993)","Free Willy (1993)","Fresh (1994)","Fugitive, The (1993)","Geronimo: An American Legend (1993)","Getaway, The (1994)","Getting Even with Dad (1994)","Go Fish (1994)","Good Man in Africa, A (1994)","Guilty as Sin (1993)","Hard Target (1993)","Heaven & Earth (1993)","Hot Shots! Part Deux (1993)","Live Nude Girls (1995)","Englishman Who Went Up a Hill, But Came Down a Mountain, The (1995)","House of the Spirits, The (1993)","House Party 3 (1994)","Hudsucker Proxy, The (1994)","I'll Do Anything (1994)","In the Army Now (1994)","In the Line of Fire (1993)","In the Name of the Father (1993)","Inkwell, The (1994)","What's Love Got to Do with It? (1993)","Jimmy Hollywood (1994)","Judgment Night (1993)","Jurassic Park (1993)","Kalifornia (1993)","Killing Zoe (1994)","King of the Hill (1993)","Lassie (1994)","Last Action Hero (1993)","Life with Mikey (1993)","Lightning Jack (1994)","M. Butterfly (1993)","Made in America (1993)","Malice (1993)","Man Without a Face, The (1993)","Manhattan Murder Mystery (1993)","Menace II Society (1993)","Executive Decision (1996)","In the Realm of the Senses (Ai no corrida) (1976)","What Happened Was... (1994)","Much Ado About Nothing (1993)","Mr. Jones (1993)","Mr. Wonderful (1993)","Mrs. Doubtfire (1993)","Naked (1993)","Next Karate Kid, The (1994)","New Age, The (1994)","No Escape (1994)","North (1994)","Orlando (1993)","Perfect World, A (1993)","Philadelphia (1993)","Piano, The (1993)","Poetic Justice (1993)","Program, The (1993)","Robert A. Heinlein's The Puppet Masters (1994)","Radioland Murders (1994)","Ref, The (1994)","Remains of the Day, The (1993)","Renaissance Man (1994)","Rising Sun (1993)","Road to Wellville, The (1994)","Robocop 3 (1993)","Robin Hood: Men in Tights (1993)","Romeo Is Bleeding (1993)","Romper Stomper (1992)","Ruby in Paradise (1993)","Rudy (1993)","Saint of Fort Washington, The (1993)","Savage Nights (Nuits fauves, Les) (1992)","Schindler's List (1993)","Scout, The (1994)","Searching for Bobby Fischer (1993)","Second Best (1994)","Secret Garden, The (1993)","Serial Mom (1994)","Shadow, The (1994)","Shadowlands (1993)","Short Cuts (1993)","Simple Twist of Fate, A (1994)","Sirens (1994)","Six Degrees of Separation (1993)","Sleepless in Seattle (1993)","Sliver (1993)","Blade Runner (1982)","Son in Law (1993)","So I Married an Axe Murderer (1993)","Striking Distance (1993)","Harlem (1993)","Super Mario Bros. (1993)","Surviving the Game (1994)","Terminal Velocity (1994)","Thirty-Two Short Films About Glenn Gould (1993)","Threesome (1994)","Nightmare Before Christmas, The (1993)","Three Musketeers, The (1993)","Tombstone (1993)","Trial by Jury (1994)","True Romance (1993)","War Room, The (1993)","Mamma Roma (1962)","Pagemaster, The (1994)","Paris, France (1993)","Beans of Egypt, Maine, The (1994)","Killer (Bulletproof Heart) (1994)","Welcome to the Dollhouse (1995)","Germinal (1993)","Chasers (1994)","Cronos (1992)","Naked in New York (1994)","Kika (1993)","Bhaji on the Beach (1993)","Little Big League (1994)","Slingshot, The (K�disbellan ) (1993)","Wedding Gift, The (1994)","Foreign Student (1994)","Ciao, Professore! (Io speriamo che me la cavo ) (1993)","Spanking the Monkey (1994)","Little Rascals, The (1994)","Fausto (1993)","Andre (1994)","Hour of the Pig, The (1993)","Scorta, La (1993)","Princess Caraboo (1994)","Celluloid Closet, The (1995)","Metisse (Caf� au Lait) (1993)","Dear Diary (Caro Diario) (1994)","I Don't Want to Talk About It (De eso no se habla) (1993)","Brady Bunch Movie, The (1995)","Home Alone (1990)","Ghost (1990)","Aladdin (1992)","Terminator 2: Judgment Day (1991)","Dances with Wolves (1990)","Tough and Deadly (1995)","Batman (1989)","Silence of the Lambs, The (1991)","Snow White and the Seven Dwarfs (1937)","Beauty and the Beast (1991)","Pinocchio (1940)","Pretty Woman (1990)","Window to Paris (1994)","Wild Bunch, The (1969)","Love and a .45 (1994)","Wooden Man's Bride, The (Wu Kui) (1994)","Great Day in Harlem, A (1994)","Bye Bye, Love (1995)","Criminals (1996)","One Fine Day (1996)","Candyman: Farewell to the Flesh (1995)","Century (1993)","Fargo (1996)","Homeward Bound II: Lost in San Francisco (1996)","Heavy Metal (1981)","Hellraiser: Bloodline (1996)","Pallbearer, The (1996)","Jane Eyre (1996)","Loaded (1994)","Bread and Chocolate (Pane e cioccolata) (1973)","Aristocats, The (1970)","Flower of My Secret, The (La Flor de Mi Secreto) (1995)","Two Much (1996)","Ed (1996)","Scream of Stone (Schrei aus Stein) (1991)","My Favorite Season (1993)","Modern Affair, A (1995)","Condition Red (1995)","Asfour Stah (1990)","Thin Line Between Love and Hate, A (1996)","Last Supper, The (1995)","Primal Fear (1996)","Rude (1995)","Carried Away (1996)","All Dogs Go to Heaven 2 (1996)","Land and Freedom (Tierra y libertad) (1995)","Denise Calls Up (1995)","Theodore Rex (1995)","Family Thing, A (1996)","Frisk (1995)","Sgt. Bilko (1996)","Jack and Sarah (1995)","Girl 6 (1996)","Diabolique (1996)","Little Indian, Big City (Un indien dans la ville) (1994)","Roula (1995)","Peanuts - Die Bank zahlt alles (1996)","Happy Weekend (1996)","Nelly & Monsieur Arnaud (1995)","Courage Under Fire (1996)","Mission: Impossible (1996)","Cold Fever (� k�ldum klaka) (1994)","Moll Flanders (1996)","Superweib, Das (1996)","301, 302 (1995)","Dragonheart (1996)","Und keiner weint mir nach (1996)","Mutters Courage (1995)","Eddie (1996)","Yankee Zulu (1994)","Billy's Holiday (1995)","Purple Noon (1960)","August (1996)","James and the Giant Peach (1996)","Fear (1996)","Kids in the Hall: Brain Candy (1996)","Faithful (1996)","Underground (1995)","All Things Fair (1996)","Bloodsport 2 (1995)","Pather Panchali (1955)","Aparajito (1956)","World of Apu, The (Apur Sansar) (1959)","Mystery Science Theater 3000: The Movie (1996)","Tarantella (1995)","Space Jam (1996)","Barbarella (1968)","Hostile Intentions (1994)","They Bite (1996)","Some Folks Call It a Sling Blade (1993)","Run of the Country, The (1995)","Alphaville (1965)","Clean Slate (Coup de Torchon) (1981)","Tigrero: A Film That Was Never Made (1994)","Eye of Vichy, The (Oeil de Vichy, L') (1993)","Windows (1980)","It's My Party (1995)","Country Life (1994)","Operation Dumbo Drop (1995)","Promise, The (Versprechen, Das) (1994)","Mrs. Winterbourne (1996)","Solo (1996)","Under the Domin Tree (Etz Hadomim Tafus) (1994)","Substitute, The (1996)","True Crime (1995)","Butterfly Kiss (1995)","Feeling Minnesota (1996)","Delta of Venus (1994)","To Cross the Rubicon (1991)","Angus (1995)","Daens (1992)","Faces (1968)","Boys (1996)","Quest, The (1996)","Cosi (1996)","Sunset Park (1996)","Mulholland Falls (1996)","Truth About Cats & Dogs, The (1996)","Oliver & Company (1988)","Celtic Pride (1996)","Flipper (1996)","Captives (1994)","Of Love and Shadows (1994)","Dead Man (1995)","Horseman on the Roof, The (Hussard sur le toit, Le) (1995)","Switchblade Sisters (1975)","Mouth to Mouth (Boca a boca) (1995)","Visitors, The (Les Visiteurs) (1993)","Multiplicity (1996)","Wallace & Gromit: The Best of Aardman Animation (1996)","Halfmoon (Paul Bowles - Halbmond) (1995)","Haunted World of Edward D. Wood Jr., The (1995)","Two Friends (1986)","Craft, The (1996)","Great White Hype, The (1996)","Last Dance (1996)","War Stories (1995)","Cold Comfort Farm (1995)","Institute Benjamenta, or This Dream People Call Human Life (1995)","Low Life, The (1994)","Heaven's Prisoners (1996)","Original Gangstas (1996)","Rock, The (1996)","Getting Away With Murder (1996)","Cemetery Man (Dellamorte Dellamore) (1994)","Twister (1996)","Barb Wire (1996)","Garcu, Le (1995)","Honigmond (1996)","Ghost in the Shell (Kokaku kidotai) (1995)","Thinner (1996)","Spy Hard (1996)","Brothers in Trouble (1995)","Close Shave, A (1995)","Force of Evil (1948)","Stupids, The (1996)","Arrival, The (1996)","Man from Down Under, The (1943)","Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1963)","Careful (1992)","Vermont Is For Lovers (1992)","Month by the Lake, A (1995)","Gold Diggers: The Secret of Bear Mountain (1995)","Kim (1950)","Carmen Miranda: Bananas Is My Business (1994)","Ashes of Time (1994)","Jar, The (Khomreh) (1992)","Maya Lin: A Strong Clear Vision (1994)","Stalingrad (1993)","Phantom, The (1996)","Striptease (1996)","Last of the High Kings, The (a.k.a. Summer Fling) (1996)","Heavy (1995)","Jack (1996)","I Shot Andy Warhol (1996)","Grass Harp, The (1995)","Someone Else's America (1995)","Marlene Dietrich: Shadow and Light (1996)","Costa Brava (1946)","Vie est belle, La (Life is Rosey) (1987)","Quartier Mozart (1992)","Touki Bouki (Journey of the Hyena) (1973)","Wend Kuuni (God's Gift) (1982)","Spirits of the Dead (Tre Passi nel Delirio) (1968)","Babyfever (1994)","Pharaoh's Army (1995)","Trainspotting (1996)","'Til There Was You (1997)","Independence Day (ID4) (1996)","Stealing Beauty (1996)","Fan, The (1996)","Hunchback of Notre Dame, The (1996)","Cable Guy, The (1996)","Kingpin (1996)","Eraser (1996)","Gate of Heavenly Peace, The (1995)","Nutty Professor, The (1996)","I, Worst of All (Yo, la peor de todas) (1990)","An Unforgettable Summer (1994)","Last Klezmer: Leopold Kozlowski, His Life and Music, The (1995)","Hungarian Fairy Tale, A (1987)","My Life and Times With Antonin Artaud (En compagnie d'Antonin Artaud) (1993)","Midnight Dancers (Sibak) (1994)","Somebody to Love (1994)","Very Natural Thing, A (1974)","Old Lady Who Walked in the Sea, The (Vieille qui marchait dans la mer, La) (1991)","Daylight (1996)","Frighteners, The (1996)","Lone Star (1996)","Harriet the Spy (1996)","Phenomenon (1996)","Walking and Talking (1996)","She's the One (1996)","Time to Kill, A (1996)","American Buffalo (1996)","Rendezvous in Paris (Rendez-vous de Paris, Les) (1995)","Alaska (1996)","Fled (1996)","Kazaam (1996)","Bewegte Mann, Der (1994)","Magic Hunter (1994)","Larger Than Life (1996)","Boy Called Hate, A (1995)","Power 98 (1995)","Two Deaths (1995)","Very Brady Sequel, A (1996)","Stefano Quantestorie (1993)","Death in the Garden (Mort en ce jardin, La) (1956)","Crude Oasis, The (1995)","Hedd Wyn (1992)","Collectionneuse, La (1967)","Kaspar Hauser (1993)","Echte Kerle (1996)","Diebinnen (1995)","Convent, The (Convento, O) (1995)","Adventures of Pinocchio, The (1996)","Joe's Apartment (1996)","First Wives Club, The (1996)","Stonewall (1995)","Ransom (1996)","High School High (1996)","Phat Beach (1996)","Foxfire (1996)","Chain Reaction (1996)","Matilda (1996)","Emma (1996)","Crow: City of Angels, The (1996)","House Arrest (1996)","Eyes Without a Face (1959)","Tales from the Crypt Presents: Bordello of Blood (1996)","Lotto Land (1995)","Story of Xinghua, The (1993)","Day the Sun Turned Cold, The (Tianguo niezi) (1994)","Flirt (1995)","Big Squeeze, The (1996)","Spitfire Grill, The (1996)","Escape from L.A. (1996)","Cyclo (1995)","Basquiat (1996)","Tin Cup (1996)","Dingo (1992)","Ballad of Narayama, The (Narayama Bushiko) (1958)","Every Other Weekend (1990)","Mille bolle blu (1993)","Crows and Sparrows (1949)","Godfather, The (1972)","Hippie Revolution, The (1996)","Maybe, Maybe Not (Bewegte Mann, Der) (1994)","Supercop (1992)","Manny & Lo (1996)","Celestial Clockwork (1994)","Wife, The (1995)","Small Faces (1995)","Bound (1996)","Carpool (1996)","Death in Brunswick (1991)","Kansas City (1996)","Gone Fishin' (1997)","Lover's Knot (1996)","Aiqing wansui (1994)","Shadow of Angels (Schatten der Engel) (1976)","Killer: A Journal of Murder (1995)","Nothing to Lose (1994)","Police Story 4: Project S (Chao ji ji hua) (1993)","Girls Town (1996)","Bye-Bye (1995)","Relic, The (1997)","Island of Dr. Moreau, The (1996)","First Kid (1996)","Trigger Effect, The (1996)","Sweet Nothing (1995)","Bogus (1996)","Bulletproof (1996)","Talk of Angels (1998)","Land Before Time III: The Time of the Great Giving (1995)","1-900 (1994)","Baton Rouge (1988)","Halloween: The Curse of Michael Myers (1995)","Twelfth Night (1996)","Mother Night (1996)","Liebelei (1933)","Venice/Venice (1992)","Wild Reeds (1994)","For Whom the Bell Tolls (1943)","Philadelphia Story, The (1940)","Singin' in the Rain (1952)","American in Paris, An (1951)","Funny Face (1957)","Breakfast at Tiffany's (1961)","Vertigo (1958)","Rear Window (1954)","It Happened One Night (1934)","Gaslight (1944)","Gay Divorcee, The (1934)","North by Northwest (1959)","Apartment, The (1960)","Some Like It Hot (1959)","Charade (1963)","Casablanca (1942)","Maltese Falcon, The (1941)","My Fair Lady (1964)","Sabrina (1954)","Roman Holiday (1953)","Little Princess, The (1939)","Meet Me in St. Louis (1944)","Wizard of Oz, The (1939)","Gone with the Wind (1939)","My Favorite Year (1982)","Sunset Blvd. (a.k.a. Sunset Boulevard) (1950)","Citizen Kane (1941)","2001: A Space Odyssey (1968)","Golden Earrings (1947)","All About Eve (1950)","Women, The (1939)","Rebecca (1940)","Foreign Correspondent (1940)","Notorious (1946)","Spellbound (1945)","Affair to Remember, An (1957)","To Catch a Thief (1955)","Father of the Bride (1950)","Band Wagon, The (1953)","Ninotchka (1939)","Love in the Afternoon (1957)","Gigi (1958)","Reluctant Debutante, The (1958)","Adventures of Robin Hood, The (1938)","Mark of Zorro, The (1940)","Laura (1944)","Ghost and Mrs. Muir, The (1947)","Lost Horizon (1937)","Top Hat (1935)","To Be or Not to Be (1942)","My Man Godfrey (1936)","Giant (1956)","East of Eden (1955)","Thin Man, The (1934)","His Girl Friday (1940)","Around the World in 80 Days (1956)","It's a Wonderful Life (1946)","Mr. Smith Goes to Washington (1939)","Bringing Up Baby (1938)","Penny Serenade (1941)","Scarlet Letter, The (1926)","Lady of Burlesque (1943)","Of Human Bondage (1934)","Angel on My Shoulder (1946)","Little Lord Fauntleroy (1936)","They Made Me a Criminal (1939)","Inspector General, The (1949)","Angel and the Badman (1947)","39 Steps, The (1935)","Walk in the Sun, A (1945)","Outlaw, The (1943)","Night of the Living Dead (1968)","African Queen, The (1951)","Beat the Devil (1954)","Cat on a Hot Tin Roof (1958)","Last Time I Saw Paris, The (1954)","Meet John Doe (1941)","Algiers (1938)","Something to Sing About (1937)","Farewell to Arms, A (1932)","Moonlight Murder (1936)","Blue Angel, The (Blaue Engel, Der) (1930)","Nothing Personal (1995)","In the Line of Duty 2 (1987)","Dangerous Ground (1997)","Picnic (1955)","Madagascar Skin (1995)","Pompatus of Love, The (1996)","Small Wonders (1996)","Fly Away Home (1996)","Bliss (1997)","Grace of My Heart (1996)","Schlafes Bruder (Brother of Sleep) (1995)","Maximum Risk (1996)","Michael Collins (1996)","Rich Man's Wife, The (1996)","Infinity (1996)","Big Night (1996)","Last Man Standing (1996)","Caught (1996)","Set It Off (1996)","2 Days in the Valley (1996)","Curdled (1996)","Associate, The (L'Associe)(1982)","Ed's Next Move (1996)","Extreme Measures (1996)","Glimmer Man, The (1996)","D3: The Mighty Ducks (1996)","Chamber, The (1996)","Apple Dumpling Gang, The (1975)","Davy Crockett, King of the Wild Frontier (1955)","Escape to Witch Mountain (1975)","Love Bug, The (1969)","Herbie Rides Again (1974)","Old Yeller (1957)","Parent Trap, The (1961)","Pollyanna (1960)","Homeward Bound: The Incredible Journey (1993)","Shaggy Dog, The (1959)","Swiss Family Robinson (1960)","That Darn Cat! (1965)","20,000 Leagues Under the Sea (1954)","Cool Runnings (1993)","Angels in the Outfield (1994)","Cinderella (1950)","Winnie the Pooh and the Blustery Day (1968)","Three Caballeros, The (1945)","Sword in the Stone, The (1963)","So Dear to My Heart (1949)","Robin Hood: Prince of Thieves (1991)","Mary Poppins (1964)","Dumbo (1941)","Pete's Dragon (1977)","Bedknobs and Broomsticks (1971)","Alice in Wonderland (1951)","Fox and the Hound, The (1981)","Freeway (1996)","Sound of Music, The (1965)","Die Hard (1988)","Lawnmower Man, The (1992)","Unhook the Stars (1996)","Synthetic Pleasures (1995)","Secret Agent, The (1996)","Secrets & Lies (1996)","That Thing You Do! (1996)","To Gillian on Her 37th Birthday (1996)","Surviving Picasso (1996)","Love Is All There Is (1996)","Beautiful Thing (1996)","Long Kiss Goodnight, The (1996)","Ghost and the Darkness, The (1996)","Looking for Richard (1996)","Trees Lounge (1996)","Proprietor, The (1996)","Normal Life (1996)","Get on the Bus (1996)","Shadow Conspiracy (1997)","Jude (1996)","Everyone Says I Love You (1996)","Bitter Sugar (Azucar Amargo) (1996)","William Shakespeare's Romeo and Juliet (1996)","Swingers (1996)","Sleepers (1996)","Sunchaser, The (1996)","Johns (1996)","Aladdin and the King of Thieves (1996)","Woman in Question, The (1950)","Shall We Dance? (1937)","Damsel in Distress, A (1937)","Crossfire (1947)","Murder, My Sweet (1944)","Macao (1952)","For the Moment (1994)","Willy Wonka and the Chocolate Factory (1971)","Sexual Life of the Belgians, The (1994)","Innocents, The (1961)","Sleeper (1973)","Bananas (1971)","Fish Called Wanda, A (1988)","Monty Python's Life of Brian (1979)","Victor/Victoria (1982)","Candidate, The (1972)","Great Race, The (1965)","Bonnie and Clyde (1967)","Old Man and the Sea, The (1958)","Dial M for Murder (1954)","Madame Butterfly (1995)","Dirty Dancing (1987)","Reservoir Dogs (1992)","Platoon (1986)","Weekend at Bernie's (1989)","Basic Instinct (1992)","Doors, The (1991)","Crying Game, The (1992)","Glengarry Glen Ross (1992)","Sophie's Choice (1982)","E.T. the Extra-Terrestrial (1982)","Search for One-eye Jimmy, The (1996)","Christmas Carol, A (1938)","Days of Thunder (1990)","Top Gun (1986)","American Strays (1996)","Rebel Without a Cause (1955)","Streetcar Named Desire, A (1951)","Children of the Corn IV: The Gathering (1996)","Leopard Son, The (1996)","Loser (1991)","Prerokbe Ognja (1995)","Charm's Incidents (1996)","Bird of Prey (1996)","Microcosmos (Microcosmos: Le peuple de l'herbe) (1996)","Palookaville (1996)","Associate, The (1996)","Funeral, The (1996)","Sleepover (1995)","Single Girl, A (La Fille Seule) (1995)","Eighth Day, The (Le Huiti�me jour ) (1996)","Tashunga (1995)","Drunks (1997)","People vs. Larry Flynt, The (1996)","Glory Daze (1996)","Plutonium Circus (1995)","Perfect Candidate, A (1996)","On Golden Pond (1981)","Return of the Pink Panther, The (1974)","Drop Dead Fred (1991)","Abyss, The (1989)","Fog, The (1980)","Escape from New York (1981)","Howling, The (1980)","Jean de Florette (1986)","Manon of the Spring (Manon des sources) (1986)","Talking About Sex (1994)","Johnny 100 Pesos (1993)","Private Benjamin (1980)","Monty Python and the Holy Grail (1974)","Hustler White (1996)","Dadetown (1995)","Everything Relative (1996)","Entertaining Angels: The Dorothy Day Story (1996)","Hoogste tijd (1995)","Get Over It (1996)","Three Lives and Only One Death (1996)","Line King: Al Hirschfeld, The (1996)","Snowriders (1996)","Curtis's Charm (1995)","When We Were Kings (1996)","Wrong Trousers, The (1993)","JLG/JLG - autoportrait de d�cembre (1994)","Return of Martin Guerre, The (Retour de Martin Guerre, Le) (1982)","Faust (1994)","He Walked by Night (1948)","Raw Deal (1948)","T-Men (1947)","Invitation, The (Zaproszenie) (1986)","Children Are Watching us, The (Bambini ci guardano, I) (1942)","Symphonie pastorale, La (1946)","Here Comes Cookie (1935)","Love in Bloom (1935)","Six of a Kind (1934)","Tin Drum, The (Blechtrommel, Die) (1979)","Ruling Class, The (1972)","Mina Tannenbaum (1994)","Two or Three Things I Know About Her (1966)","Bloody Child, The (1996)","Farmer & Chase (1995)","Dear God (1996)","Bad Moon (1996)","American Dream (1990)","Best of the Best 3: No Turning Back (1995)","Bob Roberts (1992)","Cinema Paradiso (1988)","Cook the Thief His Wife & Her Lover, The (1989)","Grosse Fatigue (1994)","Delicatessen (1991)","Double Life of Veronique, The (La Double Vie de V�ronique) (1991)","Enchanted April (1991)","Paths of Glory (1957)","Grifters, The (1990)","Hear My Song (1991)","Shooter, The (1995)","English Patient, The (1996)","Mediterraneo (1991)","My Left Foot (1989)","Sex, Lies, and Videotape (1989)","Passion Fish (1992)","Strictly Ballroom (1992)","Thin Blue Line, The (1988)","Tie Me Up! Tie Me Down! (1990)","Madonna: Truth or Dare (1991)","Paris Is Burning (1990)","One Flew Over the Cuckoo's Nest (1975)","Up in Smoke (1978)","Star Wars: Episode V - The Empire Strikes Back (1980)","Princess Bride, The (1987)","Raiders of the Lost Ark (1981)","Brazil (1985)","Aliens (1986)","Good, The Bad and The Ugly, The (1966)","Withnail and I (1987)","12 Angry Men (1957)","Lawrence of Arabia (1962)","Transformers: The Movie, The (1986)","Clockwork Orange, A (1971)","To Kill a Mockingbird (1962)","Apocalypse Now (1979)","Once Upon a Time in the West (1969)","Star Wars: Episode VI - Return of the Jedi (1983)","Wings of Desire (Der Himmel �ber Berlin) (1987)","Third Man, The (1949)","GoodFellas (1990)","Alien (1979)","Army of Darkness (1993)","Big Blue, The (Le Grand Bleu) (1988)","Ran (1985)","Killer, The (Die xue shuang xiong) (1989)","Psycho (1960)","Blues Brothers, The (1980)","Godfather: Part II, The (1974)","Full Metal Jacket (1987)","Grand Day Out, A (1992)","Henry V (1989)","Amadeus (1984)","Quiet Man, The (1952)","Once Upon a Time in America (1984)","Raging Bull (1980)","Annie Hall (1977)","Right Stuff, The (1983)","Stalker (1979)","Boat, The (Das Boot) (1981)","Sting, The (1973)","Harold and Maude (1971)","Trust (1990)","Seventh Seal, The (Sjunde inseglet, Det) (1957)","Local Hero (1983)","Terminator, The (1984)","Braindead (1992)","Glory (1989)","Rosencrantz and Guildenstern Are Dead (1990)","Manhattan (1979)","Miller's Crossing (1990)","Dead Poets Society (1989)","Graduate, The (1967)","Touch of Evil (1958)","Nikita (La Femme Nikita) (1990)","Bridge on the River Kwai, The (1957)","8 1/2 (1963)","Chinatown (1974)","Day the Earth Stood Still, The (1951)","Treasure of the Sierra Madre, The (1948)","Bad Taste (1987)","Duck Soup (1933)","Better Off Dead... (1985)","Shining, The (1980)","Stand by Me (1986)","M (1931)","Evil Dead II (Dead By Dawn) (1987)","Great Escape, The (1963)","Deer Hunter, The (1978)","Diva (1981)","Groundhog Day (1993)","Unforgiven (1992)","Manchurian Candidate, The (1962)","Pump Up the Volume (1990)","Arsenic and Old Lace (1944)","Back to the Future (1985)","Fried Green Tomatoes (1991)","Patton (1970)","Down by Law (1986)","Akira (1988)","Highlander (1986)","Cool Hand Luke (1967)","Cyrano de Bergerac (1990)","Young Frankenstein (1974)","Night on Earth (1991)","Raise the Red Lantern (1991)","Great Dictator, The (1940)","Fantasia (1940)","High Noon (1952)","Big Sleep, The (1946)","Heathers (1989)","Somewhere in Time (1980)","Ben-Hur (1959)","This Is Spinal Tap (1984)","Koyaanisqatsi (1983)","Some Kind of Wonderful (1987)","Indiana Jones and the Last Crusade (1989)","Being There (1979)","Gandhi (1982)","M*A*S*H (1970)","Unbearable Lightness of Being, The (1988)","Room with a View, A (1986)","Real Genius (1985)","Pink Floyd - The Wall (1982)","Killing Fields, The (1984)","My Life as a Dog (Mitt liv som hund) (1985)","Forbidden Planet (1956)","Field of Dreams (1989)","Man Who Would Be King, The (1975)","Butch Cassidy and the Sundance Kid (1969)","Paris, Texas (1984)","Until the End of the World (Bis ans Ende der Welt) (1991)","When Harry Met Sally... (1989)","I Shot a Man in Vegas (1995)","Parallel Sons (1995)","Hype! (1996)","Santa with Muscles (1996)","Female Perversions (1996)","Mad Dog Time (1996)","Breathing Room (1996)","Paris Was a Woman (1995)","Anna (1996)","I'm Not Rappaport (1996)","Blue Juice (1995)","Kids of Survival (1993)","Alien� (1992)","American Werewolf in London, An (1981)","Amityville 1992: It's About Time (1992)","Amityville 3-D (1983)","Amityville: Dollhouse (1996)","Amityville: A New Generation (1993)","Amityville II: The Possession (1982)","Amityville Horror, The (1979)","Amityville Curse, The (1990)","Blood For Dracula (Andy Warhol's Dracula) (1974)","April Fool's Day (1986)","Audrey Rose (1977)","Believers, The (1987)","Birds, The (1963)","Blob, The (1958)","Blood Beach (1981)","Body Parts (1991)","Body Snatcher, The (1945)","Bram Stoker's Dracula (1992)","Bride of Frankenstein (1935)","Burnt Offerings (1976)","Candyman (1992)","Cape Fear (1991)","Cape Fear (1962)","Carrie (1976)","Cat People (1982)","Nightmare on Elm Street, A (1984)","Nosferatu (Nosferatu, eine Symphonie des Grauens) (1922)","Nosferatu a Venezia (1986)","Omen, The (1976)","Blood & Wine (1997)","Albino Alligator (1996)","Mirror Has Two Faces, The (1996)","Breaking the Waves (1996)","Nightwatch (1997)","Star Trek: First Contact (1996)","Shine (1996)","Sling Blade (1996)","Jingle All the Way (1996)","Identification of a Woman (Identificazione di una donna) (1982)","Paradise Lost: The Child Murders at Robin Hood Hills (1996)","Garden of Finzi-Contini, The (Giardino dei Finzi-Contini, Il) (1970)","Preacher's Wife, The (1996)","Zero Kelvin (Kj�rlighetens kj�tere) (1995)","Ridicule (1996)","Crucible, The (1996)","101 Dalmatians (1996)","Forbidden Christ, The (Cristo proibito, Il) (1950)","I Can't Sleep (J'ai pas sommeil) (1994)","Die Hard 2 (1990)","Star Trek: The Motion Picture (1979)","Star Trek VI: The Undiscovered Country (1991)","Star Trek V: The Final Frontier (1989)","Star Trek: The Wrath of Khan (1982)","Star Trek III: The Search for Spock (1984)","Star Trek IV: The Voyage Home (1986)","Batman Returns (1992)","Young Guns (1988)","Young Guns II (1990)","Grease (1978)","Grease 2 (1982)","Marked for Death (1990)","Adrenalin: Fear the Rush (1996)","Substance of Fire, The (1996)","Under Siege (1992)","Terror in a Texas Town (1958)","Jaws (1975)","Jaws 2 (1978)","Jaws 3-D (1983)","My Fellow Americans (1996)","Mars Attacks! (1996)","Citizen Ruth (1996)","Jerry Maguire (1996)","Raising Arizona (1987)","Tin Men (1987)","Sneakers (1992)","Bastard Out of Carolina (1996)","In Love and War (1996)","Marvin's Room (1996)","Somebody is Waiting (1996)","Ghosts of Mississippi (1996)","Night Falls on Manhattan (1997)","Beavis and Butt-head Do America (1996)","C�r�monie, La (1995)","Scream (1996)","Last of the Mohicans, The (1992)","Michael (1996)","Evening Star, The (1996)","Hamlet (1996)","Some Mother's Son (1996)","Whole Wide World, The (1996)","Mother (1996)","Thieves (Voleurs, Les) (1996)","Evita (1996)","Portrait of a Lady, The (1996)","Walkabout (1971)","Message to Love: The Isle of Wight Festival (1996)","Grateful Dead (1995)","Murder at 1600 (1997)","Hearts and Minds (1996)","Inside (1996)","Fierce Creatures (1997)","Zeus and Roxanne (1997)","Turbulence (1997)","Angel Baby (1995)","Jackie Chan's First Strike (1996)","Underworld (1997)","Beverly Hills Ninja (1997)","Metro (1997)","Machine, The (1994)","Stranger, The (1994)","Falling in Love Again (1980)","Cement Garden, The (1993)","Dante's Peak (1997)","Meet Wally Sparks (1997)","Amos & Andrew (1993)","Benny & Joon (1993)","Prefontaine (1997)","Tickle in the Heart, A (1996)","Guantanamera (1994)","McHale's Navy (1997)","Kolya (1996)","Gridlock'd (1997)","Fire on the Mountain (1996)","Waiting for Guffman (1996)","Prisoner of the Mountains (Kavkazsky Plennik) (1996)","Beautician and the Beast, The (1997)","SubUrbia (1997)","Hotel de Love (1996)","Pest, The (1997)","Fools Rush In (1997)","Touch (1997)","Absolute Power (1997)","That Darn Cat! (1997)","Vegas Vacation (1997)","Unforgotten: Twenty-Five Years After Willowbrook (1996)","That Old Feeling (1997)","Lost Highway (1997)","Rosewood (1997)",
@@ -217,6 +139,7 @@
             });
         });
 
+        // Movie title validity check before submit
         function ValidationEvent() {
             // Storing Field Values In Variables
             var availableTitle = ["Toy Story (1995)","Jumanji (1995)","Grumpier Old Men (1995)","Waiting to Exhale (1995)","Father of the Bride Part II (1995)","Heat (1995)","Sabrina (1995)","Tom and Huck (1995)","Sudden Death (1995)","GoldenEye (1995)","American President, The (1995)","Dracula: Dead and Loving It (1995)","Balto (1995)","Nixon (1995)","Cutthroat Island (1995)","Casino (1995)","Sense and Sensibility (1995)","Four Rooms (1995)","Ace Ventura: When Nature Calls (1995)","Money Train (1995)","Get Shorty (1995)","Copycat (1995)","Assassins (1995)","Powder (1995)","Leaving Las Vegas (1995)","Othello (1995)","Now and Then (1995)","Persuasion (1995)","City of Lost Children, The (1995)","Shanghai Triad (Yao a yao yao dao waipo qiao) (1995)","Dangerous Minds (1995)","Twelve Monkeys (1995)","Wings of Courage (1995)","Babe (1995)","Carrington (1995)","Dead Man Walking (1995)","Across the Sea of Time (1995)","It Takes Two (1995)","Clueless (1995)","Cry, the Beloved Country (1995)","Richard III (1995)","Dead Presidents (1995)","Restoration (1995)","Mortal Kombat (1995)","To Die For (1995)","How to Make an American Quilt (1995)","Seven (Se7en) (1995)","Pocahontas (1995)","When Night Is Falling (1995)","Usual Suspects, The (1995)","Guardian Angel (1994)","Mighty Aphrodite (1995)","Lamerica (1994)","Big Green, The (1995)","Georgia (1995)","Kids of the Round Table (1995)","Home for the Holidays (1995)","Postino, Il (The Postman) (1994)","Confessional, The (Le Confessionnal) (1995)","Indian in the Cupboard, The (1995)","Eye for an Eye (1996)","Mr. Holland's Opus (1995)","Don't Be a Menace to South Central While Drinking Your Juice in the Hood (1996)","Two if by Sea (1996)","Bio-Dome (1996)","Lawnmower Man 2: Beyond Cyberspace (1996)","Two Bits (1995)","French Twist (Gazon maudit) (1995)","Friday (1995)","From Dusk Till Dawn (1996)","Fair Game (1995)","Kicking and Screaming (1995)","Mis�rables, Les (1995)","Bed of Roses (1996)","Big Bully (1996)","Screamers (1995)","Nico Icon (1995)","Crossing Guard, The (1995)","Juror, The (1996)","White Balloon, The (Badkonake Sefid ) (1995)","Things to Do in Denver when You're Dead (1995)","Antonia's Line (Antonia) (1995)","Once Upon a Time... When We Were Colored (1995)","Last Summer in the Hamptons (1995)","Angels and Insects (1995)","White Squall (1996)","Dunston Checks In (1996)","Black Sheep (1996)","Nick of Time (1995)","Journey of August King, The (1995)","Mary Reilly (1996)","Vampire in Brooklyn (1995)","Beautiful Girls (1996)","Broken Arrow (1996)","In the Bleak Midwinter (1995)","Hate (Haine, La) (1995)","Shopping (1994)","Heidi Fleiss: Hollywood Madam (1995)","City Hall (1996)","Bottle Rocket (1996)","Mr. Wrong (1996)","Unforgettable (1996)","Happy Gilmore (1996)","Bridges of Madison County, The (1995)","Nobody Loves Me (Keiner liebt mich) (1994)","Muppet Treasure Island (1996)","Catwalk (1995)","Headless Body in Topless Bar (1995)","Braveheart (1995)","Taxi Driver (1976)","Rumble in the Bronx (1995)","Before and After (1996)","Margaret's Museum (1995)","Happiness Is in the Field (1995)","Anne Frank Remembered (1995)","Young Poisoner's Handbook, The (1995)","If Lucy Fell (1996)","Steal Big, Steal Little (1995)","Race the Sun (1996)","Boys of St. Vincent, The (1993)","Boomerang (1992)","Chungking Express (1994)","Star Maker, The (Uomo delle stelle, L') (1995)","Flirting With Disaster (1996)","NeverEnding Story III, The (1994)","Silence of the Palace, The (Saimt el Qusur) (1994)","Jupiter's Wife (1994)","Pie in the Sky (1995)","Angela (1995)","Frankie Starlight (1995)","Jade (1995)","Nueba Yol (1995)","Sonic Outlaws (1995)","Down Periscope (1996)","From the Journals of Jean Seberg (1995)","Man of the Year (1995)","Neon Bible, The (1995)","Target (1995)","Up Close and Personal (1996)","Birdcage, The (1996)","Shadows (Cienie) (1988)","Gospa (1995)","Brothers McMullen, The (1995)","Bad Boys (1995)","Amazing Panda Adventure, The (1995)","Basketball Diaries, The (1995)","Awfully Big Adventure, An (1995)","Amateur (1994)","Apollo 13 (1995)","Rob Roy (1995)","Addiction, The (1995)","Batman Forever (1995)","Belle de jour (1967)","Beyond Rangoon (1995)","Blue in the Face (1995)","Canadian Bacon (1994)","Casper (1995)","Clockers (1995)","Congo (1995)","Crimson Tide (1995)","Crumb (1994)","Desperado (1995)","Devil in a Blue Dress (1995)","Die Hard: With a Vengeance (1995)","Doom Generation, The (1995)","Feast of July (1995)","First Knight (1995)","Free Willy 2: The Adventure Home (1995)","Hackers (1995)","Jeffrey (1995)","Johnny Mnemonic (1995)","Judge Dredd (1995)","Jury Duty (1995)","Kids (1995)","Living in Oblivion (1995)","Lord of Illusions (1995)","Love & Human Remains (1993)","Mad Love (1995)","Mallrats (1995)","Mighty Morphin Power Rangers: The Movie (1995)","Moonlight and Valentino (1995)","Mute Witness (1994)","Nadja (1994)","Net, The (1995)","Nine Months (1995)","Party Girl (1995)","Prophecy, The (1995)","Reckless (1995)","Safe (1995)","Scarlet Letter, The (1995)","Show, The (1995)","Showgirls (1995)","Smoke (1995)","Something to Talk About (1995)","Species (1995)","Stars Fell on Henrietta, The (1995)","Strange Days (1995)","Umbrellas of Cherbourg, The (Parapluies de Cherbourg, Les) (1964)","Tie That Binds, The (1995)","Three Wishes (1995)","Total Eclipse (1995)","To Wong Foo, Thanks for Everything! Julie Newmar (1995)","Under Siege 2: Dark Territory (1995)","Unstrung Heroes (1995)","Unzipped (1995)","Walk in the Clouds, A (1995)","Waterworld (1995)","White Man's Burden (1995)","Wild Bill (1995)","Browning Version, The (1994)","Bushwhacked (1995)","Burnt By the Sun (Utomlyonnye solntsem) (1994)","Before the Rain (Pred dozhdot) (1994)","Before Sunrise (1995)","Billy Madison (1995)","Babysitter, The (1995)","Boys on the Side (1995)","Cure, The (1995)","Castle Freak (1995)","Circle of Friends (1995)","Clerks (1994)","Don Juan DeMarco (1995)","Disclosure (1994)","Dream Man (1995)","Drop Zone (1994)","Destiny Turns on the Radio (1995)","Death and the Maiden (1994)","Dolores Claiborne (1994)","Dumb & Dumber (1994)","Eat Drink Man Woman (1994)","Exotica (1994)","Exit to Eden (1994)","Ed Wood (1994)","French Kiss (1995)","Forget Paris (1995)","Far From Home: The Adventures of Yellow Dog (1995)","Goofy Movie, A (1995)","Hideaway (1995)","Fluke (1995)","Farinelli: il castrato (1994)","Gordy (1995)","Gumby: The Movie (1995)","Glass Shield, The (1994)","Hoop Dreams (1994)","Heavenly Creatures (1994)","Houseguest (1994)","Immortal Beloved (1994)","Heavyweights (1994)","Hunted, The (1995)","I.Q. (1994)","Interview with the Vampire (1994)","Jefferson in Paris (1995)","Jerky Boys, The (1994)","Junior (1994)","Just Cause (1995)","Kid in King Arthur's Court, A (1995)","Kiss of Death (1995)","Star Wars: Episode IV - A New Hope (1977)","Little Women (1994)","Little Princess, A (1995)","Ladybird Ladybird (1994)","Enfer, L' (1994)","Like Water for Chocolate (Como agua para chocolate) (1992)","Legends of the Fall (1994)","Major Payne (1994)","Little Odessa (1994)","My Crazy Life (Mi vida loca) (1993)","Love Affair (1994)","Losing Isaiah (1995)","Madness of King George, The (1994)","Mary Shelley's Frankenstein (1994)","Man of the House (1995)","Mixed Nuts (1994)","Milk Money (1994)","Miracle on 34th Street (1994)","Miami Rhapsody (1995)","My Family (1995)","Murder in the First (1995)","Nobody's Fool (1994)","Nell (1994)","New Jersey Drive (1995)","New York Cop (1996)","Beyond Bedlam (1993)","Nemesis 2: Nebula (1995)","Nina Takes a Lover (1994)","Natural Born Killers (1994)","Only You (1994)","Once Were Warriors (1994)","Poison Ivy II (1995)","Outbreak (1995)","Professional, The (a.k.a. Leon: The Professional) (1994)","Perez Family, The (1995)","Pyromaniac's Love Story, A (1995)","Pulp Fiction (1994)","Panther (1995)","Pushing Hands (1992)","Priest (1994)","Quiz Show (1994)","Picture Bride (1995)","Queen Margot (La Reine Margot) (1994)","Quick and the Dead, The (1995)","Roommates (1995)","Ready to Wear (Pret-A-Porter) (1994)","Three Colors: Red (1994)","Three Colors: Blue (1993)","Three Colors: White (1994)","Red Firecracker, Green Firecracker (1994)","Rent-a-Kid (1995)","Relative Fear (1994)","Stuart Saves His Family (1995)","Swan Princess, The (1994)","Secret of Roan Inish, The (1994)","Specialist, The (1994)","Stargate (1994)","Santa Clause, The (1994)","Shawshank Redemption, The (1994)","Shallow Grave (1994)","Suture (1993)","Strawberry and Chocolate (Fresa y chocolate) (1993)","Swimming with Sharks (1995)","Sum of Us, The (1994)","National Lampoon's Senior Trip (1995)","To Live (Huozhe) (1994)","Tank Girl (1995)","Tales From the Crypt Presents: Demon Knight (1995)","Star Trek: Generations (1994)","Tales from the Hood (1995)","Tom & Viv (1994)","Village of the Damned (1995)","Tommy Boy (1995)","Vanya on 42nd Street (1994)","Underneath, The (1995)","Walking Dead, The (1995)","What's Eating Gilbert Grape (1993)","Virtuosity (1995)","While You Were Sleeping (1995)","War, The (1994)","Double Happiness (1994)","Muriel's Wedding (1994)","Baby-Sitters Club, The (1995)","Ace Ventura: Pet Detective (1994)","Adventures of Priscilla, Queen of the Desert, The (1994)","Backbeat (1993)","Bitter Moon (1992)","Bullets Over Broadway (1994)","Clear and Present Danger (1994)","Client, The (1994)","Corrina, Corrina (1994)","Crooklyn (1994)","Crow, The (1994)","Cobb (1994)","Flintstones, The (1994)","Forrest Gump (1994)","Four Weddings and a Funeral (1994)","Higher Learning (1995)","I Like It Like That (1994)","I Love Trouble (1994)","It Could Happen to You (1994)","Jungle Book, The (1994)","Wonderful, Horrible Life of Leni Riefenstahl, The (Die Macht der Bilder) (1993)","Lion King, The (1994)","Little Buddha (1993)","Wes Craven's New Nightmare (1994)","Mask, The (1994)","Maverick (1994)","Mrs. Parker and the Vicious Circle (1994)","Naked Gun 33 1/3: The Final Insult (1994)","Paper, The (1994)","Reality Bites (1994)","Red Rock West (1992)","Richie Rich (1994)","Safe Passage (1994)","River Wild, The (1994)","Speed (1994)","Speechless (1994)","Timecop (1994)","True Lies (1994)","When a Man Loves a Woman (1994)","Wolf (1994)","Wyatt Earp (1994)","Bad Company (1995)","Man of No Importance, A (1994)","S.F.W. (1994)","Low Down Dirty Shame, A (1994)","Boys Life (1995)","Colonel Chabert, Le (1994)","Faster Pussycat! Kill! Kill! (1965)","Jason's Lyric (1994)","Secret Adventures of Tom Thumb, The (1993)","Street Fighter (1994)","Coldblooded (1995)","Desert Winds (1995)","Fall Time (1995)","Fear, The (1995)","Frank and Ollie (1995)","Girl in the Cadillac (1995)","Homage (1995)","Mirage (1995)","Open Season (1996)","Two Crimes (1995)","Brother Minister: The Assassination of Malcolm X (1994)","Highlander III: The Sorcerer (1994)","Federal Hill (1994)","In the Mouth of Madness (1995)","8 Seconds (1994)","Above the Rim (1994)","Addams Family Values (1993)","You So Crazy (1994)","Age of Innocence, The (1993)","Airheads (1994)","Air Up There, The (1994)","Another Stakeout (1993)","Bad Girls (1994)","Barcelona (1994)","Being Human (1993)","Beverly Hillbillies, The (1993)","Beverly Hills Cop III (1994)","Black Beauty (1994)","Blink (1994)","Blown Away (1994)","Blue Chips (1994)","Blue Sky (1994)","Body Snatchers (1993)","Boxing Helena (1993)","Bronx Tale, A (1993)","Cabin Boy (1994)","Calendar Girl (1993)","Carlito's Way (1993)","City Slickers II: The Legend of Curly's Gold (1994)","Clean Slate (1994)","Cliffhanger (1993)","Coneheads (1993)","Color of Night (1994)","Cops and Robbersons (1994)","Cowboy Way, The (1994)","Dangerous Game (1993)","Dave (1993)","Dazed and Confused (1993)","Demolition Man (1993)","Endless Summer 2, The (1994)","Even Cowgirls Get the Blues (1993)","Fatal Instinct (1993)","Farewell My Concubine (1993)","Favor, The (1994)","Fearless (1993)","Fear of a Black Hat (1993)","With Honors (1994)","Flesh and Bone (1993)","Widows' Peak (1994)","For Love or Money (1993)","Firm, The (1993)","Free Willy (1993)","Fresh (1994)","Fugitive, The (1993)","Geronimo: An American Legend (1993)","Getaway, The (1994)","Getting Even with Dad (1994)","Go Fish (1994)","Good Man in Africa, A (1994)","Guilty as Sin (1993)","Hard Target (1993)","Heaven & Earth (1993)","Hot Shots! Part Deux (1993)","Live Nude Girls (1995)","Englishman Who Went Up a Hill, But Came Down a Mountain, The (1995)","House of the Spirits, The (1993)","House Party 3 (1994)","Hudsucker Proxy, The (1994)","I'll Do Anything (1994)","In the Army Now (1994)","In the Line of Fire (1993)","In the Name of the Father (1993)","Inkwell, The (1994)","What's Love Got to Do with It? (1993)","Jimmy Hollywood (1994)","Judgment Night (1993)","Jurassic Park (1993)","Kalifornia (1993)","Killing Zoe (1994)","King of the Hill (1993)","Lassie (1994)","Last Action Hero (1993)","Life with Mikey (1993)","Lightning Jack (1994)","M. Butterfly (1993)","Made in America (1993)","Malice (1993)","Man Without a Face, The (1993)","Manhattan Murder Mystery (1993)","Menace II Society (1993)","Executive Decision (1996)","In the Realm of the Senses (Ai no corrida) (1976)","What Happened Was... (1994)","Much Ado About Nothing (1993)","Mr. Jones (1993)","Mr. Wonderful (1993)","Mrs. Doubtfire (1993)","Naked (1993)","Next Karate Kid, The (1994)","New Age, The (1994)","No Escape (1994)","North (1994)","Orlando (1993)","Perfect World, A (1993)","Philadelphia (1993)","Piano, The (1993)","Poetic Justice (1993)","Program, The (1993)","Robert A. Heinlein's The Puppet Masters (1994)","Radioland Murders (1994)","Ref, The (1994)","Remains of the Day, The (1993)","Renaissance Man (1994)","Rising Sun (1993)","Road to Wellville, The (1994)","Robocop 3 (1993)","Robin Hood: Men in Tights (1993)","Romeo Is Bleeding (1993)","Romper Stomper (1992)","Ruby in Paradise (1993)","Rudy (1993)","Saint of Fort Washington, The (1993)","Savage Nights (Nuits fauves, Les) (1992)","Schindler's List (1993)","Scout, The (1994)","Searching for Bobby Fischer (1993)","Second Best (1994)","Secret Garden, The (1993)","Serial Mom (1994)","Shadow, The (1994)","Shadowlands (1993)","Short Cuts (1993)","Simple Twist of Fate, A (1994)","Sirens (1994)","Six Degrees of Separation (1993)","Sleepless in Seattle (1993)","Sliver (1993)","Blade Runner (1982)","Son in Law (1993)","So I Married an Axe Murderer (1993)","Striking Distance (1993)","Harlem (1993)","Super Mario Bros. (1993)","Surviving the Game (1994)","Terminal Velocity (1994)","Thirty-Two Short Films About Glenn Gould (1993)","Threesome (1994)","Nightmare Before Christmas, The (1993)","Three Musketeers, The (1993)","Tombstone (1993)","Trial by Jury (1994)","True Romance (1993)","War Room, The (1993)","Mamma Roma (1962)","Pagemaster, The (1994)","Paris, France (1993)","Beans of Egypt, Maine, The (1994)","Killer (Bulletproof Heart) (1994)","Welcome to the Dollhouse (1995)","Germinal (1993)","Chasers (1994)","Cronos (1992)","Naked in New York (1994)","Kika (1993)","Bhaji on the Beach (1993)","Little Big League (1994)","Slingshot, The (K�disbellan ) (1993)","Wedding Gift, The (1994)","Foreign Student (1994)","Ciao, Professore! (Io speriamo che me la cavo ) (1993)","Spanking the Monkey (1994)","Little Rascals, The (1994)","Fausto (1993)","Andre (1994)","Hour of the Pig, The (1993)","Scorta, La (1993)","Princess Caraboo (1994)","Celluloid Closet, The (1995)","Metisse (Caf� au Lait) (1993)","Dear Diary (Caro Diario) (1994)","I Don't Want to Talk About It (De eso no se habla) (1993)","Brady Bunch Movie, The (1995)","Home Alone (1990)","Ghost (1990)","Aladdin (1992)","Terminator 2: Judgment Day (1991)","Dances with Wolves (1990)","Tough and Deadly (1995)","Batman (1989)","Silence of the Lambs, The (1991)","Snow White and the Seven Dwarfs (1937)","Beauty and the Beast (1991)","Pinocchio (1940)","Pretty Woman (1990)","Window to Paris (1994)","Wild Bunch, The (1969)","Love and a .45 (1994)","Wooden Man's Bride, The (Wu Kui) (1994)","Great Day in Harlem, A (1994)","Bye Bye, Love (1995)","Criminals (1996)","One Fine Day (1996)","Candyman: Farewell to the Flesh (1995)","Century (1993)","Fargo (1996)","Homeward Bound II: Lost in San Francisco (1996)","Heavy Metal (1981)","Hellraiser: Bloodline (1996)","Pallbearer, The (1996)","Jane Eyre (1996)","Loaded (1994)","Bread and Chocolate (Pane e cioccolata) (1973)","Aristocats, The (1970)","Flower of My Secret, The (La Flor de Mi Secreto) (1995)","Two Much (1996)","Ed (1996)","Scream of Stone (Schrei aus Stein) (1991)","My Favorite Season (1993)","Modern Affair, A (1995)","Condition Red (1995)","Asfour Stah (1990)","Thin Line Between Love and Hate, A (1996)","Last Supper, The (1995)","Primal Fear (1996)","Rude (1995)","Carried Away (1996)","All Dogs Go to Heaven 2 (1996)","Land and Freedom (Tierra y libertad) (1995)","Denise Calls Up (1995)","Theodore Rex (1995)","Family Thing, A (1996)","Frisk (1995)","Sgt. Bilko (1996)","Jack and Sarah (1995)","Girl 6 (1996)","Diabolique (1996)","Little Indian, Big City (Un indien dans la ville) (1994)","Roula (1995)","Peanuts - Die Bank zahlt alles (1996)","Happy Weekend (1996)","Nelly & Monsieur Arnaud (1995)","Courage Under Fire (1996)","Mission: Impossible (1996)","Cold Fever (� k�ldum klaka) (1994)","Moll Flanders (1996)","Superweib, Das (1996)","301, 302 (1995)","Dragonheart (1996)","Und keiner weint mir nach (1996)","Mutters Courage (1995)","Eddie (1996)","Yankee Zulu (1994)","Billy's Holiday (1995)","Purple Noon (1960)","August (1996)","James and the Giant Peach (1996)","Fear (1996)","Kids in the Hall: Brain Candy (1996)","Faithful (1996)","Underground (1995)","All Things Fair (1996)","Bloodsport 2 (1995)","Pather Panchali (1955)","Aparajito (1956)","World of Apu, The (Apur Sansar) (1959)","Mystery Science Theater 3000: The Movie (1996)","Tarantella (1995)","Space Jam (1996)","Barbarella (1968)","Hostile Intentions (1994)","They Bite (1996)","Some Folks Call It a Sling Blade (1993)","Run of the Country, The (1995)","Alphaville (1965)","Clean Slate (Coup de Torchon) (1981)","Tigrero: A Film That Was Never Made (1994)","Eye of Vichy, The (Oeil de Vichy, L') (1993)","Windows (1980)","It's My Party (1995)","Country Life (1994)","Operation Dumbo Drop (1995)","Promise, The (Versprechen, Das) (1994)","Mrs. Winterbourne (1996)","Solo (1996)","Under the Domin Tree (Etz Hadomim Tafus) (1994)","Substitute, The (1996)","True Crime (1995)","Butterfly Kiss (1995)","Feeling Minnesota (1996)","Delta of Venus (1994)","To Cross the Rubicon (1991)","Angus (1995)","Daens (1992)","Faces (1968)","Boys (1996)","Quest, The (1996)","Cosi (1996)","Sunset Park (1996)","Mulholland Falls (1996)","Truth About Cats & Dogs, The (1996)","Oliver & Company (1988)","Celtic Pride (1996)","Flipper (1996)","Captives (1994)","Of Love and Shadows (1994)","Dead Man (1995)","Horseman on the Roof, The (Hussard sur le toit, Le) (1995)","Switchblade Sisters (1975)","Mouth to Mouth (Boca a boca) (1995)","Visitors, The (Les Visiteurs) (1993)","Multiplicity (1996)","Wallace & Gromit: The Best of Aardman Animation (1996)","Halfmoon (Paul Bowles - Halbmond) (1995)","Haunted World of Edward D. Wood Jr., The (1995)","Two Friends (1986)","Craft, The (1996)","Great White Hype, The (1996)","Last Dance (1996)","War Stories (1995)","Cold Comfort Farm (1995)","Institute Benjamenta, or This Dream People Call Human Life (1995)","Low Life, The (1994)","Heaven's Prisoners (1996)","Original Gangstas (1996)","Rock, The (1996)","Getting Away With Murder (1996)","Cemetery Man (Dellamorte Dellamore) (1994)","Twister (1996)","Barb Wire (1996)","Garcu, Le (1995)","Honigmond (1996)","Ghost in the Shell (Kokaku kidotai) (1995)","Thinner (1996)","Spy Hard (1996)","Brothers in Trouble (1995)","Close Shave, A (1995)","Force of Evil (1948)","Stupids, The (1996)","Arrival, The (1996)","Man from Down Under, The (1943)","Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1963)","Careful (1992)","Vermont Is For Lovers (1992)","Month by the Lake, A (1995)","Gold Diggers: The Secret of Bear Mountain (1995)","Kim (1950)","Carmen Miranda: Bananas Is My Business (1994)","Ashes of Time (1994)","Jar, The (Khomreh) (1992)","Maya Lin: A Strong Clear Vision (1994)","Stalingrad (1993)","Phantom, The (1996)","Striptease (1996)","Last of the High Kings, The (a.k.a. Summer Fling) (1996)","Heavy (1995)","Jack (1996)","I Shot Andy Warhol (1996)","Grass Harp, The (1995)","Someone Else's America (1995)","Marlene Dietrich: Shadow and Light (1996)","Costa Brava (1946)","Vie est belle, La (Life is Rosey) (1987)","Quartier Mozart (1992)","Touki Bouki (Journey of the Hyena) (1973)","Wend Kuuni (God's Gift) (1982)","Spirits of the Dead (Tre Passi nel Delirio) (1968)","Babyfever (1994)","Pharaoh's Army (1995)","Trainspotting (1996)","'Til There Was You (1997)","Independence Day (ID4) (1996)","Stealing Beauty (1996)","Fan, The (1996)","Hunchback of Notre Dame, The (1996)","Cable Guy, The (1996)","Kingpin (1996)","Eraser (1996)","Gate of Heavenly Peace, The (1995)","Nutty Professor, The (1996)","I, Worst of All (Yo, la peor de todas) (1990)","An Unforgettable Summer (1994)","Last Klezmer: Leopold Kozlowski, His Life and Music, The (1995)","Hungarian Fairy Tale, A (1987)","My Life and Times With Antonin Artaud (En compagnie d'Antonin Artaud) (1993)","Midnight Dancers (Sibak) (1994)","Somebody to Love (1994)","Very Natural Thing, A (1974)","Old Lady Who Walked in the Sea, The (Vieille qui marchait dans la mer, La) (1991)","Daylight (1996)","Frighteners, The (1996)","Lone Star (1996)","Harriet the Spy (1996)","Phenomenon (1996)","Walking and Talking (1996)","She's the One (1996)","Time to Kill, A (1996)","American Buffalo (1996)","Rendezvous in Paris (Rendez-vous de Paris, Les) (1995)","Alaska (1996)","Fled (1996)","Kazaam (1996)","Bewegte Mann, Der (1994)","Magic Hunter (1994)","Larger Than Life (1996)","Boy Called Hate, A (1995)","Power 98 (1995)","Two Deaths (1995)","Very Brady Sequel, A (1996)","Stefano Quantestorie (1993)","Death in the Garden (Mort en ce jardin, La) (1956)","Crude Oasis, The (1995)","Hedd Wyn (1992)","Collectionneuse, La (1967)","Kaspar Hauser (1993)","Echte Kerle (1996)","Diebinnen (1995)","Convent, The (Convento, O) (1995)","Adventures of Pinocchio, The (1996)","Joe's Apartment (1996)","First Wives Club, The (1996)","Stonewall (1995)","Ransom (1996)","High School High (1996)","Phat Beach (1996)","Foxfire (1996)","Chain Reaction (1996)","Matilda (1996)","Emma (1996)","Crow: City of Angels, The (1996)","House Arrest (1996)","Eyes Without a Face (1959)","Tales from the Crypt Presents: Bordello of Blood (1996)","Lotto Land (1995)","Story of Xinghua, The (1993)","Day the Sun Turned Cold, The (Tianguo niezi) (1994)","Flirt (1995)","Big Squeeze, The (1996)","Spitfire Grill, The (1996)","Escape from L.A. (1996)","Cyclo (1995)","Basquiat (1996)","Tin Cup (1996)","Dingo (1992)","Ballad of Narayama, The (Narayama Bushiko) (1958)","Every Other Weekend (1990)","Mille bolle blu (1993)","Crows and Sparrows (1949)","Godfather, The (1972)","Hippie Revolution, The (1996)","Maybe, Maybe Not (Bewegte Mann, Der) (1994)","Supercop (1992)","Manny & Lo (1996)","Celestial Clockwork (1994)","Wife, The (1995)","Small Faces (1995)","Bound (1996)","Carpool (1996)","Death in Brunswick (1991)","Kansas City (1996)","Gone Fishin' (1997)","Lover's Knot (1996)","Aiqing wansui (1994)","Shadow of Angels (Schatten der Engel) (1976)","Killer: A Journal of Murder (1995)","Nothing to Lose (1994)","Police Story 4: Project S (Chao ji ji hua) (1993)","Girls Town (1996)","Bye-Bye (1995)","Relic, The (1997)","Island of Dr. Moreau, The (1996)","First Kid (1996)","Trigger Effect, The (1996)","Sweet Nothing (1995)","Bogus (1996)","Bulletproof (1996)","Talk of Angels (1998)","Land Before Time III: The Time of the Great Giving (1995)","1-900 (1994)","Baton Rouge (1988)","Halloween: The Curse of Michael Myers (1995)","Twelfth Night (1996)","Mother Night (1996)","Liebelei (1933)","Venice/Venice (1992)","Wild Reeds (1994)","For Whom the Bell Tolls (1943)","Philadelphia Story, The (1940)","Singin' in the Rain (1952)","American in Paris, An (1951)","Funny Face (1957)","Breakfast at Tiffany's (1961)","Vertigo (1958)","Rear Window (1954)","It Happened One Night (1934)","Gaslight (1944)","Gay Divorcee, The (1934)","North by Northwest (1959)","Apartment, The (1960)","Some Like It Hot (1959)","Charade (1963)","Casablanca (1942)","Maltese Falcon, The (1941)","My Fair Lady (1964)","Sabrina (1954)","Roman Holiday (1953)","Little Princess, The (1939)","Meet Me in St. Louis (1944)","Wizard of Oz, The (1939)","Gone with the Wind (1939)","My Favorite Year (1982)","Sunset Blvd. (a.k.a. Sunset Boulevard) (1950)","Citizen Kane (1941)","2001: A Space Odyssey (1968)","Golden Earrings (1947)","All About Eve (1950)","Women, The (1939)","Rebecca (1940)","Foreign Correspondent (1940)","Notorious (1946)","Spellbound (1945)","Affair to Remember, An (1957)","To Catch a Thief (1955)","Father of the Bride (1950)","Band Wagon, The (1953)","Ninotchka (1939)","Love in the Afternoon (1957)","Gigi (1958)","Reluctant Debutante, The (1958)","Adventures of Robin Hood, The (1938)","Mark of Zorro, The (1940)","Laura (1944)","Ghost and Mrs. Muir, The (1947)","Lost Horizon (1937)","Top Hat (1935)","To Be or Not to Be (1942)","My Man Godfrey (1936)","Giant (1956)","East of Eden (1955)","Thin Man, The (1934)","His Girl Friday (1940)","Around the World in 80 Days (1956)","It's a Wonderful Life (1946)","Mr. Smith Goes to Washington (1939)","Bringing Up Baby (1938)","Penny Serenade (1941)","Scarlet Letter, The (1926)","Lady of Burlesque (1943)","Of Human Bondage (1934)","Angel on My Shoulder (1946)","Little Lord Fauntleroy (1936)","They Made Me a Criminal (1939)","Inspector General, The (1949)","Angel and the Badman (1947)","39 Steps, The (1935)","Walk in the Sun, A (1945)","Outlaw, The (1943)","Night of the Living Dead (1968)","African Queen, The (1951)","Beat the Devil (1954)","Cat on a Hot Tin Roof (1958)","Last Time I Saw Paris, The (1954)","Meet John Doe (1941)","Algiers (1938)","Something to Sing About (1937)","Farewell to Arms, A (1932)","Moonlight Murder (1936)","Blue Angel, The (Blaue Engel, Der) (1930)","Nothing Personal (1995)","In the Line of Duty 2 (1987)","Dangerous Ground (1997)","Picnic (1955)","Madagascar Skin (1995)","Pompatus of Love, The (1996)","Small Wonders (1996)","Fly Away Home (1996)","Bliss (1997)","Grace of My Heart (1996)","Schlafes Bruder (Brother of Sleep) (1995)","Maximum Risk (1996)","Michael Collins (1996)","Rich Man's Wife, The (1996)","Infinity (1996)","Big Night (1996)","Last Man Standing (1996)","Caught (1996)","Set It Off (1996)","2 Days in the Valley (1996)","Curdled (1996)","Associate, The (L'Associe)(1982)","Ed's Next Move (1996)","Extreme Measures (1996)","Glimmer Man, The (1996)","D3: The Mighty Ducks (1996)","Chamber, The (1996)","Apple Dumpling Gang, The (1975)","Davy Crockett, King of the Wild Frontier (1955)","Escape to Witch Mountain (1975)","Love Bug, The (1969)","Herbie Rides Again (1974)","Old Yeller (1957)","Parent Trap, The (1961)","Pollyanna (1960)","Homeward Bound: The Incredible Journey (1993)","Shaggy Dog, The (1959)","Swiss Family Robinson (1960)","That Darn Cat! (1965)","20,000 Leagues Under the Sea (1954)","Cool Runnings (1993)","Angels in the Outfield (1994)","Cinderella (1950)","Winnie the Pooh and the Blustery Day (1968)","Three Caballeros, The (1945)","Sword in the Stone, The (1963)","So Dear to My Heart (1949)","Robin Hood: Prince of Thieves (1991)","Mary Poppins (1964)","Dumbo (1941)","Pete's Dragon (1977)","Bedknobs and Broomsticks (1971)","Alice in Wonderland (1951)","Fox and the Hound, The (1981)","Freeway (1996)","Sound of Music, The (1965)","Die Hard (1988)","Lawnmower Man, The (1992)","Unhook the Stars (1996)","Synthetic Pleasures (1995)","Secret Agent, The (1996)","Secrets & Lies (1996)","That Thing You Do! (1996)","To Gillian on Her 37th Birthday (1996)","Surviving Picasso (1996)","Love Is All There Is (1996)","Beautiful Thing (1996)","Long Kiss Goodnight, The (1996)","Ghost and the Darkness, The (1996)","Looking for Richard (1996)","Trees Lounge (1996)","Proprietor, The (1996)","Normal Life (1996)","Get on the Bus (1996)","Shadow Conspiracy (1997)","Jude (1996)","Everyone Says I Love You (1996)","Bitter Sugar (Azucar Amargo) (1996)","William Shakespeare's Romeo and Juliet (1996)","Swingers (1996)","Sleepers (1996)","Sunchaser, The (1996)","Johns (1996)","Aladdin and the King of Thieves (1996)","Woman in Question, The (1950)","Shall We Dance? (1937)","Damsel in Distress, A (1937)","Crossfire (1947)","Murder, My Sweet (1944)","Macao (1952)","For the Moment (1994)","Willy Wonka and the Chocolate Factory (1971)","Sexual Life of the Belgians, The (1994)","Innocents, The (1961)","Sleeper (1973)","Bananas (1971)","Fish Called Wanda, A (1988)","Monty Python's Life of Brian (1979)","Victor/Victoria (1982)","Candidate, The (1972)","Great Race, The (1965)","Bonnie and Clyde (1967)","Old Man and the Sea, The (1958)","Dial M for Murder (1954)","Madame Butterfly (1995)","Dirty Dancing (1987)","Reservoir Dogs (1992)","Platoon (1986)","Weekend at Bernie's (1989)","Basic Instinct (1992)","Doors, The (1991)","Crying Game, The (1992)","Glengarry Glen Ross (1992)","Sophie's Choice (1982)","E.T. the Extra-Terrestrial (1982)","Search for One-eye Jimmy, The (1996)","Christmas Carol, A (1938)","Days of Thunder (1990)","Top Gun (1986)","American Strays (1996)","Rebel Without a Cause (1955)","Streetcar Named Desire, A (1951)","Children of the Corn IV: The Gathering (1996)","Leopard Son, The (1996)","Loser (1991)","Prerokbe Ognja (1995)","Charm's Incidents (1996)","Bird of Prey (1996)","Microcosmos (Microcosmos: Le peuple de l'herbe) (1996)","Palookaville (1996)","Associate, The (1996)","Funeral, The (1996)","Sleepover (1995)","Single Girl, A (La Fille Seule) (1995)","Eighth Day, The (Le Huiti�me jour ) (1996)","Tashunga (1995)","Drunks (1997)","People vs. Larry Flynt, The (1996)","Glory Daze (1996)","Plutonium Circus (1995)","Perfect Candidate, A (1996)","On Golden Pond (1981)","Return of the Pink Panther, The (1974)","Drop Dead Fred (1991)","Abyss, The (1989)","Fog, The (1980)","Escape from New York (1981)","Howling, The (1980)","Jean de Florette (1986)","Manon of the Spring (Manon des sources) (1986)","Talking About Sex (1994)","Johnny 100 Pesos (1993)","Private Benjamin (1980)","Monty Python and the Holy Grail (1974)","Hustler White (1996)","Dadetown (1995)","Everything Relative (1996)","Entertaining Angels: The Dorothy Day Story (1996)","Hoogste tijd (1995)","Get Over It (1996)","Three Lives and Only One Death (1996)","Line King: Al Hirschfeld, The (1996)","Snowriders (1996)","Curtis's Charm (1995)","When We Were Kings (1996)","Wrong Trousers, The (1993)","JLG/JLG - autoportrait de d�cembre (1994)","Return of Martin Guerre, The (Retour de Martin Guerre, Le) (1982)","Faust (1994)","He Walked by Night (1948)","Raw Deal (1948)","T-Men (1947)","Invitation, The (Zaproszenie) (1986)","Children Are Watching us, The (Bambini ci guardano, I) (1942)","Symphonie pastorale, La (1946)","Here Comes Cookie (1935)","Love in Bloom (1935)","Six of a Kind (1934)","Tin Drum, The (Blechtrommel, Die) (1979)","Ruling Class, The (1972)","Mina Tannenbaum (1994)","Two or Three Things I Know About Her (1966)","Bloody Child, The (1996)","Farmer & Chase (1995)","Dear God (1996)","Bad Moon (1996)","American Dream (1990)","Best of the Best 3: No Turning Back (1995)","Bob Roberts (1992)","Cinema Paradiso (1988)","Cook the Thief His Wife & Her Lover, The (1989)","Grosse Fatigue (1994)","Delicatessen (1991)","Double Life of Veronique, The (La Double Vie de V�ronique) (1991)","Enchanted April (1991)","Paths of Glory (1957)","Grifters, The (1990)","Hear My Song (1991)","Shooter, The (1995)","English Patient, The (1996)","Mediterraneo (1991)","My Left Foot (1989)","Sex, Lies, and Videotape (1989)","Passion Fish (1992)","Strictly Ballroom (1992)","Thin Blue Line, The (1988)","Tie Me Up! Tie Me Down! (1990)","Madonna: Truth or Dare (1991)","Paris Is Burning (1990)","One Flew Over the Cuckoo's Nest (1975)","Up in Smoke (1978)","Star Wars: Episode V - The Empire Strikes Back (1980)","Princess Bride, The (1987)","Raiders of the Lost Ark (1981)","Brazil (1985)","Aliens (1986)","Good, The Bad and The Ugly, The (1966)","Withnail and I (1987)","12 Angry Men (1957)","Lawrence of Arabia (1962)","Transformers: The Movie, The (1986)","Clockwork Orange, A (1971)","To Kill a Mockingbird (1962)","Apocalypse Now (1979)","Once Upon a Time in the West (1969)","Star Wars: Episode VI - Return of the Jedi (1983)","Wings of Desire (Der Himmel �ber Berlin) (1987)","Third Man, The (1949)","GoodFellas (1990)","Alien (1979)","Army of Darkness (1993)","Big Blue, The (Le Grand Bleu) (1988)","Ran (1985)","Killer, The (Die xue shuang xiong) (1989)","Psycho (1960)","Blues Brothers, The (1980)","Godfather: Part II, The (1974)","Full Metal Jacket (1987)","Grand Day Out, A (1992)","Henry V (1989)","Amadeus (1984)","Quiet Man, The (1952)","Once Upon a Time in America (1984)","Raging Bull (1980)","Annie Hall (1977)","Right Stuff, The (1983)","Stalker (1979)","Boat, The (Das Boot) (1981)","Sting, The (1973)","Harold and Maude (1971)","Trust (1990)","Seventh Seal, The (Sjunde inseglet, Det) (1957)","Local Hero (1983)","Terminator, The (1984)","Braindead (1992)","Glory (1989)","Rosencrantz and Guildenstern Are Dead (1990)","Manhattan (1979)","Miller's Crossing (1990)","Dead Poets Society (1989)","Graduate, The (1967)","Touch of Evil (1958)","Nikita (La Femme Nikita) (1990)","Bridge on the River Kwai, The (1957)","8 1/2 (1963)","Chinatown (1974)","Day the Earth Stood Still, The (1951)","Treasure of the Sierra Madre, The (1948)","Bad Taste (1987)","Duck Soup (1933)","Better Off Dead... (1985)","Shining, The (1980)","Stand by Me (1986)","M (1931)","Evil Dead II (Dead By Dawn) (1987)","Great Escape, The (1963)","Deer Hunter, The (1978)","Diva (1981)","Groundhog Day (1993)","Unforgiven (1992)","Manchurian Candidate, The (1962)","Pump Up the Volume (1990)","Arsenic and Old Lace (1944)","Back to the Future (1985)","Fried Green Tomatoes (1991)","Patton (1970)","Down by Law (1986)","Akira (1988)","Highlander (1986)","Cool Hand Luke (1967)","Cyrano de Bergerac (1990)","Young Frankenstein (1974)","Night on Earth (1991)","Raise the Red Lantern (1991)","Great Dictator, The (1940)","Fantasia (1940)","High Noon (1952)","Big Sleep, The (1946)","Heathers (1989)","Somewhere in Time (1980)","Ben-Hur (1959)","This Is Spinal Tap (1984)","Koyaanisqatsi (1983)","Some Kind of Wonderful (1987)","Indiana Jones and the Last Crusade (1989)","Being There (1979)","Gandhi (1982)","M*A*S*H (1970)","Unbearable Lightness of Being, The (1988)","Room with a View, A (1986)","Real Genius (1985)","Pink Floyd - The Wall (1982)","Killing Fields, The (1984)","My Life as a Dog (Mitt liv som hund) (1985)","Forbidden Planet (1956)","Field of Dreams (1989)","Man Who Would Be King, The (1975)","Butch Cassidy and the Sundance Kid (1969)","Paris, Texas (1984)","Until the End of the World (Bis ans Ende der Welt) (1991)","When Harry Met Sally... (1989)","I Shot a Man in Vegas (1995)","Parallel Sons (1995)","Hype! (1996)","Santa with Muscles (1996)","Female Perversions (1996)","Mad Dog Time (1996)","Breathing Room (1996)","Paris Was a Woman (1995)","Anna (1996)","I'm Not Rappaport (1996)","Blue Juice (1995)","Kids of Survival (1993)","Alien� (1992)","American Werewolf in London, An (1981)","Amityville 1992: It's About Time (1992)","Amityville 3-D (1983)","Amityville: Dollhouse (1996)","Amityville: A New Generation (1993)","Amityville II: The Possession (1982)","Amityville Horror, The (1979)","Amityville Curse, The (1990)","Blood For Dracula (Andy Warhol's Dracula) (1974)","April Fool's Day (1986)","Audrey Rose (1977)","Believers, The (1987)","Birds, The (1963)","Blob, The (1958)","Blood Beach (1981)","Body Parts (1991)","Body Snatcher, The (1945)","Bram Stoker's Dracula (1992)","Bride of Frankenstein (1935)","Burnt Offerings (1976)","Candyman (1992)","Cape Fear (1991)","Cape Fear (1962)","Carrie (1976)","Cat People (1982)","Nightmare on Elm Street, A (1984)","Nosferatu (Nosferatu, eine Symphonie des Grauens) (1922)","Nosferatu a Venezia (1986)","Omen, The (1976)","Blood & Wine (1997)","Albino Alligator (1996)","Mirror Has Two Faces, The (1996)","Breaking the Waves (1996)","Nightwatch (1997)","Star Trek: First Contact (1996)","Shine (1996)","Sling Blade (1996)","Jingle All the Way (1996)","Identification of a Woman (Identificazione di una donna) (1982)","Paradise Lost: The Child Murders at Robin Hood Hills (1996)","Garden of Finzi-Contini, The (Giardino dei Finzi-Contini, Il) (1970)","Preacher's Wife, The (1996)","Zero Kelvin (Kj�rlighetens kj�tere) (1995)","Ridicule (1996)","Crucible, The (1996)","101 Dalmatians (1996)","Forbidden Christ, The (Cristo proibito, Il) (1950)","I Can't Sleep (J'ai pas sommeil) (1994)","Die Hard 2 (1990)","Star Trek: The Motion Picture (1979)","Star Trek VI: The Undiscovered Country (1991)","Star Trek V: The Final Frontier (1989)","Star Trek: The Wrath of Khan (1982)","Star Trek III: The Search for Spock (1984)","Star Trek IV: The Voyage Home (1986)","Batman Returns (1992)","Young Guns (1988)","Young Guns II (1990)","Grease (1978)","Grease 2 (1982)","Marked for Death (1990)","Adrenalin: Fear the Rush (1996)","Substance of Fire, The (1996)","Under Siege (1992)","Terror in a Texas Town (1958)","Jaws (1975)","Jaws 2 (1978)","Jaws 3-D (1983)","My Fellow Americans (1996)","Mars Attacks! (1996)","Citizen Ruth (1996)","Jerry Maguire (1996)","Raising Arizona (1987)","Tin Men (1987)","Sneakers (1992)","Bastard Out of Carolina (1996)","In Love and War (1996)","Marvin's Room (1996)","Somebody is Waiting (1996)","Ghosts of Mississippi (1996)","Night Falls on Manhattan (1997)","Beavis and Butt-head Do America (1996)","C�r�monie, La (1995)","Scream (1996)","Last of the Mohicans, The (1992)","Michael (1996)","Evening Star, The (1996)","Hamlet (1996)","Some Mother's Son (1996)","Whole Wide World, The (1996)","Mother (1996)","Thieves (Voleurs, Les) (1996)","Evita (1996)","Portrait of a Lady, The (1996)","Walkabout (1971)","Message to Love: The Isle of Wight Festival (1996)","Grateful Dead (1995)","Murder at 1600 (1997)","Hearts and Minds (1996)","Inside (1996)","Fierce Creatures (1997)","Zeus and Roxanne (1997)","Turbulence (1997)","Angel Baby (1995)","Jackie Chan's First Strike (1996)","Underworld (1997)","Beverly Hills Ninja (1997)","Metro (1997)","Machine, The (1994)","Stranger, The (1994)","Falling in Love Again (1980)","Cement Garden, The (1993)","Dante's Peak (1997)","Meet Wally Sparks (1997)","Amos & Andrew (1993)","Benny & Joon (1993)","Prefontaine (1997)","Tickle in the Heart, A (1996)","Guantanamera (1994)","McHale's Navy (1997)","Kolya (1996)","Gridlock'd (1997)","Fire on the Mountain (1996)","Waiting for Guffman (1996)","Prisoner of the Mountains (Kavkazsky Plennik) (1996)","Beautician and the Beast, The (1997)","SubUrbia (1997)","Hotel de Love (1996)","Pest, The (1997)","Fools Rush In (1997)","Touch (1997)","Absolute Power (1997)","That Darn Cat! (1997)","Vegas Vacation (1997)","Unforgotten: Twenty-Five Years After Willowbrook (1996)","That Old Feeling (1997)","Lost Highway (1997)","Rosewood (1997)",
@@ -240,191 +163,168 @@
             }
         }
 
-
-
     </script>
 </head>
+
 <body>
 <header class="header">
-    <div id="upper" class="center">
-        <div><img src="./logo.png" width="300px"></div>
-        <div id="grouped-btn" class="btn-group" role="group">
-            <button type="btn btn-default" id="btn-user-based" class="btn btn-info">User-based</button>
-            <button type="btn btn-default" id="btn-movie-based" class="btn btn-info">Movie-based</button>
-        </div>
-        <br><br>
+    <table class="menutable">
+        <tbody><tr><td>
+            <a href="../index.html">
+                <img src="../../static/mark.png" alt="" width="150" height="24" style="color: transparent;"></a>
+        </td><td>
+            <a aria-current="page" href="../index.html">Home</a>
+        </td><td>
+            <a id="user-click"><button id="user-click-button">User-based</button></a>
+        </td><td>
+            <a id="movie-click"><button id="movie-click-button">Movie-based</button></a>
+        </td></tr></tbody>
+    </table>
 
-        <div id="user-based" class="center">
-            <form id="user-based-inputs" action="./users/recommendations.html">
-                <p class="p2">User-based Movie Reco.</p>
-                <p class="p3">Please fill in and submit the form below :)</p>
-                <table class="inputfieldtable">
-                    <tbody>
-                    <tr>
-                        <td><p class="text-right">Gender</p></td>
-                        <td><select name="gender">
-                            <option value="" selected hidden>---</option>
-                            <option value="M">M</option>
-                            <option value="F">F</option>
-                        </select> </td>
-                    </tr>
-                    <tr>
-                        <td><p class="text-right">Age</p></td>
-                        <td><input id="age" name="age" type="number" placeholder="e.g. 25 (age >= 0)" min="0"/></td>
-                    </tr>
-                    <tr>
-                        <td><p class="text-right">Occupation</p></td>
-                        <td><select name="occupation">
-                            <option selected hidden value="">---</option>
-                            <option value="Academic">Academic / Educator</option>
-                            <!-- <option value="educator">Educator</option> -->
-                            <option value="Artist">Artist</option>
-                            <option value="Clerical">Clerical / Admin</option>
-                            <!--<option value="admin">Admin</option>-->
-                            <option value="CollegeStudent">College Student / Grad student</option>
-                            <!--<option value="grad">Grad Student</option>-->
-                            <option value="CustomerService">Customer Service</option>
-                            <option value="Doctor">Doctor / Healthcare</option>
-                            <option value="Executive">Executive / Managerial</option>
-                            <option value="Farmer">Farmer</option>
-                            <option value="Homemaker">Homemaker</option>
-                            <option value="K-12Student">K-12 Student</option>
-                            <option value="Lawyer">Lawyer</option>
-                            <option value="Programmer">Programmer</option>
-                            <option value="Retired">Retired</option>
-                            <option value="Sales">Sales / Marketing</option>
-                            <option value="Scientist">Scientist</option>
-                            <option value="Self-employed">Self-employed</option>
-                            <option value="Technician">Technician / Engineer</option>
-                            <option value="Tradesman">Tradesman / Craftsman</option>
-                            <option value="Unemployed">Unemployed</option>
-                            <option value="Writer">Writer</option>
-                            <option value="Other">Other</option>
-                        </select></td>
-                    </tr>
-                    <tr>
-                        <td><p class="text-right">Genre</p></td>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button"
-                                        id="dropdownMenu1" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="true">
-                                    Select genre(s)
-                                </button>
-                                <input name="genre" id="genre" type="hidden" >
-                                <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
-                                    <li ><label><input value="Action" type="checkbox">Action</label></li>
-                                    <li ><label><input value="Adventure" type="checkbox">Adventure</label></li>
-                                    <li ><label><input value="Children's" type="checkbox">Children's</label></li>
-                                    <li ><label><input value="Comedy" type="checkbox">Comedy</label></li>
-                                    <li ><label><input value="Crime" type="checkbox">Crime</label></li>
-                                    <li ><label><input value="Documentary" type="checkbox">Documentary</label></li>
-                                    <li ><label><input value="Drama" type="checkbox">Drama</label></li>
-                                    <li ><label><input value="Film-Noir" type="checkbox">Film-Noir</label></li>
-                                    <li ><label><input value="Horror" type="checkbox">Horror</label></li>
-                                    <li ><label><input value="Musical" type="checkbox">Musical</label></li>
-                                    <li ><label><input value="Mystery" type="checkbox">Mystery</label></li>
-                                    <li ><label><input value="Romance" type="checkbox">Romance</label></li>
-                                    <li ><label><input value="Sci-Fi" type="checkbox">Sci-Fi</label></li>
-                                    <li ><label><input value="Thriller" type="checkbox">Thriller</label></li>
-                                    <li ><label><input value="War" type="checkbox">War</label></li>
-                                    <li ><label><input value="Western" type="checkbox">Western</label></li>
-                                </ul>
-
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <button class="btn btn-primary" id="btn-submit-1" type="submit">Submit</button>
-            </form>
-        </div>
-        <div id="movie-based">
-            <div class="alert" id="title-alert">
-                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                <div id="title-alert-msg"></div>
-            </div>
-            <form action="./movies/recommendations.html">
-                <p class="p2">Movie-based Movie Reco.</p>
-                <p class="p3">Please fill in and submit the form below :)</p>
-                <table class="inputfieldtable">
-                    <tbody>
-                    <tr>
-                        <td><p class="text-right">Title</p></td>
-                        <td><div class="ui-widget"><label for="input-title"></label>
-                            <input id="input-title" name="title" type="text" placeholder="e.g. Toy Story (1995)"/></div></td>
-                    </tr>
-                    <tr>
-                        <td><p class="text-right">Limit</p></td>
-                        <td><input id="input-limit" name="limit" type="number" placeholder="e.g. 25 (0 < limit <= 2000)" min="0" max="2000"/></td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <button class="btn btn-primary" id="btn-submit-2" type="submit" onclick="return ValidationEvent()">Submit</button>
-            </form>
-        </div>
-    </div>
-</header>
-
-<main class="main">
-    <div id = "lower">
-        <div id="content-hello">
+    <div id="user-based" class="center">
+        <form id="user-based-inputs" action="../users/recommendations.html">
+            <!--<p class="p2">User-based Movie Recommendation</p>
+            <p class="p3">Please fill in and submit the form below :)</p>-->
+            <br>
             <table class="inputfieldtable">
                 <tbody>
                 <tr>
+                    <td><p class="p3">Gender</p></td>
+                    <td><p class="p3">Age</p></td>
+                    <td><p class="p3">Occupation</p></td>
+                    <td><p class="p3">Genre</p></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><select name="gender">
+                        <option value="" selected hidden>---</option>
+                        <option value="M">M</option>
+                        <option value="F">F</option>
+                    </select> </td>
+
+                    <td><input id="age" name="age" type="number" placeholder="e.g. 25 (age >= 0)" min="0"/>
+                    </td>
+
+                    <td><select name="occupation">
+                        <option selected hidden value="">---</option>
+                        <option value="Academic">Academic / Educator</option>
+                        <!-- <option value="educator">Educator</option> -->
+                        <option value="Artist">Artist</option>
+                        <option value="Clerical">Clerical / Admin</option>
+                        <!--<option value="admin">Admin</option>-->
+                        <option value="CollegeStudent">College Student / Grad student</option>
+                        <!--<option value="grad">Grad Student</option>-->
+                        <option value="CustomerService">Customer Service</option>
+                        <option value="Doctor">Doctor / Healthcare</option>
+                        <option value="Executive">Executive / Managerial</option>
+                        <option value="Farmer">Farmer</option>
+                        <option value="Homemaker">Homemaker</option>
+                        <option value="K-12Student">K-12 Student</option>
+                        <option value="Lawyer">Lawyer</option>
+                        <option value="Programmer">Programmer</option>
+                        <option value="Retired">Retired</option>
+                        <option value="Sales">Sales / Marketing</option>
+                        <option value="Scientist">Scientist</option>
+                        <option value="Self-employed">Self-employed</option>
+                        <option value="Technician">Technician / Engineer</option>
+                        <option value="Tradesman">Tradesman / Craftsman</option>
+                        <option value="Unemployed">Unemployed</option>
+                        <option value="Writer">Writer</option>
+                        <option value="Other">Other</option>
+                    </select></td>
+
                     <td>
-                        <p class="p1">Top 10 best movies</p>
-                        <br><br><br><br><p class="p4">Most beloved movies of all time</p>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button"
+                                    id="dropdownMenu1" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="true">
+                                Select genre(s)
+                            </button>
+                            <input name="genre" id="genre" type="hidden" >
+                            <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
+                                <li ><label><input value="Action" type="checkbox">Action</label></li>
+                                <li ><label><input value="Adventure" type="checkbox">Adventure</label></li>
+                                <li ><label><input value="Children's" type="checkbox">Children's</label></li>
+                                <li ><label><input value="Comedy" type="checkbox">Comedy</label></li>
+                                <li ><label><input value="Crime" type="checkbox">Crime</label></li>
+                                <li ><label><input value="Documentary" type="checkbox">Documentary</label></li>
+                                <li ><label><input value="Drama" type="checkbox">Drama</label></li>
+                                <li ><label><input value="Film-Noir" type="checkbox">Film-Noir</label></li>
+                                <li ><label><input value="Horror" type="checkbox">Horror</label></li>
+                                <li ><label><input value="Musical" type="checkbox">Musical</label></li>
+                                <li ><label><input value="Mystery" type="checkbox">Mystery</label></li>
+                                <li ><label><input value="Romance" type="checkbox">Romance</label></li>
+                                <li ><label><input value="Sci-Fi" type="checkbox">Sci-Fi</label></li>
+                                <li ><label><input value="Thriller" type="checkbox">Thriller</label></li>
+                                <li ><label><input value="War" type="checkbox">War</label></li>
+                                <li ><label><input value="Western" type="checkbox">Western</label></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" id="btn-submit-1" type="submit">Submit</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div id="movie-based">
+        <div class="alert" id="title-alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <div id="title-alert-msg"></div>
+        </div>
+        <form action="recommendations.html">
+            <br>
+            <table class="inputfieldtable-2">
+                <tbody>
+                <tr>
+                    <td><p class="p3">Title</p></td>
+                    <td><p class="p3">Limit</p></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><div class="ui-widget"><label for="input-title"></label>
+                        <input id="input-title" class="longinput" name="title" type="text" placeholder="e.g. Toy Story (1995)"/></div>
+                    </td>
+                    <td><input id="input-limit" class="longinput" name="limit" type="number" placeholder="e.g. 25 (0 < limit <= 2000)" min="0" max="2000"/>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" id="btn-submit-2" type="submit" onclick="return ValidationEvent()">Submit</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </form>
+    </div>
+
+
+
+</header>
+<main>
+    <div id = "lower">
+        <div id="content-hello">
+
+            <table class="inputfieldtable-3">
+                <tbody>
+                <tr>
+                    <td>
+                        <p class="p1">Showing movies like <button id="tstring"></button></p>
+                        <div class="p4" id="lstring"></div>
                         <table id="recoTable-noinputs" class="recoTable">
-                            <tbody id="tdata-noinputs"></tbody>
+                            <tbody id="tdata-input-data"></tbody>
                         </table>
-                        <img src="otter_load.gif" id="loader-1" class="loaderimg">
+                        <img src="../otter_load.gif" id="loader-1" class="loaderimg">
                         <br>
-                    </td></tr><tr>
-                    <td>
-                        <p class="p1">Made for you</p>
-                        <br><br><br><br><p class="p4">People like you (F, 25, College student) rated these items favorably</p>
-                        <table id="recoTable-f-25-college" class="recoTable">
-                            <tbody id="tdata-f-25-college"></tbody>
-                        </table>
-                        <img src="otter_load.gif" id="loader-2" class="loaderimg">
-                        <br>
-                    </td></tr><tr>
-                    <td>
-                        <p class="p1">Open up your imagination</p>
-                        <br><br><br><br><p class="p4">Best Sci-fi Movies</p>
-                        <table id="recoTable-sci-fi" class="recoTable">
-                            <tbody id="tdata-sci-fi"></tbody>
-                        </table>
-                        <img src="otter_load.gif" id="loader-3" class="loaderimg">
-                        <br>
-                    </td></tr><tr>
-                    <td>
-                        <p class="p1">Scary movies for when the world is a fright</p>
-                        <br><br><br><br><p class="p4">The ultimate Horror&Thriller movies for this summer</p>
-                        <table id="recoTable-horror-thriller" class="recoTable">
-                            <tbody id="tdata-horror-thriller"></tbody>
-                        </table>
-                        <img src="otter_load.gif" id="loader-4" class="loaderimg">
-                        <br>
-                    </td></tr><tr>
-                    <td>
-                        <p class="p1">"When love can come as a complete surprise"</p>
-                        <br><br><br><br><p class="p4">More like 'Before Sunrise (1995)' you watched recently</p>
-                        <table id="recoTable-before-sunrise" class="recoTable">
-                            <tbody id="tdata-before-sunrise"></tbody>
-                        </table>
-                        <img src="otter_load.gif" id="loader-5" class="loaderimg">
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-
     </div>
 </main>
 
 </body>
+
 </html>
