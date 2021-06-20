@@ -19,6 +19,10 @@ html{
     background:#2f383a;
 }
 
+button#user-click-button, button#movie-click-button {
+    border-radius:8px;
+}
+
 input, select{
     width:13em;
     height:2.4em;
@@ -186,7 +190,14 @@ table.recoTable {
       vertical-align: top;
   }
 
+  table.inputfieldtable-3 {
+      width: 90%;
+      text-align: left;
+  }
 
+  table.inputfieldtable-3 td, table.inputfieldtable-3 th {
+      padding: 8px 10px;
+  }
 
 button {
     width: 10em;
@@ -212,7 +223,8 @@ button {
 }
 
 .btn-primary {
-    width:200px;
+    width:10em;
+    height: 2.4em;
     margin-left:20px;
     margin-right:20px;
     border-radius: 8px;
