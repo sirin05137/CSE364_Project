@@ -33,11 +33,11 @@ public class RecommendApp extends SpringBootServletInitializer {
 	}
 
 	 */
-	/*
+
 	// Used when deploying to a standalone servlet container ????
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(RecommendApp.class);
 	}
-	 */
+
 }
