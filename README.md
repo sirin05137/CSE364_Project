@@ -991,20 +991,29 @@ Documentation | **README.md** <br> 👑 Yujin Lee
 ## Milestone 4 - User Documentation
 > This part contains **User Documentation** denoted for regular end-users and is focused on endpoints for those users.
 
+### Contents 
+#### [Overview : AnOtterMovie](#overview-:-anottermovie)
+#### [System architecture](#system-architecture)
+#### [Algorithm](#algorithm)
+#### [Overview : AnOtterMovie](#overview-:-anottermovie)
+
+
 ### Overview : AnOtterMovie 
-AnOtterMovie_logo.png![AnOtterMovie_logo](https://user-images.githubusercontent.com/38070937/122673948-f282d380-d20d-11eb-97cf-16823fb4e765.png)
+![image](https://user-images.githubusercontent.com/38070937/122673948-f282d380-d20d-11eb-97cf-16823fb4e765.png)
 
 AnOtterMovie is a Robust, Scalable, and user-centered movie recommendation engine and a user can get movie recommendation results by putting his demographic profile (gender, age, occupation, and genre preference) or movie metadata (movie title).
 
 ### System architecture
 ![image](https://user-images.githubusercontent.com/38070937/122673471-8ef7a680-d20b-11eb-9478-e1501b77122a.png)
 
-### Inner Algorithm
-![image](https://user-images.githubusercontent.com/38070937/122673698-a4b99b80-d20c-11eb-99b5-8318583aaa40.png)
 
+### Step by step Guide
+#### I. Installation
+#### II. Making request
 ![image](https://user-images.githubusercontent.com/38070937/122673652-6623e100-d20c-11eb-9dcd-d157477d6251.png)
+main page 
 
-
+---
 
 ## Team Members
 * 20171012 Yeongjun Kwak (@sirin05137 ) - [kyj05137@unist.ac.kr](kyj05137@unist.ac.kr)
