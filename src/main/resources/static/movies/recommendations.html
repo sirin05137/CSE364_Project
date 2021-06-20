@@ -60,7 +60,7 @@
           var title = data[0].split("=")[1];
           var limit = data[1].split("=")[1];
 
-          document.getElementById('tstring').innerHTML = decodeURI(title.replace(/\+/g, ' '));
+          document.getElementById('tstring').innerHTML = decodeURI(title.replace(/\+/g, ' ').replace('%2C', ','));
           document.getElementById('lstring').innerHTML = decodeURI(limit.replace(/\+/g, ' ')) + " movies that are similar to '" + decodeURI(title.replace(/\+/g, ' '))+"'. (Sorted by relevance)";
 
           if(limit==""){
@@ -311,7 +311,7 @@
                     <tr>
                         <td>
                             <p class="p1">Showing best popular movies like <button id="tstring"></button></p>
-                            <br><br><br><br><div class="p4" id="lstring"></div>
+                            <div class="p4" id="lstring"></div>
                             <table id="recoTable-noinputs" class="recoTable">
                                 <tbody id="tdata-input-data"></tbody>
                             </table>

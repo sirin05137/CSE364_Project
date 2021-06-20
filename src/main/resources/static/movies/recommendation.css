@@ -62,8 +62,9 @@ a {
     display:block;
     font-weight: bold;
     font-size:26px;
-    position:absolute;
-    padding:50px;
+    position: relative;
+    text-align: center;
+    padding: 40px 50px 0 50px;
     left: 50%;
     transform: translate(-50%, 0);
 }
@@ -186,24 +187,14 @@ table.recoTable {
   }
 
 
-  .text-left, .text-center, .text-right, .label {
-    color : black;
-}
 
-.text-right {
-    font-weight: bold;
-}
-
-.text-center {
-    word-wrap: break-word;
-}
 
 button {
     width: 10em;
     border: 0;
     height: 2em;
     background: #3e4749;
-    border-radius: 12px !important;
+    border-radius: 8px;
 }
 
 .active {
