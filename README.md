@@ -41,7 +41,7 @@
      * [Examples for the Error Codes](#examples-for-the-error-codes-2)
   * [About JUnit Test](#about-junit-test-2)
   * [Contribution by Area](#contribution-by-area-2)
-* Milestone 4 (Upcoming)
+* [Milestone 4 - User Documentation](#milestone-4---user-documentation)
 * [Team members](#team-members)
 * [License & Acknowledgements](#license--acknowledgements)
 
@@ -68,17 +68,19 @@ CSE364_Project/
 │   ├── main/
 │   │   └── java/
 │   │       └── group11/
-│   │           └── project.java
+│   │       │   └── restservice/
+│   │       └── resources/
 │   └── test/
 │       ├── java/
 │       │   └── group11/
-│       │       └── projectTest.java
 │       └── resources/   
 ├── target/                           # Generated when mvn install
 │   └── site/
 │       └── jacoco/                           
 │           └── index.html            # JaCoCo Code Coverage Report                
 ├── pom.xml                           # Maven configuration
+├── mvnw                              # Maven configuration
+├── mvnw.cmd                          # Maven configuration
 └── README.md
 ```
 
@@ -986,7 +988,20 @@ Documentation | **README.md** <br> 👑 Yujin Lee
 
 <br>
 
-## Milestone 4 (Upcoming)
+## Milestone 4 - User Documentation
+> This part contains **User Documentation** denoted for regular end-users and is focused on endpoints for those users.
+
+### Overview : AnOtterMovie 
+![image](https://user-images.githubusercontent.com/38070937/122673068-b9486480-d209-11eb-86c4-3b38866e20df.png)
+
+AnOtterMovie is a Robust, Scalable, and user-centered movie recommendation engine and a user can get movie recommendation results by putting his demographic profile (gender, age, occupation, and genre preference) or movie metadata (movie title).
+
+### System architecture
+![image](https://user-images.githubusercontent.com/38070937/122673471-8ef7a680-d20b-11eb-9478-e1501b77122a.png)
+![image](https://user-images.githubusercontent.com/38070937/122673698-a4b99b80-d20c-11eb-99b5-8318583aaa40.png)
+![image](https://user-images.githubusercontent.com/38070937/122673652-6623e100-d20c-11eb-9dcd-d157477d6251.png)
+
+
 
 ## Team Members
 * 20171012 Yeongjun Kwak (@sirin05137 ) - [kyj05137@unist.ac.kr](kyj05137@unist.ac.kr)
