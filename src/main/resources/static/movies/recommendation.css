@@ -1,31 +1,63 @@
 html{
-    height: 150%;
-    overflow: hidden;
+    height: 100%;
+    overflow: scroll;
 }
 
-#upper_right{
-    /*color: white;*/
-    float:right;
-    /*position: relative;*/
-}
-
-#lower{
-    width:1800px;
-    /*height:5400px;*/
-    left:0px;
-    right :0px;
+.header{
+    /*padding: 100px;*/
+    height: 27%;
+    width:100%;
+    display: block;
+    margin:0;
     position:relative;
-    color:white;
-    background-color:#212529;
+
+    padding-left:50px;
+    padding-top:30px;
+    text-align:left;
+    align-content:left;
+    z-index:3;
+    background:#2f383a;
 }
 
-table.inputfieldtable {
-    width: 100%;
-    text-align: left;
+button#user-click-button, button#movie-click-button {
+    border-radius:8px;
 }
-table.inputfieldtable td, table.inputfieldtable th {
-    padding: 8px 10px;
+
+input, select{
+    width:13em;
+    height:2.4em;
+    box-sizing:border-box;
+    border-radius: 8px;
+    padding: 3px 10px;
 }
+
+input#input-limit, input#input-title {
+    width:17em ;
+    height:2.4em;
+    box-sizing:border-box;
+    border-radius: 8px;
+    padding: 3px 10px;
+}
+
+
+a {
+    color:white !important;
+    font-size : 16px !important;
+}
+
+.text-center {
+    word-wrap: break-word;
+    font-size: 15px;
+    color:white;
+}
+.text-center-2 {
+    word-wrap: break-word;
+    font-size: 13px;
+    color:lightgrey;
+    font-weight: normal;
+}
+
+
 .p1, .p2, .p3 {
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -34,29 +66,26 @@ table.inputfieldtable td, table.inputfieldtable th {
     display:block;
     font-weight: bold;
     font-size:26px;
-    position:absolute;
-    padding:50px;
+    position: relative;
+    text-align: center;
+    padding: 40px 50px 0 50px;
     left: 50%;
     transform: translate(-50%, 0);
 }
 
 .p2 {
-    padding-top: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    color: black;
-    font-weight: bold;
+    color:grey;
+    padding-top:30px;
     font-size:20px;
-    
+    margin:5px;
     position:relative;
 }
 
 .p3 {
-    color:grey;
-    font-size: 16px;
-    margin: 0 0 20px 0;
-    position:relative;
+    color:white;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 10px;
 }
 
 .p4 {
@@ -64,12 +93,35 @@ display:block;
     color:lightgrey;
     font-size: 16px;
     position:absolute;
-    padding : 10px;
+    padding : 20px;
     left: 50%;
     transform: translate(-50%, 0);
 }
+
+#lower{
+    width:1800px;
+    min-height:750px;
+    left:0px;
+    right :0px;
+    position:relative;
+    color:white;
+    background-color:#131313;
+}
+.loaderimg {
+    display: block;
+    position:relative;
+    margin:0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+.label {
+    color : white;
+}
+
+
+
 table.recoTable {
-    width: 80%;
+    width: 100%;
     text-align: center;
     border-collapse: collapse;
     margin-top: 100px;
@@ -86,21 +138,99 @@ table.recoTable {
     font-weight: bold;
   }
 
+  table.menutable {
+      width: 40%;
+      height:auto;
+      margin-left:0;
+      text-align: center;
+      table-layout:fixed;
+      vertical-align:bottom;
+  }
 
-  .text-left, .text-center, .text-right, .label {
-    color : black;
+  table.menutable td {
+      padding: 8px 10px;
+      width : 20%;
+      text-align: left;
+      vertical-align: middle;
+  }
+
+  table.inputfieldtable {
+      width: 60%;
+      height:30%;
+      margin-left:20%;
+      margin-right:0;
+      text-align: left;
+      table-layout:fixed;
+      vertical-align:bottom;
+  }
+
+  table.inputfieldtable td {
+      padding: 8px 10px;
+      width : 20%;
+      text-align: left;
+      vertical-align: top;
+  }
+
+  table.inputfieldtable-2 {
+      width: 47%;
+      height:30%;
+      margin-left:30%;
+      margin-right:0;
+      text-align: left;
+      table-layout:fixed;
+      vertical-align:bottom;
+      position: relative;
+      display:block;
+  }
+
+  table.inputfieldtable-2 td {
+      padding: 8px 10px;
+      width : 20%;
+      text-align: left;
+      vertical-align: top;
+  }
+  table.inputfieldtable-3 {
+      width: 90%;
+      margin: auto;
+  }
+
+  table.inputfieldtable-3 td, table.inputfieldtable-3 th {
+      padding: 8px 10px;
+  }
+
+
+
+
+button {
+    width: 10em;
+    border: 0;
+    height: 2em;
+    background: #3e4749;
+    border-radius: 8px;
 }
 
-.text-right {
-    font-weight: bold;
+.active {
+    font-weight:bold;
+    background: #586568;
+
 }
 
-.text-center {
-    word-wrap: break-word;
+button#tstring {
+    border-radius: 20px !important;
+    width: auto;
+    margin: 0 10px 0 10px;
+    padding: 0 20px 0 20px;
+    font-size: smaller;
 }
+
 .btn-primary {
-    width:200px;
-    margin:20px;
+    width:10em;
+    height: 2.4em;
+    margin-left:20px;
+    margin-right:20px;
+    border-radius: 8px;
+
+
     color: #FFFFFF !important;
     background-color: #298484 !important;
     border-color: #67c2c2 !important;
@@ -119,8 +249,77 @@ table.recoTable {
     border-color: #93dbdb !important;
     font-weight: bold;
 }
-input, select{
-    width:15em;
-    height:1.5em;
-    box-sizing:border-box;
+
+
+.checkbox-menu li label {
+    display: inline-block;
+    padding: 3px 10px;
+    clear: both;
+    font-size:12px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    margin:0;
+    transition: background-color .4s ease;
+}
+.checkbox-menu li input {
+    margin: 0px 5px;
+    top: 2px;
+    position: relative;
+    width : auto;
+}
+
+.checkbox-menu li.active label {
+    font-weight:bold;
+}
+
+.dropdown-menu {
+    width:30em;
+    height:auto;
+}
+
+button#dropdownMenu1 {
+    width: 15em;
+    height:auto;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: break-word;
+    border-radius: 8px;
+    background:white;
+}
+
+ul.dropdown-menu.checkbox-menu.allow-focus {
+    columns: 4;
+}
+
+.alert {
+  position: fixed !important;
+  background-color: #f44336;
+  color: white;
+  padding:0.6rem !important;
+  font-size : 14px;
+  width: 35%;
+  top:9%;
+  margin-left:30%;
+  z-index: 9999;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+
+strong {
+    color: white !important;
 }
