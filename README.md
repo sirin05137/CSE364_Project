@@ -1025,6 +1025,12 @@ AnOtterMovie is a Robust, Scalable, and user-centered movie recommendation engin
 ##### Result : Movie-based recommendtaion
 ![image](https://user-images.githubusercontent.com/38070937/122674775-95891c80-d211-11eb-99a3-7c537bc5cde8.png)
 
+##### loader
+![image](https://user-images.githubusercontent.com/38070937/122674847-d08b5000-d211-11eb-8dfc-e1fb4c7023be.png)
+
+##### error page
+
+![image](https://user-images.githubusercontent.com/38070937/122674966-59a28700-d212-11eb-8e56-f147c334418f.png)
 
 ---
 
