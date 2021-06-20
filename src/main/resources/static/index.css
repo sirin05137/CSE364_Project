@@ -1,11 +1,11 @@
 html{
-    height: 170%;
+    height: 100%;
     overflow: scroll;
 }
 
 .header{
     /*padding: 100px;*/
-    height: 40%;
+    height: 62%;
     width:100%;
     display: block;
     margin:0;
@@ -15,6 +15,7 @@ html{
     padding-right:15px;
     text-align:center;
     align-content:center;
+    z-index:3;
 }
 
 .p1, .p2, .p3 {
@@ -66,11 +67,27 @@ display:block;
 
 .text-center {
     word-wrap: break-word;
+    font-size: 15px;
 }
+.text-center-2 {
+    word-wrap: break-word;
+    font-size: 13px;
+    color:lightgrey;
+    font-weight: normal;
+}
+
 
 .center {
     display: block;
     position:absolute;
+    margin:0;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.loaderimg {
+    display: block;
+    position:relative;
     margin:0;
     left: 50%;
     transform: translate(-50%, 0);
@@ -84,8 +101,10 @@ display:block;
 
 input, select{
     width:15em;
-    height:1.5em;
+    height:2em;
     box-sizing:border-box;
+    border-radius: 8px;
+    padding: 3px 10px;
 }
 
 #movie{
@@ -101,7 +120,9 @@ input, select{
     right :0px;
     position:absolute;
     color:white;
-    background-color:#212529;
+    background-color:#131313;
+        text-align:center;
+        align-content:center;
 }
 
 .ui-widget{
@@ -153,8 +174,8 @@ input, select{
 }
 
 table.inputfieldtable {
-    width: 100%;
-    text-align: left;
+    width: 90%;
+    margin: auto;
 }
 
 table.inputfieldtable td, table.inputfieldtable th {
@@ -184,6 +205,7 @@ table.recoTable tbody td {
     display: inline-block;
     padding: 3px 10px;
     clear: both;
+    font-size:12px;
     font-weight: normal;
     line-height: 1.42857143;
     color: #333;
@@ -203,13 +225,46 @@ table.recoTable tbody td {
 }
 
 .dropdown-menu {
-    width:15em;
-    height:13em;
-    overflow: scroll;
+    width:30em;
+    height:auto;
 }
 
 button#dropdownMenu1 {
     width: 15em;
+    height:auto;
     text-align: left;
-    height:2em;
+    white-space: normal;
+    overflow-wrap: break-word;
+    border-radius: 8px;
+}
+
+ul.dropdown-menu.checkbox-menu.allow-focus {
+    columns: 4;
+}
+
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  font-size : 14px;
+  min-width: 400px;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+
+strong {
+    color: white !important;
 }

@@ -44,8 +44,24 @@ public class DataSeeder implements CommandLineRunner{
             String movieid = csvRecord.get(0);
             String title = csvRecord.get(1);
             String genre = csvRecord.get(2);
-            String imdblink = "NO_IMDB_LINK_FOUND"; //if not replaced, it means imdb link is missing
+            String imdblink = "http://www.imdb.com/title/tt0000000"; //if not replaced, it means imdb link is missing
             String imglink = "NO_IMG_LINK_FOUND"; //if not replaced, it means img link is missing
+            String plot = "";
+
+
+            BufferedReader plot_year_runtime_reader = new BufferedReader(new FileReader("data/movies_plot_year_runtime.csv"));
+            while(true){
+                String line = plot_year_runtime_reader.readLine();
+                if (line == null)
+                    break;
+                String[] word = line.split(",");
+
+                if(movieid.equals(word[0])){
+                    plot = word[1];
+                    break;
+                }
+            }
+            plot_year_runtime_reader.close();
 
             //GET IMDB link FROM CSV FILE
             BufferedReader imdblink_reader = new BufferedReader(new FileReader("data/links.csv"));
@@ -109,7 +125,7 @@ public class DataSeeder implements CommandLineRunner{
             // Save to the repository
             //System.out.print(movieid + " / " + title + " / " + genre +  " / " + imdblink + " / " + imglink + "\n");
             //if (imglink.equals("NO_IMG_LINK_FOUND")) { System.out.print(movieid+","); }
-            this.recoRepository.save( new RecoData(movieid, title, genre, imdblink, imglink) );
+            this.recoRepository.save( new RecoData(movieid, title, genre, imdblink, imglink, plot) );
         }
         //System.out.print("\n");
 
