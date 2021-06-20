@@ -54,7 +54,7 @@
 
         $(document).ready(function(){
             // GETS TOP 10 Movies ("","","","")
-            $.get("http://localhost:8080/users/recommendations?gender=&age=&occupation=&genre=", function(data,status){
+            $.get("http://localhost:8080/cse364-project/users/recommendations?gender=&age=&occupation=&genre=", function(data,status){
                 //console.log(data);
                 data = JSON.parse(data);
                 $('#tdata-noinputs').empty();

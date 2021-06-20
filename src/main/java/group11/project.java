@@ -49,11 +49,11 @@ public class project
         //System.out.println(args[1]);
 
         //get occupation from users.dat, and make a hashmap which key means user id and value means occupation.
-        HashMap<String,String> Occupation =  InputMap("data/users.dat", 3);
+        HashMap<String,String> Occupation =  InputMap("/Users/k/K/users.dat", 3);
         //System.out.println(Occupation);
 
         //get genre from movie.dat, and make a hashmap which key means movie id and value means genre
-        HashMap<String,String> Genres = InputMap("data/movies.dat", 2);
+        HashMap<String,String> Genres = InputMap("/Users/k/K/movies.dat", 2);
         //System.out.println(Genres);
 
         //rating data read
@@ -62,7 +62,7 @@ public class project
         //At {genre : {occupation : [rating, counter]}} shape, rating/counter = average rating.
 
         HashMap<String, HashMap<String, ArrayList<Integer>>> Rating = new HashMap<String, HashMap<String, ArrayList<Integer>>>();
-        BufferedReader getrating = new BufferedReader(new FileReader("data/ratings.dat"));
+        BufferedReader getrating = new BufferedReader(new FileReader("/Users/k/K/ratings.dat"));
 
         while (true) 
         {
