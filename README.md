@@ -999,7 +999,7 @@ Documentation | **README.md** <br> 👑 Yujin Lee
 
 <br>
 
-### Overview : AnOtterMovie 
+### Overview : AnOtterMovie, a robust, scalable, and user-centered movie recommendation system
 ![image](https://user-images.githubusercontent.com/38070937/122673948-f282d380-d20d-11eb-97cf-16823fb4e765.png)
 
 AnOtterMovie is a Robust, Scalable, and user-centered movie recommendation engine and a user can get movie recommendation results by putting his demographic profile (gender, age, occupation, and genre preference) or movie metadata (movie title).
