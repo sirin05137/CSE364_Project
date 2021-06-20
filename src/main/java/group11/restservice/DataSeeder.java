@@ -34,7 +34,7 @@ public class DataSeeder implements CommandLineRunner{
         this.recoRepository.deleteAll();
 
         // add movies to database
-        Reader reader = Files.newBufferedReader(Paths.get("data/movies_corrected.csv"));
+        Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/data/movies_corrected.csv"));
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
 
         //System.out.print("\nIMG link missing for : ");
@@ -48,7 +48,7 @@ public class DataSeeder implements CommandLineRunner{
             String imglink = "NO_IMG_LINK_FOUND"; //if not replaced, it means img link is missing
 
             //GET IMDB link FROM CSV FILE
-            BufferedReader imdblink_reader = new BufferedReader(new FileReader("data/links.csv"));
+            BufferedReader imdblink_reader = new BufferedReader(new FileReader("src//main/resources/data/links.csv"));
             while(true){
                 String line = imdblink_reader.readLine();
                 if (line == null)
@@ -63,7 +63,7 @@ public class DataSeeder implements CommandLineRunner{
             imdblink_reader.close();
 
             //GET IMG link FROM CSV FILE
-            BufferedReader imglink_reader = new BufferedReader(new FileReader("data/movie_poster.csv"));
+            BufferedReader imglink_reader = new BufferedReader(new FileReader("src/main/resources/data/movie_poster.csv"));
             while(true){
                 String line = imglink_reader.readLine();
                 if (line == null)

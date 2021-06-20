@@ -3,6 +3,7 @@ package group11.restservice.propertyeditor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import group11.restservice.model.UserData;
+import lombok.SneakyThrows;
 import org.junit.platform.commons.util.StringUtils;
 
 import java.beans.PropertyEditorSupport;
@@ -17,6 +18,7 @@ public class UserDataEditor extends PropertyEditorSupport {
         this.objectMapper = objectMapper;
     }
 
+    @SneakyThrows
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
         if (StringUtils.isBlank(text)) {

@@ -20,7 +20,7 @@ public class HelloController {
         this.recoRepository = recoRepository;
     }
 
-    @RequestMapping("/")
+    /*@RequestMapping("/")
     public List<RecoData> helloWorld() {
 
         RecoData rd1 = new RecoData("1","Toy Story","Animation","http://www.imdb.com/title/tt0114709","https://m.media-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTEwZTViZWJkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@..jpg");
@@ -38,6 +38,6 @@ public class HelloController {
         RecoData rd13 = new RecoData("2","Jumanji","Adventure","http://www.imdb.com/title/tt0113497","https://m.media-amazon.com/images/M/MV5BZTk2ZmUwYmEtNTcwZS00YmMyLWFkYjMtNTRmZDA3YWExMjc2XkEyXkFqcGdeQXVyMTQxNzMzNDI@..jpg");
 
         return Arrays.asList(rd1,rd2,rd3,rd4,rd5,rd6,rd7,rd8,rd9,rd10,rd11,rd12,rd13);
-    }
+    }*/
 
 }
