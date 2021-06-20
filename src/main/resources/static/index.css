@@ -101,8 +101,10 @@ display:block;
 
 input, select{
     width:15em;
-    height:1.5em;
+    height:2em;
     box-sizing:border-box;
+    border-radius: 8px;
+    padding: 3px 10px;
 }
 
 #movie{
@@ -233,8 +235,36 @@ button#dropdownMenu1 {
     text-align: left;
     white-space: normal;
     overflow-wrap: break-word;
+    border-radius: 8px;
 }
 
 ul.dropdown-menu.checkbox-menu.allow-focus {
     columns: 4;
+}
+
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  font-size : 14px;
+  min-width: 400px;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+
+strong {
+    color: white !important;
 }
