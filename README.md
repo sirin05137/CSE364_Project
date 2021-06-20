@@ -1007,11 +1007,19 @@ AnOtterMovie is a Robust, Scalable, and user-centered movie recommendation engin
 ![image](https://user-images.githubusercontent.com/38070937/122673471-8ef7a680-d20b-11eb-9478-e1501b77122a.png)
 
 
-### Step by step Guide
-#### I. Installation
-#### II. Making request
+### Installation
+### Making request
 ![image](https://user-images.githubusercontent.com/38070937/122673652-6623e100-d20c-11eb-9dcd-d157477d6251.png)
-main page 
+
+#### Main page
+![image](https://user-images.githubusercontent.com/38070937/122674584-be5ce200-d210-11eb-956b-0901bf2c6895.png)
+
+##### User-based recommendtaion
+![image](https://user-images.githubusercontent.com/38070937/122674586-c026a580-d210-11eb-9180-31e323bb4d0a.png)
+
+##### Movie-based recommendtaion
+![image](https://user-images.githubusercontent.com/38070937/122674590-c288ff80-d210-11eb-8044-3b409af25295.png)
+
 
 ---
 
