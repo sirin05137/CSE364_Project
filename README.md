@@ -1052,7 +1052,7 @@ root@containerID:~/project# . run.sh
 After the installation, to use a service, either **1) URL (Website)** or  **2) CURL Command** can be used.
 In this documentation, the method using **URL (Website)** will be explicitly guided (as this documentation is for general users).
 
-#### Step 1 : Access http://localhost:8080/index.html.
+#### Step 1 : Access http://localhost:8080/cse364-project/.
 
 ###### Main page
 ![image](https://user-images.githubusercontent.com/38070937/122674584-be5ce200-d210-11eb-956b-0901bf2c6895.png)
