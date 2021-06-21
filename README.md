@@ -1030,20 +1030,29 @@ are used respectively.
 
 ##### Prerequisites
 * [Docker](https://www.docker.com/) should be installed and ready to use.
-* For the `git clone`, the user should be registered as a **Contributo** or **Collaborator** of this git project. _(Unless you have the OAuth access token.)_
 
-1. Download `dockerfile` and `run.sh` in the same directory.
-2. (In the terminal) Build Docker Image and Container by running the following commands.
+1. Download `dockerfile`, `run.sh`, and `*.war file` in the same directory. `dockerfile`, `run.sh` and `*.war file`can be downloaded from [here](https://unistackr0-my.sharepoint.com/personal/sanghun17_unist_ac_kr/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fsanghun17%5Funist%5Fac%5Fkr%2FDocuments%2Funist%2F2021%2Dspring%2FSoftware%20Engineering%2Fgroup11%2Ezip&parent=%2Fpersonal%2Fsanghun17%5Funist%5Fac%5Fkr%2FDocuments%2Funist%2F2021%2Dspring%2FSoftware%20Engineering&wdLOR=cFED4DE2D%2D0C45%2D894C%2D85A7%2D8E73364BA20F&originalPath=aHR0cHM6Ly91bmlzdGFja3IwLW15LnNoYXJlcG9pbnQuY29tLzp1Oi9nL3BlcnNvbmFsL3NhbmdodW4xN191bmlzdF9hY19rci9FVW1XbG53VUVITkZ2amZTTUZWS0h3d0JvODFrWlBpMDd3b0htd1ZPaXkyVFJnP3J0aW1lPVJzaDZZcm8wMlVn).
+
+### For Part 1, 2 of Milestone 4 (Spring)
+1. Build and Run dockerfile
 ```ruby
-$ docker build -t new_image_name /path/to/dockerfile
+$ docker build -t image_name /location/of/dockerfile
+$ docker run -it image_name bash
 ```
-```ruby
-$ docker run -it new_image_name
-```
-3. (In the Docker Container) Run ` . run.sh`
+2. (In the Docker Container) Run ` . run.sh`
 ```ruby
 root@containerID:~/project# . run.sh
 ```
+* In this case, the website can be accessed from http://localhost:8080/index.html
+
+### For Part 3 of Milestone 4 (Deployment, Tomcat)
+1. Build and Run dockerfile
+```ruby
+$ docker build -t image_name /location/of/dockerfile
+$ docker run -d -p 8080:8080 image_name
+```
+* In this case, the website can be accessed from http://localhost:8080/cse364-project/
+
 
 <br>
 
@@ -1052,7 +1061,8 @@ root@containerID:~/project# . run.sh
 After the installation, to use a service, either **1) URL (Website)** or  **2) CURL Command** can be used.
 In this documentation, the method using **URL (Website)** will be explicitly guided (as this documentation is for general users).
 
-#### Step 1 : Access http://localhost:8080/cse364-project/.
+#### Step 1 : Access http://localhost:8080/index.html or http://localhost:8080/cse364-project/.
+> Depending on the Installation steps you took above
 
 ###### Main page
 ![image](https://user-images.githubusercontent.com/38070937/122674584-be5ce200-d210-11eb-956b-0901bf2c6895.png)
