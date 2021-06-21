@@ -1033,7 +1033,7 @@ are used respectively.
 
 1. Download `dockerfile`, `run.sh`, and `*.war file` in the same directory. `dockerfile`, `run.sh` and `*.war file`can be downloaded from [here](https://unistackr0-my.sharepoint.com/personal/sanghun17_unist_ac_kr/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fsanghun17%5Funist%5Fac%5Fkr%2FDocuments%2Funist%2F2021%2Dspring%2FSoftware%20Engineering%2Fgroup11%2Ezip&parent=%2Fpersonal%2Fsanghun17%5Funist%5Fac%5Fkr%2FDocuments%2Funist%2F2021%2Dspring%2FSoftware%20Engineering&wdLOR=cFED4DE2D%2D0C45%2D894C%2D85A7%2D8E73364BA20F&originalPath=aHR0cHM6Ly91bmlzdGFja3IwLW15LnNoYXJlcG9pbnQuY29tLzp1Oi9nL3BlcnNvbmFsL3NhbmdodW4xN191bmlzdF9hY19rci9FVW1XbG53VUVITkZ2amZTTUZWS0h3d0JvODFrWlBpMDd3b0htd1ZPaXkyVFJnP3J0aW1lPVJzaDZZcm8wMlVn).
 
-### For Part 1, 2 of Milestone 4 (Spring)
+#### For Part 1, 2 of Milestone 4 (Spring)
 1. Build and Run dockerfile
 ```ruby
 $ docker build -t image_name /location/of/dockerfile
@@ -1045,7 +1045,7 @@ root@containerID:~/project# . run.sh
 ```
 * In this case, the website can be accessed from http://localhost:8080/index.html
 
-### For Part 3 of Milestone 4 (Deployment, Tomcat)
+#### For Part 3 of Milestone 4 (Deployment, Tomcat)
 1. Build and Run dockerfile
 ```ruby
 $ docker build -t image_name /location/of/dockerfile
