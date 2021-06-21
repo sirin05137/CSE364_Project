@@ -35,7 +35,7 @@ RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mon
 RUN apt-get install -y mongodb
 RUN mkdir -p /data/db/
 RUN chown root /data/db
-#RUN mongod
+#RUN mongod --fork --logpath /var/log/mongodb.log
 
 
 ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
@@ -47,14 +47,14 @@ ADD run.sh /root/project
 
 
 ADD cse364-project.war /root/project/apache-tomcat-8.5.68/webapps
-WORKDIR /root/project/apache-tomcat-8.5.68/bin
+WORKDIR /root/project
 #RUN /root/project/apache-tomcat-8.5.68/bin/catalina.sh start
 #RUN ./catalina.sh start
 #CMD ["/bin/bash/"]
 EXPOSE 8080
 
 #CMD ["/root/project/apache-tomcat-8.5.68/bin/catalina.sh", "run"]
-#
+
 
 #5 Execute a bash shell by default when the built image is launched.
 ENTRYPOINT ["/bin/bash"]

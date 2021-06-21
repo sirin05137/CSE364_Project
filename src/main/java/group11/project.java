@@ -49,11 +49,11 @@ public class project
         //System.out.println(args[1]);
 
         //get occupation from users.dat, and make a hashmap which key means user id and value means occupation.
-        HashMap<String,String> Occupation =  InputMap("/Users/k/K/csv_file/users.dat", 3);
+        HashMap<String,String> Occupation =  InputMap("/root/project/apache-tomcat-8.5.68/webapps/cse364-project/WEB-INF/classes/users.dat", 3);
         //System.out.println(Occupation);
 
         //get genre from movie.dat, and make a hashmap which key means movie id and value means genre
-        HashMap<String,String> Genres = InputMap("/Users/k/K/csv_file/movies.dat", 2);
+        HashMap<String,String> Genres = InputMap("/root/project/apache-tomcat-8.5.68/webapps/cse364-project/WEB-INF/classes/movies.dat", 2);
         //System.out.println(Genres);
 
         //rating data read
@@ -62,7 +62,7 @@ public class project
         //At {genre : {occupation : [rating, counter]}} shape, rating/counter = average rating.
 
         HashMap<String, HashMap<String, ArrayList<Integer>>> Rating = new HashMap<String, HashMap<String, ArrayList<Integer>>>();
-        BufferedReader getrating = new BufferedReader(new FileReader("/Users/k/K/csv_file/ratings.dat"));
+        BufferedReader getrating = new BufferedReader(new FileReader("/root/project/apache-tomcat-8.5.68/webapps/cse364-project/WEB-INF/classes/ratings.dat"));
 
         while (true) 
         {

@@ -34,7 +34,7 @@ public class DataSeeder implements CommandLineRunner{
         this.recoRepository.deleteAll();
 
         // add movies to database
-        Reader reader = Files.newBufferedReader(Paths.get("/Users/k/K/csv_file/movies_corrected.csv"));
+        Reader reader = Files.newBufferedReader(Paths.get("/root/project/apache-tomcat-8.5.68/webapps/cse364-project/WEB-INF/classes/movies_corrected.csv"));
         //Reader reader = new BufferedReader(new FileReader("movies_corrected.csv"));
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
 
@@ -49,7 +49,7 @@ public class DataSeeder implements CommandLineRunner{
             String imglink = "NO_IMG_LINK_FOUND"; //if not replaced, it means img link is missing
 
             //GET IMDB link FROM CSV FILE
-            BufferedReader imdblink_reader = new BufferedReader(new FileReader("/Users/k/K/csv_file/links.csv"));
+            BufferedReader imdblink_reader = new BufferedReader(new FileReader("/root/project/apache-tomcat-8.5.68/webapps/cse364-project/WEB-INF/classes/links.csv"));
             while(true){
                 String line = imdblink_reader.readLine();
                 if (line == null)
@@ -64,7 +64,7 @@ public class DataSeeder implements CommandLineRunner{
             imdblink_reader.close();
 
             //GET IMG link FROM CSV FILE
-            BufferedReader imglink_reader = new BufferedReader(new FileReader("/Users/k/K/csv_file/movie_poster.csv"));
+            BufferedReader imglink_reader = new BufferedReader(new FileReader("/root/project/apache-tomcat-8.5.68/webapps/cse364-project/WEB-INF/classes/movie_poster.csv"));
             while(true){
                 String line = imglink_reader.readLine();
                 if (line == null)
@@ -80,7 +80,7 @@ public class DataSeeder implements CommandLineRunner{
 
             if (imglink.equals("NO_IMG_LINK_FOUND")){
                 //imglink = "/poster_alphabet/";
-                imglink = "/Users/k/K/poster_alphabet/";
+                imglink = "./poster_alphabet/";
                 if (title.toLowerCase().charAt(0)=='a'){imglink += "a.png";}
                 if (title.toLowerCase().charAt(0)=='b'){imglink += "b.png";}
                 if (title.toLowerCase().charAt(0)=='c'){imglink += "c.png";}
