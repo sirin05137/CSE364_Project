@@ -1037,7 +1037,7 @@ are used respectively.
 1. Build and Run dockerfile
 ```ruby
 $ docker build -t image_name /location/of/dockerfile
-$ docker run -it image_name bash
+$ docker run -it -p 8080:8080 image_name bash
 ```
 2. (In the Docker Container) Run ` . run.sh`
 ```ruby
