@@ -97,7 +97,15 @@
                     $("#tdata-input-data").append("<tr class='1" + i + "'></tr>");
                     j = i;
                 }
-                $(".1" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + dt.imglink +
+
+                var newimglink = "";
+                    if (dt.imglink.charAt(0)=='h'){
+                        newimglink = dt.imglink;
+                    } else {
+                        newimglink = "../" + dt.imglink;
+                    }
+
+                $(".1" + j).append("<td><div><a href='" + dt.imdblink + "' target='_blank'><img src='" + newimglink +
                         "' style='width:200px;height:300px;'></a></div><div class='text-center'>" +
                             dt.title + "</div><div class='text-center-2'>" + dt.genre + "</div></td>");
                 i += 1;
